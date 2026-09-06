@@ -1484,7 +1484,7 @@
                 "overlay_color": "#00000026",
                 "overlay_style": "gradient",
                 "gradient_direction": "to top",
-                "border": "none",
+                "border": "solid",
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_color": "",
