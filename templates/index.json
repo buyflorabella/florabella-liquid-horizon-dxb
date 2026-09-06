@@ -233,13 +233,85 @@
           "block_order": [
             "text_KtttmE"
           ]
+        },
+        "group_j4Xfe4": {
+          "type": "group",
+          "name": "t:names.group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "{{ settings.color_palette.color2 }}",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "solid",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "{{ settings.color_palette.color4 }}",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "text_tH6bHA": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p><strong>Flora Bella Living trace mineral</strong> is made from an ancient deposit of plant coral and animal life from thousands and thousands of years ago That was encapsulated in an iron Preserving all the natural occurring biology such as beneficial, facilities, natural occurring, mycorrhizal, a diverse amount of amino acids and other occurring goodies with our proprietary blend to bring the perfect balance for Micro nutrition, an optimal soil health.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "rte",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_tH6bHA"
+          ]
         }
       },
       "block_order": [
         "group_FWdn3R",
         "group_UxrTH6",
         "button_EUBQLg",
-        "group_KQtjBB"
+        "group_KQtjBB",
+        "group_j4Xfe4"
       ],
       "name": "BFB Hero",
       "settings": {
@@ -389,6 +461,7 @@
         "static-product-card": {
           "type": "_product-card",
           "name": "t:names.product_card",
+          "disabled": true,
           "static": true,
           "settings": {
             "product_card_gap": 4,
