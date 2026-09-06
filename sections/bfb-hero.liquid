@@ -6,26 +6,40 @@
   unmodified copy of Horizon's native `hero.liquid` — PLUS these clearly
   marked additions from Claude:
 
-    1. Two classes on the root <div> (search "animate_media" / "split_layout"):
-       adds `hero--animate-media` and/or `hero--split` to the section's class
-       list when the corresponding toggles below are on.
+    1. Three things on the root <div>: two classes (search "animate_media" /
+       "split_layout") adding `hero--animate-media` and/or `hero--split` to the
+       class list when the corresponding toggles below are on, and one inline
+       CSS custom property (search "hero-media-frame-color") carrying the new
+       color setting's value, when set.
     2. Two CSS blocks inside {% stylesheet %}:
-       - (search "bfb-hero-media-float") the bounce/pulse keyframes. Round 2:
-         animates `.hero__media-wrapper` (the framed box — margin + rounded
-         corners added, only while this toggle is on) rather than `.hero__media`
-         (the <img> itself) — round 1 had the image zooming inside a static,
-         unrounded frame; DXB wanted the frame itself to grow/shrink into a
-         margin around it, not the photo zooming inside a fixed peephole. Same
-         media query keeps it desktop-only, plus the prefers-reduced-motion guard.
+       - (search "bfb-hero-media-float") the bounce/pulse keyframes — animates
+         `.hero__media-wrapper` (the framed box — margin + rounded corners
+         added, only while this toggle is on), not `.hero__media` (the <img>
+         itself): DXB wanted the frame to grow/shrink into a margin around it,
+         not the photo zooming inside a fixed peephole. Amplitude is
+         production's exact `translateY(-30px) scale(1.05)` (round 6 — DXB
+         confirmed after previewing Claude's earlier toned-down version).
+         Desktop-only media query + prefers-reduced-motion guard, both
+         unchanged since round 2. The frame's background-color uses the new
+         `media_frame_color` setting (falls back to this section's own
+         Background color when left blank) — round 5, replacing an earlier
+         hardcoded fallback DXB found still didn't match closely enough.
        - (search "hero--split") the two-column split-layout override that
          turns this instance from Horizon's native "media as full-bleed
          background, content overlaid on top" pattern into a genuine
          non-overlapping two-column grid (content left, media right),
          matching production's `grid lg:grid-cols-2` layout. Off by default —
          native overlay behavior is fully preserved when the checkbox is off.
-    3. Two new checkbox settings inside {% schema %}, both right after the
-       existing `blurred_reflection`/`section_width` settings respectively:
-       "Animate media (bounce/pulse)" and "Two-column layout (image right)".
+         Also uses `media_frame_color` for its own frame background. No drop
+         shadow (round 5 removed it — a 50px blur inside a 24px margin read as
+         a solid darker-grey ring, which was the actual "mismatched background"
+         DXB was seeing after round 3/4, not a leftover cascade bug).
+    3. Three new settings inside {% schema %}, all right after the existing
+       `blurred_reflection`/`section_width` settings: two checkboxes —
+       "Animate media (bounce/pulse)" and "Two-column layout (image right)" —
+       and one native color picker, "Media frame background color"
+       (`media_frame_color`), the same `type: "color"` pattern this file's own
+       `background_color`/`overlay_color` settings already use.
 
   Nothing else changed. No heading/body/button copy is written into this file
   on purpose — see 0003_task1_dd.md, Decision D1: all Hero content goes into
@@ -511,6 +525,9 @@
     --hero-border-width: {{ section.settings.border_width }}px;
     --hero-border-opacity: {{ section.settings.border_opacity }}%;
     --blur-opacity: {{ section.settings.reflection_opacity | divided_by: 100.0 }};
+    {% if section.settings.media_frame_color != blank %}
+      --hero-media-frame-color: {{ section.settings.media_frame_color }};
+    {% endif %}
     {% if section.settings.section_height == 'custom' %}
       --hero-min-height: {{ section.settings.section_height_custom }}svh;
     {% elsif section.settings.section_height == "full-screen" %}
@@ -820,19 +837,24 @@
    * fill the box (`height/width: 100%; object-fit: cover`) so it rides along with the box's size —
    * the crop changes because the box's aspect ratio is constant while its size isn't, not because
    * the image content itself is being scaled independently of its frame.
-   * Amplitude (-14px / 1.035) unchanged from round 1 — still tuned down from production's raw
-   * -30px/1.05 (a small floating card in open whitespace) since even a modest margin here is
-   * tighter than that. Bump the margin below and/or these two numbers together if DXB wants a
-   * bigger swing.
+   * Round 6: amplitude set to production's exact raw values (-30px / 1.05) per DXB's explicit
+   * confirmation — round 1-5 had this deliberately toned down to -14px/1.035 (Claude's own,
+   * never-confirmed judgment call that production's numbers were tuned for a small card in open
+   * whitespace, not this larger framed image). If -30px reads as too strong given the current
+   * 1.5rem margin, the margin (below) is the easier lever to widen before touching amplitude again.
    */
   .hero--animate-media .hero__media-wrapper {
     margin: 1.5rem;
     border-radius: 1.5rem;
-    /* Round 3: the margin exposed this wrapper's own (previously invisible, always-transparent)
-       box — explicitly matching it to the section's own background removes any chance of a
-       mismatched fill showing in that newly-visible margin gap, regardless of how the custom
-       `background_color` setting's CSS variable happens to cascade at this depth. */
-    background-color: var(--color-background);
+    /* Round 5: DXB confirmed round 3/4's fallback (pinned to var(--color-background)) still read
+       as a visibly darker grey than the rest of the hero background. Rather than keep guessing at
+       an automatic match, this is now a real setting DXB controls directly — see `media_frame_color`
+       in {% schema %} (a plain native color picker, same pattern as this file's own
+       `background_color`/`overlay_color`). Falls back to `var(--color-background)` (unchanged
+       behavior) only when that setting is left blank, via the inline custom property set on the
+       root <div> above (search "hero-media-frame-color") and CSS's own var() fallback syntax —
+       when the property isn't emitted at all (setting blank), var() uses the second argument.  */
+    background-color: var(--hero-media-frame-color, var(--color-background));
     animation: bfb-hero-media-float 5s ease-in-out infinite;
   }
 
@@ -856,7 +878,7 @@
       transform: translateY(0) scale(1);
     }
     50% {
-      transform: translateY(-14px) scale(1.035);
+      transform: translateY(-30px) scale(1.05);
     }
   }
 
@@ -883,17 +905,18 @@
    * wrapper clips its own contents via overflow:hidden, so a shadow/radius on the <img> inside it
    * was being clipped at the wrapper's edge and never actually visible. The wrapper is the correct
    * element for both the frame's rounded corners and its drop shadow. If `.hero--animate-media` is
-   * also on, its own border-radius on this same element (see the animation block) is redundant but
-   * harmless — same value either way.
+   * also on, its own border-radius/background on this same element (see the animation block) are
+   * redundant but harmless — same values either way.
+   * Round 5: dropped the drop-shadow entirely. A 50px-blur shadow inside only a 24px margin doesn't
+   * fade out before it hits the box edge — it reads as a solid darker-grey ring around the frame,
+   * which is exactly the "darker grey" DXB flagged (round 3/4's background-color fix was correct
+   * and stayed; the shadow was the actual remaining source of the mismatch). Not replaced with a
+   * lighter version — DXB didn't ask for a shadow in the first place, this was Claude's own
+   * embellishment; ask if a subtle one is wanted once the plain frame color looks right.
    */
   .hero--split .hero__media-wrapper {
     border-radius: 1.5rem;
-    background-color: var(--color-background);
-    /* Round 3: lowered from 25% — at full strength this dark (foreground-tinted) shadow read as
-       a mismatched grayish fill around the box against a light background, which is what DXB was
-       actually seeing as "its own background." Bump back up if a stronger shadow is wanted once
-       the background-color fix above is confirmed to have resolved the mismatch on its own. */
-    box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 10%);
+    background-color: var(--hero-media-frame-color, var(--color-background));
   }
 
   @media screen and (min-width: 750px) {
@@ -1393,6 +1416,14 @@
       "default": false,
       "info": "Desktop only. Gentle floating/pulsing motion on the hero image, matching the production site's animated hero graphic.",
       "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
+    },
+    {
+      "type": "color",
+      "id": "media_frame_color",
+      "label": "Media frame background color",
+      "placeholder": "t:settings.default",
+      "info": "Fills the frame behind Media 1 when it's inset from the edge (Two-column layout and/or Animate media add a margin around it). Leave blank to match this section's own Background color.",
+      "visible_if": "{{ section.settings.split_layout or section.settings.animate_media }}"
     },
     {
       "type": "range",
