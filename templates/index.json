@@ -2310,7 +2310,7 @@
                 "background_media": "image",
                 "background_color": "",
                 "video_position": "cover",
-                "background_image": "shopify://shop_images/Why_Growers_Choose_1_of_6_Compost_pile.jpg",
+                "background_image": "shopify://shop_images/pexels-pixabay-256262.jpg",
                 "background_image_position": "cover",
                 "toggle_overlay": true,
                 "overlay_color": "#00000026",
@@ -2391,7 +2391,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Born in the USA</p>",
+                    "text": "<p>Handled with Care + Lab Verified</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -2417,7 +2417,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Sourced and crafted in the United States, Flora Bella is composted for 6-8 months to reawaken naturally occurring microbes and biology that have rested for thousands of years - bringing ancient mineral vitality back into living soil.</p>",
+                    "text": "<p>Gently processed and packaged with care, with quality checks to support consistency and peace of mind.</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
