@@ -44,6 +44,13 @@
          shadow (round 5 removed it — a 50px blur inside a 24px margin read as
          a solid darker-grey ring, which was the actual "mismatched background"
          DXB was seeing after round 3/4, not a leftover cascade bug).
+         Round 11: dropped a redundant explicit `height: auto` from the media
+         column (aspect-ratio alone already sizes it) — best available fix for
+         DXB's report that Height: Auto was cropping the bottom of the content
+         column once its natural height exceeded the media column's. Not
+         verified against a live re-render before shipping; see the lesson/
+         DEVLOG entry dated 2026-09-06 for the full reasoning and a fallback
+         if this doesn't fully resolve it.
     3. Three new settings inside the schema block, all right after the
        existing `blurred_reflection`/`section_width` settings: two checkboxes
        — "Animate media (bounce/pulse)" and "Two-column layout (image right)"
@@ -958,6 +965,26 @@
     background-color: var(--hero-media-frame-color, var(--color-background));
   }
 
+  /*
+   * Round 11: DXB reported the bottom of the hero (buttons + checklist) getting cropped once
+   * Height was set to Auto. Confirmed via the live preview's computed styles: with
+   * `section_height: auto`, `--hero-min-height` resolves to `var(--section-height-auto)` — a CSS
+   * variable that doesn't exist anywhere in this theme (only `--section-height-small/medium/large`
+   * are defined, in snippets/theme-styles-variables.liquid) — so `.hero`/`.hero__container`
+   * effectively contribute no height of their own from that mechanism. That's harmless for the
+   * *native* overlay hero (an "auto" hero's height was always just the media's own intrinsic size,
+   * since content only ever overlaid on top of it there). Two-column split breaks that assumption:
+   * measured the actual row landing at the media column's aspect-ratio height (~1003px) rather than
+   * the taller text column's natural content height (~1093px), with `.hero__container`'s own
+   * `overflow: hidden` then clipping whatever the content column needed beyond that — exactly what
+   * DXB saw. Dropped the redundant explicit `height: auto` from the media item below (aspect-ratio
+   * alone already fully determines its size; an explicit `height: auto` alongside it is the most
+   * likely thing steering the row's automatic sizing toward the media item specifically instead of
+   * genuinely taking the max of both columns). Alignment (Position: Center) is left exactly as DXB
+   * configured it, matching production's own `items-center` — this fix targets the row-sizing
+   * calculation, not alignment. Flagged to DXB as a best-diagnosis fix pending visual confirmation,
+   * since this couldn't be verified against a live, interactive re-render before shipping it.
+   */
   @media screen and (min-width: 750px) {
     .hero--split .hero__container {
       grid-template-columns: var(--full-page-grid-margin) 1fr 1fr var(--full-page-grid-margin);
@@ -972,7 +999,6 @@
     .hero--split .hero__media-grid {
       grid-column: 3 / 4;
       grid-row: 1;
-      height: auto;
       aspect-ratio: 1 / 1;
     }
 
