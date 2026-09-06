@@ -707,7 +707,7 @@
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
-        "animate_media": false,
+        "animate_media": true,
         "reflection_opacity": 75,
         "padding-block-start": 40,
         "padding-block-end": 40
