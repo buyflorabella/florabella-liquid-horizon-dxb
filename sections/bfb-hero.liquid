@@ -3,15 +3,19 @@
   task 0003 (Task 1) — Hero section production parity
   ============================================================================
   Everything below this comment is DXB's original bfb-hero.liquid stub — an
-  unmodified copy of Horizon's native `hero.liquid` — PLUS these clearly
-  marked additions from Claude:
+  unmodified copy of Horizon's native hero.liquid — PLUS these clearly marked
+  additions from Claude. NOTE: this comment deliberately never spells out the
+  Liquid tag delimiters for the schema or stylesheet blocks elsewhere in this
+  file (plain words like "schema block" are used instead) — writing the
+  literal opening-tag text for either of those inside a comment previously
+  broke this exact file; see the lesson dated 2026-09-06 for why.
 
     1. Three things on the root <div>: two classes (search "animate_media" /
        "split_layout") adding `hero--animate-media` and/or `hero--split` to the
        class list when the corresponding toggles below are on, and one inline
        CSS custom property (search "hero-media-frame-color") carrying the new
        color setting's value, when set.
-    2. Two CSS blocks inside {% stylesheet %}:
+    2. Two CSS blocks inside the stylesheet block:
        - (search "bfb-hero-media-float") the bounce/pulse keyframes — animates
          `.hero__media-wrapper` (the framed box — margin + rounded corners
          added, only while this toggle is on), not `.hero__media` (the <img>
@@ -34,12 +38,26 @@
          shadow (round 5 removed it — a 50px blur inside a 24px margin read as
          a solid darker-grey ring, which was the actual "mismatched background"
          DXB was seeing after round 3/4, not a leftover cascade bug).
-    3. Three new settings inside {% schema %}, all right after the existing
-       `blurred_reflection`/`section_width` settings: two checkboxes —
-       "Animate media (bounce/pulse)" and "Two-column layout (image right)" —
-       and one native color picker, "Media frame background color"
-       (`media_frame_color`), the same `type: "color"` pattern this file's own
+    3. Three new settings inside the schema block, all right after the
+       existing `blurred_reflection`/`section_width` settings: two checkboxes
+       — "Animate media (bounce/pulse)" and "Two-column layout (image right)"
+       — and one native color picker, "Media frame background color"
+       (`media_frame_color`), the same color-type pattern this file's own
        `background_color`/`overlay_color` settings already use.
+    4. One small edit to the pre-existing, otherwise-untouched native
+       `overlay_color` setting (round 9): dropped its hardcoded schema
+       `default` (`#00000026`) in favor of `placeholder` — the same
+       blank-by-default pattern `background_color`/`media_frame_color` already
+       use. This is the only line in this file where a genuinely native,
+       DXB-authored setting was edited rather than just added-alongside.
+       Reason: DXB asked how to reset a changed Overlay color back to default
+       and found no such control — a schema `default` value has no visible
+       "reset" affordance in Shopify's color picker once overridden, while a
+       `placeholder`-blank setting does (an explicit "clear" control). Zero
+       behavior change: `snippets/overlay.liquid` already applies its own
+       Liquid `default` filter (`rgb(0 0 0 / 25%)`, the same effective color)
+       whenever the setting is blank, independent of the schema-level default
+       that was removed here.
 
   Nothing else changed. No heading/body/button copy is written into this file
   on purpose — see 0003_task1_dd.md, Decision D1: all Hero content goes into
@@ -849,7 +867,7 @@
     /* Round 5: DXB confirmed round 3/4's fallback (pinned to var(--color-background)) still read
        as a visibly darker grey than the rest of the hero background. Rather than keep guessing at
        an automatic match, this is now a real setting DXB controls directly — see `media_frame_color`
-       in schema  (a plain native color picker, same pattern as this file's own
+       in the schema block below (a plain native color picker, same pattern as this file's own
        `background_color`/`overlay_color`). Falls back to `var(--color-background)` (unchanged
        behavior) only when that setting is left blank, via the inline custom property set on the
        root <div> above (search "hero-media-frame-color") and CSS's own var() fallback syntax —
@@ -1364,7 +1382,7 @@
       "id": "overlay_color",
       "label": "t:settings.overlay_color",
       "alpha": true,
-      "default": "#00000026",
+      "placeholder": "t:settings.default",
       "visible_if": "{{ section.settings.toggle_overlay }}"
     },
     {
@@ -1422,7 +1440,7 @@
       "id": "media_frame_color",
       "label": "Media frame background color",
       "placeholder": "t:settings.default",
-      "info": "Fills the frame behind Media 1 when it's inset from the edge (Two-column layout and/or Animate media add a margin around it). Leave blank to match this section's own Background color.",
+      "info": "Fills the frame behind Media 1 when it's inset from the edge (Two-column layout and/or Animate media add a margin around it). Leave blank to match this section's own Background color. This sits BEHIND the photo, in the margin only — for a tint ON TOP of the photo itself (e.g. for text legibility), use Media overlay above instead.",
       "visible_if": "{{ section.settings.split_layout or section.settings.animate_media }}"
     },
     {
