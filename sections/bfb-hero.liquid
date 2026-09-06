@@ -57,6 +57,18 @@
          verified against a live re-render before shipping; see the lesson/
          DEVLOG entry dated 2026-09-06 for the full reasoning and a fallback
          if this doesn't fully resolve it.
+         Round 15: button labels ("Buy Now" / "Shop Bio Trace Mix" / "See Real
+         Grower Results") were wrapping onto two lines inside their own pills.
+         The ~277px content column is narrower than native Horizon layouts
+         normally put a row of buttons in at desktop widths, so buttons were
+         flex-shrinking below their natural size and their text (no
+         `white-space: nowrap` by default) wrapped inside the squeeze. Horizon
+         already solves this exact problem with `flex: 0 0 fit-content` on
+         `.button` — but only inside a mobile-only media query, since native
+         layouts never hit this at desktop. Reapplied the identical rule
+         scoped to this split-layout desktop context, plus `flex-wrap: wrap`
+         on the row so two buttons that don't both fit drop to their own line
+         instead of overflowing past the column's edge.
     4. Three new settings inside the schema block, all right after the
        existing `blurred_reflection`/`section_width` settings: two checkboxes
        — "Animate media (bounce/pulse)" and "Two-column layout (image right)"
@@ -1030,6 +1042,37 @@
 
     .hero--split .hero__link {
       grid-column: 1 / -1;
+    }
+
+    /*
+     * Round 15: buttons in a row (the headline's "Buy Now" badge, and the "Shop Bio Trace Mix" /
+     * "See Real Grower Results" pair) were wrapping their own label text onto two lines. Confirmed
+     * via computed styles: the row is `display:flex; flex-wrap:nowrap`, and buttons default to
+     * `flex-shrink:1` at desktop widths — so when the split layout's content column (~277px here)
+     * isn't wide enough for every button at its natural size, flex compresses each one, and since
+     * button text has no `white-space:nowrap`, it wraps inside the shrunk pill instead of the row
+     * overflowing. Horizon already has a fix for exactly this — `assets/base.css`'s
+     * `.layout-panel-flex--row:not(.mobile-column) > .button { flex: 0 0 fit-content; }` — but it
+     * only applies inside a `max-width: 749px` (mobile) media query, since native Horizon layouts
+     * never put a row of buttons in a column this narrow at desktop widths; that scenario only
+     * exists here because of the split layout. Re-applying the identical rule, scoped to this
+     * split-layout desktop context specifically (not changed globally, so any other native use of
+     * shrinking buttons in a row elsewhere in the theme is unaffected).
+     * On its own, `flex: 0 0 fit-content` stops each button from shrinking below its natural
+     * (unwrapped) width — but if two buttons' combined natural width is wider than the ~277px
+     * column, a `flex-wrap: nowrap` row would just push them past the column's right edge instead
+     * of wrapping their text. Added `flex-wrap: wrap` alongside it so that case drops the second
+     * button to its own new line — still one line of text per button either way, just not
+     * necessarily side by side when both together don't fit.
+     */
+    .hero--split .hero__content-wrapper .layout-panel-flex--row {
+      flex-wrap: wrap;
+    }
+
+    .hero--split .hero__content-wrapper .button,
+    .hero--split .hero__content-wrapper .button-secondary,
+    .hero--split .hero__content-wrapper .button-custom {
+      flex: 0 0 fit-content;
     }
   }
 {% endstylesheet %}
