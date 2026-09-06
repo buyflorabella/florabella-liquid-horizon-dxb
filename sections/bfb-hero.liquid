@@ -849,7 +849,7 @@
     /* Round 5: DXB confirmed round 3/4's fallback (pinned to var(--color-background)) still read
        as a visibly darker grey than the rest of the hero background. Rather than keep guessing at
        an automatic match, this is now a real setting DXB controls directly — see `media_frame_color`
-       in {% schema %} (a plain native color picker, same pattern as this file's own
+       in schema  (a plain native color picker, same pattern as this file's own
        `background_color`/`overlay_color`). Falls back to `var(--color-background)` (unchanged
        behavior) only when that setting is left blank, via the inline custom property set on the
        root <div> above (search "hero-media-frame-color") and CSS's own var() fallback syntax —
