@@ -144,25 +144,6 @@
             "button_d6A3dc"
           ]
         },
-        "button_EUBQLg": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Shop now",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button",
-            "custom_button_background": "{{ settings.color_palette.foreground }}",
-            "custom_button_text": "{{ settings.color_palette.background }}",
-            "custom_button_border": "{{ settings.color_palette.background }}",
-            "link_text_color": "",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        },
         "group_KQtjBB": {
           "type": "group",
           "name": "t:names.group",
@@ -304,14 +285,33 @@
           "block_order": [
             "text_tH6bHA"
           ]
+        },
+        "button_yRxagJ": {
+          "type": "button",
+          "name": "t:names.button",
+          "settings": {
+            "label": "Shop now",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "custom_button_background": "{{ settings.color_palette.foreground }}",
+            "custom_button_text": "{{ settings.color_palette.background }}",
+            "custom_button_border": "{{ settings.color_palette.background }}",
+            "link_text_color": "",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "group_FWdn3R",
         "group_UxrTH6",
-        "button_EUBQLg",
         "group_KQtjBB",
-        "group_j4Xfe4"
+        "group_j4Xfe4",
+        "button_yRxagJ"
       ],
       "name": "BFB Hero",
       "settings": {
