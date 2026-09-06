@@ -708,7 +708,7 @@
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "animate_media": true,
-        "media_frame_color": "{{ settings.color_palette.color10 }}",
+        "media_frame_color": "{{ settings.color_palette.color11 }}",
         "reflection_opacity": 75,
         "padding-block-start": 40,
         "padding-block-end": 40
@@ -894,6 +894,7 @@
       "block_order": [
         "price_97Ua6q"
       ],
+      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "all",
