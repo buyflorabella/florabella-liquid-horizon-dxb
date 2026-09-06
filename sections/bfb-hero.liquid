@@ -10,9 +10,13 @@
        adds `hero--animate-media` and/or `hero--split` to the section's class
        list when the corresponding toggles below are on.
     2. Two CSS blocks inside {% stylesheet %}:
-       - (search "bfb-hero-media-float") the bounce/pulse keyframes + the
-         media query that keeps it desktop-only, plus the
-         prefers-reduced-motion guard.
+       - (search "bfb-hero-media-float") the bounce/pulse keyframes. Round 2:
+         animates `.hero__media-wrapper` (the framed box — margin + rounded
+         corners added, only while this toggle is on) rather than `.hero__media`
+         (the <img> itself) — round 1 had the image zooming inside a static,
+         unrounded frame; DXB wanted the frame itself to grow/shrink into a
+         margin around it, not the photo zooming inside a fixed peephole. Same
+         media query keeps it desktop-only, plus the prefers-reduced-motion guard.
        - (search "hero--split") the two-column split-layout override that
          turns this instance from Horizon's native "media as full-bleed
          background, content overlaid on top" pattern into a genuine
@@ -804,27 +808,40 @@
   }
 
   /*
-   * task 0003 (Task 1) — bounce/pulse toggle.
-   * Mirrors production's `.parallax-float` (buyflorabella_restore/dev/frontend/app/index.css:143-190),
-   * which animates the desktop-only featured image with translateY(-30px) scale(1.05) on a small
-   * inset floating card. Amplitude is tuned down here (-14px / 1.035) because this hero's media is
-   * full-bleed inside an overflow:hidden wrapper rather than a small card in open whitespace — the
-   * same raw throw reads as much more aggressive at that size. See DD OQ-1 to revert to the exact
-   * production values if DXB prefers a stronger effect after previewing.
+   * task 0003 (Task 1) — bounce/pulse toggle, round 2.
+   * Mirrors production's `.parallax-float` (buyflorabella_restore/dev/frontend/app/index.css:143-190).
+   * Round 1 animated `.hero__media` (the <img> itself), which sits inside `.hero__media-wrapper`
+   * (overflow:hidden, no spare space around it) — the result was the photo's own pixels zooming
+   * in/out inside a fixed peephole, clipped at a static edge. DXB's correction: the FRAME (the
+   * bounding box) should be the thing that grows/shrinks, with rounded corners on that frame, and
+   * room around it to grow into so it visually pulls outward rather than zooming inside a static
+   * crop. Fix: animate `.hero__media-wrapper` (the box) instead of `.hero__media` (the image), give
+   * the wrapper a resting margin to grow into and a border-radius, and let the image inside just
+   * fill the box (`height/width: 100%; object-fit: cover`) so it rides along with the box's size —
+   * the crop changes because the box's aspect ratio is constant while its size isn't, not because
+   * the image content itself is being scaled independently of its frame.
+   * Amplitude (-14px / 1.035) unchanged from round 1 — still tuned down from production's raw
+   * -30px/1.05 (a small floating card in open whitespace) since even a modest margin here is
+   * tighter than that. Bump the margin below and/or these two numbers together if DXB wants a
+   * bigger swing.
    */
-  .hero--animate-media .hero__media {
+  .hero--animate-media .hero__media-wrapper {
+    margin: 1.5rem;
+    border-radius: 1.5rem;
     animation: bfb-hero-media-float 5s ease-in-out infinite;
   }
 
   /* Desktop only — production leaves the mobile image static (see DD F6). */
   @media screen and (max-width: 749px) {
-    .hero--animate-media .hero__media {
+    .hero--animate-media .hero__media-wrapper {
+      margin: 0;
+      border-radius: 0;
       animation: none;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero--animate-media .hero__media {
+    .hero--animate-media .hero__media-wrapper {
       animation: none;
     }
   }
@@ -836,7 +853,7 @@
     50% {
       transform: translateY(-14px) scale(1.035);
     }
-  }  
+  }
 
   /*
    * task 0003 (Task 1) — optional two-column split layout ("image on the right"), matching
@@ -856,7 +873,15 @@
     inset: auto;
   }
 
-  .hero--split .hero__media {
+  /*
+   * Round 2: moved from `.hero__media` (the <img>) to `.hero__media-wrapper` (the box) — the
+   * wrapper clips its own contents via overflow:hidden, so a shadow/radius on the <img> inside it
+   * was being clipped at the wrapper's edge and never actually visible. The wrapper is the correct
+   * element for both the frame's rounded corners and its drop shadow. If `.hero--animate-media` is
+   * also on, its own border-radius on this same element (see the animation block) is redundant but
+   * harmless — same value either way.
+   */
+  .hero--split .hero__media-wrapper {
     border-radius: 1.5rem;
     box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 25%);
   }
@@ -882,7 +907,7 @@
     .hero--split .hero__link {
       grid-column: 1 / -1;
     }
-  }  
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -1242,7 +1267,7 @@
       "default": false,
       "info": "Places content on the left and media on the right as separate, non-overlapping columns (matches production), instead of overlaying content on top of the media. Use with Width set to Page width, and with only Media 1 set (no Media 2).",
       "visible_if": "{{ section.settings.media_type_1 == 'image' and section.settings.image_2 == blank and section.settings.video_2 == blank }}"
-    },    
+    },
     {
       "type": "select",
       "id": "section_height",
@@ -1358,7 +1383,7 @@
       "default": false,
       "info": "Desktop only. Gentle floating/pulsing motion on the hero image, matching the production site's animated hero graphic.",
       "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
-    },    
+    },
     {
       "type": "range",
       "id": "reflection_opacity",
