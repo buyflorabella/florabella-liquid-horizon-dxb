@@ -3,32 +3,40 @@
   task 0003 (Task 1) — Hero section production parity
   ============================================================================
   Everything below this comment is DXB's original bfb-hero.liquid stub — an
-  unmodified copy of Horizon's native `hero.liquid` — PLUS three small,
-  clearly-marked additions from Claude:
+  unmodified copy of Horizon's native `hero.liquid` — PLUS these clearly
+  marked additions from Claude:
 
-    1. One class on the root <div> (search "animate_media"): adds
-       `hero--animate-media` to the section's class list when the new toggle
-       below is on.
-    2. One CSS block inside {% stylesheet %} (search "bfb-hero-media-float"):
-       the bounce/pulse keyframes + the media query that keeps it desktop-only
-       and the prefers-reduced-motion guard.
-    3. One new checkbox setting inside {% schema %} (search "animate_media"):
-       "Animate media (bounce/pulse)", right after the existing
-       `blurred_reflection` setting.
+    1. Two classes on the root <div> (search "animate_media" / "split_layout"):
+       adds `hero--animate-media` and/or `hero--split` to the section's class
+       list when the corresponding toggles below are on.
+    2. Two CSS blocks inside {% stylesheet %}:
+       - (search "bfb-hero-media-float") the bounce/pulse keyframes + the
+         media query that keeps it desktop-only, plus the
+         prefers-reduced-motion guard.
+       - (search "hero--split") the two-column split-layout override that
+         turns this instance from Horizon's native "media as full-bleed
+         background, content overlaid on top" pattern into a genuine
+         non-overlapping two-column grid (content left, media right),
+         matching production's `grid lg:grid-cols-2` layout. Off by default —
+         native overlay behavior is fully preserved when the checkbox is off.
+    3. Two new checkbox settings inside {% schema %}, both right after the
+       existing `blurred_reflection`/`section_width` settings respectively:
+       "Animate media (bounce/pulse)" and "Two-column layout (image right)".
 
   Nothing else changed. No heading/body/button copy is written into this file
   on purpose — see 0003_task1_dd.md, Decision D1: all Hero content goes into
   Shopify Admin via this section's *existing* native blocks (text, button,
-  group, icon), never hardcoded here. 0003_task1_content_recipe.md gives the
-  exact blocks-and-settings recipe, sourced from production, to click through
-  in the theme editor.
+  group, icon), never hardcoded here. 0003_task1_content_recipe.md /
+  0003_task1_howto.md give the exact blocks-and-settings recipe, sourced from
+  production, to click through in the theme editor.
 
   HOW TO APPLY IN SHOPIFY:
   Open Shopify Admin → Online Store → Themes → the live theme → Edit code →
   find `sections/bfb-hero.liquid` → replace its contents with this file's
-  contents (or hand-apply just the three marked diffs above if you'd rather
-  not touch a file you already have open elsewhere) → Save. Then follow
-  0003_task1_content_recipe.md to add blocks and turn the new checkbox on.
+  contents → Save. Then, in the theme editor: turn on "Two-column layout
+  (image right)" and set Width to "Page width" for production's side-by-side
+  look; turn on "Animate media (bounce/pulse)" for the floating image effect;
+  follow 0003_task1_howto.md for the content blocks.
   ============================================================================
 {% endcomment %}
 
@@ -493,7 +501,7 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}{% if section.settings.animate_media %} hero--animate-media{% endif %}" 
+  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}{% if section.settings.animate_media %} hero--animate-media{% endif %}{% if section.settings.split_layout %} hero--split{% endif %}"
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
@@ -827,6 +835,52 @@
     }
     50% {
       transform: translateY(-14px) scale(1.035);
+    }
+  }  
+
+  /*
+   * task 0003 (Task 1) — optional two-column split layout ("image on the right"), matching
+   * production's `grid lg:grid-cols-2` (buyflorabella_restore/dev/frontend/.../HeroSection.tsx).
+   * Native Horizon hero is an "overlay" hero: media is a full-bleed absolutely-positioned
+   * background (.hero__media-grid, inset:0) with content overlaid on top (.hero__content-wrapper).
+   * Production's hero is a genuine "split" hero: two independent, non-overlapping columns, both
+   * constrained to the page-width container. These are structurally different layout systems, so
+   * this override only activates under the `.hero--split` modifier (from the new `split_layout`
+   * checkbox) and leaves the native overlay behavior fully intact when off.
+   * `.hero__container`'s grid columns come from the shared `.section` grid in assets/base.css
+   * ([margin] [content] [margin]) — this override widens it to
+   * [margin] [content-left] [media-right] [margin] only while `.hero--split` is present.
+   */
+  .hero--split .hero__media-grid {
+    position: relative;
+    inset: auto;
+  }
+
+  .hero--split .hero__media {
+    border-radius: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 25%);
+  }
+
+  @media screen and (min-width: 750px) {
+    .hero--split .hero__container {
+      grid-template-columns: var(--full-page-grid-margin) 1fr 1fr var(--full-page-grid-margin);
+      column-gap: clamp(2rem, 5vw, 4rem);
+    }
+
+    .hero--split .hero__content-wrapper {
+      grid-column: 2 / 3 !important;
+      grid-row: 1;
+    }
+
+    .hero--split .hero__media-grid {
+      grid-column: 3 / 4;
+      grid-row: 1;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .hero--split .hero__link {
+      grid-column: 1 / -1;
     }
   }  
 {% endstylesheet %}
@@ -1181,6 +1235,14 @@
       ],
       "default": "page-width"
     },
+    {
+      "type": "checkbox",
+      "id": "split_layout",
+      "label": "Two-column layout (image right)",
+      "default": false,
+      "info": "Places content on the left and media on the right as separate, non-overlapping columns (matches production), instead of overlaying content on top of the media. Use with Width set to Page width, and with only Media 1 set (no Media 2).",
+      "visible_if": "{{ section.settings.media_type_1 == 'image' and section.settings.image_2 == blank and section.settings.video_2 == blank }}"
+    },    
     {
       "type": "select",
       "id": "section_height",
