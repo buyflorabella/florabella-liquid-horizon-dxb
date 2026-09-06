@@ -304,6 +304,25 @@
             "custom_width_mobile": 100
           },
           "blocks": {}
+        },
+        "button_6kHKqg": {
+          "type": "button",
+          "name": "t:names.button",
+          "settings": {
+            "label": "See Real Grower Results",
+            "link": "shopify://blogs/guides",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "custom_button_background": "{{ settings.color_palette.foreground }}",
+            "custom_button_text": "{{ settings.color_palette.background }}",
+            "custom_button_border": "{{ settings.color_palette.background }}",
+            "link_text_color": "",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -311,7 +330,8 @@
         "group_UxrTH6",
         "group_KQtjBB",
         "group_j4Xfe4",
-        "button_yRxagJ"
+        "button_yRxagJ",
+        "button_6kHKqg"
       ],
       "name": "BFB Hero",
       "settings": {
