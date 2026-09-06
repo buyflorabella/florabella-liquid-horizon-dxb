@@ -828,6 +828,11 @@
   .hero--animate-media .hero__media-wrapper {
     margin: 1.5rem;
     border-radius: 1.5rem;
+    /* Round 3: the margin exposed this wrapper's own (previously invisible, always-transparent)
+       box — explicitly matching it to the section's own background removes any chance of a
+       mismatched fill showing in that newly-visible margin gap, regardless of how the custom
+       `background_color` setting's CSS variable happens to cascade at this depth. */
+    background-color: var(--color-background);
     animation: bfb-hero-media-float 5s ease-in-out infinite;
   }
 
@@ -883,7 +888,12 @@
    */
   .hero--split .hero__media-wrapper {
     border-radius: 1.5rem;
-    box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 25%);
+    background-color: var(--color-background);
+    /* Round 3: lowered from 25% — at full strength this dark (foreground-tinted) shadow read as
+       a mismatched grayish fill around the box against a light background, which is what DXB was
+       actually seeing as "its own background." Bump back up if a stronger shadow is wanted once
+       the background-color fix above is confirmed to have resolved the mismatch on its own. */
+    box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 10%);
   }
 
   @media screen and (min-width: 750px) {
