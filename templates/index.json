@@ -1173,10 +1173,10 @@
             "text_zXTED9"
           ]
         },
-        "group_WFN7Dy": {
+        "group_WRLytz": {
           "type": "group",
           "settings": {
-            "content_direction": "column",
+            "content_direction": "row",
             "vertical_on_mobile": true,
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
@@ -1198,137 +1198,113 @@
             "overlay_color": "#00000026",
             "overlay_style": "solid",
             "gradient_direction": "to top",
-            "border": "none",
-            "border_width": 1,
+            "border": "solid",
+            "border_width": 2,
             "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
+            "border_color": "#6b5f80",
+            "border_radius": 15,
             "link": "",
             "open_in_new_tab": false,
             "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "padding-inline-start": 24,
+            "padding-inline-end": 24
           },
           "blocks": {
-            "icon_QqNVrK": {
-              "type": "icon",
-              "settings": {
-                "icon": "silhouette",
-                "width": 32,
-                "link": "",
-                "open_in_new_tab": false,
-                "icon_color": ""
-              },
-              "blocks": {}
-            },
-            "group_UDhXtr": {
+            "group_JLP4c6": {
               "type": "group",
+              "name": "t:names.group",
               "settings": {
                 "content_direction": "column",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
                 "vertical_alignment": "center",
                 "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
+                "horizontal_alignment_flex_direction_column": "center",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 4,
-                "width": "fill",
+                "gap": 12,
+                "width": "fit-content",
                 "custom_width": 100,
-                "width_mobile": "fill",
+                "width_mobile": "fit-content",
                 "custom_width_mobile": 100,
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
-                "background_color": "",
+                "background_color": "#6B5F80",
                 "video_position": "cover",
                 "background_image_position": "cover",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
+                "toggle_overlay": true,
+                "overlay_color": "#90FFD94F",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_color": "",
-                "border_radius": 0,
+                "border_radius": 15,
                 "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-block-start": 10,
+                "padding-block-end": 10,
+                "padding-inline-start": 10,
+                "padding-inline-end": 10
               },
               "blocks": {
-                "text_7jzm6x": {
-                  "type": "text",
+                "icon_z3C3Y4": {
+                  "type": "icon",
                   "settings": {
-                    "text": "<h2>A team with a goal</h2>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "h3",
-                    "font": "var(--font-body--family)",
-                    "font_size": "",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
-                "text_LULDgH": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Real people making great products</p>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "center",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "icon": "chat_bubble",
+                    "width": 32,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "icon_color": "#90FFD9"
                   },
                   "blocks": {}
                 }
               },
               "block_order": [
-                "text_7jzm6x",
-                "text_LULDgH"
+                "icon_z3C3Y4"
               ]
+            },
+            "text_FhEX9q": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>Support from real growers, not bots</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "icon_QqNVrK",
-            "group_UDhXtr"
+            "group_JLP4c6",
+            "text_FhEX9q"
           ]
         }
       },
       "block_order": [
         "group_AURP73",
         "group_rCr3CE",
-        "group_WFN7Dy"
+        "group_WRLytz"
       ],
       "name": "t:names.icons_with_text",
       "settings": {
