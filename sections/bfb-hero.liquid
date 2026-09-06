@@ -17,7 +17,7 @@
        color setting's value, when set.
     2. Two CSS blocks inside the stylesheet block:
        - (search "bfb-hero-media-float") the bounce/pulse keyframes — animates
-         `.hero__media-wrapper` (the framed box — margin + rounded corners
+         `.hero__media-wrapper` (the framed box — inset + rounded corners
          added, only while this toggle is on), not `.hero__media` (the <img>
          itself): DXB wanted the frame to grow/shrink into a margin around it,
          not the photo zooming inside a fixed peephole. Amplitude is
@@ -28,6 +28,12 @@
          `media_frame_color` setting (falls back to this section's own
          Background color when left blank) — round 5, replacing an earlier
          hardcoded fallback DXB found still didn't match closely enough.
+         Round 10: the wrapper's inset is `padding`, not `margin` (rounds
+         3-9 used margin) — margin is space OUTSIDE an element's own box,
+         painted by the parent, so the frame color was silently invisible the
+         entire time; padding is inside the box, so the wrapper's own
+         background-color actually paints there. DXB caught this as
+         "media_frame_color seems ineffective."
        - (search "hero--split") the two-column split-layout override that
          turns this instance from Horizon's native "media as full-bleed
          background, content overlaid on top" pattern into a genuine
@@ -851,7 +857,7 @@
    * bounding box) should be the thing that grows/shrinks, with rounded corners on that frame, and
    * room around it to grow into so it visually pulls outward rather than zooming inside a static
    * crop. Fix: animate `.hero__media-wrapper` (the box) instead of `.hero__media` (the image), give
-   * the wrapper a resting margin to grow into and a border-radius, and let the image inside just
+   * the wrapper a resting inset to grow into and a border-radius, and let the image inside just
    * fill the box (`height/width: 100%; object-fit: cover`) so it rides along with the box's size —
    * the crop changes because the box's aspect ratio is constant while its size isn't, not because
    * the image content itself is being scaled independently of its frame.
@@ -859,10 +865,20 @@
    * confirmation — round 1-5 had this deliberately toned down to -14px/1.035 (Claude's own,
    * never-confirmed judgment call that production's numbers were tuned for a small card in open
    * whitespace, not this larger framed image). If -30px reads as too strong given the current
-   * 1.5rem margin, the margin (below) is the easier lever to widen before touching amplitude again.
+   * 1.5rem inset, the inset (below) is the easier lever to widen before touching amplitude again.
+   * Round 10: DXB reported `media_frame_color` "seems ineffective." Confirmed via the live preview's
+   * own computed styles: the color WAS being applied correctly to `.hero__media-wrapper`'s
+   * background — it just never had anywhere to show. `margin` (what rounds 3-9 used here) creates
+   * space OUTSIDE an element's own box; that gap is painted by the PARENT's background, never the
+   * element's own background-color, no matter what color is set on the element itself. Switched to
+   * `padding` instead — padding sits INSIDE the border box, so the wrapper's own background-color
+   * (the frame color) now actually paints in that inset ring, with the image (`width/height: 100%`
+   * of the box's *content* area, which padding shrinks) sitting inside it as the photo. Net effect
+   * is the "picture-frame mat" look DXB described in round 2 ("allow a margin around the image"),
+   * now actually visible instead of silently swallowed by the parent.
    */
   .hero--animate-media .hero__media-wrapper {
-    margin: 1.5rem;
+    padding: 1.5rem;
     border-radius: 1.5rem;
     /* Round 5: DXB confirmed round 3/4's fallback (pinned to var(--color-background)) still read
        as a visibly darker grey than the rest of the hero background. Rather than keep guessing at
@@ -879,7 +895,7 @@
   /* Desktop only — production leaves the mobile image static (see DD F6). */
   @media screen and (max-width: 749px) {
     .hero--animate-media .hero__media-wrapper {
-      margin: 0;
+      padding: 0;
       border-radius: 0;
       animation: none;
     }
@@ -931,8 +947,13 @@
    * and stayed; the shadow was the actual remaining source of the mismatch). Not replaced with a
    * lighter version — DXB didn't ask for a shadow in the first place, this was Claude's own
    * embellishment; ask if a subtle one is wanted once the plain frame color looks right.
+   * Round 10: added `padding` here too (previously none) — same margin-vs-padding fix as the
+   * animate-media rule above: without an inset that's actually inside the wrapper's own border
+   * box, the frame color set here had nowhere to paint, so Two-column layout on its own (without
+   * Animate media) would have had the exact same "ineffective" symptom DXB reported.
    */
   .hero--split .hero__media-wrapper {
+    padding: 1.5rem;
     border-radius: 1.5rem;
     background-color: var(--hero-media-frame-color, var(--color-background));
   }
