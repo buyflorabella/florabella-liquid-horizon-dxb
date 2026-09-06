@@ -1,4 +1,36 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 1) — Hero section production parity
+  ============================================================================
+  Everything below this comment is DXB's original bfb-hero.liquid stub — an
+  unmodified copy of Horizon's native `hero.liquid` — PLUS three small,
+  clearly-marked additions from Claude:
 
+    1. One class on the root <div> (search "animate_media"): adds
+       `hero--animate-media` to the section's class list when the new toggle
+       below is on.
+    2. One CSS block inside {% stylesheet %} (search "bfb-hero-media-float"):
+       the bounce/pulse keyframes + the media query that keeps it desktop-only
+       and the prefers-reduced-motion guard.
+    3. One new checkbox setting inside {% schema %} (search "animate_media"):
+       "Animate media (bounce/pulse)", right after the existing
+       `blurred_reflection` setting.
+
+  Nothing else changed. No heading/body/button copy is written into this file
+  on purpose — see 0003_task1_dd.md, Decision D1: all Hero content goes into
+  Shopify Admin via this section's *existing* native blocks (text, button,
+  group, icon), never hardcoded here. 0003_task1_content_recipe.md gives the
+  exact blocks-and-settings recipe, sourced from production, to click through
+  in the theme editor.
+
+  HOW TO APPLY IN SHOPIFY:
+  Open Shopify Admin → Online Store → Themes → the live theme → Edit code →
+  find `sections/bfb-hero.liquid` → replace its contents with this file's
+  contents (or hand-apply just the three marked diffs above if you'd rather
+  not touch a file you already have open elsewhere) → Save. Then follow
+  0003_task1_content_recipe.md to add blocks and turn the new checkbox on.
+  ============================================================================
+{% endcomment %}
 
 {% liquid
   assign media_count = 0
@@ -461,7 +493,7 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class="hero{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}{% if section.settings.animate_media %} hero--animate-media{% endif %}" 
   style="
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
@@ -762,6 +794,41 @@
       }
     }
   }
+
+  /*
+   * task 0003 (Task 1) — bounce/pulse toggle.
+   * Mirrors production's `.parallax-float` (buyflorabella_restore/dev/frontend/app/index.css:143-190),
+   * which animates the desktop-only featured image with translateY(-30px) scale(1.05) on a small
+   * inset floating card. Amplitude is tuned down here (-14px / 1.035) because this hero's media is
+   * full-bleed inside an overflow:hidden wrapper rather than a small card in open whitespace — the
+   * same raw throw reads as much more aggressive at that size. See DD OQ-1 to revert to the exact
+   * production values if DXB prefers a stronger effect after previewing.
+   */
+  .hero--animate-media .hero__media {
+    animation: bfb-hero-media-float 5s ease-in-out infinite;
+  }
+
+  /* Desktop only — production leaves the mobile image static (see DD F6). */
+  @media screen and (max-width: 749px) {
+    .hero--animate-media .hero__media {
+      animation: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero--animate-media .hero__media {
+      animation: none;
+    }
+  }
+
+  @keyframes bfb-hero-media-float {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-14px) scale(1.035);
+    }
+  }  
 {% endstylesheet %}
 
 {% schema %}
@@ -1222,6 +1289,14 @@
       "info": "t:info.applies_on_image_only",
       "visible_if": "{{ section.settings.media_type_1 != 'video' or section.settings.media_type_2 != 'video' or section.settings.media_type_1_mobile != 'video' or section.settings.media_type_2_mobile != 'video' }}"
     },
+    {
+      "type": "checkbox",
+      "id": "animate_media",
+      "label": "Animate media (bounce/pulse)",
+      "default": false,
+      "info": "Desktop only. Gentle floating/pulsing motion on the hero image, matching the production site's animated hero graphic.",
+      "visible_if": "{{ section.settings.media_type_1 == 'image' }}"
+    },    
     {
       "type": "range",
       "id": "reflection_opacity",
