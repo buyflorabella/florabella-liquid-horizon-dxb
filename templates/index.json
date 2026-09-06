@@ -261,17 +261,17 @@
             "overlay_style": "solid",
             "gradient_direction": "to top",
             "border": "solid",
-            "border_width": 1,
+            "border_width": 3,
             "border_opacity": 100,
             "border_color": "{{ settings.color_palette.color4 }}",
-            "border_radius": 0,
+            "border_radius": 15,
             "link": "",
             "open_in_new_tab": false,
             "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-block-start": 25,
+            "padding-block-end": 25,
+            "padding-inline-start": 25,
+            "padding-inline-end": 25
           },
           "blocks": {
             "text_tH6bHA": {
