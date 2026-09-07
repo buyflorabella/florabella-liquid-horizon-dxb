@@ -2922,6 +2922,277 @@
         "padding_top": 96,
         "padding_bottom": 96
       }
+    },
+    "bfbella_mineral_tiles_LCPLge": {
+      "type": "bfbella-mineral-tiles",
+      "blocks": {
+        "bfbella_mineral_tile_JdxTEP": {
+          "type": "bfbella-mineral-tile",
+          "settings": {
+            "symbol": "Mg",
+            "atomic_number": "12",
+            "name": "Magnesium"
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_tile_yDMPVH": {
+          "type": "bfbella-mineral-tile",
+          "settings": {
+            "symbol": "Fe",
+            "atomic_number": "26",
+            "name": "Iron"
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_tile_NfYJKG": {
+          "type": "bfbella-mineral-tile",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_tile_gfqWgH": {
+          "type": "bfbella-mineral-tile",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_tile_kWzURd": {
+          "type": "bfbella-mineral-tile",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_tile_4LpdRY": {
+          "type": "bfbella-mineral-tile",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_mineral_tile_JdxTEP",
+        "bfbella_mineral_tile_yDMPVH",
+        "bfbella_mineral_tile_NfYJKG",
+        "bfbella_mineral_tile_gfqWgH",
+        "bfbella_mineral_tile_kWzURd",
+        "bfbella_mineral_tile_4LpdRY"
+      ],
+      "name": "BFBella — Mineral Tiles",
+      "settings": {
+        "eyebrow": "70+ TRACE MINERALS",
+        "heading": "Inside Every Scoop Of Flora Bella",
+        "subheading": "Over 70 trace minerals in a molecular matrix designed by nature",
+        "accent_color": "",
+        "background_color": "",
+        "background_image": "shopify://shop_images/background_for_minerals_correct.png",
+        "padding_top": 96,
+        "padding_bottom": 0
+      }
+    },
+    "bfbella_mineral_cards_KJR9AM": {
+      "type": "bfbella-mineral-cards",
+      "blocks": {
+        "bfbella_mineral_card_R88a7V": {
+          "type": "bfbella-mineral-card",
+          "settings": {
+            "symbol": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_card_kmnV4m": {
+          "type": "bfbella-mineral-card",
+          "settings": {
+            "symbol": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_card_DtU4FW": {
+          "type": "bfbella-mineral-card",
+          "settings": {
+            "symbol": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_card_XfKiGh": {
+          "type": "bfbella-mineral-card",
+          "settings": {
+            "symbol": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_card_hPNCUJ": {
+          "type": "bfbella-mineral-card",
+          "settings": {
+            "symbol": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_card_zNrGiC": {
+          "type": "bfbella-mineral-card",
+          "settings": {
+            "symbol": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_mineral_card_R88a7V",
+        "bfbella_mineral_card_kmnV4m",
+        "bfbella_mineral_card_DtU4FW",
+        "bfbella_mineral_card_XfKiGh",
+        "bfbella_mineral_card_hPNCUJ",
+        "bfbella_mineral_card_zNrGiC"
+      ],
+      "name": "BFBella — Mineral Cards",
+      "settings": {
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "bfbella_guaranteed_analysis_RLBrzj": {
+      "type": "bfbella-guaranteed-analysis",
+      "blocks": {
+        "bfbella_analysis_row_ckRErQ": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_TPTDRD": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_eUQ8TH": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_7xGK6J": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_6UX9Ez": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_PE6EQM": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_3RpGUr": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_bjjUc9": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_kFNc4V": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_analysis_row_XTBwjV": {
+          "type": "bfbella-analysis-row",
+          "settings": {
+            "element": "",
+            "symbol": "",
+            "percentage": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_analysis_row_ckRErQ",
+        "bfbella_analysis_row_TPTDRD",
+        "bfbella_analysis_row_eUQ8TH",
+        "bfbella_analysis_row_7xGK6J",
+        "bfbella_analysis_row_6UX9Ez",
+        "bfbella_analysis_row_PE6EQM",
+        "bfbella_analysis_row_3RpGUr",
+        "bfbella_analysis_row_bjjUc9",
+        "bfbella_analysis_row_kFNc4V",
+        "bfbella_analysis_row_XTBwjV"
+      ],
+      "name": "BFBella — Analysis",
+      "settings": {
+        "analysis_heading": "",
+        "analysis_subheading": "",
+        "analysis_footnote": "",
+        "additional_text": "",
+        "additional_tags": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 0,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
@@ -2932,6 +3203,9 @@
     "section_tCcnFD",
     "section_RCLh4P",
     "section_wfxcAM",
-    "bfbella_how_it_works_tbBUGq"
+    "bfbella_how_it_works_tbBUGq",
+    "bfbella_mineral_tiles_LCPLge",
+    "bfbella_mineral_cards_KJR9AM",
+    "bfbella_guaranteed_analysis_RLBrzj"
   ]
 }
