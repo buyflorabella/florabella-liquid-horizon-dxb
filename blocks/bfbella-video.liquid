@@ -44,7 +44,7 @@
   {{ block.shopify_attributes }}
 >
   {%- if thumb_url != blank -%}
-    <img src="{{ thumb_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="bfbella-video-showcase__thumb-img">
+    <img src="{{ thumb_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="400" height="225" class="bfbella-video-showcase__thumb-img">
   {%- endif -%}
   <span class="bfbella-video-showcase__thumb-play" aria-hidden="true"></span>
   <span class="bfbella-video-showcase__thumb-caption">
