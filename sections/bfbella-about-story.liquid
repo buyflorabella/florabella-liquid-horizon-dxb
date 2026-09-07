@@ -14,10 +14,15 @@
   editorial content ("a list of things with text fields"), a single-instance section like this
   is plain section settings, not a block — nothing here needs the theme-blocks architecture.
 
-  MISSION PARAGRAPHS: production has exactly 3 mission paragraphs, but rather than three
-  separate fixed textareas (brittle if DXB wants to add/remove one later), this uses one
-  textarea where each line becomes its own paragraph — same convention as
-  blocks/bfbella-step.liquid's "Bullet list" field in this same task series.
+  MISSION PARAGRAPHS: production has exactly 3 mission paragraphs. Originally built as one
+  plain textarea (one line = one paragraph, matching blocks/bfbella-step.liquid's bullet-list
+  convention) — 2026-09-07 UPDATE: DXB asked for bold/italic support here, useful beyond this
+  field too (flagged for the Learn page as well). Switched to Shopify's native `richtext` field
+  type instead of inventing custom markdown-style parsing — it's the theme-native way to get a
+  real WYSIWYG toolbar (bold/italic/links, and its own paragraph breaks) with zero custom
+  parsing logic, and the field's own HTML output is rendered directly rather than split on
+  newlines. The existing 3-paragraph content was converted from plain-text-with-newlines to
+  real `<p>` tags to keep working under the new field type.
 
   CONTENT: zero real copy hardcoded — every field is a blank native setting until DXB fills
   it in. See 0004_task1_howto.md for the exact production text (including a note on the
@@ -103,13 +108,7 @@
             <h2 class="bfbella-about-story__mission-heading">{{ section.settings.mission_heading }}</h2>
           {%- endif -%}
           {%- if section.settings.mission_paragraphs != blank -%}
-            {%- assign mission_lines = section.settings.mission_paragraphs | newline_to_br | split: '<br />' -%}
-            {%- for line in mission_lines -%}
-              {%- assign trimmed = line | strip -%}
-              {%- if trimmed != blank -%}
-                <p class="bfbella-about-story__mission-paragraph">{{ trimmed }}</p>
-              {%- endif -%}
-            {%- endfor -%}
+            <div class="bfbella-about-story__mission-paragraphs">{{ section.settings.mission_paragraphs }}</div>
           {%- endif -%}
         </div>
       </div>
@@ -147,9 +146,10 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--bfbella-accent);
-    background: color-mix(in srgb, var(--bfbella-accent) 15%, transparent);
+    background: color-mix(in srgb, var(--bfbella-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--bfbella-accent) 30%, transparent);
     border-radius: 999px;
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1rem;
     margin-block-end: 1.5rem;
   }
 
@@ -216,15 +216,24 @@
     margin-block-end: 1.25rem;
   }
 
-  .bfbella-about-story__mission-paragraph {
+  .bfbella-about-story__mission-paragraphs p {
     font-size: 1.05rem;
     line-height: 1.65;
     opacity: 0.78;
-    margin-block-end: 1.1rem;
+    margin: 0 0 1.1rem;
   }
 
-  .bfbella-about-story__mission-paragraph:last-child {
+  .bfbella-about-story__mission-paragraphs p:last-child {
     margin-block-end: 0;
+  }
+
+  .bfbella-about-story__mission-paragraphs strong {
+    font-weight: 700;
+    opacity: 1;
+  }
+
+  .bfbella-about-story__mission-paragraphs em {
+    font-style: italic;
   }
 {% endstylesheet %}
 
@@ -263,10 +272,10 @@
       "label": "Mission heading"
     },
     {
-      "type": "textarea",
+      "type": "richtext",
       "id": "mission_paragraphs",
       "label": "Mission paragraphs",
-      "info": "One paragraph per line — each line becomes its own paragraph."
+      "info": "Use the toolbar to start a new paragraph, and to bold/italicize text."
     },
     {
       "type": "image_picker",

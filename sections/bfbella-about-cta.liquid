@@ -40,12 +40,25 @@
   the same "card floating on the section" treatment already used by this project's other card
   components (value-card, benefit-card, guide-card, etc.), just applied to the CTA's whole
   content block instead of a grid of individual cards.
+
+  2026-09-07 UPDATE 2: DXB wanted the inner card to have its OWN independent background color
+  choice, separate from the section's — the section is one colorable surface, the bounded
+  card sitting on top of it is a second, both pickable. DXB suggested a Group block for this;
+  went with a second `card_background_color` section setting instead (same
+  Liquid-`default:`-to-palette-swatch pattern as every other color in this file) rather than
+  restructuring this single-instance section into a block-based one — same visual outcome
+  (independently colorable section + card) without adding theme-blocks machinery to a section
+  that has no repeatable content and doesn't otherwise need it. Also fixed the eyebrow badge on
+  bfbella-about-story.liquid to match: larger padding and a subtle accent-colored border,
+  matching AboutPage.tsx's actual eyebrow markup (`bg-accent/10 border border-accent/30 px-4
+  py-2 rounded-full`) which this project's earlier build had approximated slightly off.
   ============================================================================
 {% endcomment %}
 
 {% liquid
   assign accent = section.settings.accent_color | default: settings.color_palette.color3
   assign bg = section.settings.background_color | default: settings.color_palette.background
+  assign card_bg = section.settings.card_background_color | default: settings.color_palette.background
 
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
@@ -58,6 +71,7 @@
   style="
     --bfbella-accent: {{ accent }};
     --bfbella-bg: {{ bg }};
+    --bfbella-card-bg: {{ card_bg }};
     {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
     {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
   "
@@ -115,7 +129,7 @@
     max-width: 44rem;
     margin-inline: auto;
     padding: 3rem 2.5rem;
-    background-color: var(--color-background);
+    background-color: var(--bfbella-card-bg);
     border-radius: 1.5rem;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
@@ -233,9 +247,16 @@
     {
       "type": "color",
       "id": "background_color",
-      "label": "Background color",
+      "label": "Section background color",
       "placeholder": "t:settings.default",
-      "info": "Leave blank to use the theme's base light background."
+      "info": "The outer section, behind the bounded card. Leave blank to use the theme's base light background."
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "placeholder": "t:settings.default",
+      "info": "The bounded, drop-shadowed card holding the heading/paragraph/buttons — independent from the section background above it. Leave blank to use the theme's base light background."
     },
     {
       "type": "header",
