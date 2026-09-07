@@ -2974,9 +2974,9 @@
         "bfbella_mineral_tile_4LpdRY": {
           "type": "bfbella-mineral-tile",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": ""
+            "symbol": "B",
+            "atomic_number": "5",
+            "name": "Boron"
           },
           "blocks": {}
         }
