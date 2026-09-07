@@ -217,7 +217,7 @@
         "group_jPen6g",
         "text_EgTp3Q"
       ],
-      "name": "t:names.custom_section",
+      "name": "NewProductCallout",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
