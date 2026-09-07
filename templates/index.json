@@ -3052,9 +3052,9 @@
         "bfbella_mineral_card_zNrGiC": {
           "type": "bfbella-mineral-card",
           "settings": {
-            "symbol": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "B",
+            "name": "Boron",
+            "benefit": "Critical for cell division and proper fruit and seed development."
           },
           "blocks": {}
         }
