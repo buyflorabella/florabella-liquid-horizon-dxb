@@ -2939,10 +2939,10 @@
         "bfbella_mineral_jxwrBX": {
           "type": "bfbella-mineral",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Fe",
+            "atomic_number": "26",
+            "name": "Iron",
+            "benefit": "Essential for chlorophyll production and oxygen transport in plants."
           },
           "blocks": {}
         },
