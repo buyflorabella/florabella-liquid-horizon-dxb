@@ -1,0 +1,260 @@
+{% comment %}
+  ============================================================================
+  task 0004 (Task 1) — About Page, Section 4: "Join Our Wellness Community" (closing CTA)
+  ============================================================================
+  Simple centered card: heading, paragraph, two buttons. Content from AboutPage.tsx in the
+  Hydrogen reference. 0004_task1_intent.md flagged this one as simple enough it "might not even
+  need custom code" — built as real custom code anyway per the kickoff instruction to produce
+  actual .liquid files for all 4 sections, but it's a small, single-purpose file and would be
+  an easy native-blocks substitute later if DXB prefers (a native rich-text/banner section +
+  two native Button blocks covers the same ground).
+
+  NO BLOCKS: single-instance content (one heading, one paragraph, two fixed buttons) — no
+  repeatable list here, so this is plain section settings, same reasoning as
+  bfbella-about-story.liquid above.
+
+  BUTTON LINKS: both buttons use a native `url` setting (Shopify's link picker — pages,
+  collections, products, or a plain external URL), not a hardcoded path, matching the pattern
+  already used for the Growers-group link in blocks/bfbella-community-card.liquid (task 0003,
+  Task 9). Production points these at `/shop` and `/contact` — map to the real Shopify
+  shop/collection and contact page URLs once those exist; see 0004_task1_howto.md.
+
+  CONTENT: zero real copy hardcoded — heading, paragraph, and both button labels are blank
+  native settings until DXB fills them in.
+
+  COLOR: no hardcoded hex. Accent (primary button) resolves through
+  `section.settings.accent_color`, falling back to `color_palette.color3`. Background resolves
+  through `section.settings.background_color`, falling back to `settings.color_palette.background`
+  — light section, matching the page's other non-photo sections (Story+Mission, Values).
+
+  DEPLOY: this file was written directly into this live repo's working tree as the first
+  target of the 2026-09-07 live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md)
+  — a deliberate exception to this project's normal task-folder-only rule, for this trial only.
+  Claude still did not commit or push this — DXB reviews this diff, then commits and pushes by
+  hand, unchanged from the standing rule.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="AboutCta-{{ section.id }}"
+  class="bfbella-about-cta{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-about-cta__inner page-width">
+    <div class="bfbella-about-cta__card">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="bfbella-about-cta__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.paragraph != blank -%}
+        <p class="bfbella-about-cta__paragraph">{{ section.settings.paragraph }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button1_label != blank or section.settings.button2_label != blank -%}
+        <div class="bfbella-about-cta__buttons">
+          {%- if section.settings.button1_label != blank -%}
+            <a
+              {% if section.settings.button1_link != blank %}href="{{ section.settings.button1_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+              class="bfbella-about-cta__button bfbella-about-cta__button--primary"
+            >
+              {{ section.settings.button1_label }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button2_label != blank -%}
+            <a
+              {% if section.settings.button2_link != blank %}href="{{ section.settings.button2_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+              class="bfbella-about-cta__button bfbella-about-cta__button--secondary"
+            >
+              {{ section.settings.button2_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-about-cta {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 5rem);
+    padding-block-end: var(--bfbella-pad-bottom, 5rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-about-cta__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-about-cta__card {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+
+  .bfbella-about-cta__heading {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-about-cta__paragraph {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-block-end: 2rem;
+  }
+
+  .bfbella-about-cta__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .bfbella-about-cta__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+
+  .bfbella-about-cta__button:hover {
+    transform: scale(1.03);
+  }
+
+  .bfbella-about-cta__button--primary {
+    background-color: var(--bfbella-accent);
+    color: #fff;
+  }
+
+  .bfbella-about-cta__button--secondary {
+    background-color: transparent;
+    color: var(--color-foreground);
+    border: 2px solid rgb(var(--color-foreground-rgb) / 0.2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-about-cta__button {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — About CTA",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph",
+      "label": "Paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button1_label",
+      "label": "Button 1 label"
+    },
+    {
+      "type": "url",
+      "id": "button1_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button2_label",
+      "label": "Button 2 label"
+    },
+    {
+      "type": "url",
+      "id": "button2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the primary button. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's base light background."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — About CTA",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
