@@ -1,0 +1,325 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 5, part 1 of 3) — "Inside Every Scoop Of Flora Bella" — tile grid
+  ============================================================================
+  This is the FIRST of three sections that together reproduce what was originally a single
+  section (see 0003_task5_bfbella-mineral-composition.liquid, the earlier one-section build).
+  Split into three because of a real Shopify constraint discovered building Tasks 4/5/6:
+  `{% content_for 'blocks' %}` always renders every block configured on a section, of every
+  declared type, at the one place it's called — there's no way to route "mineral" blocks to one
+  location and "analysis row" blocks to another within a single section. Splitting into three
+  single-block-type sections sidesteps that entirely. Full writeup in claude_docs/DIAGNOSIS.md
+  (DXB chose this option — "A", duplicate data entry, over collapsing the two mineral layouts
+  into one design).
+
+  THE THREE SECTIONS, IN PAGE ORDER:
+    1. bfbella-mineral-tiles.liquid      (this file) — eyebrow/heading/subheading + tile grid
+    2. bfbella-mineral-cards.liquid                   — detail card grid
+    3. bfbella-guaranteed-analysis.liquid              — collapsible panel + additional-minerals tags
+  Place all three directly adjacent on the homepage, in that order, with matching
+  accent/background/texture settings (see 0003_task5_split_howto.md) so they read as one
+  continuous panel rather than three visibly separate sections.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-mineral-tile.liquid   (0003_task5_bfbella-mineral-tile.liquid)
+  Renders itself — this section only does `{% content_for 'blocks' %}`.
+
+  CONTENT/COLOR: same standing rules as every other file in this task series — zero hardcoded
+  copy, accent resolves through `section.settings.accent_color` falling back to
+  `color_palette.color3`, background through `section.settings.background_color` falling back
+  to the theme background.
+
+  DEPLOY: save as sections/bfbella-mineral-tiles.liquid in the live theme. DXB applies this —
+  Claude never commits or touches the live repo.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="MineralTiles-{{ section.id }}"
+  class="bfbella-mineral-comp bfbella-mineral-comp--tiles{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  {%- if section.settings.background_image != blank -%}
+    <div class="bfbella-mineral-comp__texture" aria-hidden="true">
+      {{
+        section.settings.background_image
+        | image_url: width: 1920
+        | image_tag: loading: 'lazy', alt: '', class: 'bfbella-mineral-comp__texture-img'
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="bfbella-mineral-comp__inner page-width">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="bfbella-mineral-comp__intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="bfbella-mineral-comp__eyebrow">
+            <span>{{ section.settings.eyebrow }}</span>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bfbella-mineral-comp__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="bfbella-mineral-comp__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="bfbella-mineral-comp__tiles">
+        {% content_for 'blocks' %}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-mineral-comp {
+    position: relative;
+    overflow: hidden;
+    padding-block-start: var(--bfbella-pad-top, 6rem);
+    padding-block-end: var(--bfbella-pad-bottom, 0rem);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-mineral-comp__texture {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .bfbella-mineral-comp__texture-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bfbella-mineral-comp__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-mineral-comp__intro {
+    text-align: center;
+    max-width: 48rem;
+    margin-inline: auto;
+    margin-block-end: 4rem;
+  }
+
+  .bfbella-mineral-comp__eyebrow {
+    display: inline-block;
+    background: color-mix(in srgb, var(--bfbella-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--bfbella-accent) 30%, transparent);
+    color: var(--bfbella-accent);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-mineral-comp__heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-block-end: 1rem;
+    line-height: 1.1;
+  }
+
+  .bfbella-mineral-comp__subheading {
+    font-size: 1.1rem;
+    opacity: 0.75;
+  }
+
+  .bfbella-mineral-comp__tiles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    max-width: 60rem;
+    margin-inline: auto;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  .bfbella-mineral-tile {
+    background-color: var(--color-background);
+    border: 1px solid color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    animation: bfbella-mineral-float 4s ease-in-out infinite;
+    animation-delay: var(--bfbella-delay, 0s);
+  }
+
+  .bfbella-mineral-tile:hover {
+    border-color: color-mix(in srgb, var(--bfbella-accent) 50%, transparent);
+    box-shadow: 0 25px 50px -12px color-mix(in srgb, var(--bfbella-accent) 25%, transparent);
+    transform: scale(1.08) translateY(-0.5rem);
+  }
+
+  .bfbella-mineral-tile__number {
+    text-align: right;
+    color: color-mix(in srgb, var(--bfbella-accent) 50%, transparent);
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-block-end: 0.25rem;
+  }
+
+  .bfbella-mineral-tile__symbol {
+    color: var(--bfbella-accent);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform 0.3s;
+  }
+
+  .bfbella-mineral-tile:hover .bfbella-mineral-tile__symbol {
+    transform: scale(1.1);
+  }
+
+  .bfbella-mineral-tile__name {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-block-start: 0.25rem;
+  }
+
+  @keyframes bfbella-mineral-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-mineral-tile {
+      animation: none;
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Mineral Tiles",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-mineral-tile"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow badge text",
+      "info": "e.g. \"70+ TRACE MINERALS\" — leave blank to hide the badge"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for badges, borders, and hover states. Match this across all three Mineral Composition sections. Leave blank to use the theme's existing color3 swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Match this across all three Mineral Composition sections."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background texture image",
+      "info": "Optional. Rendered at 10% opacity. Match this across all three Mineral Composition sections for a seamless look."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Defaults to 0 so this flows directly into the Mineral Cards section below it."
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Mineral Tiles",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-mineral-tile" },
+        { "type": "bfbella-mineral-tile" },
+        { "type": "bfbella-mineral-tile" },
+        { "type": "bfbella-mineral-tile" },
+        { "type": "bfbella-mineral-tile" },
+        { "type": "bfbella-mineral-tile" }
+      ]
+    }
+  ]
+}
+{% endschema %}
