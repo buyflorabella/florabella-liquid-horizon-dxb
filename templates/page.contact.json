@@ -252,13 +252,22 @@
                 "width": "fill",
                 "width_mobile": "fill",
                 "background_color": "",
-                "subject_label": "Subject",
-                "inquiry_type_label": "Inquiry Type",
+                "subject_label": "Subject *",
+                "inquiry_type_label": "Inquiry Type *",
                 "inquiry_type_options": "General Inquiry\nOrder Support\nProduct Question\nWholesale / Bulk Inquiry\nBrand Ambassador Program",
                 "padding-block-start": 8,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-inline-end": 0,
+                "name_label": "Name *",
+                "name_placeholder": "Your name",
+                "email_label": "Email *",
+                "email_placeholder": "your@email.com",
+                "phone_label": "Phone",
+                "phone_placeholder": "(555) 123-4567",
+                "subject_placeholder": "How can we help?",
+                "message_label": "Message *",
+                "message_placeholder": "Tell us more about your inquiry..."
               },
               "blocks": {
                 "submit-button": {

@@ -1,32 +1,28 @@
 {% comment %}
   BFBella — Contact Form
 
-  ROOT CAUSE FOUND (2026-09-07, round 5): the file never had a naming problem — it had a real
-  Liquid syntax error the whole time. The Inquiry Type dropdown's for-loop used
-  `for line in block.settings.inquiry_type_options | newline_to_br | split: '<br />'` — piping
-  filters directly inside a for-tag's collection expression, which Liquid's for-tag parser
-  doesn't accept (only a plain variable is valid there; filters have to be applied in a separate
-  assign first). DXB confirmed by manually creating this block in Shopify Admin and getting the
-  exact error back: `FileSaveError: Liquid syntax error (line 177): Expected end_of_string but
-  found pipe in "line in block.settings.inquiry_type_options | newline_to_br | split: '<br />'"`.
-  Shopify's GitHub theme sync appears to validate the WHOLE push atomically — one file with a
-  syntax error blocks every file in that commit from deploying, not just the broken one. That
-  explains everything from round 3 onward: this bug shipped with the very first version of this
-  file, so every push since (the contact page work, the earlier filename-rename experiment, even
-  the deliberately-isolated native-only Learn page test) was silently rejected in full, none of
-  it a sync-config problem or a filename collision. Fixed by assigning the filtered/split result
-  to a variable first, then looping over that:
-  `assign inquiry_type_lines = ... | newline_to_br | split: '<br />'` then `for line in
-  inquiry_type_lines`. Repo-wide grep confirmed no other file has this same pattern.
+  HISTORY: shipped in round 3 with a real Liquid syntax error (filters piped directly into a
+  for-tag's collection expression), which blocked Shopify's GitHub sync for the WHOLE repo, not
+  just this file, for several rounds — see git history and 0009_task2_outcome.md for the full
+  investigation trail. Fixed in round 5. Renamed from `bfbella-contact-form.liquid` to
+  `bfbella-customcontact-form.liquid` mid-investigation as an (ultimately unrelated but harmless)
+  naming experiment; left renamed since reverting now would just be more diff churn. CSS classes
+  inside this file still read `bfbella-contact-form__*` — untouched by that rename deliberately.
 
-  This file was also renamed from `bfbella-contact-form.liquid` to
-  `bfbella-customcontact-form.liquid` mid-investigation, before the real cause above was found,
-  as a (retroactively unnecessary but harmless) naming-collision experiment. Left renamed rather
-  than reverted, since reverting now would just be more diff churn with the actual bug already
-  fixed. Only the filename and this block's `type` value in `templates/page.contact.json` were
-  changed for that experiment — the CSS class names inside this file still read
-  `bfbella-contact-form__*`; left alone deliberately, since none of this was ever about class
-  names.
+  ROUND 6 (2026-09-07) fixes, per production reference at ContactPage.tsx:
+  - Visible labels added above every field (was visually-hidden only before) — Name/Email/Phone/
+    Inquiry Type/Subject/Message, each with its own `label`/`placeholder` schema setting, defaults
+    matching production's exact copy (DXB provisioned this content directly).
+  - Fixed a real CSS specificity bug that made every input render solid white: base.css's
+    `input:not([type='checkbox'], [type='radio'])` rule (an element+:not() selector) has HIGHER
+    specificity than a single class, so it was beating `.bfbella-contact-form__input`'s
+    background-color. Fixed by qualifying every input rule as
+    `.bfbella-contact-form .bfbella-contact-form__input` (two classes) instead of one, which
+    reliably outranks the base rule regardless of stylesheet load order.
+  - Inquiry Type: removed the blank placeholder option so the first real option ("General
+    Inquiry") is the browser's natural default-selected value, matching production's
+    `inquiry_type: 'general'` initial state — no JS needed, that's just how an unselected
+    `<select>` behaves natively.
 
   Correctly a theme block (not a section) — same as the native file it's copy-modified from,
   which is why both declare `"tag": null` in their schema below: a theme block only ever renders
@@ -117,116 +113,126 @@
     {%- endif -%}
 
     <div class="bfbella-contact-form__row">
-      <label
-        class="visually-hidden"
-        for="BfbellaContactForm-name"
-      >
-        {{- 'blocks.contact_form.name' | t -}}
-      </label>
-      <input
-        type="text"
-        id="BfbellaContactForm-name"
-        class="bfbella-contact-form__input"
-        autocomplete="name"
-        name="contact[name]"
-        value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-        placeholder="{{ 'blocks.contact_form.name' | t }}"
-      >
+      <div class="bfbella-contact-form__field">
+        <label
+          class="bfbella-contact-form__label"
+          for="BfbellaContactForm-name"
+        >
+          {{- block.settings.name_label -}}
+        </label>
+        <input
+          type="text"
+          id="BfbellaContactForm-name"
+          class="bfbella-contact-form__input"
+          autocomplete="name"
+          name="contact[name]"
+          value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+          placeholder="{{ block.settings.name_placeholder }}"
+        >
+      </div>
 
-      <label
-        class="visually-hidden"
-        for="BfbellaContactForm-email"
-      >
-        {{- 'blocks.contact_form.email' | t -}}
-        <span aria-hidden="true">*</span></label
-      >
-      <input
-        type="email"
-        id="BfbellaContactForm-email"
-        class="bfbella-contact-form__input"
-        autocomplete="email"
-        name="contact[email]"
-        spellcheck="false"
-        autocapitalize="off"
-        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-        aria-required="true"
-        {% if form.errors contains 'email' and form_matches %}
-          aria-invalid="true"
-          aria-describedby="BfbellaContactForm-email-error"
-        {% endif %}
-        placeholder="{{ 'blocks.contact_form.email' | t }}"
-      >
+      <div class="bfbella-contact-form__field">
+        <label
+          class="bfbella-contact-form__label"
+          for="BfbellaContactForm-email"
+        >
+          {{- block.settings.email_label -}}
+        </label>
+        <input
+          type="email"
+          id="BfbellaContactForm-email"
+          class="bfbella-contact-form__input"
+          autocomplete="email"
+          name="contact[email]"
+          spellcheck="false"
+          autocapitalize="off"
+          value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          aria-required="true"
+          {% if form.errors contains 'email' and form_matches %}
+            aria-invalid="true"
+            aria-describedby="BfbellaContactForm-email-error"
+          {% endif %}
+          placeholder="{{ block.settings.email_placeholder }}"
+        >
+      </div>
     </div>
 
     <div class="bfbella-contact-form__row">
-      <label
-        class="visually-hidden"
-        for="BfbellaContactForm-phone"
-      >
-        {{- 'blocks.contact_form.phone' | t -}}
-      </label>
-      <input
-        type="tel"
-        id="BfbellaContactForm-phone"
-        class="bfbella-contact-form__input"
-        autocomplete="tel"
-        name="contact[phone]"
-        pattern="[0-9\-]*"
-        value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-        placeholder="{{ 'blocks.contact_form.phone' | t }}"
-      >
+      <div class="bfbella-contact-form__field">
+        <label
+          class="bfbella-contact-form__label"
+          for="BfbellaContactForm-phone"
+        >
+          {{- block.settings.phone_label -}}
+        </label>
+        <input
+          type="tel"
+          id="BfbellaContactForm-phone"
+          class="bfbella-contact-form__input"
+          autocomplete="tel"
+          name="contact[phone]"
+          pattern="[0-9\-]*"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          placeholder="{{ block.settings.phone_placeholder }}"
+        >
+      </div>
 
-      <label
-        class="visually-hidden"
-        for="BfbellaContactForm-inquiry-type"
-      >
-        {{ block.settings.inquiry_type_label }}
-      </label>
-      <select
-        id="BfbellaContactForm-inquiry-type"
-        class="bfbella-contact-form__input bfbella-contact-form__input--select"
-        name="contact[{{ block.settings.inquiry_type_label }}]"
-      >
-        <option value="">{{ block.settings.inquiry_type_label }}</option>
-        {%- assign inquiry_type_lines = block.settings.inquiry_type_options | newline_to_br | split: '<br />' -%}
-        {%- for line in inquiry_type_lines -%}
-          {%- assign option = line | strip -%}
-          {%- if option != blank -%}
-            <option value="{{ option }}">{{ option }}</option>
-          {%- endif -%}
-        {%- endfor -%}
-      </select>
+      <div class="bfbella-contact-form__field">
+        <label
+          class="bfbella-contact-form__label"
+          for="BfbellaContactForm-inquiry-type"
+        >
+          {{ block.settings.inquiry_type_label }}
+        </label>
+        <select
+          id="BfbellaContactForm-inquiry-type"
+          class="bfbella-contact-form__input bfbella-contact-form__input--select"
+          name="contact[Inquiry Type]"
+        >
+          {%- assign inquiry_type_lines = block.settings.inquiry_type_options | newline_to_br | split: '<br />' -%}
+          {%- for line in inquiry_type_lines -%}
+            {%- assign option = line | strip -%}
+            {%- if option != blank -%}
+              <option value="{{ option }}">{{ option }}</option>
+            {%- endif -%}
+          {%- endfor -%}
+        </select>
+      </div>
     </div>
 
-    <label
-      class="visually-hidden"
-      for="BfbellaContactForm-subject"
-    >
-      {{ block.settings.subject_label }}
-    </label>
-    <input
-      type="text"
-      id="BfbellaContactForm-subject"
-      class="bfbella-contact-form__input"
-      name="contact[{{ block.settings.subject_label }}]"
-      placeholder="{{ block.settings.subject_label }}"
-    >
+    <div class="bfbella-contact-form__field">
+      <label
+        class="bfbella-contact-form__label"
+        for="BfbellaContactForm-subject"
+      >
+        {{ block.settings.subject_label }}
+      </label>
+      <input
+        type="text"
+        id="BfbellaContactForm-subject"
+        class="bfbella-contact-form__input"
+        name="contact[Subject]"
+        placeholder="{{ block.settings.subject_placeholder }}"
+      >
+    </div>
 
-    <label
-      class="visually-hidden"
-      for="BfbellaContactForm-body"
-    >
-      {{- 'blocks.contact_form.comment' | t -}}
-    </label>
-    <textarea
-      rows="6"
-      id="BfbellaContactForm-body"
-      class="bfbella-contact-form__input bfbella-contact-form__input--textarea"
-      name="contact[body]"
-      placeholder="{{ 'blocks.contact_form.comment' | t }}"
-    >
-      {{- form.body -}}
-    </textarea>
+    <div class="bfbella-contact-form__field">
+      <label
+        class="bfbella-contact-form__label"
+        for="BfbellaContactForm-body"
+      >
+        {{- block.settings.message_label -}}
+      </label>
+      <textarea
+        rows="6"
+        id="BfbellaContactForm-body"
+        class="bfbella-contact-form__input bfbella-contact-form__input--textarea"
+        name="contact[body]"
+        placeholder="{{ block.settings.message_placeholder }}"
+      >
+        {{- form.body -}}
+      </textarea>
+    </div>
 
     {{ submit_button }}
   {%- endform -%}
@@ -250,7 +256,27 @@
     }
   }
 
-  .bfbella-contact-form__input {
+  .bfbella-contact-form__row .bfbella-contact-form__field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bfbella-contact-form__field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bfbella-contact-form__label {
+    display: block;
+    color: #fff;
+    font-weight: 600;
+    margin-block-end: 0.5rem;
+  }
+
+  /* Doubled up as .bfbella-contact-form .bfbella-contact-form__input (not just the single
+     class) so this reliably beats base.css's `input:not([type='checkbox'], [type='radio'])`
+     rule on specificity — a bare element+:not() selector otherwise outranks a single class. */
+  .bfbella-contact-form .bfbella-contact-form__input {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -264,16 +290,16 @@
     font: inherit;
   }
 
-  .bfbella-contact-form__input::placeholder {
+  .bfbella-contact-form .bfbella-contact-form__input::placeholder {
     color: rgb(255 255 255 / 0.4);
   }
 
-  .bfbella-contact-form__input:focus {
+  .bfbella-contact-form .bfbella-contact-form__input:focus {
     outline: none;
     border-color: var(--bfbella-accent);
   }
 
-  .bfbella-contact-form__input--select {
+  .bfbella-contact-form .bfbella-contact-form__input--select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='white'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpolyline%20points='6%209%2012%2015%2018%209'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
@@ -282,12 +308,12 @@
     padding-inline-end: 2.75rem;
   }
 
-  .bfbella-contact-form__input--select option {
+  .bfbella-contact-form .bfbella-contact-form__input--select option {
     background-color: #1a1a2e;
     color: #fff;
   }
 
-  .bfbella-contact-form__input--textarea {
+  .bfbella-contact-form .bfbella-contact-form__input--textarea {
     resize: vertical;
     min-height: 10rem;
   }
@@ -377,22 +403,76 @@
     },
     {
       "type": "text",
+      "id": "name_label",
+      "label": "Name field label",
+      "default": "Name *"
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "label": "Name field placeholder",
+      "default": "Your name"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email field label",
+      "default": "Email *"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email field placeholder",
+      "default": "your@email.com"
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone field label",
+      "default": "Phone"
+    },
+    {
+      "type": "text",
+      "id": "phone_placeholder",
+      "label": "Phone field placeholder",
+      "default": "(555) 123-4567"
+    },
+    {
+      "type": "text",
       "id": "subject_label",
       "label": "Subject field label",
-      "default": "Subject"
+      "default": "Subject *"
+    },
+    {
+      "type": "text",
+      "id": "subject_placeholder",
+      "label": "Subject field placeholder",
+      "default": "How can we help?"
     },
     {
       "type": "text",
       "id": "inquiry_type_label",
       "label": "Inquiry type field label",
-      "default": "Inquiry Type"
+      "default": "Inquiry Type *"
     },
     {
       "type": "textarea",
       "id": "inquiry_type_options",
       "label": "Inquiry type options",
-      "info": "One option per line.",
+      "info": "One option per line. The first line is pre-selected by default.",
       "default": "General Inquiry\nOrder Support\nProduct Question\nWholesale / Bulk Inquiry\nBrand Ambassador Program"
+    },
+    {
+      "type": "text",
+      "id": "message_label",
+      "label": "Message field label",
+      "default": "Message *"
+    },
+    {
+      "type": "text",
+      "id": "message_placeholder",
+      "label": "Message field placeholder",
+      "default": "Tell us more about your inquiry..."
     },
     {
       "type": "header",
