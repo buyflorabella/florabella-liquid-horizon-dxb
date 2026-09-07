@@ -3007,18 +3007,18 @@
         "bfbella_mineral_card_R88a7V": {
           "type": "bfbella-mineral-card",
           "settings": {
-            "symbol": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Mg",
+            "name": "Magnesium",
+            "benefit": "Supports deep green foliage and strong energy production in leaves."
           },
           "blocks": {}
         },
         "bfbella_mineral_card_kmnV4m": {
           "type": "bfbella-mineral-card",
           "settings": {
-            "symbol": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Fe",
+            "name": "Iron",
+            "benefit": "Essential for chlorophyll production and oxygen transport in plants."
           },
           "blocks": {}
         },
