@@ -1,6 +1,13 @@
 {% comment %}
   BFBella — Contact Form
 
+  RE-SYNC NOTE (2026-09-07): this file exists on GitHub (origin/main, confirmed via `git log`)
+  but Admin's theme editor was not showing it as deployed — this comment line is a deliberate,
+  real content change to force a fresh sync attempt for this specific file on the next push.
+  Correctly a theme block (not a section) — same as the native file it's copy-modified from,
+  which is why both declare `"tag": null` in their schema below: a theme block only ever renders
+  embedded inside a section (here, the `form` section's `group_left`), never standalone.
+
   Copy-modify of the native contact-form block (blocks/contact-form.liquid), per project
   convention: start from the native file, preserve its structure, layer in what's needed rather
   than rebuilding from scratch. Kept: the real Shopify native form submission (posts to the
