@@ -3377,11 +3377,11 @@
         "bfbella_community_card_xeHztT": {
           "type": "bfbella-community-card",
           "settings": {
-            "card_type": "email",
-            "heading": "",
-            "description": "",
-            "button_label": "Get soil tips",
-            "link": "",
+            "card_type": "growers_group",
+            "heading": "Growers group",
+            "description": "Connect with experienced growers, share your results, and get personalized advice for your unique growing conditions.",
+            "button_label": "Request invite",
+            "link": "shopify://pages/community",
             "link_text": "Request invite"
           },
           "blocks": {}
