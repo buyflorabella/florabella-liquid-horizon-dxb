@@ -1,0 +1,60 @@
+{% comment %}
+  BFBella — Mineral Tile
+
+  Renders one periodic-table-style tile (atomic number, symbol, name) in the tile grid at the
+  top of the Mineral Composition group. Pairs with blocks/bfbella-mineral-card.liquid, which
+  renders the SAME mineral again as a larger detail card in a separate section below — this is
+  option A from DIAGNOSIS.md (2026-09-07, DXB's choice): two block types with duplicate data
+  entry, rather than one block type crammed into two visual roles, because a theme block can
+  only render itself once, in one place — see .claude/CLAUDE.md's "Theme Blocks Must Render
+  Themselves" section.
+
+  DEPLOY: save as blocks/bfbella-mineral-tile.liquid in the live theme.
+{% endcomment %}
+
+{%- liquid
+  assign my_index0 = 0
+  for sibling in section.blocks
+    if sibling.id == block.id
+      assign my_index0 = forloop.index0
+      break
+    endif
+  endfor
+-%}
+<div
+  class="bfbella-mineral-tile"
+  style="--bfbella-delay: {{ my_index0 | times: 0.15 }}s;"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.atomic_number != blank -%}
+    <div class="bfbella-mineral-tile__number">{{ block.settings.atomic_number }}</div>
+  {%- endif -%}
+  <div class="bfbella-mineral-tile__symbol">{{ block.settings.symbol }}</div>
+  <div class="bfbella-mineral-tile__name">{{ block.settings.name }}</div>
+</div>
+
+{% schema %}
+{
+  "name": "BFBella — Mineral Tile",
+  "settings": [
+    {
+      "type": "text",
+      "id": "symbol",
+      "label": "Symbol",
+      "info": "e.g. Mg"
+    },
+    {
+      "type": "text",
+      "id": "atomic_number",
+      "label": "Atomic number",
+      "info": "e.g. 12 — optional, leave blank to hide"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "info": "e.g. Magnesium"
+    }
+  ]
+}
+{% endschema %}
