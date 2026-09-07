@@ -1,0 +1,45 @@
+{% comment %}
+  BFBella — Mineral (data block)
+
+  This block's own body is intentionally near-empty. It is never rendered via the standard
+  `content_for 'blocks'` mechanism — the parent section (0003_task5_bfbella-mineral-composition.liquid)
+  loops over `section.blocks` directly and reads each block's *settings* twice: once to draw the
+  small periodic-table-style tile, once to draw the larger detail card. A block only needs a
+  visual template of its own when something calls `content_for 'blocks'` on it; here the section
+  does the drawing, so this file only needs to exist and declare its schema/settings so the block
+  type is addable in the theme editor and its fields show up.
+
+  DEPLOY: save as blocks/bfbella-mineral.liquid in the live theme.
+{% endcomment %}
+{% comment %} intentionally no visual output — see comment above {% endcomment %}
+
+{% schema %}
+{
+  "name": "BFBella — Mineral",
+  "settings": [
+    {
+      "type": "text",
+      "id": "symbol",
+      "label": "Symbol",
+      "info": "Short chemical symbol, e.g. Mg"
+    },
+    {
+      "type": "text",
+      "id": "atomic_number",
+      "label": "Atomic number",
+      "info": "e.g. 12"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Mineral name",
+      "info": "e.g. Magnesium"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit",
+      "label": "Benefit description"
+    }
+  ]
+}
+{% endschema %}
