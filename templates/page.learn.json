@@ -87,7 +87,7 @@
       "type": "bfbella-learn-guides",
       "settings": {
         "heading": "Step-by-Step Guides",
-        "guides_blog": "",
+        "guides_blog": "guides",
         "post_limit": 3,
         "accent_color": "",
         "background_color": "",
