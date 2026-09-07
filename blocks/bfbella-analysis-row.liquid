@@ -1,0 +1,36 @@
+{% comment %}
+  BFBella — Analysis Row (data block)
+
+  Same pattern as the Mineral block: this is a pure data container for one row of the "Guaranteed
+  Analysis" list. Its own body is intentionally empty — the parent section loops over
+  `section.blocks` directly and draws each row itself, once, inside the collapsible analysis panel.
+
+  DEPLOY: save as blocks/bfbella-analysis-row.liquid in the live theme.
+{% endcomment %}
+{% comment %} intentionally no visual output — see comment above {% endcomment %}
+
+{% schema %}
+{
+  "name": "BFBella — Analysis Row",
+  "settings": [
+    {
+      "type": "text",
+      "id": "element",
+      "label": "Element name",
+      "info": "e.g. Calcium"
+    },
+    {
+      "type": "text",
+      "id": "symbol",
+      "label": "Symbol",
+      "info": "e.g. Ca"
+    },
+    {
+      "type": "text",
+      "id": "percentage",
+      "label": "Percentage",
+      "info": "e.g. 1.40%"
+    }
+  ]
+}
+{% endschema %}
