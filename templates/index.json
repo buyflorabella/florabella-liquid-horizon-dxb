@@ -3303,6 +3303,58 @@
         "padding_top": 96,
         "padding_bottom": 96
       }
+    },
+    "bfbella_education_UpKJDn": {
+      "type": "bfbella-education",
+      "blocks": {
+        "bfbella_article_card_amzBUB": {
+          "type": "bfbella-article-card",
+          "settings": {
+            "icon": "none",
+            "read_time": "",
+            "title": "",
+            "description": "",
+            "link": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_article_card_WHyXYd": {
+          "type": "bfbella-article-card",
+          "settings": {
+            "icon": "none",
+            "read_time": "",
+            "title": "",
+            "description": "",
+            "link": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_article_card_kQd7mb": {
+          "type": "bfbella-article-card",
+          "settings": {
+            "icon": "none",
+            "read_time": "",
+            "title": "",
+            "description": "",
+            "link": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_article_card_amzBUB",
+        "bfbella_article_card_WHyXYd",
+        "bfbella_article_card_kQd7mb"
+      ],
+      "name": "BFBella — Education",
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
@@ -3317,6 +3369,7 @@
     "bfbella_mineral_tiles_LCPLge",
     "bfbella_mineral_cards_KJR9AM",
     "bfbella_guaranteed_analysis_RLBrzj",
+    "bfbella_education_UpKJDn",
     "bfbella_testimonials_z49VtR",
     "bfbella_video_showcase_bkh98U"
   ]
