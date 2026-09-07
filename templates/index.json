@@ -3194,6 +3194,58 @@
         "padding_bottom": 96
       }
     },
+    "bfbella_education_UpKJDn": {
+      "type": "bfbella-education",
+      "blocks": {
+        "bfbella_article_card_amzBUB": {
+          "type": "bfbella-article-card",
+          "settings": {
+            "icon": "sprout",
+            "read_time": "7 min read",
+            "title": "More Than NPK: Why Soil Systems Matter for the Future of Food",
+            "description": "Traditional fertilizers focus on NPK. Flora Bella focuses on the soil system that makes NPK work better—trace minerals, humic + fulvic acids, and biology from the ground up.",
+            "link": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_article_card_WHyXYd": {
+          "type": "bfbella-article-card",
+          "settings": {
+            "icon": "none",
+            "read_time": "8 min read",
+            "title": "Soil as a Resource Strategy: Building Resilience in a Resource-Constrained World",
+            "description": "In a world of volatile inputs and strained resources, soil health is a resilience strategy. Learn how soil systems improve efficiency, stability, and long-term performance.",
+            "link": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_article_card_kQd7mb": {
+          "type": "bfbella-article-card",
+          "settings": {
+            "icon": "none",
+            "read_time": "",
+            "title": "",
+            "description": "",
+            "link": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_article_card_amzBUB",
+        "bfbella_article_card_WHyXYd",
+        "bfbella_article_card_kQd7mb"
+      ],
+      "name": "BFBella — Education",
+      "settings": {
+        "heading": "Learn To Treat Soil As A Living System",
+        "subheading": "Expert knowledge made accessible for gardeners at every level",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
     "bfbella_testimonials_z49VtR": {
       "type": "bfbella-testimonials",
       "blocks": {
@@ -3302,58 +3354,6 @@
         "background_color": "",
         "padding_top": 96,
         "padding_bottom": 96
-      }
-    },
-    "bfbella_education_UpKJDn": {
-      "type": "bfbella-education",
-      "blocks": {
-        "bfbella_article_card_amzBUB": {
-          "type": "bfbella-article-card",
-          "settings": {
-            "icon": "none",
-            "read_time": "",
-            "title": "",
-            "description": "",
-            "link": ""
-          },
-          "blocks": {}
-        },
-        "bfbella_article_card_WHyXYd": {
-          "type": "bfbella-article-card",
-          "settings": {
-            "icon": "none",
-            "read_time": "",
-            "title": "",
-            "description": "",
-            "link": ""
-          },
-          "blocks": {}
-        },
-        "bfbella_article_card_kQd7mb": {
-          "type": "bfbella-article-card",
-          "settings": {
-            "icon": "none",
-            "read_time": "",
-            "title": "",
-            "description": "",
-            "link": ""
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "bfbella_article_card_amzBUB",
-        "bfbella_article_card_WHyXYd",
-        "bfbella_article_card_kQd7mb"
-      ],
-      "name": "BFBella — Education",
-      "settings": {
-        "heading": "",
-        "subheading": "",
-        "accent_color": "",
-        "background_color": "",
-        "padding_top": 80,
-        "padding_bottom": 80
       }
     }
   },
