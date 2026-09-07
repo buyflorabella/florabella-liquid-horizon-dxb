@@ -1,0 +1,570 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 6) — "See Flora Bella In Action" (video showcase)
+  ============================================================================
+  Fully custom section — no native Horizon section does a large featured-video
+  player driven by a clickable thumbnail row. Built from scratch per DXB's
+  explicit request for this section.
+
+  NOTE: this comment deliberately never spells out the Liquid tag delimiters
+  for the schema, stylesheet, or javascript blocks below (plain words are
+  used instead) — see the 2026-09-06 lesson in this project's
+  self_improve/LESSONS.md: writing the literal opening-tag text for any of
+  those inside a comment has broken a real section file in this same task
+  before.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-video.liquid   (0003_task6_bfbella-video.liquid)
+  Each video block renders itself as a thumbnail button (2026-09-07: rebuilt from a
+  "pure data block" — see that file's own comment for why; a block referenced from an
+  external blocks/*.liquid file cannot be read as data from the parent section, confirmed
+  live via Task 4's identical bug in this same task series).
+
+  CONTENT: zero real copy is hardcoded anywhere in this file. Every heading,
+  label, and video is a native Shopify setting or block field, blank until
+  DXB fills it in via Admin. See 0003_task6_howto.md for the exact
+  production text/video IDs and where each piece goes.
+
+  COLOR: no hardcoded hex anywhere. The one accent color used throughout
+  (active-thumbnail border, play-icon badge) resolves through
+  `section.settings.accent_color` when set, falling back to the theme's own
+  `color_palette.color3` — same fallback-chain pattern as Task 5.
+
+  FEATURED PLAYER IS JS-POPULATED, NOT SERVER-RENDERED (2026-09-07 change): the section can no
+  longer read the first video block's `youtube_id`/`title` here to server-render the featured
+  iframe — a parent section cannot read a theme block's settings at all (same constraint that
+  broke Task 4). So the featured player always starts as an empty placeholder, and this
+  section's own JS immediately populates it from the first rendered thumbnail's data attributes
+  on load (the same code path the click-to-swap handler already used). This requires JS to show
+  a featured video at all; each thumbnail block still renders a real `<img>` even without JS, so
+  the thumbnail row itself degrades gracefully — only the large featured player does not.
+
+  TWO CONTENT MODES (see "Content source" setting):
+    - Manual: the section renders whatever Video blocks are configured below,
+      first block featured, rest as the thumbnail row. Zero JS network calls
+      needed for the thumbnail row; the featured player still needs JS (see above).
+      This is what "hard-code the youtube video IDs in place" (DXB's own
+      phrasing for this task) means in practice — the IDs live in native
+      block settings, not literally hardcoded in this file.
+    - Playlist: on top of whatever Video blocks are configured (which stay as
+      a same-page fallback), client-side JS fetches the given YouTube
+      playlist via the YouTube Data API v3, sorts by publish date, and
+      replaces the featured video + thumbnail row with the live playlist —
+      newest video first. Requires DXB to provide a YouTube Data API key and
+      a playlist ID; see 0003_task6_howto.md for exactly how to get both.
+      Liquid cannot make outbound HTTP calls at render time, so this half of
+      the feature is unavoidably client-side JS, not server-rendered.
+
+  DEPLOY: save as sections/bfbella-video-showcase.liquid in the live theme.
+  DXB applies this — Claude never commits or touches the live repo.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<bfbella-video-showcase
+  id="VideoShowcase-{{ section.id }}"
+  class="bfbella-video-showcase{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+  {% if section.settings.content_source == 'playlist' and section.settings.playlist_id != blank and section.settings.youtube_api_key != blank %}
+    data-playlist-id="{{ section.settings.playlist_id }}"
+    data-api-key="{{ section.settings.youtube_api_key }}"
+    data-max-videos="{{ section.settings.max_videos }}"
+  {% endif %}
+>
+  <div class="bfbella-video-showcase__inner page-width">
+
+    <div class="bfbella-video-showcase__grid">
+
+      {%- comment -%}
+        Featured player (left) — always starts empty. A theme block can't be read as data from
+        here (see comment at top of file), so this section can no longer pull the first video's
+        youtube_id/title to server-render the iframe; this section's own JS populates it from
+        the first rendered thumbnail's data attributes immediately on load.
+      {%- endcomment -%}
+      <div class="bfbella-video-showcase__featured">
+        <div class="bfbella-video-showcase__featured-frame">
+          <div data-bfbella-featured-empty class="bfbella-video-showcase__featured-empty">
+            {{ 'hero-apparel-1' | placeholder_svg_tag: 'bfbella-video-showcase__placeholder-svg' }}
+          </div>
+        </div>
+        <div class="bfbella-video-showcase__featured-caption">
+          <span data-bfbella-featured-title class="bfbella-video-showcase__featured-title"></span>
+          <span data-bfbella-featured-platform class="bfbella-video-showcase__featured-platform"></span>
+        </div>
+      </div>
+
+      {%- comment -%} Heading + subheading + thumbnail grid (right) {%- endcomment -%}
+      <div class="bfbella-video-showcase__content">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bfbella-video-showcase__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="bfbella-video-showcase__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div data-bfbella-thumb-grid class="bfbella-video-showcase__thumbs">
+            {% content_for 'blocks' %}
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</bfbella-video-showcase>
+
+{% stylesheet %}
+  .bfbella-video-showcase {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 6rem);
+    padding-block-end: var(--bfbella-pad-bottom, 6rem);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-video-showcase__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-video-showcase__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: minmax(0, 22rem) 1fr;
+      gap: 4rem;
+    }
+  }
+
+  /* Featured player */
+  .bfbella-video-showcase__featured {
+    margin-inline: auto;
+    max-width: 22rem;
+    width: 100%;
+  }
+
+  .bfbella-video-showcase__featured-frame {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    background-color: rgb(var(--color-foreground-rgb));
+    border-radius: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2);
+  }
+
+  .bfbella-video-showcase__featured-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .bfbella-video-showcase__featured-empty {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.3;
+  }
+
+  .bfbella-video-showcase__placeholder-svg {
+    width: 40%;
+    height: 40%;
+  }
+
+  .bfbella-video-showcase__featured-caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-block-start: 0.75rem;
+    text-align: center;
+  }
+
+  .bfbella-video-showcase__featured-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .bfbella-video-showcase__featured-platform {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+
+  /* Heading / subheading */
+  .bfbella-video-showcase__heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-video-showcase__subheading {
+    font-size: 1.05rem;
+    opacity: 0.75;
+    max-width: 34rem;
+    margin-block-end: 2rem;
+  }
+
+  /* Thumbnail grid */
+  .bfbella-video-showcase__thumbs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+    @media screen and (min-width: 480px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bfbella-video-showcase__thumb {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border: 2px solid rgb(var(--color-foreground-rgb) / 0.15);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .bfbella-video-showcase__thumb:hover {
+    transform: scale(1.05);
+  }
+
+  .bfbella-video-showcase__thumb.is-active {
+    border-color: var(--bfbella-accent);
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--bfbella-accent) 25%, transparent);
+  }
+
+  .bfbella-video-showcase__thumb-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .bfbella-video-showcase__thumb-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -75%);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bfbella-accent) 85%, transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .bfbella-video-showcase__thumb-play::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 0.4rem 0 0.4rem 0.65rem;
+    border-color: transparent transparent transparent #fff;
+  }
+
+  .bfbella-video-showcase__thumb:hover .bfbella-video-showcase__thumb-play,
+  .bfbella-video-showcase__thumb.is-active .bfbella-video-showcase__thumb-play {
+    opacity: 1;
+  }
+
+  .bfbella-video-showcase__thumb-caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.5rem 0.6rem;
+  }
+
+  .bfbella-video-showcase__thumb-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bfbella-video-showcase__thumb-platform {
+    font-size: 0.65rem;
+    opacity: 0.55;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-video-showcase__thumb {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  class BfbellaVideoShowcase extends HTMLElement {
+    connectedCallback() {
+      this.featuredFrame = this.querySelector('[data-bfbella-featured-frame]');
+      this.featuredEmpty = this.querySelector('[data-bfbella-featured-empty]');
+      this.featuredTitle = this.querySelector('[data-bfbella-featured-title]');
+      this.featuredPlatform = this.querySelector('[data-bfbella-featured-platform]');
+      this.thumbGrid = this.querySelector('[data-bfbella-thumb-grid]');
+      this.thumbs = Array.from(this.querySelectorAll('[data-bfbella-thumb]'));
+
+      this.thumbs.forEach((thumb) => {
+        thumb.addEventListener('click', () => this.selectVideo(thumb));
+      });
+
+      // Featured player is never server-rendered (see file header comment) — populate it from
+      // the first thumbnail immediately so manual mode works with zero network calls. Playlist
+      // mode (below) replaces this once its fetch resolves.
+      if (this.thumbs.length > 0) {
+        this.selectVideo(this.thumbs[0]);
+      }
+
+      const playlistId = this.dataset.playlistId;
+      const apiKey = this.dataset.apiKey;
+      if (playlistId && apiKey) {
+        const maxVideos = parseInt(this.dataset.maxVideos, 10) || 6;
+        this.loadPlaylist(playlistId, apiKey, maxVideos);
+      }
+    }
+
+    selectVideo(thumb) {
+      const id = thumb.dataset.youtubeId;
+      if (!id) return;
+
+      if (this.featuredFrame) {
+        this.featuredFrame.src = 'https://www.youtube-nocookie.com/embed/' + id;
+      } else if (this.featuredEmpty) {
+        const frame = document.createElement('iframe');
+        frame.setAttribute('data-bfbella-featured-frame', '');
+        frame.src = 'https://www.youtube-nocookie.com/embed/' + id;
+        frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        frame.allowFullscreen = true;
+        this.featuredEmpty.replaceWith(frame);
+        this.featuredFrame = frame;
+        this.featuredEmpty = null;
+      }
+
+      if (this.featuredTitle) this.featuredTitle.textContent = thumb.dataset.title || '';
+      if (this.featuredPlatform) this.featuredPlatform.textContent = thumb.dataset.platform || 'YouTube';
+
+      this.thumbs.forEach((t) => t.classList.toggle('is-active', t === thumb));
+    }
+
+    async loadPlaylist(playlistId, apiKey, maxVideos) {
+      try {
+        const url = 'https://www.googleapis.com/youtube/v3/playlistItems'
+          + '?part=snippet&playlistId=' + encodeURIComponent(playlistId)
+          + '&maxResults=' + Math.min(maxVideos, 50)
+          + '&key=' + encodeURIComponent(apiKey);
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('YouTube API request failed: ' + response.status);
+
+        const data = await response.json();
+        const items = (data.items || [])
+          .filter((item) => item.snippet && item.snippet.resourceId && item.snippet.resourceId.videoId)
+          .sort((a, b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt));
+
+        if (items.length === 0) return;
+
+        this.renderPlaylist(items);
+      } catch (error) {
+        // Playlist fetch failed (bad key, quota, network) — the server-rendered
+        // manual blocks (if any) stay exactly as they were. No broken/empty state.
+        console.error('BFBella video showcase: could not load YouTube playlist.', error);
+      }
+    }
+
+    renderPlaylist(items) {
+      if (!this.thumbGrid) return;
+
+      this.thumbGrid.innerHTML = '';
+      const newThumbs = [];
+
+      items.forEach((item) => {
+        const videoId = item.snippet.resourceId.videoId;
+        const title = item.snippet.title || '';
+        const thumbnails = item.snippet.thumbnails || {};
+        const thumbUrl = (thumbnails.medium || thumbnails.default || {}).url
+          || ('https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg');
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'bfbella-video-showcase__thumb';
+        button.setAttribute('data-bfbella-thumb', '');
+        button.dataset.youtubeId = videoId;
+        button.dataset.title = title;
+        button.dataset.platform = 'YouTube';
+
+        const img = document.createElement('img');
+        img.src = thumbUrl;
+        img.alt = title;
+        img.loading = 'lazy';
+        img.className = 'bfbella-video-showcase__thumb-img';
+
+        const play = document.createElement('span');
+        play.className = 'bfbella-video-showcase__thumb-play';
+        play.setAttribute('aria-hidden', 'true');
+
+        const caption = document.createElement('span');
+        caption.className = 'bfbella-video-showcase__thumb-caption';
+        caption.innerHTML = '<span class="bfbella-video-showcase__thumb-title"></span>'
+          + '<span class="bfbella-video-showcase__thumb-platform">YouTube</span>';
+        caption.querySelector('.bfbella-video-showcase__thumb-title').textContent = title;
+
+        button.append(img, play, caption);
+        button.addEventListener('click', () => this.selectVideo(button));
+
+        this.thumbGrid.appendChild(button);
+        newThumbs.push(button);
+      });
+
+      this.thumbs = newThumbs;
+      this.selectVideo(newThumbs[0]);
+    }
+  }
+
+  customElements.define('bfbella-video-showcase', BfbellaVideoShowcase);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "BFBella — Video Showcase",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-video"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Content source"
+    },
+    {
+      "type": "select",
+      "id": "content_source",
+      "label": "Content source",
+      "options": [
+        { "value": "manual", "label": "Manual — Video blocks only" },
+        { "value": "playlist", "label": "YouTube playlist (auto, newest first)" }
+      ],
+      "default": "manual",
+      "info": "Playlist mode still uses the Video blocks below as a fallback if the playlist fetch ever fails."
+    },
+    {
+      "type": "text",
+      "id": "playlist_id",
+      "label": "YouTube playlist ID",
+      "info": "The part after \"list=\" in the playlist's URL. Only used when Content source is set to Playlist."
+    },
+    {
+      "type": "text",
+      "id": "youtube_api_key",
+      "label": "YouTube Data API key",
+      "info": "A domain-restricted API key from Google Cloud Console — see the howto doc for setup steps. Only used when Content source is set to Playlist. This key is visible in the page's HTML; restrict it to this domain and to the YouTube Data API only."
+    },
+    {
+      "type": "range",
+      "id": "max_videos",
+      "label": "Max videos from playlist",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the active-thumbnail border and play-icon badge. Leave blank to use the theme's existing color3 swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Video Showcase",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-video" },
+        { "type": "bfbella-video" },
+        { "type": "bfbella-video" },
+        { "type": "bfbella-video" }
+      ]
+    }
+  ]
+}
+{% endschema %}
