@@ -1414,6 +1414,7 @@
         "subheading": "Trusted by home gardeners and commercial growers alike",
         "accent_color": "",
         "background_color": "",
+        "texture_image": "shopify://shop_images/background_for_whychoose.png",
         "padding_top": 128,
         "padding_bottom": 128
       }
