@@ -3081,90 +3081,90 @@
         "bfbella_analysis_row_ckRErQ": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Calcium",
+            "symbol": "Ca",
+            "percentage": "1.40%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_TPTDRD": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Magnesium",
+            "symbol": "Mg",
+            "percentage": "1.40%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_eUQ8TH": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Sulfur",
+            "symbol": "S",
+            "percentage": "3.65%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_7xGK6J": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Boron",
+            "symbol": "B",
+            "percentage": "0.02%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_6UX9Ez": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Cobalt",
+            "symbol": "Co",
+            "percentage": "0.0028%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_PE6EQM": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Copper",
+            "symbol": "Cu",
+            "percentage": "0.25%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_3RpGUr": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Iron",
+            "symbol": "Fe",
+            "percentage": "2.50%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_bjjUc9": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Manganese",
+            "symbol": "Mn",
+            "percentage": "0.24%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_kFNc4V": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Molybdenum",
+            "symbol": "Mo",
+            "percentage": "0.0005%"
           },
           "blocks": {}
         },
         "bfbella_analysis_row_XTBwjV": {
           "type": "bfbella-analysis-row",
           "settings": {
-            "element": "",
-            "symbol": "",
-            "percentage": ""
+            "element": "Zinc",
+            "symbol": "Zn",
+            "percentage": "0.48%"
           },
           "blocks": {}
         }
