@@ -3205,7 +3205,10 @@
             "read_time": "7 min read",
             "title": "More Than NPK: Why Soil Systems Matter for the Future of Food",
             "description": "Traditional fertilizers focus on NPK. Flora Bella focuses on the soil system that makes NPK work better—trace minerals, humic + fulvic acids, and biology from the ground up.",
-            "link": ""
+            "link": "shopify://blogs/soil-education",
+            "background_color": "",
+            "title_color": "",
+            "description_color": ""
           },
           "blocks": {}
         },
@@ -3217,7 +3220,10 @@
             "read_time": "8 min read",
             "title": "Soil as a Resource Strategy: Building Resilience in a Resource-Constrained World",
             "description": "In a world of volatile inputs and strained resources, soil health is a resilience strategy. Learn how soil systems improve efficiency, stability, and long-term performance.",
-            "link": ""
+            "link": "",
+            "background_color": "",
+            "title_color": "",
+            "description_color": ""
           },
           "blocks": {}
         },
@@ -3229,7 +3235,10 @@
             "read_time": "9 min read",
             "title": "What Is the Soil Food Web (and Why It Changes Everything)?",
             "description": "The Soil Food Web is the living system beneath your plants. Learn how soil biology influences nutrient availability, root health, and long-term resilience.",
-            "link": ""
+            "link": "",
+            "background_color": "",
+            "title_color": "",
+            "description_color": ""
           },
           "blocks": {}
         }
@@ -3243,6 +3252,8 @@
       "settings": {
         "heading": "Learn To Treat Soil As A Living System",
         "subheading": "Expert knowledge made accessible for gardeners at every level",
+        "heading_color": "",
+        "subheading_color": "",
         "accent_color": "",
         "background_color": "{{ settings.color_palette.color12 }}",
         "padding_top": 80,
