@@ -1,13 +1,22 @@
 {% comment %}
-  BFBella — Analysis Row (data block)
+  BFBella — Analysis Row
 
-  Same pattern as the Mineral block: this is a pure data container for one row of the "Guaranteed
-  Analysis" list. Its own body is intentionally empty — the parent section loops over
-  `section.blocks` directly and draws each row itself, once, inside the collapsible analysis panel.
+  Renders one row (element name, symbol, percentage) inside the Guaranteed Analysis panel.
+
+  2026-09-07 — rebuilt from a "pure data block" (rendered nothing, parent read its settings
+  directly) to a self-rendering block, same fix as every other block in this task series —
+  see .claude/CLAUDE.md's "Theme Blocks Must Render Themselves" section.
 
   DEPLOY: save as blocks/bfbella-analysis-row.liquid in the live theme.
 {% endcomment %}
-{% comment %} intentionally no visual output — see comment above {% endcomment %}
+
+<div class="bfbella-analysis__row" {{ block.shopify_attributes }}>
+  <span class="bfbella-analysis__row-left">
+    <span class="bfbella-analysis__row-symbol">{{ block.settings.symbol }}</span>
+    <span class="bfbella-analysis__row-element">{{ block.settings.element }}</span>
+  </span>
+  <span class="bfbella-analysis__row-percentage">{{ block.settings.percentage }}</span>
+</div>
 
 {% schema %}
 {
