@@ -126,12 +126,28 @@
       endif
     -%}
 
-    {%- if section.settings.heading != blank -%}
-      <h1 class="bfbella-learn-articles__heading">{{ section.settings.heading }}</h1>
-    {%- endif -%}
-    {%- if section.settings.intro != blank -%}
-      <p class="bfbella-learn-articles__intro">{{ section.settings.intro }}</p>
-    {%- endif -%}
+    {%- liquid
+      assign content_alignment = section.settings.content_alignment | default: 'center'
+      case content_alignment
+        when 'left'
+          assign content_align_items = 'flex-start'
+        when 'right'
+          assign content_align_items = 'flex-end'
+        else
+          assign content_align_items = 'center'
+      endcase
+    -%}
+    <div class="bfbella-learn-articles__header" style="--bfbella-content-align: {{ content_alignment }}; --bfbella-content-align-items: {{ content_align_items }};">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="bfbella-learn-articles__eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h1 class="bfbella-learn-articles__heading">{{ section.settings.heading }}</h1>
+      {%- endif -%}
+      {%- if section.settings.intro != blank -%}
+        <p class="bfbella-learn-articles__intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
+    </div>
 
     {%- if featured_article != blank -%}
       <a href="{{ featured_article.url }}" class="bfbella-learn-articles__featured">
@@ -185,6 +201,27 @@
     max-width: 80rem;
     margin-inline: auto;
     padding-inline: 1.5rem;
+  }
+
+  .bfbella-learn-articles__header {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--bfbella-content-align-items, center);
+    text-align: var(--bfbella-content-align, center);
+  }
+
+  .bfbella-learn-articles__eyebrow {
+    display: block;
+    width: fit-content;
+    color: var(--bfbella-accent);
+    background-color: color-mix(in srgb, var(--bfbella-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--bfbella-accent) 30%, transparent);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    margin-block-end: 1.5rem;
   }
 
   .bfbella-learn-articles__heading {
@@ -381,6 +418,11 @@
     },
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow badge"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Heading"
     },
@@ -388,6 +430,17 @@
       "type": "textarea",
       "id": "intro",
       "label": "Intro paragraph"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Eyebrow/heading/intro alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "text",
