@@ -3358,6 +3358,48 @@
         "padding_top": 96,
         "padding_bottom": 96
       }
+    },
+    "bfbella_community_UGMTbF": {
+      "type": "bfbella-community",
+      "blocks": {
+        "bfbella_community_card_YpNMrh": {
+          "type": "bfbella-community-card",
+          "settings": {
+            "card_type": "email",
+            "heading": "Join the email list",
+            "description": "Enter your email to receive practical soil tips and early access to new batches.",
+            "button_label": "Get soil tips",
+            "link": "",
+            "link_text": "Request invite"
+          },
+          "blocks": {}
+        },
+        "bfbella_community_card_xeHztT": {
+          "type": "bfbella-community-card",
+          "settings": {
+            "card_type": "email",
+            "heading": "",
+            "description": "",
+            "button_label": "Get soil tips",
+            "link": "",
+            "link_text": "Request invite"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_community_card_YpNMrh",
+        "bfbella_community_card_xeHztT"
+      ],
+      "name": "BFBella — Community",
+      "settings": {
+        "heading": "A Community For Growers Who Care About Soil Health",
+        "subheading": "Flora Bella exists to make expert level soil care simple for everyday gardeners. Join our growing community for seasonal tips, real case studies, and honest conversations about what works.",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
@@ -3374,6 +3416,7 @@
     "bfbella_guaranteed_analysis_RLBrzj",
     "bfbella_education_UpKJDn",
     "bfbella_testimonials_z49VtR",
-    "bfbella_video_showcase_bkh98U"
+    "bfbella_video_showcase_bkh98U",
+    "bfbella_community_UGMTbF"
   ]
 }
