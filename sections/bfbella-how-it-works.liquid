@@ -1,0 +1,407 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 4, redone as custom code) — "How Flora Bella Works With Your Soil"
+  ============================================================================
+  DXB asked to see this same section rebuilt as a genuine custom drop-in .liquid
+  file, for direct comparison against the native "Media with text" ×3 approach
+  in 0003_task4_howto.md — same content, different implementation. Both are
+  valid; this file exists so DXB can compare ease-of-drop-in and final look.
+
+  NOTE: this comment deliberately never spells out the Liquid tag delimiters
+  for the schema or stylesheet blocks below (plain words are used instead) —
+  see the 2026-09-06 lesson in this project's self_improve/LESSONS.md.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-step.liquid   (0003_task4_bfbella-step.liquid)
+  A pure data block — see the comment at the top of that file for why it
+  renders nothing itself; this section draws each step's image + content card
+  directly, alternating the image side automatically by block position.
+
+  ICONS: production uses three lucide icons (Droplets, Sparkles, TrendingUp)
+  that have no equivalent anywhere in this theme's native icon set (confirmed
+  when researching Task 4's native-block version). Since this file is fully
+  custom code, hand-drawn inline SVGs for exactly these three shapes are
+  included below instead of settling for native substitutes — verified by
+  rendering them standalone before writing them in here, same as the
+  `check_circle` icon added to the native theme in Task 1.
+
+  CONTENT: zero real copy hardcoded — every heading, step, and bullet is a
+  blank native Shopify setting/block field until DXB fills it in. See
+  0003_task4_howto.md (the native version's companion doc) for the exact
+  production text; the same content applies here unchanged.
+
+  COLOR: no hardcoded hex. One accent color resolves through
+  `section.settings.accent_color` when set, falling back to the theme's own
+  `color_palette.color3` otherwise — same pattern as Task 5.
+
+  DEPLOY: save as sections/bfbella-how-it-works.liquid in the live theme. DXB
+  applies this — Claude never commits or touches the live repo.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign step_blocks = section.blocks | where: 'type', 'bfbella-step'
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="HowItWorks-{{ section.id }}"
+  class="bfbella-how{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-how__inner page-width">
+
+    {%- comment -%} Intro heading + subheading {%- endcomment -%}
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="bfbella-how__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bfbella-how__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="bfbella-how__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      Each step alternates image side automatically by position (odd = image left, even = image
+      right), matching production's zig-zag — no per-block "side" setting needed.
+    {%- endcomment -%}
+    {%- for block in step_blocks -%}
+      {%- assign is_reversed = false -%}
+      {%- assign step_index_mod = forloop.index0 | modulo: 2 -%}
+      {%- if step_index_mod == 1 -%}
+        {%- assign is_reversed = true -%}
+      {%- endif -%}
+      <div class="bfbella-how__row{% if is_reversed %} bfbella-how__row--reverse{% endif %}" {{ block.shopify_attributes }}>
+
+        <div class="bfbella-how__media">
+          <div class="bfbella-how__media-glow" aria-hidden="true"></div>
+          <div class="bfbella-how__media-frame">
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 1200
+                | image_tag: loading: 'lazy', alt: block.settings.title, class: 'bfbella-how__media-img'
+              }}
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="bfbella-how__content">
+          <div class="bfbella-how__card">
+            {%- if block.settings.icon != 'none' -%}
+              <div class="bfbella-how__icon">
+                {%- case block.settings.icon -%}
+                  {%- when 'droplets' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 3c0 0-6.5 8-6.5 12.5a6.5 6.5 0 0 0 13 0C18.5 11 12 3 12 3z"/>
+                    </svg>
+                  {%- when 'sparkles' -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/>
+                    </svg>
+                  {%- when 'trending_up' -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="3,17 9,11 13,15 21,6"/>
+                      <polyline points="14,6 21,6 21,13"/>
+                    </svg>
+                {%- endcase -%}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <h3 class="bfbella-how__title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <p class="bfbella-how__description">{{ block.settings.description }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.bullets != blank -%}
+              {%- assign bullet_lines = block.settings.bullets | newline_to_br | split: '<br />' -%}
+              <ul class="bfbella-how__bullets">
+                {%- for line in bullet_lines -%}
+                  {%- assign trimmed = line | strip -%}
+                  {%- if trimmed != blank -%}
+                    <li>
+                      <span class="bfbella-how__bullet-star" aria-hidden="true">★</span>
+                      <span>{{ trimmed }}</span>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+        </div>
+
+      </div>
+    {%- endfor -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-how {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 6rem);
+    padding-block-end: var(--bfbella-pad-bottom, 6rem);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    overflow: hidden;
+  }
+
+  .bfbella-how__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-how__intro {
+    text-align: center;
+    max-width: 48rem;
+    margin-inline: auto;
+    margin-block-end: 5rem;
+  }
+
+  .bfbella-how__heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-how__subheading {
+    font-size: 1.15rem;
+    opacity: 0.7;
+  }
+
+  .bfbella-how__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-block-end: 6rem;
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .bfbella-how__row:last-child {
+    margin-block-end: 0;
+  }
+
+  /* Alternate sides on desktop only — mobile always shows media above content */
+  @media screen and (min-width: 990px) {
+    .bfbella-how__row--reverse .bfbella-how__media {
+      order: 2;
+    }
+
+    .bfbella-how__row--reverse .bfbella-how__content {
+      order: 1;
+    }
+  }
+
+  .bfbella-how__media {
+    position: relative;
+  }
+
+  .bfbella-how__media-glow {
+    position: absolute;
+    inset: -1rem;
+    background: linear-gradient(to right, color-mix(in srgb, var(--bfbella-accent) 20%, transparent), color-mix(in srgb, var(--bfbella-accent) 10%, transparent));
+    border-radius: 1.5rem;
+    filter: blur(2rem);
+    z-index: 0;
+    transition: filter 0.4s;
+  }
+
+  .bfbella-how__media:hover .bfbella-how__media-glow {
+    filter: blur(3rem);
+  }
+
+  .bfbella-how__media-frame {
+    position: relative;
+    z-index: 1;
+    aspect-ratio: 4 / 3;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+    background-color: rgb(var(--color-foreground-rgb) / 0.05);
+  }
+
+  .bfbella-how__media-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s;
+  }
+
+  .bfbella-how__media:hover .bfbella-how__media-img {
+    transform: scale(1.1);
+  }
+
+  .bfbella-how__card {
+    background-color: var(--color-background);
+    border-inline-start: 4px solid var(--bfbella-accent);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+  }
+
+  .bfbella-how__icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+    color: var(--bfbella-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-how__icon svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .bfbella-how__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-block-end: 1rem;
+    line-height: 1.15;
+  }
+
+  .bfbella-how__description {
+    font-size: 1.05rem;
+    opacity: 0.75;
+    line-height: 1.6;
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-how__bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .bfbella-how__bullets li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .bfbella-how__bullet-star {
+    color: var(--bfbella-accent);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .bfbella-how__bullets li span:last-child {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-how__media-glow,
+    .bfbella-how__media-img {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — How It Works",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-step"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for icon badges, card borders, and star bullets. Leave blank to use the theme's existing color3 swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — How It Works",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-step" },
+        { "type": "bfbella-step" },
+        { "type": "bfbella-step" }
+      ]
+    }
+  ]
+}
+{% endschema %}
