@@ -3025,9 +3025,9 @@
         "bfbella_mineral_card_DtU4FW": {
           "type": "bfbella-mineral-card",
           "settings": {
-            "symbol": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Zn",
+            "name": "Zinc",
+            "benefit": "Activates enzymes and regulates growth hormones for healthy development."
           },
           "blocks": {}
         },
