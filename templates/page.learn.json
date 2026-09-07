@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "main": {
       "type": "main-page",
@@ -61,7 +60,7 @@
     },
     "bfbella_learn_articles_eqQnQR": {
       "type": "bfbella-learn-articles",
-      "name": "BFBella — Learn Articles",
+      "name": "BFBella \u2014 Learn Articles",
       "settings": {
         "eyebrow": "EDUCATION & INSIGHTS",
         "heading": "Learn About Minerals",
@@ -96,7 +95,8 @@
         "card_heading_color": "",
         "card_text_color": "",
         "padding_top": 64,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "enable_ordering": true
       }
     },
     "shop_cta": {
