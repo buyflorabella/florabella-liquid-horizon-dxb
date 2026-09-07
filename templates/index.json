@@ -160,9 +160,9 @@
                   "type": "button",
                   "name": "t:names.button",
                   "settings": {
-                    "label": "Shop now",
-                    "link": "shopify://collections/all",
-                    "open_in_new_tab": false,
+                    "label": "YIELDBOOST",
+                    "link": "https://cdn.shopify.com/s/files/1/0640/4833/2903/files/FB-YIELDBOOST_Brochure_PROD.pdf?v=1780594891",
+                    "open_in_new_tab": true,
                     "style_class": "button",
                     "custom_button_background": "{{ settings.color_palette.foreground }}",
                     "custom_button_text": "{{ settings.color_palette.background }}",
