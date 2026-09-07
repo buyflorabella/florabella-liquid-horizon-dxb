@@ -3034,9 +3034,9 @@
         "bfbella_mineral_card_XfKiGh": {
           "type": "bfbella-mineral-card",
           "settings": {
-            "symbol": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Cu",
+            "name": "Copper",
+            "benefit": "Supports protein synthesis and strengthens cell walls."
           },
           "blocks": {}
         },
