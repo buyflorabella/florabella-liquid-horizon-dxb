@@ -2969,10 +2969,10 @@
         "bfbella_mineral_ebYTCp": {
           "type": "bfbella-mineral",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Mn",
+            "atomic_number": "25",
+            "name": "Manganese",
+            "benefit": "Helps chelate nutrients so roots can access what already exists in the soil."
           },
           "blocks": {}
         },
