@@ -1,0 +1,85 @@
+{% comment %}
+  BFBella — Video
+
+  Renders one thumbnail button in "See Flora Bella In Action". The parent section's JS reads
+  this button's data attributes both to populate the featured player (on load, from whichever
+  block ends up first) and to swap the featured video on click.
+
+  2026-09-07 — rebuilt from a "pure data block" (rendered nothing, parent read its settings
+  directly and also server-rendered a separate copy of the first block's data as the featured
+  player). Both parts of that design broke in production: a block referenced from an external
+  blocks/*.liquid file cannot be read as data from its parent section (confirmed live via raw
+  HTML on Task 4's identical bug in this same task series — block.type reports as "@theme" at
+  runtime, not its declared name, and .settings reads from outside the block come back blank).
+  Fix: this block renders itself, matching how Shopify's own native sections use theme blocks.
+  The featured player can no longer be a second server-rendered copy of this block's data either
+  (same constraint, no way to render a block twice in two different places) — it's populated by
+  JS instead, reading this button's data attributes. See bfbella-video-showcase.liquid's header
+  comment for the full picture.
+
+  DEPLOY: save as blocks/bfbella-video.liquid in the live theme.
+{% endcomment %}
+
+{%- liquid
+  assign my_index0 = 0
+  for sibling in section.blocks
+    if sibling.id == block.id
+      assign my_index0 = forloop.index0
+      break
+    endif
+  endfor
+
+  assign thumb_url = block.settings.thumbnail | image_url: width: 400
+  if block.settings.thumbnail == blank and block.settings.youtube_id != blank
+    assign thumb_url = 'https://img.youtube.com/vi/' | append: block.settings.youtube_id | append: '/hqdefault.jpg'
+  endif
+-%}
+<button
+  type="button"
+  data-bfbella-thumb
+  data-youtube-id="{{ block.settings.youtube_id }}"
+  data-title="{{ block.settings.title | escape }}"
+  data-platform="{{ block.settings.platform | escape }}"
+  class="bfbella-video-showcase__thumb{% if my_index0 == 0 %} is-active{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  {%- if thumb_url != blank -%}
+    <img src="{{ thumb_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="bfbella-video-showcase__thumb-img">
+  {%- endif -%}
+  <span class="bfbella-video-showcase__thumb-play" aria-hidden="true"></span>
+  <span class="bfbella-video-showcase__thumb-caption">
+    <span class="bfbella-video-showcase__thumb-title">{{ block.settings.title }}</span>
+    <span class="bfbella-video-showcase__thumb-platform">{{ block.settings.platform }}</span>
+  </span>
+</button>
+
+{% schema %}
+{
+  "name": "BFBella — Video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "youtube_id",
+      "label": "YouTube video ID",
+      "info": "The part after \"v=\" or \"youtu.be/\" in the video's URL — e.g. for youtube.com/watch?v=-SFmEtrPzd0 that's -SFmEtrPzd0, not the full URL."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "platform",
+      "label": "Platform label",
+      "default": "YouTube"
+    },
+    {
+      "type": "image_picker",
+      "id": "thumbnail",
+      "label": "Custom thumbnail",
+      "info": "Optional. Leave blank to use YouTube's own auto-generated thumbnail for this video ID — zero setup, works immediately. Set this only if you want a specific custom-cropped image instead."
+    }
+  ]
+}
+{% endschema %}
