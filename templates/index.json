@@ -1336,6 +1336,83 @@
         "padding-block-end": 48
       }
     },
+    "bfbella_why_choose_UgUDn9": {
+      "type": "bfbella-why-choose",
+      "blocks": {
+        "bfbella_benefit_card_TpJKcD": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "image": "shopify://shop_images/Why_Growers_Choose_1_of_6_Compost_pile.jpg",
+            "icon": "leaf",
+            "title": "Compost-Friendly Trace Minerals",
+            "description": "Designed to work alongside compost and living soil systems — helping unlock what your soil is already capable of."
+          },
+          "blocks": {}
+        },
+        "bfbella_benefit_card_ykfErY": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "none",
+            "title": "",
+            "description": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_benefit_card_GM6kDj": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "none",
+            "title": "",
+            "description": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_benefit_card_4UbBEG": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "none",
+            "title": "",
+            "description": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_benefit_card_jJcAfX": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "none",
+            "title": "",
+            "description": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_benefit_card_iCHcFt": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "none",
+            "title": "",
+            "description": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_benefit_card_TpJKcD",
+        "bfbella_benefit_card_ykfErY",
+        "bfbella_benefit_card_GM6kDj",
+        "bfbella_benefit_card_4UbBEG",
+        "bfbella_benefit_card_jJcAfX",
+        "bfbella_benefit_card_iCHcFt"
+      ],
+      "name": "BFBella — Why Choose",
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 128,
+        "padding_bottom": 128
+      }
+    },
     "section_tCcnFD": {
       "type": "section",
       "blocks": {
@@ -2461,6 +2538,7 @@
         "group_cq4Thn",
         "group_GemN48"
       ],
+      "disabled": true,
       "name": "t:names.custom_section",
       "settings": {
         "content_direction": "column",
@@ -2844,6 +2922,7 @@
     "bfb_hero_aw9WhN",
     "product_list_fa6P9H",
     "section_bCGbfp",
+    "bfbella_why_choose_UgUDn9",
     "section_tCcnFD",
     "section_RCLh4P",
     "section_wfxcAM",
