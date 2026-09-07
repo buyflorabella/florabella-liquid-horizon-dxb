@@ -216,11 +216,33 @@
         "padding-block-start": 0,
         "padding-block-end": 64
       }
+    },
+    "articles": {
+      "type": "bfbella-learn-articles",
+      "settings": {
+        "heading": "",
+        "intro": "",
+        "all_label": "All",
+        "featured_tag": "featured",
+        "category_1_blog": "",
+        "category_1_label": "Soil Science",
+        "category_2_blog": "",
+        "category_2_label": "Soil Education",
+        "category_3_blog": "",
+        "category_3_label": "Sustainability",
+        "category_4_blog": "",
+        "category_4_label": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 48,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
     "main",
     "intro",
+    "articles",
     "guides"
   ]
 }

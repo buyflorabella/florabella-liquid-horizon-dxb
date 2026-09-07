@@ -1,0 +1,514 @@
+{% comment %}
+  ============================================================================
+  Learn Page — combined, filterable Article feed (task 0007, round 2)
+  ============================================================================
+  Production (LearnPage.tsx) shows one flat, client-side-filterable article grid with category
+  buttons (All / Soil Education / Sustainability / ...) plus a single always-visible featured
+  article above it. DXB's articles live across SEPARATE Shopify Blogs by category (Soil
+  Science / Soil Education / Sustainability, confirmed via Admin's blog-posts list), not tags
+  within one blog — so this section merges up to 4 blogs into one feed with a real client-side
+  filter, matching production's exact UX rather than falling back to stacked single-blog
+  sections.
+
+  WHY FIXED CATEGORY SETTINGS, NOT A BLOCK REPEATER: a block-repeater (one block per category,
+  each with its own blog picker) looks like the natural fit, but this project already hit a hard
+  wall on this exact pattern — see .claude/CLAUDE.md's "Theme Blocks Must Render Themselves":
+  external blocks/*.liquid files can't have their settings read from outside their own render
+  (block.type reports as the literal string "@theme" at runtime, block.settings.* from the
+  parent's context comes back blank). Merging multiple blogs' articles into one combined,
+  filterable list requires this section to read each category's blog picker directly at render
+  time — impossible with real theme blocks. Fixed section-level settings
+  (category_1_blog/category_1_label ... category_4_blog/category_4_label) are the only
+  architecturally valid way to do this. 4 slots covers the 3 known categories with one spare;
+  any slot left with no blog picked is skipped entirely, no error.
+
+  FEATURED ARTICLE: Shopify Articles have no native "featured" boolean. Uses a tag instead
+  (default tag name "featured", configurable) — DXB adds that tag to one article in Admin to
+  promote it; if no article across the configured blogs carries the tag, the very first article
+  found is used instead so the section never renders with an empty featured slot. The featured
+  article always shows regardless of which category filter is active, matching production (only
+  the grid below responds to the filter buttons).
+
+  READ TIME: not a native Article field either. Estimated from word count
+  (`content | strip_html | split: ' ' | size`, ~200 words/minute, floored at 1) — an approximation,
+  not pulled from any real per-article field, since none exists to pull from.
+
+  FILTER INTERACTION: vanilla JS, no dependencies — toggles a `hidden` attribute on cards whose
+  `data-category` doesn't match the clicked filter button (`data-filter="all"` shows everything).
+  Progressive enhancement: with JS disabled, every card stays visible (default, no `hidden`
+  attribute set server-side), so nothing breaks, it just isn't filterable.
+
+  COLOR: no hardcoded hex. Accent resolves through `section.settings.accent_color`, falling back
+  to `color_palette.color3`. Section background falls back to `color_palette.color11` (light,
+  matching production's light page background) via `section.settings.background_color`.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.color11
+  assign featured_tag = section.settings.featured_tag | default: 'featured'
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="LearnArticles-{{ section.id }}"
+  class="bfbella-learn-articles{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-learn-articles__inner page-width">
+    {%- liquid
+      assign featured_article = blank
+      assign filter_buttons = ''
+      assign cards_html = ''
+      assign category_count = 0
+
+      for i in (1..4)
+        case i
+          when 1
+            assign cat_blog = section.settings.category_1_blog
+            assign cat_label = section.settings.category_1_label
+          when 2
+            assign cat_blog = section.settings.category_2_blog
+            assign cat_label = section.settings.category_2_label
+          when 3
+            assign cat_blog = section.settings.category_3_blog
+            assign cat_label = section.settings.category_3_label
+          when 4
+            assign cat_blog = section.settings.category_4_blog
+            assign cat_label = section.settings.category_4_label
+        endcase
+
+        if cat_blog != blank and cat_label != blank
+          assign category_count = category_count | plus: 1
+          assign cat_key = cat_label | handleize
+          assign filter_buttons = filter_buttons | append: '<button type="button" class="bfbella-learn-articles__filter" data-filter="' | append: cat_key | append: '">' | append: cat_label | append: '</button>'
+
+          for article in cat_blog.articles
+            if featured_article == blank and article.tags contains featured_tag
+              assign featured_article = article
+              assign featured_category = cat_label
+            endif
+
+            assign word_count = article.content | strip_html | split: ' ' | size
+            assign read_minutes = word_count | divided_by: 200
+            assign read_minutes = read_minutes | at_least: 1
+            assign excerpt = article.excerpt | default: article.content | strip_html | truncatewords: 22
+
+            capture card
+              render 'bfbella-learn-article-card', article: article, category_label: cat_label, category_key: cat_key, read_minutes: read_minutes, excerpt: excerpt
+            endcapture
+            assign cards_html = cards_html | append: card
+
+            if featured_article == blank and forloop.index == 1 and i == 1
+              assign fallback_article = article
+              assign fallback_category = cat_label
+            endif
+          endfor
+        endif
+      endfor
+
+      if featured_article == blank
+        assign featured_article = fallback_article
+        assign featured_category = fallback_category
+      endif
+    -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h1 class="bfbella-learn-articles__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}
+      <p class="bfbella-learn-articles__intro">{{ section.settings.intro }}</p>
+    {%- endif -%}
+
+    {%- if featured_article != blank -%}
+      <a href="{{ featured_article.url }}" class="bfbella-learn-articles__featured">
+        {%- if featured_article.image -%}
+          <div class="bfbella-learn-articles__featured-media">
+            <img
+              src="{{ featured_article.image | image_url: width: 900 }}"
+              alt="{{ featured_article.image.alt | escape }}"
+              loading="lazy"
+              width="900"
+              height="{{ 900 | divided_by: featured_article.image.aspect_ratio }}"
+            >
+            <span class="bfbella-learn-articles__featured-badge">Featured Article</span>
+          </div>
+        {%- endif -%}
+        <div class="bfbella-learn-articles__featured-content">
+          <div class="bfbella-learn-articles__featured-meta">
+            <span class="bfbella-learn-articles__category">{{ featured_category }}</span>
+          </div>
+          <h2 class="bfbella-learn-articles__featured-title">{{ featured_article.title }}</h2>
+          {%- assign featured_excerpt = featured_article.excerpt | default: featured_article.content | strip_html | truncatewords: 30 -%}
+          <p class="bfbella-learn-articles__featured-excerpt">{{ featured_excerpt }}</p>
+          <span class="bfbella-learn-articles__featured-author">By {{ featured_article.author }}</span>
+        </div>
+      </a>
+    {%- endif -%}
+
+    {%- if category_count > 0 -%}
+      <div class="bfbella-learn-articles__filters">
+        <button type="button" class="bfbella-learn-articles__filter is-active" data-filter="all">{{ section.settings.all_label | default: 'All' }}</button>
+        {{ filter_buttons }}
+      </div>
+
+      <div class="bfbella-learn-articles__grid">
+        {{ cards_html }}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-learn-articles {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 3rem);
+    padding-block-end: var(--bfbella-pad-bottom, 5rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-learn-articles__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-learn-articles__heading {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-learn-articles__intro {
+    font-size: 1.1rem;
+    opacity: 0.75;
+    max-width: 40rem;
+    margin-block-end: 2.5rem;
+  }
+
+  .bfbella-learn-articles__featured {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--color-background);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    margin-block-end: 3rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+    transition: box-shadow 0.3s, border-color 0.3s;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .bfbella-learn-articles__featured:hover {
+    border-color: var(--bfbella-accent);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  }
+
+  .bfbella-learn-articles__featured-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+
+    @media screen and (min-width: 750px) {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+  }
+
+  .bfbella-learn-articles__featured-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s;
+  }
+
+  .bfbella-learn-articles__featured:hover .bfbella-learn-articles__featured-media img {
+    transform: scale(1.06);
+  }
+
+  .bfbella-learn-articles__featured-badge {
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    background-color: var(--bfbella-accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+  }
+
+  .bfbella-learn-articles__featured-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @media screen and (min-width: 750px) {
+      padding: 3rem;
+    }
+  }
+
+  .bfbella-learn-articles__category {
+    color: var(--bfbella-accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .bfbella-learn-articles__featured-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-block: 0.75rem;
+  }
+
+  .bfbella-learn-articles__featured-excerpt {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-learn-articles__featured-author {
+    font-size: 0.9rem;
+    opacity: 0.6;
+  }
+
+  .bfbella-learn-articles__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-block-end: 2.5rem;
+  }
+
+  .bfbella-learn-articles__filter {
+    appearance: none;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    padding: 0.6rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, color 0.2s;
+  }
+
+  .bfbella-learn-articles__filter:hover {
+    transform: scale(1.05);
+  }
+
+  .bfbella-learn-articles__filter.is-active {
+    background-color: var(--bfbella-accent);
+    border-color: var(--bfbella-accent);
+    color: #fff;
+  }
+
+  .bfbella-learn-articles__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bfbella-learn-articles__grid[hidden] {
+    display: none;
+  }
+{% endstylesheet %}
+
+<script>
+  (function () {
+    var root = document.getElementById('LearnArticles-{{ section.id }}');
+    if (!root) return;
+    var filters = root.querySelectorAll('.bfbella-learn-articles__filter');
+    var cards = root.querySelectorAll('.bfbella-learn-article-card');
+    filters.forEach(function (button) {
+      button.addEventListener('click', function () {
+        filters.forEach(function (b) { b.classList.remove('is-active'); });
+        button.classList.add('is-active');
+        var filter = button.getAttribute('data-filter');
+        cards.forEach(function (card) {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.hidden = false;
+          } else {
+            card.hidden = true;
+          }
+        });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "BFBella — Learn Articles",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro paragraph"
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "label": "\"All\" filter button label",
+      "default": "All"
+    },
+    {
+      "type": "text",
+      "id": "featured_tag",
+      "label": "Featured article tag",
+      "default": "featured",
+      "info": "Add this tag to one article (any of the blogs below) in Shopify Admin to promote it to the featured slot at the top. If no article has this tag, the first article found is used instead."
+    },
+    {
+      "type": "header",
+      "content": "Category 1"
+    },
+    {
+      "type": "blog",
+      "id": "category_1_blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "category_1_label",
+      "label": "Category label",
+      "default": "Soil Science"
+    },
+    {
+      "type": "header",
+      "content": "Category 2"
+    },
+    {
+      "type": "blog",
+      "id": "category_2_blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "category_2_label",
+      "label": "Category label",
+      "default": "Soil Education"
+    },
+    {
+      "type": "header",
+      "content": "Category 3"
+    },
+    {
+      "type": "blog",
+      "id": "category_3_blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "category_3_label",
+      "label": "Category label",
+      "default": "Sustainability"
+    },
+    {
+      "type": "header",
+      "content": "Category 4 (optional)"
+    },
+    {
+      "type": "blog",
+      "id": "category_4_blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "category_4_label",
+      "label": "Category label"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's existing color11 (light) swatch."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Learn Articles",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
