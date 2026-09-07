@@ -50,6 +50,7 @@
         "heading",
         "page-content"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "gap": 32,
@@ -60,7 +61,17 @@
     },
     "story": {
       "type": "bfbella-about-story",
-      "settings": {}
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "intro": "",
+        "mission_heading": "",
+        "mission_paragraphs": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 96,
+        "padding_bottom": 80
+      }
     },
     "cta": {
       "type": "bfbella-about-cta",
