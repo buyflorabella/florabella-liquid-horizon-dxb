@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -13,10 +22,12 @@
             "alignment": "left",
             "type_preset": "h2",
             "font": "var(--font-body--family)",
+            "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
+            "text_color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -29,7 +40,9 @@
         },
         "page-content": {
           "type": "page-content",
-          "settings": {},
+          "settings": {
+            "text_color": ""
+          },
           "blocks": {}
         }
       },
@@ -59,7 +72,7 @@
         "stat3_number": "95%",
         "stat3_label": "Satisfaction Rate",
         "accent_color": "",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color11 }}",
         "padding_top": 96,
         "padding_bottom": 48
       }
@@ -74,7 +87,8 @@
             "label": "Instagram",
             "handle": "@buyflorabella",
             "url": "https://instagram.com/buyflorabella/"
-          }
+          },
+          "blocks": {}
         },
         "social-2": {
           "type": "bfbella-social-card",
@@ -83,7 +97,8 @@
             "label": "Facebook",
             "handle": "Follow us",
             "url": "https://www.facebook.com/profile.php?id=61586134112080"
-          }
+          },
+          "blocks": {}
         },
         "social-3": {
           "type": "bfbella-social-card",
@@ -92,7 +107,8 @@
             "label": "YouTube",
             "handle": "@BuyFloraBella",
             "url": "https://www.youtube.com/@BuyFloraBella"
-          }
+          },
+          "blocks": {}
         },
         "social-4": {
           "type": "bfbella-social-card",
@@ -101,15 +117,21 @@
             "label": "LinkedIn",
             "handle": "Connect with us",
             "url": "https://www.linkedin.com/in/randall-everett-33ab233a4/"
-          }
+          },
+          "blocks": {}
         }
       },
-      "block_order": ["social-1", "social-2", "social-3", "social-4"],
+      "block_order": [
+        "social-1",
+        "social-2",
+        "social-3",
+        "social-4"
+      ],
       "settings": {
         "heading": "",
         "subheading": "",
         "accent_color": "",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color11 }}",
         "padding_top": 48,
         "padding_bottom": 96
       }
@@ -124,7 +146,7 @@
         "button2_label": "Join the Community",
         "button2_link": "",
         "accent_color": "",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color11 }}",
         "card_background_color": "",
         "padding_top": 80,
         "padding_bottom": 80
