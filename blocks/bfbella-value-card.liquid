@@ -65,6 +65,15 @@
   .bfbella-value-card {
     text-align: center;
     padding: 2rem 1.5rem;
+    background-color: var(--color-background);
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .bfbella-value-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.12);
   }
 
   .bfbella-value-card__icon {
@@ -94,6 +103,12 @@
     font-size: 0.95rem;
     line-height: 1.6;
     opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-value-card {
+      transition: none;
+    }
   }
 {% endstylesheet %}
 

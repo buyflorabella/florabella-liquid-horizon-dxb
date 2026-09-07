@@ -129,6 +129,52 @@
         "padding_bottom": 96
       }
     },
+    "sourcing": {
+      "type": "bfbella-about-sourcing",
+      "blocks": {
+        "sourcing-1": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "sprout",
+            "title": "Pristine Sources",
+            "description": "Ancient sea beds and volcanic deposits, formed millions of years before modern pollution."
+          }
+        },
+        "sourcing-2": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "beaker",
+            "title": "Rigorous Testing",
+            "description": "Third-party tested for heavy metals, contaminants, and potency at every stage."
+          }
+        },
+        "sourcing-3": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "shield",
+            "title": "Bioavailable Forms",
+            "description": "Premium mineral forms engineered for maximum absorption and effectiveness."
+          }
+        },
+        "sourcing-4": {
+          "type": "bfbella-benefit-card",
+          "settings": {
+            "icon": "tree_pine",
+            "title": "Sustainable Practices",
+            "description": "Eco-friendly sourcing and packaging that protects the environments we depend on."
+          }
+        }
+      },
+      "block_order": ["sourcing-1", "sourcing-2", "sourcing-3", "sourcing-4"],
+      "settings": {
+        "heading": "Our Sourcing & Quality Standards",
+        "subheading": "Every step, from source to supplement, meets the highest standards",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
+    },
     "cta": {
       "type": "bfbella-about-cta",
       "settings": {
@@ -149,6 +195,7 @@
     "main",
     "story",
     "values",
+    "sourcing",
     "cta"
   ]
 }
