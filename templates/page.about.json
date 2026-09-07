@@ -69,7 +69,7 @@
         "mission_paragraphs": "At Flora Bella, we believe that everyone deserves access to pure, bioavailable minerals that support optimal health and vitality. Our mission is to bridge the gap between modern nutritional needs and the mineral-depleted foods of today's agricultural system.\nWe are dedicated to sourcing the finest quality minerals from pristine ancient sea beds and volcanic deposits, ensuring that each product delivers the full spectrum of trace minerals your body needs to thrive.\nThrough rigorous testing, transparent sourcing, and a commitment to education, we empower individuals to take control of their mineral nutrition and experience the transformative benefits of proper supplementation.",
         "mission_image": "shopify://shop_images/5lb_bag_brick.jpg",
         "accent_color": "",
-        "background_color": "{{ settings.color_palette.color2 }}",
+        "background_color": "{{ settings.color_palette.color11 }}",
         "padding_top": 96,
         "padding_bottom": 80
       }
@@ -124,7 +124,7 @@
         "heading": "",
         "subheading": "",
         "accent_color": "",
-        "background_color": "{{ settings.color_palette.color2 }}",
+        "background_color": "{{ settings.color_palette.color11 }}",
         "padding_top": 64,
         "padding_bottom": 96
       }
@@ -138,7 +138,8 @@
             "icon": "sprout",
             "title": "Pristine Sources",
             "description": "Ancient sea beds and volcanic deposits, formed millions of years before modern pollution."
-          }
+          },
+          "blocks": {}
         },
         "sourcing-2": {
           "type": "bfbella-benefit-card",
@@ -146,7 +147,8 @@
             "icon": "beaker",
             "title": "Rigorous Testing",
             "description": "Third-party tested for heavy metals, contaminants, and potency at every stage."
-          }
+          },
+          "blocks": {}
         },
         "sourcing-3": {
           "type": "bfbella-benefit-card",
@@ -154,7 +156,8 @@
             "icon": "shield",
             "title": "Bioavailable Forms",
             "description": "Premium mineral forms engineered for maximum absorption and effectiveness."
-          }
+          },
+          "blocks": {}
         },
         "sourcing-4": {
           "type": "bfbella-benefit-card",
@@ -162,10 +165,16 @@
             "icon": "tree_pine",
             "title": "Sustainable Practices",
             "description": "Eco-friendly sourcing and packaging that protects the environments we depend on."
-          }
+          },
+          "blocks": {}
         }
       },
-      "block_order": ["sourcing-1", "sourcing-2", "sourcing-3", "sourcing-4"],
+      "block_order": [
+        "sourcing-1",
+        "sourcing-2",
+        "sourcing-3",
+        "sourcing-4"
+      ],
       "settings": {
         "heading": "Our Sourcing & Quality Standards",
         "subheading": "Every step, from source to supplement, meets the highest standards",
@@ -185,7 +194,7 @@
         "button2_label": "Contact Us",
         "button2_link": "shopify://pages/contact",
         "accent_color": "",
-        "background_color": "{{ settings.color_palette.color2 }}",
+        "background_color": "{{ settings.color_palette.color11 }}",
         "padding_top": 80,
         "padding_bottom": 80
       }
