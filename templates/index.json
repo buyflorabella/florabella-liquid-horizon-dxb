@@ -981,7 +981,7 @@
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": true,
-                "overlay_color": "#D4FF004F",
+                "overlay_color": "#d4ff004f",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
                 "border": "none",
@@ -1104,7 +1104,7 @@
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
-                "background_color": "#6B5F80",
+                "background_color": "#6b5f80",
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": true,
@@ -1231,11 +1231,11 @@
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
-                "background_color": "#6B5F80",
+                "background_color": "#6b5f80",
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": true,
-                "overlay_color": "#90FFD94F",
+                "overlay_color": "#90ffd94f",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
                 "border": "none",
@@ -1259,7 +1259,7 @@
                     "width": 32,
                     "link": "",
                     "open_in_new_tab": false,
-                    "icon_color": "#90FFD9"
+                    "icon_color": "#90ffd9"
                   },
                   "blocks": {}
                 }
@@ -2475,7 +2475,7 @@
         "section_height": "small",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "#0A0A0A",
+        "background_color": "#0a0a0a",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -2578,6 +2578,7 @@
         "text_CjPQDh",
         "text_mWwr9T"
       ],
+      "disabled": true,
       "custom_css": [],
       "name": "t:names.custom_section",
       "settings": {
@@ -2755,6 +2756,7 @@
         "image_aP4dFU",
         "group_xnphnn"
       ],
+      "disabled": true,
       "name": "t:names.image_with_text",
       "settings": {
         "content_direction": "row",
@@ -2784,6 +2786,56 @@
         "padding-block-start": 40,
         "padding-block-end": 40
       }
+    },
+    "bfbella_how_it_works_tbBUGq": {
+      "type": "bfbella-how-it-works",
+      "blocks": {
+        "bfbella_step_FKXhPH": {
+          "type": "bfbella-step",
+          "settings": {
+            "image": "shopify://shop_images/Why_Growers_Choose_5_of_6_lighted_roots.jpg",
+            "icon": "droplets",
+            "title": "Beneficial Microbes",
+            "description": "Naturally occurring beneficial bacteria:",
+            "bullets": "Convert nutrients into forms plants can absorb\n  Support root development through natural growth signaling\n  Compete with harmful organisms in the root zone\n  Improve tolerance to environmental stress (drought, heat, poor soil condition)"
+          },
+          "blocks": {}
+        },
+        "bfbella_step_UUwhgK": {
+          "type": "bfbella-step",
+          "settings": {
+            "icon": "none",
+            "title": "",
+            "description": "",
+            "bullets": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_step_nQzXxa": {
+          "type": "bfbella-step",
+          "settings": {
+            "icon": "none",
+            "title": "",
+            "description": "",
+            "bullets": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_step_FKXhPH",
+        "bfbella_step_UUwhgK",
+        "bfbella_step_nQzXxa"
+      ],
+      "name": "BFBella — How It Works",
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
@@ -2792,6 +2844,7 @@
     "section_bCGbfp",
     "section_tCcnFD",
     "section_RCLh4P",
-    "section_wfxcAM"
+    "section_wfxcAM",
+    "bfbella_how_it_works_tbBUGq"
   ]
 }
