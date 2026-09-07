@@ -135,6 +135,7 @@
         "sourcing-1": {
           "type": "bfbella-benefit-card",
           "settings": {
+            "image": "shopify://shop_images/Pristine_Sources_Thumbnail.jpg",
             "icon": "sprout",
             "title": "Pristine Sources",
             "description": "Ancient sea beds and volcanic deposits, formed millions of years before modern pollution."
@@ -144,6 +145,7 @@
         "sourcing-2": {
           "type": "bfbella-benefit-card",
           "settings": {
+            "image": "shopify://shop_images/about_page_benefits_image2.png",
             "icon": "beaker",
             "title": "Rigorous Testing",
             "description": "Third-party tested for heavy metals, contaminants, and potency at every stage."
@@ -153,6 +155,7 @@
         "sourcing-3": {
           "type": "bfbella-benefit-card",
           "settings": {
+            "image": "shopify://shop_images/Bioavailable_forms.jpg",
             "icon": "shield",
             "title": "Bioavailable Forms",
             "description": "Premium mineral forms engineered for maximum absorption and effectiveness."
@@ -162,6 +165,7 @@
         "sourcing-4": {
           "type": "bfbella-benefit-card",
           "settings": {
+            "image": "shopify://shop_images/about_page_benefits_image4.png",
             "icon": "tree_pine",
             "title": "Sustainable Practices",
             "description": "Eco-friendly sourcing and packaging that protects the environments we depend on."
