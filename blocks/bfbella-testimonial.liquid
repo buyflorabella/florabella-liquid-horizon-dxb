@@ -1,0 +1,192 @@
+{% comment %}
+  BFBella — Testimonial
+
+  Renders one review card in "Gardeners Are Seeing Real Change": decorative quote mark, a star
+  rating, the quote itself, then an initials avatar + name + location.
+
+  Built as a self-rendering theme block from the start — see .claude/CLAUDE.md's "Theme Blocks
+  Must Render Themselves" section (a block referenced from an external blocks/*.liquid file
+  can't be read as data from its parent section; confirmed live on Task 4's original bug in
+  this task series).
+
+  AVATAR INITIALS are derived automatically from the Name field (first letter of up to the
+  first two words, uppercased) rather than a separate field DXB has to keep in sync by hand —
+  one less place for drift between "Michael M." and an independently-typed "MM".
+
+  DEPLOY: save as blocks/bfbella-testimonial.liquid in the live theme.
+{% endcomment %}
+
+{%- liquid
+  assign name_parts = block.settings.name | split: ' '
+  assign initials = ''
+  for part in name_parts
+    assign first_char = part | truncate: 1, ''
+    assign initials = initials | append: first_char
+    if forloop.index == 2
+      break
+    endif
+  endfor
+  assign initials = initials | upcase
+-%}
+<div class="bfbella-testimonial" {{ block.shopify_attributes }}>
+  <div class="bfbella-testimonial__quote-mark" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9.5 8c-2.5 0-4.5 2-4.5 4.5v6.5h6.5v-6.5h-3c0-1.4 1.1-2.5 2.5-2.5v-2zm10 0c-2.5 0-4.5 2-4.5 4.5v6.5h6.5v-6.5h-3c0-1.4 1.1-2.5 2.5-2.5v-2z"/>
+    </svg>
+  </div>
+
+  {%- if block.settings.rating != blank -%}
+    <div class="bfbella-testimonial__stars" aria-hidden="true">
+      {%- for i in (1..block.settings.rating) -%}
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2l2.9 6.5 7.1.7-5.4 4.7 1.6 7-6.2-3.8-6.2 3.8 1.6-7-5.4-4.7 7.1-.7z"/>
+        </svg>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.quote != blank -%}
+    <p class="bfbella-testimonial__quote">&ldquo;{{ block.settings.quote }}&rdquo;</p>
+  {%- endif -%}
+
+  <div class="bfbella-testimonial__footer">
+    {%- if initials != blank -%}
+      <div class="bfbella-testimonial__avatar" aria-hidden="true">{{ initials }}</div>
+    {%- endif -%}
+    <div class="bfbella-testimonial__who">
+      {%- if block.settings.name != blank -%}
+        <p class="bfbella-testimonial__name">{{ block.settings.name }}</p>
+      {%- endif -%}
+      {%- if block.settings.location != blank -%}
+        <p class="bfbella-testimonial__location">{{ block.settings.location }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-testimonial {
+    position: relative;
+    background: linear-gradient(to bottom right, color-mix(in srgb, var(--bfbella-accent-2) 12%, black), black);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    height: 100%;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .bfbella-testimonial:hover {
+    border-color: rgb(255 255 255 / 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 25px 50px -12px color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+  }
+
+  .bfbella-testimonial__quote-mark {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    color: color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+  }
+
+  .bfbella-testimonial__stars {
+    display: flex;
+    gap: 0.25rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-testimonial__stars svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--bfbella-accent);
+  }
+
+  .bfbella-testimonial__quote {
+    position: relative;
+    z-index: 1;
+    color: rgb(255 255 255 / 0.9);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-block-end: 2rem;
+  }
+
+  .bfbella-testimonial__footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block-start: 1.5rem;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  .bfbella-testimonial__avatar {
+    flex-shrink: 0;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--bfbella-accent), var(--bfbella-accent-2));
+    color: #000;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+  }
+
+  .bfbella-testimonial:hover .bfbella-testimonial__avatar {
+    transform: scale(1.1) rotate(12deg);
+  }
+
+  .bfbella-testimonial__name {
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+
+  .bfbella-testimonial__location {
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 0.5);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-testimonial,
+    .bfbella-testimonial__avatar {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Testimonial",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote"
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Star rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "info": "e.g. \"Michael M.\" — also used to auto-generate the avatar initials (first letter of up to the first two words)."
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Location",
+      "info": "e.g. \"Tampa FL\""
+    }
+  ]
+}
+{% endschema %}
