@@ -1,0 +1,212 @@
+{% comment %}
+  ============================================================================
+  task 0004 (Task 1) — About Page, Section 2: "Value props" (4 cards, no images)
+  ============================================================================
+  Plain 4-column grid of icon + title + description cards, no photos. Content from
+  AboutPage.tsx in the Hydrogen reference. Production shows no heading above this grid in
+  the source file — heading/subheading settings below are optional and blank by default;
+  leave them blank to match production, or fill them in if DXB wants a label here.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-value-card.liquid   (0004_task1_bfbella-value-card.liquid)
+  Each card block renders itself entirely — this section only does `{% content_for 'blocks' %}`
+  — the corrected theme-blocks architecture from the start (see .claude/CLAUDE.md's "Theme
+  Blocks Must Render Themselves" and _HANDOFF.md from task 0003 for the full history of why).
+
+  ICONS: production uses four lucide icons (Leaf, Award, Heart, Users). Leaf and Users already
+  have hand-drawn SVG equivalents from this project's Task 3/9 blocks (reused verbatim in
+  blocks/bfbella-value-card.liquid, not redrawn). Award and Heart are new this task — hand-drawn
+  to match lucide's published icon shapes, but NOT rendered standalone in a browser to
+  visually verify before writing them in (no browser/preview access this session, unlike the
+  verification this project's icons normally get before shipping) — worth a quick visual check
+  once deployed, flagged here rather than silently assumed correct.
+
+  CONTENT: zero real copy hardcoded — heading, subheading, and every card field are blank
+  native settings/block fields until DXB fills them in. See 0004_task1_howto.md for the exact
+  production text.
+
+  COLOR: no hardcoded hex. Accent (icon badges) resolves through `section.settings.accent_color`,
+  falling back to the theme's own `color_palette.color3`. Background resolves through
+  `section.settings.background_color`, falling back to `settings.color_palette.background`
+  (light section, matching the Story+Mission section above it on this page).
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — a deliberate exception
+  to this project's normal task-folder-only rule, for this trial only. Claude still did not
+  commit or push this — DXB reviews, then commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="AboutValues-{{ section.id }}"
+  class="bfbella-about-values{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-about-values__inner page-width">
+
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="bfbella-about-values__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bfbella-about-values__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="bfbella-about-values__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="bfbella-about-values__grid">
+        {% content_for 'blocks' %}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-about-values {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 4rem);
+    padding-block-end: var(--bfbella-pad-bottom, 6rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-about-values__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-about-values__intro {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    margin-block-end: 3.5rem;
+  }
+
+  .bfbella-about-values__heading {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-about-values__subheading {
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+
+  .bfbella-about-values__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — About Values",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-value-card"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Optional — production shows no heading above this grid. Leave blank to match, or fill in if you want one."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the icon badges. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's base light background."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — About Values",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-value-card" },
+        { "type": "bfbella-value-card" },
+        { "type": "bfbella-value-card" },
+        { "type": "bfbella-value-card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

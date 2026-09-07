@@ -62,15 +62,61 @@
     "story": {
       "type": "bfbella-about-story",
       "settings": {
-        "eyebrow": "",
-        "heading": "",
-        "intro": "",
-        "mission_heading": "",
-        "mission_paragraphs": "",
+        "eyebrow": "ABOUT US",
+        "heading": "Our Story",
+        "intro": "Founded on the belief that optimal SOIL begins with proper mineral nutrition, Flora Bella is committed to providing the highest quality trace minerals to support your wellness journey.",
+        "mission_heading": "Our Mission",
+        "mission_paragraphs": "At Flora Bella, we believe that everyone deserves access to pure, bioavailable minerals that support optimal health and vitality. Our mission is to bridge the gap between modern nutritional needs and the mineral-depleted foods of today's agricultural system.\nWe are dedicated to sourcing the finest quality minerals from pristine ancient sea beds and volcanic deposits, ensuring that each product delivers the full spectrum of trace minerals your body needs to thrive.\nThrough rigorous testing, transparent sourcing, and a commitment to education, we empower individuals to take control of their mineral nutrition and experience the transformative benefits of proper supplementation.",
         "accent_color": "",
         "background_color": "",
         "padding_top": 96,
         "padding_bottom": 80
+      }
+    },
+    "values": {
+      "type": "bfbella-about-values",
+      "blocks": {
+        "value-1": {
+          "type": "bfbella-value-card",
+          "settings": {
+            "icon": "leaf",
+            "title": "Pure Sourcing",
+            "description": "Minerals sourced from pristine ancient sea beds and volcanic deposits, free from modern pollutants."
+          }
+        },
+        "value-2": {
+          "type": "bfbella-value-card",
+          "settings": {
+            "icon": "award",
+            "title": "Quality Tested",
+            "description": "Every batch is third-party tested for purity, potency, and safety to ensure premium quality."
+          }
+        },
+        "value-3": {
+          "type": "bfbella-value-card",
+          "settings": {
+            "icon": "heart",
+            "title": "Science-Backed",
+            "description": "Formulations based on cutting-edge research and clinical studies in mineral nutrition."
+          }
+        },
+        "value-4": {
+          "type": "bfbella-value-card",
+          "settings": {
+            "icon": "users",
+            "title": "Community First",
+            "description": "Supporting a vibrant community of health-conscious individuals on their wellness journey."
+          }
+        }
+      },
+      "block_order": ["value-1", "value-2", "value-3", "value-4"],
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 64,
+        "padding_bottom": 96
       }
     },
     "cta": {
@@ -92,6 +138,7 @@
   "order": [
     "main",
     "story",
+    "values",
     "cta"
   ]
 }

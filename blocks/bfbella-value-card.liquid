@@ -1,0 +1,130 @@
+{% comment %}
+  BFBella — Value Card
+
+  Renders one card in the About page's "Value props" grid: a centered icon badge, title, and
+  description. No image — this is a plain content card, unlike blocks/bfbella-benefit-card.liquid
+  or blocks/bfbella-sourcing-card.liquid which are photo-backed.
+
+  Built as a genuine theme block from the start (renders itself entirely; the parent section
+  bfbella-about-values.liquid only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's
+  "Theme Blocks Must Render Themselves" section for why a block can't be read as data from its
+  parent. The accent color for the icon badge comes from the section via the
+  `--bfbella-accent` CSS custom property (Liquid variables can't cross into a block's own
+  render, but CSS inheritance through content_for 'blocks' output does).
+
+  ICONS: Leaf and Users are reused verbatim from blocks/bfbella-benefit-card.liquid (same lucide
+  shapes, already verified in this task series). Award and Heart are new this task — hand-drawn
+  to match lucide's published icon shapes but not rendered standalone to visually confirm before
+  writing them in, since this session has no browser/preview access. Worth a quick visual check
+  once deployed.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — a deliberate exception
+  to this project's normal task-folder-only rule, for this trial only. Claude still did not
+  commit or push this — DXB reviews, then commits and pushes by hand.
+{% endcomment %}
+
+<div class="bfbella-value-card" {{ block.shopify_attributes }}>
+  {%- if block.settings.icon != 'none' -%}
+    <div class="bfbella-value-card__icon">
+      {%- case block.settings.icon -%}
+        {%- when 'leaf' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+        {%- when 'award' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        {%- when 'heart' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3.35.96-4.5 2.5C10.85 3.96 9.26 3 7.5 3A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+          </svg>
+        {%- when 'users' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+      {%- endcase -%}
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.title != blank -%}
+    <h3 class="bfbella-value-card__title">{{ block.settings.title }}</h3>
+  {%- endif -%}
+  {%- if block.settings.description != blank -%}
+    <p class="bfbella-value-card__description">{{ block.settings.description }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .bfbella-value-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .bfbella-value-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--bfbella-accent) 15%, transparent);
+    color: var(--bfbella-accent);
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-value-card__icon svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .bfbella-value-card__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-block-end: 0.6rem;
+  }
+
+  .bfbella-value-card__description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.7;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Value Card",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "info": "A small hand-drawn set matching this section's original icons — not the theme's native icon picker.",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "award", "label": "Award" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "users", "label": "Users" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    }
+  ]
+}
+{% endschema %}
