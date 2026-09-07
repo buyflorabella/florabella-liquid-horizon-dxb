@@ -255,7 +255,7 @@
                 "subject_label": "Subject",
                 "inquiry_type_label": "Inquiry Type",
                 "inquiry_type_options": "General Inquiry\nOrder Support\nProduct Question\nWholesale / Bulk Inquiry\nBrand Ambassador Program",
-                "padding-block-start": 0,
+                "padding-block-start": 8,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
