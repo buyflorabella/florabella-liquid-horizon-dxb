@@ -1,0 +1,381 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 5, part 3 of 3) — Guaranteed Analysis panel + additional minerals
+  ============================================================================
+  Third of three sections — see bfbella-mineral-tiles.liquid's header comment for why this is
+  split into three, and 0003_task5_split_howto.md for deployment order/settings.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-analysis-row.liquid   (0003_task5_bfbella-analysis-row.liquid)
+  Renders itself — this section only does `{% content_for 'blocks' %}`.
+
+  Guaranteed Analysis panel is a native <details>/<summary> — no JS. Production uses a React
+  useState toggle for this same open/close behavior; <details> is the zero-code browser-native
+  equivalent and matches production's default-closed state.
+
+  DEPLOY: save as sections/bfbella-guaranteed-analysis.liquid in the live theme. DXB applies
+  this — Claude never commits or touches the live repo.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="GuaranteedAnalysis-{{ section.id }}"
+  class="bfbella-mineral-comp bfbella-mineral-comp--analysis{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-mineral-comp__inner page-width">
+
+    {%- if section.blocks.size > 0 or section.settings.analysis_heading != blank -%}
+      <details class="bfbella-analysis">
+        <summary class="bfbella-analysis__summary">
+          <span class="bfbella-analysis__summary-icon" aria-hidden="true">%</span>
+          <span class="bfbella-analysis__summary-text">
+            {%- if section.settings.analysis_heading != blank -%}
+              <strong>{{ section.settings.analysis_heading }}</strong>
+            {%- endif -%}
+            {%- if section.settings.analysis_subheading != blank -%}
+              <small>{{ section.settings.analysis_subheading }}</small>
+            {%- endif -%}
+          </span>
+          <span class="bfbella-analysis__chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="bfbella-analysis__content">
+          {% content_for 'blocks' %}
+          {%- if section.settings.analysis_footnote != blank -%}
+            <p class="bfbella-analysis__footnote">{{ section.settings.analysis_footnote }}</p>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if section.settings.additional_text != blank or section.settings.additional_tags != blank -%}
+      <div class="bfbella-mineral-comp__additional">
+        {%- if section.settings.additional_text != blank -%}
+          <p class="bfbella-mineral-comp__additional-text">{{ section.settings.additional_text }}</p>
+        {%- endif -%}
+        {%- if section.settings.additional_tags != blank -%}
+          {%- assign tags = section.settings.additional_tags | split: ',' -%}
+          <div class="bfbella-mineral-comp__tags">
+            {%- for tag in tags -%}
+              <span class="bfbella-tag">{{ tag | strip }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-mineral-comp {
+    position: relative;
+    overflow: hidden;
+    padding-block-start: var(--bfbella-pad-top, 0rem);
+    padding-block-end: var(--bfbella-pad-bottom, 6rem);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-mineral-comp__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-analysis {
+    max-width: 40rem;
+    margin-inline: auto;
+    margin-block-end: 4rem;
+    background-color: var(--color-background);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+  }
+
+  .bfbella-analysis__summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(to right, var(--bfbella-accent), color-mix(in srgb, var(--bfbella-accent) 70%, white));
+    color: #fff;
+  }
+
+  .bfbella-analysis__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .bfbella-analysis__summary-icon {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    background: rgb(255 255 255 / 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .bfbella-analysis__summary-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bfbella-analysis__summary-text small {
+    opacity: 0.8;
+    font-size: 0.75rem;
+  }
+
+  .bfbella-analysis__chevron {
+    flex-shrink: 0;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+    transition: transform 0.2s;
+    margin-block-start: -0.25rem;
+  }
+
+  .bfbella-analysis[open] .bfbella-analysis__chevron {
+    transform: rotate(-135deg);
+    margin-block-start: 0.25rem;
+  }
+
+  .bfbella-analysis__content {
+    padding: 1.5rem;
+  }
+
+  .bfbella-analysis__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+  }
+
+  .bfbella-analysis__row:hover {
+    background-color: rgb(var(--color-foreground-rgb) / 0.04);
+  }
+
+  .bfbella-analysis__row-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .bfbella-analysis__row-symbol {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.375rem;
+    background: color-mix(in srgb, var(--bfbella-accent) 10%, transparent);
+    color: var(--bfbella-accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bfbella-analysis__row-element {
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+
+  .bfbella-analysis__row-percentage {
+    font-weight: 700;
+    color: var(--bfbella-accent);
+    font-size: 0.9rem;
+  }
+
+  .bfbella-analysis__footnote {
+    margin-block-start: 1rem;
+    padding-block-start: 1rem;
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    text-align: center;
+    font-size: 0.65rem;
+    opacity: 0.5;
+  }
+
+  .bfbella-mineral-comp__additional {
+    text-align: center;
+  }
+
+  .bfbella-mineral-comp__additional-text {
+    font-size: 1.05rem;
+    opacity: 0.6;
+    font-weight: 500;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-mineral-comp__tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .bfbella-tag {
+    padding: 0.4rem 0.75rem;
+    background-color: var(--color-background);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+    border-radius: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    opacity: 0.75;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+    transition: transform 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
+  }
+
+  .bfbella-tag:hover {
+    border-color: color-mix(in srgb, var(--bfbella-accent) 50%, transparent);
+    color: var(--bfbella-accent);
+    opacity: 1;
+    transform: scale(1.1) translateY(-0.15rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-tag {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Analysis",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-analysis-row"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Guaranteed Analysis panel"
+    },
+    {
+      "type": "text",
+      "id": "analysis_heading",
+      "label": "Panel heading",
+      "info": "e.g. \"Guaranteed Analysis\""
+    },
+    {
+      "type": "text",
+      "id": "analysis_subheading",
+      "label": "Panel subheading",
+      "info": "e.g. \"View mineral percentages\""
+    },
+    {
+      "type": "text",
+      "id": "analysis_footnote",
+      "label": "Footnote",
+      "info": "e.g. \"Minimum percentages by weight • Lab tested\""
+    },
+    {
+      "type": "header",
+      "content": "Additional minerals"
+    },
+    {
+      "type": "text",
+      "id": "additional_text",
+      "label": "Summary line",
+      "info": "e.g. \"+ 64 additional trace minerals working in synergy\""
+    },
+    {
+      "type": "textarea",
+      "id": "additional_tags",
+      "label": "Element symbols",
+      "info": "Comma-separated, e.g. \"Mo, Co, Ni, Se\" — each becomes its own tag"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Match this to the other two Mineral Composition sections above it. Leave blank to use the theme's existing color3 swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Match this to the other two Mineral Composition sections above it."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Defaults to 0 to flow directly from the Mineral Cards section above it."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Analysis",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" },
+        { "type": "bfbella-analysis-row" }
+      ]
+    }
+  ]
+}
+{% endschema %}
