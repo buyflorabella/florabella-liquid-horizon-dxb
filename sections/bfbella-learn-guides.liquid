@@ -1,0 +1,185 @@
+{% comment %}
+  ============================================================================
+  Learn Page — "Step-by-Step Guides" (task 0007, round 2 — replaces the native
+  featured-blog-posts instance previously used here)
+  ============================================================================
+  DXB asked for this section to match production's real card look (icon badge + title +
+  description + a single "X min read" badge). Checked https://buyflorabella.com/learn directly:
+  production's live Guides cards do NOT show a separate difficulty-level badge — that field only
+  ever existed in the old Hydrogen static mock data (staticData.ts's `guides` export), not in
+  what's actually live now. So this only needs read time, not difficulty, matching reality
+  rather than the stale mock.
+
+  Pulls real articles from a real Shopify Blog via a native `"type": "blog"` picker setting
+  (left blank by default — DXB assigns the "Guides" blog in the theme editor, same reasoning as
+  the Articles section: after this session's sync troubles, resource-reference values are always
+  left for Admin's native picker rather than guessed at in code).
+
+  CARD MARKUP lives in snippets/bfbella-guide-card.liquid (render, not a theme block) — the
+  per-article read time is computed here and passed in, which only a snippet (not a theme block)
+  supports passing.
+
+  READ TIME: not a native Article field. Estimated from word count (~200 words/minute, floored
+  at 1) — an approximation, not a real per-article value, same technique already used on the
+  Articles section above.
+
+  COLOR: no hardcoded hex. Accent resolves through section.settings.accent_color, falling back
+  to color_palette.color3. Background falls back to color_palette.background.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="LearnGuides-{{ section.id }}"
+  class="bfbella-learn-guides{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-learn-guides__inner page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="bfbella-learn-guides__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.guides_blog != blank -%}
+      <div class="bfbella-learn-guides__grid">
+        {%- for article in section.settings.guides_blog.articles limit: section.settings.post_limit -%}
+          {%- liquid
+            assign word_count = article.content | strip_html | split: ' ' | size
+            assign read_minutes = word_count | divided_by: 200
+            assign read_minutes = read_minutes | at_least: 1
+          -%}
+          {% render 'bfbella-guide-card', article: article, read_minutes: read_minutes %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-learn-guides {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 4rem);
+    padding-block-end: var(--bfbella-pad-bottom, 4rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-learn-guides__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-learn-guides__heading {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin-block-end: 2rem;
+  }
+
+  .bfbella-learn-guides__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Learn Guides",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Step-by-Step Guides"
+    },
+    {
+      "type": "blog",
+      "id": "guides_blog",
+      "label": "Guides blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "label": "Number of guides to show",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Learn Guides",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

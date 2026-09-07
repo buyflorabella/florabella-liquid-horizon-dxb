@@ -1,0 +1,114 @@
+{%- doc -%}
+  Renders one guide card for the Learn page's "Step-by-Step Guides" grid. Rendered via `render`
+  (not a theme block) from sections/bfbella-learn-guides.liquid, for the same reason as
+  bfbella-learn-article-card.liquid: the parent computes a per-article read time at render time
+  and needs to pass it in, which only a snippet (not a theme block) supports.
+
+  Matches production (buyflorabella.com/learn, checked 2026-09-07): icon badge + title +
+  description + a single "X min read" badge — no separate difficulty-level badge, since
+  production's live Guides content doesn't show one (that field only existed in the old
+  Hydrogen static mock data, not in what's actually live now).
+
+  @param {object} article - the Shopify Article object
+  @param {number} read_minutes - estimated read time in minutes (word-count based, not native)
+
+  @example
+  {% render 'bfbella-guide-card', article: article, read_minutes: read_minutes %}
+{%- enddoc -%}
+
+<a href="{{ article.url }}" class="bfbella-guide-card">
+  <div class="bfbella-guide-card__icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 7c-1.5-1.5-4-2-7-2v13c3 0 5.5 0.5 7 2c1.5-1.5 4-2 7-2V5c-3 0-5.5 0.5-7 2z"/>
+      <path d="M12 7v13"/>
+    </svg>
+  </div>
+
+  <h3 class="bfbella-guide-card__title">{{ article.title }}</h3>
+
+  {%- assign excerpt = article.excerpt | default: article.content | strip_html | truncatewords: 20 -%}
+  {%- if excerpt != blank -%}
+    <p class="bfbella-guide-card__description">{{ excerpt }}</p>
+  {%- endif -%}
+
+  <span class="bfbella-guide-card__time">{{ read_minutes }} min read</span>
+</a>
+
+{% stylesheet %}
+  .bfbella-guide-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--color-background);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+
+  .bfbella-guide-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--bfbella-accent);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+  }
+
+  .bfbella-guide-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+    color: var(--bfbella-accent);
+    margin-block-end: 1rem;
+    transition: transform 0.3s;
+  }
+
+  .bfbella-guide-card:hover .bfbella-guide-card__icon {
+    transform: scale(1.1);
+  }
+
+  .bfbella-guide-card__icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .bfbella-guide-card__title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-block-end: 0.5rem;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bfbella-guide-card__description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.7;
+    margin-block-end: 1rem;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bfbella-guide-card__time {
+    display: inline-block;
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-guide-card,
+    .bfbella-guide-card__icon {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
