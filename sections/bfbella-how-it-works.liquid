@@ -59,6 +59,17 @@
 >
   <div class="bfbella-how__inner page-width">
 
+    {%- comment -%}
+      TEMPORARY DEBUG LINE — added 2026-09-07 to diagnose "step rows don't render" on the
+      live preview. Delete this whole p tag once the cause is confirmed; not for production.
+    {%- endcomment -%}
+    <p style="background:#ff0;color:#000;padding:1rem;font:14px monospace;">
+      DEBUG — section.blocks.size={{ section.blocks.size }}
+      | step_blocks.size={{ step_blocks.size }}
+      | first block type={{ section.blocks.first.type }}
+      | first block settings.title={{ section.blocks.first.settings.title }}
+    </p>
+
     {%- comment -%} Intro heading + subheading {%- endcomment -%}
     {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
       <div class="bfbella-how__intro">
