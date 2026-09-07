@@ -2804,10 +2804,11 @@
         "bfbella_step_UUwhgK": {
           "type": "bfbella-step",
           "settings": {
-            "icon": "none",
-            "title": "",
-            "description": "",
-            "bullets": ""
+            "image": "shopify://shop_images/Rectangle_-_How_Flora_Bella_Works_2_of_3_Humic_Acid.jpg",
+            "icon": "sparkles",
+            "title": "Humic Acid - Soil Structure & Retention",
+            "description": "Humic acids are large organic compounds that:",
+            "bullets": "Improve soil structure, aggregation, and aeration\nIncrease water-holding capacity\nBind and retain nutrients in the root zone\nSupport beneficial microbial activity"
           },
           "blocks": {}
         },
