@@ -3043,9 +3043,9 @@
         "bfbella_mineral_card_hPNCUJ": {
           "type": "bfbella-mineral-card",
           "settings": {
-            "symbol": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Mn",
+            "name": "Manganese",
+            "benefit": "Helps chelate nutrients so roots can access what already exists in the soil."
           },
           "blocks": {}
         },
