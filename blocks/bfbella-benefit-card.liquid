@@ -1,0 +1,225 @@
+{% comment %}
+  BFBella — Benefit Card
+
+  Renders one card in "Why Growers Choose Flora Bella": a photo with a dark gradient fade and
+  an overlapping icon badge at the bottom-left corner, then a title + description below.
+
+  Built as a genuine theme block from the start (2026-09-07, after Task 4/5/6 uncovered why the
+  earlier "pure data block, parent reads settings directly" approach breaks in production — see
+  self_improve/LESSONS.md 2026-09-07 entry and .claude/CLAUDE.md's "Theme Blocks Must Render
+  Themselves" section). This block renders its own markup entirely; the parent section
+  (bfbella-why-choose.liquid) only does `{% content_for 'blocks' %}`.
+
+  The one thing a self-rendering block still needs from its parent is the resolved accent color
+  and background color, for the icon badge and the gradient-to-background fade — but a block
+  can't read section.settings. Solved with CSS custom properties instead of Liquid: the section
+  sets `--bfbella-accent` / `--bfbella-bg` as inline styles on its own root element, and this
+  block's stylesheet just references `var(--bfbella-accent)` / `var(--bfbella-bg)` — CSS
+  inheritance reaches down through content_for 'blocks' output the same as any other descendant,
+  even though Liquid variables can't cross that boundary.
+
+  ICONS: production uses six lucide icons (Leaf, FileStack, Flag, Sparkles, Bug, Users) with no
+  exact equivalent in this theme's native icon set (confirmed when this section was first built
+  as native block composition — see 0003_task3_howto.md). Hand-drawn inline SVGs for all six are
+  included below instead of settling for native substitutes, verified by rendering them
+  standalone before writing them in (same practice as Task 1's check_circle and Task 4's
+  Droplets/Sparkles/TrendingUp).
+
+  DEPLOY: save as blocks/bfbella-benefit-card.liquid in the live theme.
+{% endcomment %}
+
+<div class="bfbella-benefit-card" {{ block.shopify_attributes }}>
+  <div class="bfbella-benefit-card__media">
+    {%- if block.settings.image != blank -%}
+      {{
+        block.settings.image
+        | image_url: width: 800
+        | image_tag: loading: 'lazy', alt: block.settings.title, class: 'bfbella-benefit-card__img'
+      }}
+    {%- endif -%}
+    <div class="bfbella-benefit-card__fade" aria-hidden="true"></div>
+    {%- if block.settings.icon != 'none' -%}
+      <div class="bfbella-benefit-card__icon">
+        {%- case block.settings.icon -%}
+          {%- when 'leaf' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+          {%- when 'file_stack' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="5" y="3" width="12" height="15" rx="2"/>
+              <path d="M9 7h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2"/>
+            </svg>
+          {%- when 'flag' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+              <line x1="4" x2="4" y1="22" y2="15"/>
+            </svg>
+          {%- when 'sparkles' -%}
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/>
+            </svg>
+          {%- when 'bug' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <ellipse cx="12" cy="14" rx="5" ry="7"/>
+              <path d="M12 7V4"/>
+              <path d="M9 4l1.5 2"/>
+              <path d="M15 4l-1.5 2"/>
+              <path d="M5 11l2 1.5"/>
+              <path d="M5 14h3"/>
+              <path d="M5 17l2-1.5"/>
+              <path d="M19 11l-2 1.5"/>
+              <path d="M19 14h-3"/>
+              <path d="M19 17l-2-1.5"/>
+            </svg>
+          {%- when 'users' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+        {%- endcase -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="bfbella-benefit-card__body">
+    {%- if block.settings.title != blank -%}
+      <h3 class="bfbella-benefit-card__title">{{ block.settings.title }}</h3>
+    {%- endif -%}
+    {%- if block.settings.description != blank -%}
+      <p class="bfbella-benefit-card__description">{{ block.settings.description }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-benefit-card {
+    background: rgb(255 255 255 / 0.05);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background-color 0.3s;
+  }
+
+  .bfbella-benefit-card:hover {
+    background: rgb(255 255 255 / 0.1);
+    border-color: color-mix(in srgb, var(--bfbella-accent) 30%, transparent);
+    transform: scale(1.05);
+    box-shadow: 0 25px 50px -12px color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+  }
+
+  .bfbella-benefit-card__media {
+    position: relative;
+    height: 12rem;
+    overflow: hidden;
+  }
+
+  .bfbella-benefit-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+  }
+
+  .bfbella-benefit-card:hover .bfbella-benefit-card__img {
+    transform: scale(1.1);
+  }
+
+  .bfbella-benefit-card__fade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, var(--bfbella-bg), color-mix(in srgb, var(--bfbella-bg) 60%, transparent), transparent);
+  }
+
+  .bfbella-benefit-card__icon {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    background-color: var(--bfbella-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+  }
+
+  .bfbella-benefit-card:hover .bfbella-benefit-card__icon {
+    transform: scale(1.1) rotate(12deg);
+  }
+
+  .bfbella-benefit-card__icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .bfbella-benefit-card__body {
+    padding: 1.5rem;
+  }
+
+  .bfbella-benefit-card__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-block-end: 0.5rem;
+  }
+
+  .bfbella-benefit-card__description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-benefit-card,
+    .bfbella-benefit-card__img,
+    .bfbella-benefit-card__icon {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Benefit Card",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Card image"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "info": "A small hand-drawn set matching this section's original icons — not the theme's native icon picker (none of these six shapes exist there).",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "file_stack", "label": "File stack" },
+        { "value": "flag", "label": "Flag" },
+        { "value": "sparkles", "label": "Sparkles" },
+        { "value": "bug", "label": "Bug" },
+        { "value": "users", "label": "Users" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    }
+  ]
+}
+{% endschema %}
