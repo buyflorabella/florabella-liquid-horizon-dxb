@@ -1,0 +1,53 @@
+{% comment %}
+  BFBella — Step (data block)
+
+  Pure data container, same pattern as Task 5's blocks — its own body renders nothing. The parent
+  section (bfbella-how-it-works.liquid) loops over `section.blocks` directly and draws each step's
+  image + content card itself, alternating the image side automatically by position (odd/even),
+  matching production's zig-zag layout without needing a manual "left/right" setting per block.
+
+  DEPLOY: save as blocks/bfbella-step.liquid in the live theme.
+{% endcomment %}
+{% comment %} intentionally no visual output — see comment above {% endcomment %}
+
+{% schema %}
+{
+  "name": "BFBella — Step",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Step image"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "info": "A small hand-drawn set matching this section's original icons — not the theme's native icon picker (none of these three shapes exist there).",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "droplets", "label": "Droplets" },
+        { "value": "sparkles", "label": "Sparkles" },
+        { "value": "trending_up", "label": "Trending up" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "textarea",
+      "id": "bullets",
+      "label": "Bullet list",
+      "info": "One bullet per line — each line becomes its own starred list item."
+    }
+  ]
+}
+{% endschema %}
