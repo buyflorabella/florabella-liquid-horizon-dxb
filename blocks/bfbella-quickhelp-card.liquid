@@ -1,13 +1,23 @@
 {% comment %}
   BFBella — Quickhelp Card
 
-  Renders one card in the Contact page's Quick Help grid (Order Help / Product Questions /
+  Renders one card in the Contact page's Quick Help column (Order Help / Product Questions /
   Partnerships / Location). Heading + text + an optional link — Location has no link, just an
   icon + address text, matching production (Partnerships also has no link in production).
 
   Built as a genuine theme block from the start (renders itself entirely; the parent section
   only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's "Theme Blocks Must Render
   Themselves" section.
+
+  LAYOUT: as of 2026-09-07 (round 2), these 4 cards live inside a native `group` block
+  ("group_right") nested inside `templates/page.contact.json`'s pre-existing `form` section,
+  stacked in one column beside the contact form (which sits in a sibling `group_left`,
+  `content_direction: row` on the parent section) — matching production's side-by-side layout.
+  The old standalone `bfbella-contact-quickhelp` section this block used to live under has been
+  removed since its content moved here; its accent/background inline styles no longer exist, so
+  `--bfbella-accent` now has an in-CSS fallback to `settings.color_palette.color3` and the
+  group's own `background_color` setting supplies the dark backdrop these glass-style cards were
+  designed against.
 
   ICON: map_pin, only shown for the Location card — reused verbatim from the theme's own native
   icon set is not applicable here since this block predates that reuse pattern being needed;
@@ -59,7 +69,7 @@
 
   .bfbella-quickhelp-card__icon {
     display: inline-flex;
-    color: var(--bfbella-accent);
+    color: var(--bfbella-accent, {{ settings.color_palette.color3 }});
     margin-block-end: 0.75rem;
   }
 
@@ -85,7 +95,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    color: var(--bfbella-accent);
+    color: var(--bfbella-accent, {{ settings.color_palette.color3 }});
     font-weight: 600;
     font-size: 0.9rem;
     text-decoration: none;
