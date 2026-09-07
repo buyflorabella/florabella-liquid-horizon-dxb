@@ -2947,27 +2947,27 @@
         "bfbella_mineral_tile_NfYJKG": {
           "type": "bfbella-mineral-tile",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": ""
+            "symbol": "Zn",
+            "atomic_number": "30",
+            "name": "Zinc"
           },
           "blocks": {}
         },
         "bfbella_mineral_tile_gfqWgH": {
           "type": "bfbella-mineral-tile",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": ""
+            "symbol": "Cu",
+            "atomic_number": "29",
+            "name": "Copper"
           },
           "blocks": {}
         },
         "bfbella_mineral_tile_kWzURd": {
           "type": "bfbella-mineral-tile",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": ""
+            "symbol": "Mn",
+            "atomic_number": "25",
+            "name": "Manganese"
           },
           "blocks": {}
         },
