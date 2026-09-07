@@ -2815,10 +2815,11 @@
         "bfbella_step_nQzXxa": {
           "type": "bfbella-step",
           "settings": {
-            "icon": "none",
-            "title": "",
-            "description": "",
-            "bullets": ""
+            "image": "shopify://shop_images/Rectangle_-_How_Flora_Bella_Works_3_of_3_Fulvic_Acid.jpg",
+            "icon": "trending_up",
+            "title": "Fulvic Acid - Mineral Transport",
+            "description": "Fulvic acids are smaller, highly bioavailable organic compounds that:",
+            "bullets": "Bind trace minerals into plant-usable forms\nFacilitate movement of minerals through plant cell walls\nImprove nutrient uptake efficiency"
           },
           "blocks": {}
         }
