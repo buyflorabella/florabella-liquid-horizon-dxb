@@ -3222,10 +3222,10 @@
         "bfbella_article_card_kQd7mb": {
           "type": "bfbella-article-card",
           "settings": {
-            "icon": "none",
-            "read_time": "",
-            "title": "",
-            "description": "",
+            "icon": "book_open",
+            "read_time": "9 min read",
+            "title": "What Is the Soil Food Web (and Why It Changes Everything)?",
+            "description": "The Soil Food Web is the living system beneath your plants. Learn how soil biology influences nutrient availability, root health, and long-term resilience.",
             "link": ""
           },
           "blocks": {}
