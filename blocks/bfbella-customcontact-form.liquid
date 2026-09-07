@@ -1,9 +1,19 @@
 {% comment %}
   BFBella — Contact Form
 
-  RE-SYNC NOTE (2026-09-07): this file exists on GitHub (origin/main, confirmed via `git log`)
-  but Admin's theme editor was not showing it as deployed — this comment line is a deliberate,
-  real content change to force a fresh sync attempt for this specific file on the next push.
+  RENAME NOTE (2026-09-07, round 4): this file was originally `bfbella-contact-form.liquid`.
+  Confirmed via `git log`/`git show` that it existed on GitHub (origin/main) correctly committed
+  and pushed, twice, but never appeared in Admin's theme file editor — a first attempt at
+  touching the file with a real content change (a resync-note comment, since removed) didn't fix
+  it either. Renamed to `bfbella-customcontact-form.liquid` as DXB's next diagnostic experiment,
+  specifically to rule out any collision with the string "contact-form" during Shopify's
+  GitHub-to-theme sync (no documented Shopify restriction on this was found, but it's a cheap
+  test). Only the filename and this block's `type` value in `templates/page.contact.json` were
+  changed for this experiment — the CSS class names inside this file still read
+  `bfbella-contact-form__*`; left alone deliberately, since Shopify's sync operates on file
+  paths and schema `type` strings, not on text inside a stylesheet block, so renaming those too
+  would add diff noise without adding any diagnostic value.
+
   Correctly a theme block (not a section) — same as the native file it's copy-modified from,
   which is why both declare `"tag": null` in their schema below: a theme block only ever renders
   embedded inside a section (here, the `form` section's `group_left`), never standalone.

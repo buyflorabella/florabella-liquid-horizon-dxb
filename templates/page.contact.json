@@ -247,7 +247,7 @@
               "blocks": {}
             },
             "contact_form_UwiCkQ": {
-              "type": "bfbella-contact-form",
+              "type": "bfbella-customcontact-form",
               "settings": {
                 "width": "fill",
                 "width_mobile": "fill",
