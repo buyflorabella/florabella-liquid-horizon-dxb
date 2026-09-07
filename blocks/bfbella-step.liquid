@@ -1,14 +1,108 @@
 {% comment %}
-  BFBella — Step (data block)
+  BFBella — Step
 
-  Pure data container, same pattern as Task 5's blocks — its own body renders nothing. The parent
-  section (bfbella-how-it-works.liquid) loops over `section.blocks` directly and draws each step's
-  image + content card itself, alternating the image side automatically by position (odd/even),
-  matching production's zig-zag layout without needing a manual "left/right" setting per block.
+  Renders one "How Flora Bella Works" row: image on one side, icon + title + description +
+  bullet list on the other, alternating side by this block's own position among its siblings.
+
+  2026-09-07 — rebuilt from a "pure data block" (rendered nothing, parent read its settings
+  directly). That design broke in production: confirmed via raw HTML pulled from the actual
+  live preview URL that a block referenced from an external blocks/*.liquid file reports
+  `block.type` as the literal string "@theme" at runtime — not "bfbella-step" — so the parent
+  section's `section.blocks | where: 'type', 'bfbella-step'` always matched zero blocks and the
+  whole step loop silently rendered nothing (heading/subheading still worked because those come
+  from section.settings, not section.blocks). Fix: this block renders itself now, matching how
+  Shopify's own native sections use theme blocks (see sections/layered-slideshow.liquid, which
+  also never reads a child block's settings directly — it defers to the block via
+  `content_for 'blocks'`). The parent section now just does `{% content_for 'blocks' %}`.
+
+  Side effect of that fix: Shopify's theme blocks cannot receive variables passed in from a
+  parent (confirmed against shopify.dev — "Theme blocks cannot access variables created outside
+  the block and cannot be passed variables like when using a snippet"), so this block can't be
+  told "you're #2, alternate your side" from outside. Instead it finds its own position by
+  walking `section.blocks` (documented as available inside a theme block) and matching on its
+  own `block.id`.
 
   DEPLOY: save as blocks/bfbella-step.liquid in the live theme.
 {% endcomment %}
-{% comment %} intentionally no visual output — see comment above {% endcomment %}
+
+{%- liquid
+  assign my_index0 = 0
+  for sibling in section.blocks
+    if sibling.id == block.id
+      assign my_index0 = forloop.index0
+      break
+    endif
+  endfor
+
+  assign is_reversed = false
+  assign index_mod = my_index0 | modulo: 2
+  if index_mod == 1
+    assign is_reversed = true
+  endif
+-%}
+<div class="bfbella-how__row{% if is_reversed %} bfbella-how__row--reverse{% endif %}" {{ block.shopify_attributes }}>
+
+  <div class="bfbella-how__media">
+    <div class="bfbella-how__media-glow" aria-hidden="true"></div>
+    <div class="bfbella-how__media-frame">
+      {%- if block.settings.image != blank -%}
+        {{
+          block.settings.image
+          | image_url: width: 1200
+          | image_tag: loading: 'lazy', alt: block.settings.title, class: 'bfbella-how__media-img'
+        }}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="bfbella-how__content">
+    <div class="bfbella-how__card">
+      {%- if block.settings.icon != 'none' -%}
+        <div class="bfbella-how__icon">
+          {%- case block.settings.icon -%}
+            {%- when 'droplets' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3c0 0-6.5 8-6.5 12.5a6.5 6.5 0 0 0 13 0C18.5 11 12 3 12 3z"/>
+              </svg>
+            {%- when 'sparkles' -%}
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/>
+              </svg>
+            {%- when 'trending_up' -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3,17 9,11 13,15 21,6"/>
+                <polyline points="14,6 21,6 21,13"/>
+              </svg>
+          {%- endcase -%}
+        </div>
+      {%- endif -%}
+
+      {%- if block.settings.title != blank -%}
+        <h3 class="bfbella-how__title">{{ block.settings.title }}</h3>
+      {%- endif -%}
+
+      {%- if block.settings.description != blank -%}
+        <p class="bfbella-how__description">{{ block.settings.description }}</p>
+      {%- endif -%}
+
+      {%- if block.settings.bullets != blank -%}
+        {%- assign bullet_lines = block.settings.bullets | newline_to_br | split: '<br />' -%}
+        <ul class="bfbella-how__bullets">
+          {%- for line in bullet_lines -%}
+            {%- assign trimmed = line | strip -%}
+            {%- if trimmed != blank -%}
+              <li>
+                <span class="bfbella-how__bullet-star" aria-hidden="true">★</span>
+                <span>{{ trimmed }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+
+</div>
 
 {% schema %}
 {
