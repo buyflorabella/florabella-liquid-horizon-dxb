@@ -3194,6 +3194,56 @@
         "padding_bottom": 96
       }
     },
+    "bfbella_testimonials_z49VtR": {
+      "type": "bfbella-testimonials",
+      "blocks": {
+        "bfbella_testimonial_FVqEB6": {
+          "type": "bfbella-testimonial",
+          "settings": {
+            "quote": "I have been on farms and in gardens for 40 years. I used Flora Bella on my farm and noticed an immediate difference in the vigor of all my plants, especially the palms.... I am amazed with the quality and performance of the Flora Bella product.",
+            "rating": 5,
+            "name": "Michael M.",
+            "location": "Larue MS"
+          },
+          "blocks": {}
+        },
+        "bfbella_testimonial_86CGUN": {
+          "type": "bfbella-testimonial",
+          "settings": {
+            "quote": "",
+            "rating": 5,
+            "name": "",
+            "location": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_testimonial_pByJQA": {
+          "type": "bfbella-testimonial",
+          "settings": {
+            "quote": "",
+            "rating": 5,
+            "name": "",
+            "location": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_testimonial_FVqEB6",
+        "bfbella_testimonial_86CGUN",
+        "bfbella_testimonial_pByJQA"
+      ],
+      "name": "BFBella — Testimonials",
+      "settings": {
+        "heading": "Gardeners Are Seeing Real Change",
+        "subheading": "Real results from real growers",
+        "accent_color": "",
+        "accent_color_2": "",
+        "background_color": "",
+        "padding_top": 128,
+        "padding_bottom": 128
+      }
+    },
     "bfbella_video_showcase_bkh98U": {
       "type": "bfbella-video-showcase",
       "blocks": {
@@ -3267,6 +3317,7 @@
     "bfbella_mineral_tiles_LCPLge",
     "bfbella_mineral_cards_KJR9AM",
     "bfbella_guaranteed_analysis_RLBrzj",
+    "bfbella_testimonials_z49VtR",
     "bfbella_video_showcase_bkh98U"
   ]
 }
