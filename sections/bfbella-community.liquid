@@ -1,0 +1,196 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 9) — "A Community For Growers Who Care About Soil Health"
+  ============================================================================
+  Fully custom section — no native Horizon section combines a heading+paragraph intro with a
+  native email-signup card and a link-button card side by side. Built from scratch per DXB's
+  explicit request.
+
+  NOTE: this comment deliberately never spells out the Liquid tag delimiters for the schema
+  or stylesheet blocks below (plain words are used instead) — see the 2026-09-06 lesson in
+  this project's self_improve/LESSONS.md.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-community-card.liquid   (0003_task9_bfbella-community-card.liquid)
+  Renders itself entirely — this section only does `{% content_for 'blocks' %}`. See that
+  file's own comment for the Omnisend → native Shopify email form refactor and the dynamic
+  Growers-group link.
+
+  LIGHT SECTION: unlike most sections in this task series, production's version of this
+  section is light (off-white), not dark — so this file resolves background through
+  `settings.color_palette.background` (the theme's base light color, not `color9`) and text
+  through the theme's normal `--color-foreground`/`--color-background` variables rather than
+  hardcoded white.
+
+  DEPLOY: save as sections/bfbella-community.liquid in the live theme. DXB applies this —
+  Claude never commits or touches the live repo.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="Community-{{ section.id }}"
+  class="bfbella-community{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-community__inner page-width">
+
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="bfbella-community__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bfbella-community__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="bfbella-community__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="bfbella-community__grid">
+        {% content_for 'blocks' %}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-community {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 5rem);
+    padding-block-end: var(--bfbella-pad-bottom, 5rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-community__inner {
+    max-width: 64rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-community__intro {
+    text-align: center;
+    margin-block-end: 3rem;
+  }
+
+  .bfbella-community__heading {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-community__subheading {
+    font-size: 1.15rem;
+    opacity: 0.7;
+    max-width: 44rem;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  .bfbella-community__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Community",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-community-card"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for icon badges and buttons. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's base light background — this section is light, unlike most others in this build."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Community",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-community-card" },
+        { "type": "bfbella-community-card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
