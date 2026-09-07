@@ -32,6 +32,14 @@
   — a deliberate exception to this project's normal task-folder-only rule, for this trial only.
   Claude still did not commit or push this — DXB reviews this diff, then commits and pushes by
   hand, unchanged from the standing rule.
+
+  2026-09-07 UPDATE: DXB noted production's version of this section sits inside a bounded card
+  with a dropshadow, not plain centered text directly on the section background. Gave
+  `.bfbella-about-cta__card` its own background (the theme's own Background swatch via
+  `var(--color-background)`, not a hardcoded color), padding, rounded corners, and a shadow —
+  the same "card floating on the section" treatment already used by this project's other card
+  components (value-card, benefit-card, guide-card, etc.), just applied to the CTA's whole
+  content block instead of a grid of individual cards.
   ============================================================================
 {% endcomment %}
 
@@ -106,6 +114,10 @@
     text-align: center;
     max-width: 44rem;
     margin-inline: auto;
+    padding: 3rem 2.5rem;
+    background-color: var(--color-background);
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
   .bfbella-about-cta__heading {

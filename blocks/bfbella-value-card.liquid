@@ -22,9 +22,25 @@
   live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — a deliberate exception
   to this project's normal task-folder-only rule, for this trial only. Claude still did not
   commit or push this — DXB reviews, then commits and pushes by hand.
+
+  2026-09-07 UPDATE: DXB found this card had no way to pick its own background color (it was
+  always transparent, showing whatever the section behind it was), wanted every card in the
+  grid to be the same height regardless of description length, and wanted the hover
+  lift/shadow effect (added earlier this session to fix the "cards aren't white" issue)
+  optional per card rather than always on. Added `background_color` (falls back to the theme's
+  own Background swatch via a Liquid-templated schema default — `settings.color_palette.background`
+  — the same native pattern Shopify's own contact-form.liquid block uses, not a hardcoded hex)
+  and `enable_hover_effect` (checkbox, default on). Equal height comes from the parent grid's
+  own CSS Grid stretch behavior plus this card now being `display: flex; flex-direction: column`
+  internally, so short and long descriptions no longer make icon/title positions drift between
+  cards.
 {% endcomment %}
 
-<div class="bfbella-value-card" {{ block.shopify_attributes }}>
+<div
+  class="bfbella-value-card{% unless block.settings.enable_hover_effect %} bfbella-value-card--no-hover{% endunless %}"
+  style="--bfbella-value-card-bg: {{ block.settings.background_color }};"
+  {{ block.shopify_attributes }}
+>
   {%- if block.settings.icon != 'none' -%}
     <div class="bfbella-value-card__icon">
       {%- case block.settings.icon -%}
@@ -63,15 +79,18 @@
 
 {% stylesheet %}
   .bfbella-value-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     text-align: center;
     padding: 2rem 1.5rem;
-    background-color: var(--color-background);
+    background-color: var(--bfbella-value-card-bg, var(--color-background));
     border-radius: 1.25rem;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.08);
     transition: transform 0.3s, box-shadow 0.3s;
   }
 
-  .bfbella-value-card:hover {
+  .bfbella-value-card:not(.bfbella-value-card--no-hover):hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.12);
   }
@@ -103,6 +122,7 @@
     font-size: 0.95rem;
     line-height: 1.6;
     opacity: 0.7;
+    flex-grow: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -139,6 +159,23 @@
       "type": "textarea",
       "id": "description",
       "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "{{ settings.color_palette.background }}",
+      "info": "Defaults to the theme's own Background swatch — change it if you want this specific card to stand out from the others."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover_effect",
+      "label": "Enable hover lift + shadow",
+      "default": true
     }
   ]
 }

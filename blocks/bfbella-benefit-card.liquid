@@ -25,6 +25,14 @@
   standalone before writing them in (same practice as Task 1's check_circle and Task 4's
   Droplets/Sparkles/TrendingUp).
 
+  2026-09-07 UPDATE: also reused by sections/bfbella-about-sourcing.liquid (About page's
+  "Our Sourcing & Quality Standards"), which added 4 more icon options (Sprout/Beaker/Shield/
+  TreePine) — purely additive, see below. That same update made this block's title/description
+  colors read from `var(--bfbella-text, #fff)` instead of a hardcoded white, so
+  bfbella-about-sourcing.liquid can offer DXB a real text-color setting; the `#fff` here is only
+  a CSS-level fallback for this block's original home (bfbella-why-choose.liquid, which doesn't
+  set `--bfbella-text` and wasn't asked to change) — that section's appearance is unaffected.
+
   DEPLOY: save as blocks/bfbella-benefit-card.liquid in the live theme.
 {% endcomment %}
 
@@ -190,14 +198,14 @@
   .bfbella-benefit-card__title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--bfbella-text, #fff);
     margin-block-end: 0.5rem;
   }
 
   .bfbella-benefit-card__description {
     font-size: 0.9rem;
     line-height: 1.6;
-    color: rgb(255 255 255 / 0.6);
+    color: color-mix(in srgb, var(--bfbella-text, #fff) 60%, transparent);
   }
 
   @media (prefers-reduced-motion: reduce) {

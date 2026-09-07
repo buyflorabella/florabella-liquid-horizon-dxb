@@ -26,6 +26,16 @@
   treatment as bfbella-why-choose.liquid, since this is a photo-card grid like that section, not
   a light page-intro section like Task 1/2 above it on this page.
 
+  2026-09-07 UPDATE: DXB liked the dark default but wanted the ABILITY to change both background
+  and text color if needed later, not just background. Added `text_color`, resolved the same way
+  as every other color here — falls back to `settings.color_palette.background` (this palette's
+  white swatch, a native reference, not a literal hex) when left blank — and exposed as
+  `--bfbella-text`. blocks/bfbella-benefit-card.liquid's title/description now read
+  `var(--bfbella-text, #fff)` instead of a hardcoded white — the `#fff` there is a CSS-level
+  fallback for the one other place that block is used (bfbella-why-choose.liquid, which doesn't
+  set `--bfbella-text` and wasn't asked to change), not a schema default, so nothing about that
+  section's appearance changes.
+
   DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
   live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — a deliberate exception
   to this project's normal task-folder-only rule, for this trial only. Claude still did not
@@ -36,6 +46,7 @@
 {% liquid
   assign accent = section.settings.accent_color | default: settings.color_palette.color3
   assign bg = section.settings.background_color | default: settings.color_palette.color9
+  assign text_color = section.settings.text_color | default: settings.color_palette.background
 
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
@@ -48,6 +59,7 @@
   style="
     --bfbella-accent: {{ accent }};
     --bfbella-bg: {{ bg }};
+    --bfbella-text: {{ text_color }};
     {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
     {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
   "
@@ -80,7 +92,7 @@
     padding-block-start: var(--bfbella-pad-top, 6rem);
     padding-block-end: var(--bfbella-pad-bottom, 6rem);
     background-color: var(--bfbella-bg);
-    color: #fff;
+    color: var(--bfbella-text, #fff);
   }
 
   .bfbella-about-sourcing__inner {
@@ -105,7 +117,7 @@
 
   .bfbella-about-sourcing__subheading {
     font-size: 1.15rem;
-    color: rgb(255 255 255 / 0.6);
+    color: color-mix(in srgb, var(--bfbella-text, #fff) 60%, transparent);
   }
 
   .bfbella-about-sourcing__grid {
@@ -165,6 +177,13 @@
       "label": "Background color",
       "placeholder": "t:settings.default",
       "info": "Leave blank to use the theme's existing color9 swatch — matches the dark treatment of the homepage's Why Choose section."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "placeholder": "t:settings.default",
+      "info": "Applies to the heading, subheading, and every card's title/description. Leave blank to use the theme's Background swatch (reads as white against the dark default background) — change this if you pick a light background above."
     },
     {
       "type": "header",
