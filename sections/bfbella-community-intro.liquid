@@ -1,0 +1,291 @@
+{% comment %}
+  ============================================================================
+  task 0006 (Task 3) — Community Page, "Growing Together" intro + stats
+  ============================================================================
+  Content from CommunityPage.tsx in the Hydrogen reference
+  (buyflorabella_restore/dev/frontend/app/componentsMockup2/pages/CommunityPage.tsx).
+  Eyebrow + H1 + intro paragraph, plus a 3-stat row (Community Members / Shared Stories /
+  Satisfaction Rate).
+
+  Originally scoped in 0006_task1_howto.md as a native Section + Group/Heading/Text
+  composition (no custom file) — built as a genuine bfbella-* section instead once actually
+  installing this page directly via the live-edit pilot, for the same reason
+  bfbella-about-story.liquid exists as code rather than hand-assembled native blocks: a
+  known-correct, already-proven Liquid pattern is lower-risk to write directly into the live
+  repo than hand-authoring unfamiliar native Group-block JSON field-by-field with no way to
+  preview it before pushing. Same architecture as bfbella-about-story.liquid (single-instance
+  content, no blocks needed — one eyebrow, one heading, one paragraph, a fixed 3-stat row).
+
+  STATS: exactly 3, fixed — same reasoning as Mission's 3 paragraphs in bfbella-about-story.liquid
+  (not "repeatable editorial content" in the sense that warrants a block repeater; a fixed
+  stat-row display, direct section settings).
+
+  CONTENT: zero real copy hardcoded — every field is a blank native setting until DXB fills it
+  in. See 0006_task1_howto.md for the exact production text.
+
+  COLOR: no hardcoded hex. Accent resolves through `section.settings.accent_color`, falling
+  back to `color_palette.color3`. Background resolves through `section.settings.background_color`,
+  falling back to `settings.color_palette.background`.
+
+  THIS SECTION RENDERS ITS OWN <h1> — same pattern as bfbella-about-story.liquid. The native
+  "main" title block must stay disabled on this page's template to avoid a duplicate H1.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="CommunityIntro-{{ section.id }}"
+  class="bfbella-community-intro{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-community-intro__inner page-width">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.intro != blank -%}
+      <div class="bfbella-community-intro__intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="bfbella-community-intro__eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="bfbella-community-intro__heading">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+        {%- if section.settings.intro != blank -%}
+          <p class="bfbella-community-intro__intro-text">{{ section.settings.intro }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.stat1_number != blank or section.settings.stat2_number != blank or section.settings.stat3_number != blank -%}
+      <div class="bfbella-community-intro__stats">
+        {%- if section.settings.stat1_number != blank -%}
+          <div class="bfbella-community-intro__stat">
+            <div class="bfbella-community-intro__stat-number">{{ section.settings.stat1_number }}</div>
+            <div class="bfbella-community-intro__stat-label">{{ section.settings.stat1_label }}</div>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.stat2_number != blank -%}
+          <div class="bfbella-community-intro__stat">
+            <div class="bfbella-community-intro__stat-number">{{ section.settings.stat2_number }}</div>
+            <div class="bfbella-community-intro__stat-label">{{ section.settings.stat2_label }}</div>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.stat3_number != blank -%}
+          <div class="bfbella-community-intro__stat">
+            <div class="bfbella-community-intro__stat-number">{{ section.settings.stat3_number }}</div>
+            <div class="bfbella-community-intro__stat-label">{{ section.settings.stat3_label }}</div>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-community-intro {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 6rem);
+    padding-block-end: var(--bfbella-pad-bottom, 3rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-community-intro__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-community-intro__intro {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    margin-block-end: 3.5rem;
+  }
+
+  .bfbella-community-intro__eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bfbella-accent);
+    background: color-mix(in srgb, var(--bfbella-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--bfbella-accent) 30%, transparent);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-community-intro__heading {
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-community-intro__intro-text {
+    font-size: 1.2rem;
+    opacity: 0.75;
+    line-height: 1.6;
+  }
+
+  .bfbella-community-intro__stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 56rem;
+    margin-inline: auto;
+    padding: 2.5rem 2rem;
+    border-radius: 1.5rem;
+    background-color: var(--color-background);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bfbella-community-intro__stat {
+    text-align: center;
+  }
+
+  .bfbella-community-intro__stat-number {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--bfbella-accent);
+    margin-block-end: 0.4rem;
+  }
+
+  .bfbella-community-intro__stat-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    opacity: 0.7;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Community Intro",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow badge"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (H1)"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Stats"
+    },
+    {
+      "type": "text",
+      "id": "stat1_number",
+      "label": "Stat 1 number"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 label"
+    },
+    {
+      "type": "text",
+      "id": "stat2_number",
+      "label": "Stat 2 number"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 label"
+    },
+    {
+      "type": "text",
+      "id": "stat3_number",
+      "label": "Stat 3 number"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 label"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the eyebrow badge and stat numbers. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Community Intro",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

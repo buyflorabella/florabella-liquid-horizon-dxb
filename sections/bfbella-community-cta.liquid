@@ -1,0 +1,263 @@
+{% comment %}
+  ============================================================================
+  task 0006 (Task 4) — Community Page, "Share Your Journey" closing CTA
+  ============================================================================
+  Content from CommunityPage.tsx in the Hydrogen reference. Structurally identical to
+  bfbella-about-cta.liquid (task 0004) — same bounded-card-with-dropshadow pattern DXB
+  confirmed working well there, reused directly rather than reinvented: heading, paragraph,
+  two buttons, independently colorable section background AND card background.
+
+  NO BLOCKS: single-instance content, same reasoning as every other simple CTA in this build.
+
+  BUTTON LINKS: native `url` settings, not hardcoded paths. Production points these at
+  "submit your story" and "join the community" — neither has a real destination in this build
+  yet (production's own buttons don't functionally link anywhere either). See
+  0006_task1_howto.md.
+
+  COLOR: no hardcoded hex. Accent (primary button) resolves through `section.settings.accent_color`,
+  falling back to `color_palette.color3`. Section background and card background are two
+  independent settings, both falling back to `settings.color_palette.background` — same pattern
+  as bfbella-about-cta.liquid's `card_background_color` addition.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+  assign card_bg = section.settings.card_background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="CommunityCta-{{ section.id }}"
+  class="bfbella-community-cta{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    --bfbella-card-bg: {{ card_bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-community-cta__inner page-width">
+    <div class="bfbella-community-cta__card">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="bfbella-community-cta__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.paragraph != blank -%}
+        <p class="bfbella-community-cta__paragraph">{{ section.settings.paragraph }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button1_label != blank or section.settings.button2_label != blank -%}
+        <div class="bfbella-community-cta__buttons">
+          {%- if section.settings.button1_label != blank -%}
+            <a
+              {% if section.settings.button1_link != blank %}href="{{ section.settings.button1_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+              class="bfbella-community-cta__button bfbella-community-cta__button--primary"
+            >
+              {{ section.settings.button1_label }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button2_label != blank -%}
+            <a
+              {% if section.settings.button2_link != blank %}href="{{ section.settings.button2_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+              class="bfbella-community-cta__button bfbella-community-cta__button--secondary"
+            >
+              {{ section.settings.button2_label }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-community-cta {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 5rem);
+    padding-block-end: var(--bfbella-pad-bottom, 5rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-community-cta__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-community-cta__card {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    padding: 3rem 2.5rem;
+    background-color: var(--bfbella-card-bg);
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .bfbella-community-cta__heading {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-community-cta__paragraph {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-block-end: 2rem;
+  }
+
+  .bfbella-community-cta__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .bfbella-community-cta__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+
+  .bfbella-community-cta__button:hover {
+    transform: scale(1.03);
+  }
+
+  .bfbella-community-cta__button--primary {
+    background-color: var(--bfbella-accent);
+    color: #fff;
+  }
+
+  .bfbella-community-cta__button--secondary {
+    background-color: transparent;
+    color: var(--color-foreground);
+    border: 2px solid rgb(var(--color-foreground-rgb) / 0.2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-community-cta__button {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Community CTA",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph",
+      "label": "Paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button1_label",
+      "label": "Button 1 label"
+    },
+    {
+      "type": "url",
+      "id": "button1_link",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button2_label",
+      "label": "Button 2 label"
+    },
+    {
+      "type": "url",
+      "id": "button2_link",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the primary button. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "placeholder": "t:settings.default",
+      "info": "The outer section, behind the bounded card."
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "placeholder": "t:settings.default",
+      "info": "The bounded, drop-shadowed card holding the heading/paragraph/buttons — independent from the section background above it."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Community CTA",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

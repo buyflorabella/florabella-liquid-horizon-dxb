@@ -1,0 +1,213 @@
+{% comment %}
+  ============================================================================
+  task 0006 (Task 2) — Community Page, social link-out cards (chosen over the photo-gallery
+  concept)
+  ============================================================================
+  DXB confirmed: replace the original photo-gallery concept entirely — production's 12 gallery
+  photos were generic Pexels stock filler for an idea never actually implemented (captions like
+  "Morning wellness routine with Flora Bella" paired with anonymous stock photos of unrelated
+  people, no real customer-submitted content, no real gallery backend). This section replaces
+  that with cards linking out to Flora Bella's real, live social profiles instead — same
+  "explore the community" intent, backed by something real.
+
+  WHY CUSTOM CODE (not hand-assembled native blocks): a fully native version IS possible — a
+  Section with N native Group blocks (each with its own `link`/`open_in_new_tab` settings) and
+  a native Icon block (Horizon's built-in icon set already includes facebook/instagram/youtube/
+  linkedin/tiktok — confirmed in blocks/_accordion-row.liquid's icon options) would work with
+  zero custom code. This custom version exists instead because a one-click "Custom" preset that
+  auto-populates with the real production social URLs (see 0006_task2_howto.md) is faster and
+  lower-risk for DXB to drop in than hand-configuring several separate native Group blocks'
+  link/icon settings individually — same tradeoff already made for every other "Custom" section
+  preset in this project. It still REUSES the theme's own native icon rendering rather than
+  hand-drawing social icons — see blocks/bfbella-social-card.liquid's own comment.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-social-card.liquid
+  Each card renders itself entirely — this section only does `{% content_for 'blocks' %}`.
+
+  CONTENT: zero real copy hardcoded — heading, subheading, and every card's platform/URL/handle
+  are blank native settings/block fields until filled in via templates/page.community.json or
+  the theme editor. See 0006_task2_howto.md for production's actual, real social URLs (fetched
+  directly from the live site's footer, not guessed).
+
+  COLOR: no hardcoded hex. Accent resolves through `section.settings.accent_color`, falling
+  back to `color_palette.color3`. Background resolves through
+  `section.settings.background_color`, falling back to `settings.color_palette.background`.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="CommunitySocial-{{ section.id }}"
+  class="bfbella-community-social{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-community-social__inner page-width">
+
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="bfbella-community-social__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bfbella-community-social__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="bfbella-community-social__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="bfbella-community-social__grid">
+        {% content_for 'blocks' %}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-community-social {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 3rem);
+    padding-block-end: var(--bfbella-pad-bottom, 6rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-community-social__inner {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-community-social__intro {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    margin-block-end: 3rem;
+  }
+
+  .bfbella-community-social__heading {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-block-end: 0.75rem;
+  }
+
+  .bfbella-community-social__subheading {
+    font-size: 1.1rem;
+    opacity: 0.7;
+  }
+
+  .bfbella-community-social__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media screen and (min-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Social Links",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-social-card"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the icon badges. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Social Links",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-social-card", "settings": { "platform": "instagram" } },
+        { "type": "bfbella-social-card", "settings": { "platform": "facebook" } },
+        { "type": "bfbella-social-card", "settings": { "platform": "youtube" } },
+        { "type": "bfbella-social-card", "settings": { "platform": "linkedin" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

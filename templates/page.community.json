@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -22,12 +13,10 @@
             "alignment": "left",
             "type_preset": "h2",
             "font": "var(--font-body--family)",
-            "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -40,9 +29,7 @@
         },
         "page-content": {
           "type": "page-content",
-          "settings": {
-            "text_color": ""
-          },
+          "settings": {},
           "blocks": {}
         }
       },
@@ -56,11 +43,98 @@
         "gap": 32,
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 40,
-        "padding-block-end": 80
+        "padding-block-end": 0
+      }
+    },
+    "intro": {
+      "type": "bfbella-community-intro",
+      "settings": {
+        "eyebrow": "OUR COMMUNITY",
+        "heading": "Growing Together",
+        "intro": "Join thousands of health enthusiasts who are transforming their lives with Flora Bella. Share your journey, inspire others, and celebrate wellness together.",
+        "stat1_number": "15,000+",
+        "stat1_label": "Community Members",
+        "stat2_number": "2,500+",
+        "stat2_label": "Shared Stories",
+        "stat3_number": "95%",
+        "stat3_label": "Satisfaction Rate",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 96,
+        "padding_bottom": 48
+      }
+    },
+    "social": {
+      "type": "bfbella-community-social",
+      "blocks": {
+        "social-1": {
+          "type": "bfbella-social-card",
+          "settings": {
+            "platform": "instagram",
+            "label": "Instagram",
+            "handle": "@buyflorabella",
+            "url": "https://instagram.com/buyflorabella/"
+          }
+        },
+        "social-2": {
+          "type": "bfbella-social-card",
+          "settings": {
+            "platform": "facebook",
+            "label": "Facebook",
+            "handle": "Follow us",
+            "url": "https://www.facebook.com/profile.php?id=61586134112080"
+          }
+        },
+        "social-3": {
+          "type": "bfbella-social-card",
+          "settings": {
+            "platform": "youtube",
+            "label": "YouTube",
+            "handle": "@BuyFloraBella",
+            "url": "https://www.youtube.com/@BuyFloraBella"
+          }
+        },
+        "social-4": {
+          "type": "bfbella-social-card",
+          "settings": {
+            "platform": "linkedin",
+            "label": "LinkedIn",
+            "handle": "Connect with us",
+            "url": "https://www.linkedin.com/in/randall-everett-33ab233a4/"
+          }
+        }
+      },
+      "block_order": ["social-1", "social-2", "social-3", "social-4"],
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 48,
+        "padding_bottom": 96
+      }
+    },
+    "cta": {
+      "type": "bfbella-community-cta",
+      "settings": {
+        "heading": "Share Your Journey",
+        "paragraph": "Inspire others by sharing your wellness transformation with Flora Bella. Tag us on social media or submit your story directly.",
+        "button1_label": "Submit Your Story",
+        "button1_link": "",
+        "button2_label": "Join the Community",
+        "button2_link": "",
+        "accent_color": "",
+        "background_color": "",
+        "card_background_color": "",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "intro",
+    "social",
+    "cta"
   ]
 }

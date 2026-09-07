@@ -1,0 +1,152 @@
+{% comment %}
+  BFBella — Social Card
+
+  Renders one platform card in the Community page's social link-out grid — DXB chose this
+  (Option B) over the original photo-gallery concept (Option A), since production's 12 gallery
+  photos were generic Pexels stock filler for an idea never actually implemented. Icon badge +
+  platform name + handle/blurb, the whole card links out to the real profile URL with
+  `target="_blank"`.
+
+  ICON REUSE: rather than hand-draw social icons (which this session couldn't visually
+  render-verify anyway — no browser access), this renders the theme's own native icon system
+  directly via `render 'icon-or-image'` (snippets/icon-or-image.liquid, already shipped in this
+  theme, the same snippet blocks/icon.liquid and blocks/_accordion-row.liquid use) — Horizon's
+  built-in icon set already includes facebook/instagram/youtube/linkedin/tiktok/twitter/
+  pinterest/etc. This is a genuine native icon, not a custom SVG, so there's no
+  "not visually verified" caveat on this one, unlike several hand-drawn icons elsewhere in this
+  build.
+
+  Built as a genuine theme block from the start (renders itself entirely; the parent section
+  only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's "Theme Blocks Must Render
+  Themselves" section.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+{% endcomment %}
+
+<a
+  href="{{ block.settings.url | default: '#' }}"
+  {% if block.settings.url != blank %}target="_blank" rel="noopener noreferrer"{% endif %}
+  class="bfbella-social-card"
+  {{ block.shopify_attributes }}
+>
+  <span class="bfbella-social-card__icon">
+    {%- render 'icon-or-image',
+      icon: block.settings.platform,
+      image_upload: block.settings.custom_icon,
+      width: 28,
+      class_name: 'bfbella-social-card__icon-svg'
+    -%}
+  </span>
+  {%- if block.settings.label != blank -%}
+    <span class="bfbella-social-card__label">{{ block.settings.label }}</span>
+  {%- endif -%}
+  {%- if block.settings.handle != blank -%}
+    <span class="bfbella-social-card__handle">{{ block.settings.handle }}</span>
+  {%- endif -%}
+</a>
+
+{% stylesheet %}
+  .bfbella-social-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 2rem 1.5rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    background-color: var(--color-background);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .bfbella-social-card:hover {
+    transform: scale(1.05);
+    border-color: var(--bfbella-accent);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+  }
+
+  .bfbella-social-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--bfbella-accent) 15%, transparent);
+    color: var(--bfbella-accent);
+    margin-block-end: 0.5rem;
+  }
+
+  .bfbella-social-card__icon-svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .bfbella-social-card__label {
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  .bfbella-social-card__handle {
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-social-card {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Social Card",
+  "settings": [
+    {
+      "type": "select",
+      "id": "platform",
+      "label": "Platform icon",
+      "options": [
+        { "value": "instagram", "label": "Instagram" },
+        { "value": "facebook", "label": "Facebook" },
+        { "value": "youtube", "label": "YouTube" },
+        { "value": "linkedin", "label": "LinkedIn" },
+        { "value": "tiktok", "label": "TikTok" },
+        { "value": "twitter", "label": "X / Twitter" },
+        { "value": "pinterest", "label": "Pinterest" }
+      ],
+      "default": "instagram",
+      "info": "Uses the theme's own native icon set — real icons, not custom-drawn."
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon",
+      "label": "Custom icon image (optional)",
+      "info": "Overrides the platform icon above if set."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Platform label",
+      "info": "E.g. \"Instagram\""
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Handle / blurb",
+      "info": "E.g. \"@buyflorabella\""
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "Profile link",
+      "info": "Opens in a new tab automatically."
+    }
+  ]
+}
+{% endschema %}
