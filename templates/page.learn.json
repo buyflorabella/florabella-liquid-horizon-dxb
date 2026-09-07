@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "main": {
       "type": "main-page",
@@ -52,10 +51,110 @@
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 40,
         "padding-block-end": 80
+      },
+      "disabled": true
+    },
+    "intro": {
+      "type": "section",
+      "blocks": {
+        "eyebrow": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "EDUCATION & INSIGHTS",
+            "width": "100%",
+            "max_width": "fit-content",
+            "alignment": "center",
+            "type_preset": "custom",
+            "font": "var(--font-body--family)",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "{{ settings.color_palette.color3 }}",
+            "background": true,
+            "background_color": "{{ settings.color_palette.color11 }}",
+            "corner_radius": 999,
+            "padding-block-start": 8,
+            "padding-block-end": 8,
+            "padding-inline-start": 20,
+            "padding-inline-end": 20,
+            "font_size": "0.875rem"
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<h1>Learn About Minerals</h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "paragraph": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "Expert insights, research-backed articles, and practical guides to help you optimize your mineral nutrition",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "center",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "eyebrow",
+        "heading",
+        "paragraph"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment": "center",
+        "horizontal_alignment_flex_direction_column": "center",
+        "gap": 24,
+        "section_width": "page-width",
+        "background_media": "none",
+        "background_color": "{{ settings.color_palette.background }}",
+        "border": "none",
+        "padding-block-start": 80,
+        "padding-block-end": 40
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "intro"
   ]
 }
