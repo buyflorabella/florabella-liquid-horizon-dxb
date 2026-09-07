@@ -1382,9 +1382,10 @@
         "bfbella_benefit_card_jJcAfX": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "icon": "none",
-            "title": "",
-            "description": ""
+            "image": "shopify://shop_images/Why_Growers_Choose_5_of_6_lighted_roots.jpg",
+            "icon": "bug",
+            "title": "Biology Included",
+            "description": "Designed to support beneficial microbes and nutrient cycling — the living foundation behind healthy, resilient soil."
           },
           "blocks": {}
         },
