@@ -2959,10 +2959,10 @@
         "bfbella_mineral_zQ36fY": {
           "type": "bfbella-mineral",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Cu",
+            "atomic_number": "29",
+            "name": "Copper",
+            "benefit": "Supports protein synthesis and strengthens cell walls."
           },
           "blocks": {}
         },
