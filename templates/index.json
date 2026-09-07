@@ -2949,10 +2949,10 @@
         "bfbella_mineral_BnVqmF": {
           "type": "bfbella-mineral",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "Zn",
+            "atomic_number": "30",
+            "name": "Zinc",
+            "benefit": "Activates enzymes and regulates growth hormones for healthy development."
           },
           "blocks": {}
         },
