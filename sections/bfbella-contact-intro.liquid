@@ -1,0 +1,178 @@
+{% comment %}
+  ============================================================================
+  Contact Page — intro (task 0009)
+  ============================================================================
+  Content from ContactPage.tsx in the Hydrogen reference. Eyebrow + H1 + intro paragraph, dark
+  background matching production's FAQ/Contact treatment (`color7` = #0A0015, an exact match to
+  production's dark gradient's darker stop, same finding already used on the FAQ page howto).
+
+  NO BLOCKS: single-instance content, same reasoning as bfbella-about-story.liquid and
+  bfbella-community-intro.liquid — one eyebrow, one heading, one paragraph.
+
+  THIS SECTION RENDERS ITS OWN <h1> — the native "main" title block stays disabled on this
+  page's template to avoid a duplicate H1, same pattern as About/Community.
+
+  COLOR: no hardcoded hex. Accent resolves through `section.settings.accent_color`, falling
+  back to `color_palette.color3`. Background resolves through
+  `section.settings.background_color`, falling back to `color_palette.color7` (dark, matching
+  production) rather than the light default used on About/Community's intros — Contact and FAQ
+  are the two dark pages in this build.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.color7
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="ContactIntro-{{ section.id }}"
+  class="bfbella-contact-intro{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-contact-intro__inner page-width">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="bfbella-contact-intro__eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="bfbella-contact-intro__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}
+      <p class="bfbella-contact-intro__intro-text">{{ section.settings.intro }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-contact-intro {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 6rem);
+    padding-block-end: var(--bfbella-pad-bottom, 4rem);
+    background-color: var(--bfbella-bg);
+    color: #fff;
+  }
+
+  .bfbella-contact-intro__inner {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-contact-intro__eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bfbella-accent);
+    background: color-mix(in srgb, var(--bfbella-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--bfbella-accent) 30%, transparent);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-contact-intro__heading {
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-contact-intro__intro-text {
+    font-size: 1.2rem;
+    color: rgb(255 255 255 / 0.7);
+    line-height: 1.6;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Contact Intro",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow badge"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (H1)"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's existing color7 swatch — an exact match to production's dark background."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Contact Intro",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

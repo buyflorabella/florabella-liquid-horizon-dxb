@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "main": {
       "type": "main-page",
@@ -70,7 +71,8 @@
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 40,
         "padding-block-end": 0
-      }
+      },
+      "disabled": true
     },
     "form": {
       "type": "section",
@@ -104,9 +106,34 @@
             }
           },
           "block_order": []
+        },
+        "heading_form": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<h2>Send Us a Message</h2>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h3",
+            "font": "var(--font-body--family)",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
+        "heading_form",
         "contact_form_UwiCkQ"
       ],
       "name": "t:names.contact_form",
@@ -136,10 +163,168 @@
         "padding-block-start": 32,
         "padding-block-end": 84
       }
+    },
+    "intro": {
+      "type": "bfbella-contact-intro",
+      "settings": {
+        "eyebrow": "CONTACT US",
+        "heading": "Get In Touch",
+        "intro": "Have a question? We're here to help. Reach out to our customer support team.",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 96,
+        "padding_bottom": 64
+      }
+    },
+    "opportunities": {
+      "type": "bfbella-contact-opportunities",
+      "blocks": {
+        "opp-1": {
+          "type": "bfbella-opportunity-card",
+          "settings": {
+            "icon": "users",
+            "heading": "Brand Ambassadors",
+            "description": "Earn rewards by sharing Flora Bella with your community. Sign-ups are managed through our partner platform.",
+            "button_label": "Apply via UpPromote",
+            "button_link": "https://uppromote.com",
+            "open_in_new_tab": true,
+            "button_style": "primary",
+            "small_print": "Opens in new tab"
+          }
+        },
+        "opp-2": {
+          "type": "bfbella-opportunity-card",
+          "settings": {
+            "icon": "package",
+            "heading": "Wholesale / Bulk Orders",
+            "description": "Buying in bulk? Contact us for pricing and delivery options for larger quantities.",
+            "button_label": "Request Bulk Pricing",
+            "button_link": "",
+            "open_in_new_tab": false,
+            "button_style": "secondary",
+            "small_print": "For orders over 100 lbs or pallet/truckload quantities"
+          }
+        }
+      },
+      "block_order": [
+        "opp-1",
+        "opp-2"
+      ],
+      "settings": {
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    },
+    "info": {
+      "type": "bfbella-contact-info",
+      "blocks": {
+        "info-1": {
+          "type": "bfbella-contact-info-card",
+          "settings": {
+            "icon": "mail",
+            "heading": "Email Us",
+            "line1": "support@buyflorabella.com",
+            "line2": "We'll respond within 24 hours"
+          }
+        },
+        "info-2": {
+          "type": "bfbella-contact-info-card",
+          "settings": {
+            "icon": "phone",
+            "heading": "Call Us",
+            "line1": "415-860-1455",
+            "line2": "Mon-Fri 9AM-6PM EST"
+          }
+        },
+        "info-3": {
+          "type": "bfbella-contact-info-card",
+          "settings": {
+            "icon": "clock",
+            "heading": "Response Time",
+            "line1": "Within 24 hours",
+            "line2": "Average response: 4 hours"
+          }
+        }
+      },
+      "block_order": [
+        "info-1",
+        "info-2",
+        "info-3"
+      ],
+      "settings": {
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 0,
+        "padding_bottom": 64
+      }
+    },
+    "quickhelp": {
+      "type": "bfbella-contact-quickhelp",
+      "blocks": {
+        "qh-1": {
+          "type": "bfbella-quickhelp-card",
+          "settings": {
+            "icon": "none",
+            "heading": "Order Help",
+            "text": "Need help with an existing order? Track your shipment, make changes, or request a return.",
+            "link_label": "View Order FAQs",
+            "link_url": "/pages/faq"
+          }
+        },
+        "qh-2": {
+          "type": "bfbella-quickhelp-card",
+          "settings": {
+            "icon": "none",
+            "heading": "Product Questions",
+            "text": "Learn about our products, ingredients, usage instructions, and certifications.",
+            "link_label": "View Product FAQs",
+            "link_url": "/pages/faq"
+          }
+        },
+        "qh-3": {
+          "type": "bfbella-quickhelp-card",
+          "settings": {
+            "icon": "none",
+            "heading": "Partnerships",
+            "text": "Interested in partnering with Flora Bella? We offer opportunities for brand ambassadors, wholesale buyers, and retail partnerships.",
+            "link_label": "",
+            "link_url": ""
+          }
+        },
+        "qh-4": {
+          "type": "bfbella-quickhelp-card",
+          "settings": {
+            "icon": "map_pin",
+            "heading": "Location",
+            "text": "Flora Bella Trace Minerals\n218 Julia Street\nBay St. Louis, MS 39520",
+            "link_label": "",
+            "link_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "qh-1",
+        "qh-2",
+        "qh-3",
+        "qh-4"
+      ],
+      "settings": {
+        "heading": "Quick Help",
+        "accent_color": "",
+        "background_color": "",
+        "padding_top": 32,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
     "main",
-    "form"
+    "intro",
+    "opportunities",
+    "info",
+    "form",
+    "quickhelp"
   ]
 }

@@ -1,0 +1,133 @@
+{% comment %}
+  BFBella — Info Card
+
+  Renders one card in the Contact page's Quick Info row (Email Us / Call Us / Response Time).
+  Centered icon badge + heading + 2 lines of text.
+
+  Built as a genuine theme block from the start (renders itself entirely; the parent section
+  only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's "Theme Blocks Must Render
+  Themselves" section.
+
+  ICONS: mail (reused verbatim from blocks/bfbella-community-card.liquid, task 0003), phone and
+  clock (new — hand-drawn to match lucide's published shapes but not rendered standalone to
+  visually confirm, since this session has no browser/preview access). Worth a quick check once
+  deployed.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+{% endcomment %}
+
+<div class="bfbella-contact-info-card" {{ block.shopify_attributes }}>
+  {%- if block.settings.icon != 'none' -%}
+    <div class="bfbella-contact-info-card__icon">
+      {%- case block.settings.icon -%}
+        {%- when 'mail' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+        {%- when 'phone' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/>
+          </svg>
+        {%- when 'clock' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+      {%- endcase -%}
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.heading != blank -%}
+    <h3 class="bfbella-contact-info-card__heading">{{ block.settings.heading }}</h3>
+  {%- endif -%}
+  {%- if block.settings.line1 != blank -%}
+    <p class="bfbella-contact-info-card__line">{{ block.settings.line1 }}</p>
+  {%- endif -%}
+  {%- if block.settings.line2 != blank -%}
+    <p class="bfbella-contact-info-card__line bfbella-contact-info-card__line--muted">{{ block.settings.line2 }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .bfbella-contact-info-card {
+    text-align: center;
+    background: rgb(255 255 255 / 0.03);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 1.25rem;
+    padding: 2rem;
+  }
+
+  .bfbella-contact-info-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+    color: var(--bfbella-accent);
+    margin-inline: auto;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-contact-info-card__icon svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .bfbella-contact-info-card__heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-block-end: 0.5rem;
+  }
+
+  .bfbella-contact-info-card__line {
+    font-size: 0.95rem;
+    color: rgb(255 255 255 / 0.7);
+    margin-block-end: 0.25rem;
+  }
+
+  .bfbella-contact-info-card__line--muted {
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 0.5);
+    margin-block-end: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Info Card",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "mail", "label": "Mail" },
+        { "value": "phone", "label": "Phone" },
+        { "value": "clock", "label": "Clock" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "line1",
+      "label": "Line 1"
+    },
+    {
+      "type": "text",
+      "id": "line2",
+      "label": "Line 2 (muted)"
+    }
+  ]
+}
+{% endschema %}

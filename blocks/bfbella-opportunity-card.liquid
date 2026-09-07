@@ -1,0 +1,218 @@
+{% comment %}
+  BFBella — Opportunity
+
+  Renders one card in the Contact page's Opportunities row (Brand Ambassadors / Wholesale).
+  Icon badge + heading + text + button + small print, on a glass-style dark card.
+
+  Built as a genuine theme block from the start (renders itself entirely; the parent section
+  only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's "Theme Blocks Must Render
+  Themselves" section.
+
+  ICONS: Users and Package, hand-drawn to match lucide's published shapes but not rendered
+  standalone to visually confirm before writing them in, since this session has no
+  browser/preview access. Worth a quick visual check once deployed.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+{% endcomment %}
+
+<div class="bfbella-opportunity-card" {{ block.shopify_attributes }}>
+  {%- if block.settings.icon != 'none' -%}
+    <div class="bfbella-opportunity-card__icon">
+      {%- case block.settings.icon -%}
+        {%- when 'users' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        {%- when 'package' -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m7.5 4.27 9 5.15"/>
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+            <path d="M3.29 7 12 12l8.71-5"/>
+            <path d="M12 22V12"/>
+          </svg>
+      {%- endcase -%}
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.heading != blank -%}
+    <h3 class="bfbella-opportunity-card__heading">{{ block.settings.heading }}</h3>
+  {%- endif -%}
+  {%- if block.settings.description != blank -%}
+    <p class="bfbella-opportunity-card__description">{{ block.settings.description }}</p>
+  {%- endif -%}
+  {%- if block.settings.button_label != blank -%}
+    <a
+      {% if block.settings.button_link != blank %}href="{{ block.settings.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+      {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+      class="bfbella-opportunity-card__button{% if block.settings.button_style == 'secondary' %} bfbella-opportunity-card__button--secondary{% endif %}"
+    >
+      {{ block.settings.button_label }}
+      {%- if block.settings.open_in_new_tab -%}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <path d="M15 3h6v6"/>
+          <path d="M10 14 21 3"/>
+        </svg>
+      {%- endif -%}
+    </a>
+  {%- endif -%}
+  {%- if block.settings.small_print != blank -%}
+    <p class="bfbella-opportunity-card__small-print">{{ block.settings.small_print }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .bfbella-opportunity-card {
+    background: rgb(255 255 255 / 0.05);
+    border: 1px solid color-mix(in srgb, var(--bfbella-accent) 30%, transparent);
+    border-radius: 1.25rem;
+    padding: 2rem;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .bfbella-opportunity-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--bfbella-accent);
+  }
+
+  .bfbella-opportunity-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+    color: var(--bfbella-accent);
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-opportunity-card__icon svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .bfbella-opportunity-card__heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-opportunity-card__description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.7);
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-opportunity-card__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    background-color: var(--bfbella-accent);
+    color: #fff;
+    transition: transform 0.2s;
+  }
+
+  .bfbella-opportunity-card__button:hover {
+    transform: scale(1.05);
+  }
+
+  .bfbella-opportunity-card__button svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .bfbella-opportunity-card__button--secondary {
+    background-color: rgb(255 255 255 / 0.1);
+    color: #fff;
+  }
+
+  .bfbella-opportunity-card__small-print {
+    font-size: 0.8rem;
+    color: rgb(255 255 255 / 0.4);
+    margin-block-start: 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-opportunity-card,
+    .bfbella-opportunity-card__button {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Opportunity",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "users", "label": "Users" },
+        { "value": "package", "label": "Package" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "primary", "label": "Primary (accent)" },
+        { "value": "secondary", "label": "Secondary (subtle)" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "text",
+      "id": "small_print",
+      "label": "Small print",
+      "info": "Optional caption below the button."
+    }
+  ]
+}
+{% endschema %}
