@@ -89,7 +89,8 @@
             "platform": "instagram",
             "label": "Instagram",
             "handle": "@buyflorabella",
-            "url": "https://instagram.com/buyflorabella/"
+            "url": "https://instagram.com/buyflorabella/",
+            "background_color": "{{ settings.color_palette.background }}"
           },
           "blocks": {}
         },
@@ -99,7 +100,8 @@
             "platform": "facebook",
             "label": "Facebook",
             "handle": "Follow us",
-            "url": "https://www.facebook.com/profile.php?id=61586134112080"
+            "url": "https://www.facebook.com/profile.php?id=61586134112080",
+            "background_color": "{{ settings.color_palette.background }}"
           },
           "blocks": {}
         },
@@ -109,7 +111,8 @@
             "platform": "youtube",
             "label": "YouTube",
             "handle": "@BuyFloraBella",
-            "url": "https://www.youtube.com/@BuyFloraBella"
+            "url": "https://www.youtube.com/@BuyFloraBella",
+            "background_color": "{{ settings.color_palette.background }}"
           },
           "blocks": {}
         },
@@ -119,7 +122,8 @@
             "platform": "linkedin",
             "label": "LinkedIn",
             "handle": "Connect with us",
-            "url": "https://www.linkedin.com/in/randall-everett-33ab233a4/"
+            "url": "https://www.linkedin.com/in/randall-everett-33ab233a4/",
+            "background_color": "{{ settings.color_palette.background }}"
           },
           "blocks": {}
         }

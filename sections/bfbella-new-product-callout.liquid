@@ -1,0 +1,174 @@
+{% comment %}
+  ============================================================================
+  Homepage — "New Product" PDF callout (top of page)
+  ============================================================================
+  One-off request, unrelated to the Community page work — DXB asked to replace the section at
+  the very top of templates/index.json (`section_VDmBDL`, DXB's own "newproductcallout"), which
+  had been hand-assembled via the theme editor per task 0003/Task 11's guidance-only howto as a
+  deeply nested native Group > Group > Button structure with a separate Text block. DXB called
+  the result "very poor" and asked for a real rebuild, replacing it with a lean bfbella-* custom
+  section instead — the same "narrow, low-bloat" approach already used for the Community page's
+  social-links section, which DXB specifically liked and asked to see applied here too.
+
+  PRODUCTION REFERENCE: fetched buyflorabella.com directly (confirmed still serving the old
+  Hydrogen/Oxygen app in production — 52 `oxygen-v2` asset references, not this Shopify theme —
+  but the actual design intent is real, current content, not stale mockup data). The real markup
+  is a single flex-wrap row of two pill buttons (hot pink fill, lime border + ring-offset glow,
+  bold uppercase, hover scale+darken) followed by one italic caption line with "amazing" in
+  bold. This section reproduces that closely, with every color resolved through the theme's own
+  palette (never hardcoded) so DXB can dial in the exact production hex via the native color
+  picker if `color5`/`color8` aren't close enough on their own.
+
+  BLOCKS, not fixed fields: production's 2 buttons are tied to whatever products are being
+  promoted "this month" — genuinely rotating content, not a fixed evergreen CTA pair (unlike
+  e.g. bfbella-about-cta.liquid's fixed 2 buttons). Built as a block repeater
+  (bfbella-callout-button) so DXB can add/remove/reorder promo links over time without needing
+  new section fields each time.
+
+  MESSAGE: richtext field (same reasoning as bfbella-about-story.liquid's Mission paragraphs
+  update) so "amazing" (or whatever word matters that month) can be bolded via the native
+  toolbar — matches production's `<span class="font-bold">amazing</span>` inside an otherwise
+  italic line.
+
+  CONTENT: real production copy and PDF links carried over directly from the section being
+  replaced (same URLs, confirmed unchanged) — see templates/index.json for where they're set.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="NewProductCallout-{{ section.id }}"
+  class="bfbella-new-product-callout{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-new-product-callout__inner page-width">
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="bfbella-new-product-callout__buttons">
+        {% content_for 'blocks' %}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.message != blank -%}
+      <div class="bfbella-new-product-callout__message">{{ section.settings.message }}</div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-new-product-callout {
+    padding-block-start: var(--bfbella-pad-top, 5rem);
+    padding-block-end: var(--bfbella-pad-bottom, 2rem);
+    background-color: var(--bfbella-bg);
+  }
+
+  .bfbella-new-product-callout__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .bfbella-new-product-callout__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .bfbella-new-product-callout__message {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--color-foreground);
+    text-align: center;
+  }
+
+  .bfbella-new-product-callout__message strong {
+    font-weight: 700;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — New Products",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-callout-button"
+    }
+  ],
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "message",
+      "label": "Caption message",
+      "info": "Rendered italic. Use the toolbar to bold specific words."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's base background. Production uses a warm off-white (#F5F5F0) — pick that exact shade here if you want a precise match, or leave blank for the theme's plain background."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — New Products",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-callout-button" },
+        { "type": "bfbella-callout-button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

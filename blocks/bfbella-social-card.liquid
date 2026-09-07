@@ -24,6 +24,11 @@
   used on the About page's Value cards for site consistency — switched from `scale(1.05)` to
   `translateY(-4px)` with the same shadow strength, replacing the original scale-based hover.
 
+  2026-09-07 UPDATE 2: DXB asked for each card to have its own background color setting, same
+  as bfbella-value-card.liquid already has — added `background_color`, same Liquid-templated
+  schema-default pattern (`"default": "{{ settings.color_palette.background }}"`, a live
+  palette reference, not a hardcoded hex).
+
   DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
   live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
   commits and pushes by hand.
@@ -33,6 +38,7 @@
   href="{{ block.settings.url | default: '#' }}"
   {% if block.settings.url != blank %}target="_blank" rel="noopener noreferrer"{% endif %}
   class="bfbella-social-card"
+  style="--bfbella-social-card-bg: {{ block.settings.background_color }};"
   {{ block.shopify_attributes }}
 >
   <span class="bfbella-social-card__icon">
@@ -61,7 +67,7 @@
     padding: 2rem 1.5rem;
     border-radius: 1.25rem;
     border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
-    background-color: var(--color-background);
+    background-color: var(--bfbella-social-card-bg, var(--color-background));
     color: inherit;
     text-decoration: none;
     transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
@@ -150,6 +156,17 @@
       "id": "url",
       "label": "Profile link",
       "info": "Opens in a new tab automatically."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "{{ settings.color_palette.background }}",
+      "info": "Defaults to the theme's own Background swatch — change it if you want this specific card to stand out."
     }
   ]
 }

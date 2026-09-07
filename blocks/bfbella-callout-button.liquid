@@ -1,0 +1,122 @@
+{% comment %}
+  BFBella — Callout Button
+
+  Renders one pill-style promo button in the homepage's New Product callout — see
+  sections/bfbella-new-product-callout.liquid's own comment for the full context (this replaces
+  a deeply-nested native Group>Group>Button structure DXB found too bloated, and reproduces
+  production's actual button styling: hot pink fill, lime border + ring-offset glow, bold
+  uppercase, hover scale+darken).
+
+  Built as a genuine theme block from the start (renders itself entirely; the parent section
+  only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's "Theme Blocks Must Render
+  Themselves" section.
+
+  COLOR: no hardcoded hex. Background falls back to `color5` (#FF1493, closest native swatch to
+  production's #FF0080), border/ring falls back to `color8` (#D4FF00 — an exact match to
+  production's lime). Both are real `settings.color_palette.*` references — a block can read
+  the theme's global `settings` object directly (confirmed native pattern, e.g.
+  blocks/contact-form.liquid's own color defaults use the same
+  `"default": "{{ settings.color_palette.X }}"` syntax), no CSS-custom-property indirection
+  needed here since this doesn't depend on the parent section's own settings.
+
+  DEPLOY: save as blocks/bfbella-callout-button.liquid in the live theme.
+{% endcomment %}
+
+<a
+  {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+  {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+  class="bfbella-callout-button"
+  style="
+    --bfbella-callout-bg: {{ block.settings.background_color }};
+    --bfbella-callout-bg-hover: {{ block.settings.hover_background_color }};
+    --bfbella-callout-border: {{ block.settings.border_color }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {{ block.settings.label }}
+</a>
+
+{% stylesheet %}
+  .bfbella-callout-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    background-color: var(--bfbella-callout-bg);
+    border: 2px solid var(--bfbella-callout-border);
+    outline: 2px solid var(--bfbella-callout-border);
+    outline-offset: 2px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.2s, background-color 0.2s;
+  }
+
+  .bfbella-callout-button:hover {
+    background-color: var(--bfbella-callout-bg-hover);
+    transform: scale(1.05);
+  }
+
+  .bfbella-callout-button:active {
+    transform: scale(0.95);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-callout-button {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Callout Button",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link",
+      "info": "Point at a PDF in Shopify Files, a product, or any page."
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "Open in new tab",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "{{ settings.color_palette.color5 }}",
+      "info": "Production uses hot pink (#FF0080) — pick that exact shade for a precise match, or leave the default color5 swatch."
+    },
+    {
+      "type": "color",
+      "id": "hover_background_color",
+      "label": "Hover background color",
+      "default": "{{ settings.color_palette.color5 }}",
+      "info": "Production darkens slightly on hover (#CC0066)."
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border / glow color",
+      "default": "{{ settings.color_palette.color8 }}",
+      "info": "Exact match to production's lime accent (#D4FF00)."
+    }
+  ]
+}
+{% endschema %}
