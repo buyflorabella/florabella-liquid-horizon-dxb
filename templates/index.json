@@ -3255,7 +3255,7 @@
         "heading_color": "",
         "subheading_color": "",
         "accent_color": "",
-        "background_color": "{{ settings.color_palette.color12 }}",
+        "background_color": "{{ settings.color_palette.color3 }}",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -3366,7 +3366,7 @@
         "max_videos": 6,
         "accent_color": "",
         "background_color": "",
-        "padding_top": 196,
+        "padding_top": 96,
         "padding_bottom": 96
       }
     },
