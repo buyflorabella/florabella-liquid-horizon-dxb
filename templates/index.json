@@ -2922,6 +2922,95 @@
         "padding_top": 96,
         "padding_bottom": 96
       }
+    },
+    "bfbella_mineral_composition_Kf7jtA": {
+      "type": "bfbella-mineral-composition",
+      "blocks": {
+        "bfbella_mineral_XgkYGa": {
+          "type": "bfbella-mineral",
+          "settings": {
+            "symbol": "Mg",
+            "atomic_number": "12",
+            "name": "Magnesium",
+            "benefit": "Supports deep green foliage and strong energy production in leaves."
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_jxwrBX": {
+          "type": "bfbella-mineral",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_BnVqmF": {
+          "type": "bfbella-mineral",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_zQ36fY": {
+          "type": "bfbella-mineral",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_ebYTCp": {
+          "type": "bfbella-mineral",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        },
+        "bfbella_mineral_r9a6gx": {
+          "type": "bfbella-mineral",
+          "settings": {
+            "symbol": "",
+            "atomic_number": "",
+            "name": "",
+            "benefit": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_mineral_XgkYGa",
+        "bfbella_mineral_jxwrBX",
+        "bfbella_mineral_BnVqmF",
+        "bfbella_mineral_zQ36fY",
+        "bfbella_mineral_ebYTCp",
+        "bfbella_mineral_r9a6gx"
+      ],
+      "name": "BFBella — Minerals",
+      "settings": {
+        "eyebrow": "70+ TRACE MINERALS",
+        "heading": "Inside Every Scoop Of Flora Bella",
+        "subheading": "Over 70 trace minerals in a molecular matrix designed by nature",
+        "analysis_heading": "Guaranteed Analysis",
+        "analysis_subheading": "View mineral percentages",
+        "analysis_footnote": "Minimum percentages by weight • Lab tested",
+        "additional_text": "+ 64 additional trace minerals working in synergy",
+        "additional_tags": "Mo, Co, Ni, Se, Si, V, Cr, Li, Sr, Ca, K, S, P, N",
+        "accent_color": "",
+        "background_color": "",
+        "background_image": "shopify://shop_images/background_for_minerals_correct.png",
+        "padding_top": 96,
+        "padding_bottom": 96
+      }
     }
   },
   "order": [
@@ -2932,6 +3021,7 @@
     "section_tCcnFD",
     "section_RCLh4P",
     "section_wfxcAM",
-    "bfbella_how_it_works_tbBUGq"
+    "bfbella_how_it_works_tbBUGq",
+    "bfbella_mineral_composition_Kf7jtA"
   ]
 }
