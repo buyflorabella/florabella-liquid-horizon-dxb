@@ -1,0 +1,47 @@
+{% comment %}
+  BFBella — Mineral Card
+
+  Renders one detail card (symbol badge, name, benefit text) in the card grid. Pairs with
+  blocks/bfbella-mineral-tile.liquid, which renders the SAME mineral again as a small periodic
+  tile in a separate section above — see that file's comment, and DIAGNOSIS.md, for why this is
+  two block types with duplicate data entry rather than one block rendered two ways.
+
+  DEPLOY: save as blocks/bfbella-mineral-card.liquid in the live theme.
+{% endcomment %}
+
+<div class="bfbella-mineral-card" {{ block.shopify_attributes }}>
+  <div class="bfbella-mineral-card__badge">{{ block.settings.symbol }}</div>
+  <div class="bfbella-mineral-card__body">
+    {%- if block.settings.name != blank -%}
+      <h3 class="bfbella-mineral-card__name">{{ block.settings.name }}</h3>
+    {%- endif -%}
+    {%- if block.settings.benefit != blank -%}
+      <p class="bfbella-mineral-card__benefit">{{ block.settings.benefit }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "BFBella — Mineral Card",
+  "settings": [
+    {
+      "type": "text",
+      "id": "symbol",
+      "label": "Symbol",
+      "info": "e.g. Mg"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "info": "e.g. Magnesium"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit",
+      "label": "Benefit"
+    }
+  ]
+}
+{% endschema %}
