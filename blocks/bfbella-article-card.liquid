@@ -1,0 +1,249 @@
+{% comment %}
+  BFBella — Article Card
+
+  Renders one guide/article card in "Learn To Treat Soil As A Living System": image with a
+  floating icon badge, read-time label, title, description, and a "Read guide" link.
+
+  Built as a self-rendering theme block from the start — see .claude/CLAUDE.md's "Theme Blocks
+  Must Render Themselves" section.
+
+  LINK: a plain URL field, not a Shopify blog-article picker — this project doesn't have a
+  Shopify Blog set up matching production's article slugs yet. Point it at a real blog article
+  once one exists, or leave blank for a non-clickable, purely decorative card. Made clickable
+  via a "stretched link" (a full-cover invisible `<a>` inside a `<div>` wrapper) rather than
+  swapping the root element's own tag name between `<a>`/`<div>` — the standard, theme-check-safe
+  way to do this; CSS `:hover` on the wrapper still fires correctly since hovering any
+  descendant (including the overlay link) also matches `:hover` on every ancestor.
+
+  DEPLOY: save as blocks/bfbella-article-card.liquid in the live theme.
+{% endcomment %}
+
+<div class="bfbella-article-card" {{ block.shopify_attributes }}>
+  {%- if block.settings.link != blank -%}
+    <a href="{{ block.settings.link }}" class="bfbella-article-card__link-overlay" aria-label="{{ block.settings.title | escape }}"></a>
+  {%- endif -%}
+  <div class="bfbella-article-card__media">
+    {%- if block.settings.image != blank -%}
+      {{
+        block.settings.image
+        | image_url: width: 800
+        | image_tag: loading: 'lazy', alt: block.settings.title, class: 'bfbella-article-card__img'
+      }}
+    {%- endif -%}
+    {%- if block.settings.icon != 'none' -%}
+      <div class="bfbella-article-card__icon">
+        {%- case block.settings.icon -%}
+          {%- when 'sprout' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 20V11"/>
+              <path d="M12 11q-1-6-7-6q1 6 7 6"/>
+              <path d="M12 11q1-6 7-6q-1 6-7 6"/>
+              <path d="M6 20h12"/>
+            </svg>
+          {%- when 'book_open' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 7c-1.5-1.5-4-2-7-2v13c3 0 5.5 0.5 7 2c1.5-1.5 4-2 7-2V5c-3 0-5.5 0.5-7 2z"/>
+              <path d="M12 7v13"/>
+            </svg>
+          {%- when 'bug' -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <ellipse cx="12" cy="14" rx="5" ry="7"/>
+              <path d="M12 7V4"/>
+              <path d="M9 4l1.5 2"/>
+              <path d="M15 4l-1.5 2"/>
+              <path d="M5 11l2 1.5"/>
+              <path d="M5 14h3"/>
+              <path d="M5 17l2-1.5"/>
+              <path d="M19 11l-2 1.5"/>
+              <path d="M19 14h-3"/>
+              <path d="M19 17l-2-1.5"/>
+            </svg>
+        {%- endcase -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="bfbella-article-card__body">
+    {%- if block.settings.read_time != blank -%}
+      <p class="bfbella-article-card__read-time">{{ block.settings.read_time }}</p>
+    {%- endif -%}
+    {%- if block.settings.title != blank -%}
+      <h3 class="bfbella-article-card__title">{{ block.settings.title }}</h3>
+    {%- endif -%}
+    {%- if block.settings.description != blank -%}
+      <p class="bfbella-article-card__description">{{ block.settings.description }}</p>
+    {%- endif -%}
+    {%- if block.settings.link != blank -%}
+      <span class="bfbella-article-card__cta">
+        Read guide
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12,5 19,12 12,19"/>
+        </svg>
+      </span>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-article-card {
+    position: relative;
+    display: block;
+    background: rgb(255 255 255 / 0.05);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .bfbella-article-card__link-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  .bfbella-article-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 25px 50px -12px color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+  }
+
+  .bfbella-article-card__media {
+    position: relative;
+    height: 12rem;
+    overflow: hidden;
+  }
+
+  .bfbella-article-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+
+  .bfbella-article-card:hover .bfbella-article-card__img {
+    transform: scale(1.1);
+  }
+
+  .bfbella-article-card__icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.5);
+    backdrop-filter: blur(4px);
+    color: var(--bfbella-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bfbella-article-card__icon svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .bfbella-article-card__body {
+    padding: 2rem;
+  }
+
+  .bfbella-article-card__read-time {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--bfbella-accent);
+    margin-block-end: 0.75rem;
+  }
+
+  .bfbella-article-card__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.35;
+    margin-block-end: 0.75rem;
+  }
+
+  .bfbella-article-card__description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.7);
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-article-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--bfbella-accent);
+    transition: gap 0.3s;
+  }
+
+  .bfbella-article-card:hover .bfbella-article-card__cta {
+    gap: 1rem;
+  }
+
+  .bfbella-article-card__cta svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-article-card,
+    .bfbella-article-card__img,
+    .bfbella-article-card__cta {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Article Card",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "sprout", "label": "Sprout" },
+        { "value": "book_open", "label": "Book" },
+        { "value": "bug", "label": "Bug" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "text",
+      "id": "read_time",
+      "label": "Read time",
+      "info": "e.g. \"7 min read\""
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link",
+      "info": "Optional. Point at a Shopify blog article once one exists. Leave blank for a non-clickable card."
+    }
+  ]
+}
+{% endschema %}
