@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "main": {
       "type": "main-page",
@@ -251,23 +252,22 @@
               "settings": {
                 "width": "fill",
                 "width_mobile": "fill",
-                "background_color": "",
-                "subject_label": "Subject *",
-                "inquiry_type_label": "Inquiry Type *",
-                "inquiry_type_options": "General Inquiry\nOrder Support\nProduct Question\nWholesale / Bulk Inquiry\nBrand Ambassador Program",
-                "padding-block-start": 8,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0,
                 "name_label": "Name *",
                 "name_placeholder": "Your name",
                 "email_label": "Email *",
                 "email_placeholder": "your@email.com",
                 "phone_label": "Phone",
                 "phone_placeholder": "(555) 123-4567",
+                "subject_label": "Subject *",
                 "subject_placeholder": "How can we help?",
+                "inquiry_type_label": "Inquiry Type *",
+                "inquiry_type_options": "General Inquiry\nOrder Support\nProduct Question\nWholesale / Bulk Inquiry\nBrand Ambassador Program",
                 "message_label": "Message *",
-                "message_placeholder": "Tell us more about your inquiry..."
+                "message_placeholder": "Tell us more about your inquiry...",
+                "padding-block-start": 8,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {
                 "submit-button": {
@@ -388,9 +388,9 @@
                 "icon": "none",
                 "heading": "Partnerships",
                 "text": "Interested in partnering with Flora Bella? We offer opportunities for brand ambassadors, wholesale buyers, and retail partnerships.",
+                "text2": "Select the appropriate inquiry type in the form to learn more about partnership opportunities.",
                 "link_label": "",
-                "link_url": "",
-                "text2": "Select the appropriate inquiry type in the form to learn more about partnership opportunities."
+                "link_url": ""
               },
               "blocks": {}
             },
