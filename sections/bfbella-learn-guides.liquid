@@ -23,18 +23,6 @@
   at 1) — an approximation, not a real per-article value, same technique already used on the
   Articles section above.
 
-  ORDERING (round 3 — fixed a real regression from the first attempt): guide left-to-right order
-  comes from tagging each article `featured1`/`featured2`/.../`featuredN` (prefix configurable
-  via order_tag_prefix). The first attempt sorted a computed key string built with prepend/slice
-  tricks, then re-matched handles back to articles — fragile, and it broke down to showing only
-  one guide once real-world tag data (including leftover "featured"-only tags from an earlier,
-  separate dev effort — see 0009's featured-article tag, a DIFFERENT single un-numbered tag)
-  entered the picture. Replaced with a much simpler, exact-match approach: for each position 1..N,
-  scan the blog's articles for one whose tags contain (case-insensitively) that exact
-  "featured<N>" string — never a substring/prefix check, so a bare "featured" tag can never be
-  mistaken for "featured1". Untagged guides fill any remaining slots afterward, in normal blog
-  order, up to post_limit.
-
   COLOR: no hardcoded hex. Accent resolves through section.settings.accent_color, falling back
   to color_palette.color3. Background falls back to color_palette.background.
 
@@ -75,63 +63,43 @@
     {%- endif -%}
 
     {%- if section.settings.guides_blog != blank -%}
-      <div class="bfbella-learn-guides__grid">
-        {%- liquid
-          assign order_prefix = section.settings.order_tag_prefix | default: 'featured' | downcase
-          assign max_shown = section.settings.post_limit | default: 3
-          assign shown_handles = '|'
-          assign shown_count = 0
+      {%- liquid
+        assign order_prefix = section.settings.order_tag_prefix | default: 'featured'
+        assign sort_lines = ''
 
-          for n in (1..12)
-            if shown_count >= max_shown
+        for article in section.settings.guides_blog.articles limit: section.settings.post_limit
+          assign order_key = blank
+          for tag in article.tags
+            if tag contains order_prefix
+              assign order_key = tag | remove: order_prefix | prepend: '00' | slice: -3, 3
               break
             endif
-            assign target_tag = order_prefix | append: n
+          endfor
+          assign order_key = order_key | default: '999'
+          assign sort_lines = sort_lines | append: order_key | append: '|' | append: article.handle | append: newline
+        endfor
 
-            for article in section.settings.guides_blog.articles
-              assign already_shown = shown_handles contains article.handle
-              if already_shown
-                continue
-              endif
-
-              assign matched = false
-              for tag in article.tags
-                assign tag_downcase = tag | downcase
-                if tag_downcase == target_tag
-                  assign matched = true
-                  break
-                endif
-              endfor
-
-              if matched
-                assign shown_handles = shown_handles | append: article.handle | append: '|'
-                assign shown_count = shown_count | plus: 1
+        assign sort_lines = sort_lines | newline_to_br | split: '<br />'
+        assign sorted_handles = sort_lines | sort
+      -%}
+      <div class="bfbella-learn-guides__grid">
+        {%- for line in sorted_handles -%}
+          {%- assign clean_line = line | strip -%}
+          {%- if clean_line == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign parts = clean_line | split: '|' -%}
+          {%- assign target_handle = parts | last -%}
+          {%- for article in section.settings.guides_blog.articles -%}
+            {%- if article.handle == target_handle -%}
+              {%- liquid
                 assign word_count = article.content | strip_html | split: ' ' | size
                 assign read_minutes = word_count | divided_by: 200
                 assign read_minutes = read_minutes | at_least: 1
-                render 'bfbella-guide-card', article: article, read_minutes: read_minutes
-                break
-              endif
-            endfor
-          endfor
-
-          for article in section.settings.guides_blog.articles
-            if shown_count >= max_shown
-              break
-            endif
-            assign already_shown = shown_handles contains article.handle
-            if already_shown
-              continue
-            endif
-
-            assign shown_handles = shown_handles | append: article.handle | append: '|'
-            assign shown_count = shown_count | plus: 1
-            assign word_count = article.content | strip_html | split: ' ' | size
-            assign read_minutes = word_count | divided_by: 200
-            assign read_minutes = read_minutes | at_least: 1
-            render 'bfbella-guide-card', article: article, read_minutes: read_minutes
-          endfor
-        -%}
+              -%}
+              {% render 'bfbella-guide-card', article: article, read_minutes: read_minutes %}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
       </div>
     {%- endif -%}
   </div>
