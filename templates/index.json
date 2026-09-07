@@ -1352,9 +1352,10 @@
         "bfbella_benefit_card_ykfErY": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "icon": "none",
-            "title": "",
-            "description": ""
+            "image": "shopify://shop_images/Why_Growers_Choose_2_of_6_FB_Zoom_in.jpg",
+            "icon": "file_stack",
+            "title": "Ancient + Mineral-dense",
+            "description": "Made from mineral deposits formed over thousands of years — carrying complexity you can't replicate in a lab."
           },
           "blocks": {}
         },
