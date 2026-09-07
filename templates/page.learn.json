@@ -90,6 +90,7 @@
         "guides_blog": "guides",
         "post_limit": 3,
         "order_tag_prefix": "guide",
+        "enable_ordering": true,
         "accent_color": "",
         "background_color": "",
         "card_background_color": "",

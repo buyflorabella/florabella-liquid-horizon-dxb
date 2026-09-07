@@ -18,38 +18,6 @@
       { once: true }
     );
   }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.bfbella-shop-tabs').forEach((tabs) => {
-      const buttons = tabs.querySelectorAll('.bfbella-shop-tab');
-      const gridId = tabs.getAttribute('data-grid-id');
-      const grid = document.getElementById(gridId);
-      if (!grid) return;
-      const items = grid.querySelectorAll('[data-bfbella-tags]');
-
-      buttons.forEach((button) => {
-        button.addEventListener('click', () => {
-          const targetTag = button.getAttribute('data-filter-tag');
-
-          buttons.forEach((otherButton) => {
-            otherButton.classList.remove('bfbella-shop-tab--active');
-            otherButton.setAttribute('aria-selected', 'false');
-          });
-          button.classList.add('bfbella-shop-tab--active');
-          button.setAttribute('aria-selected', 'true');
-
-          items.forEach((item) => {
-            if (targetTag === '') {
-              item.hidden = false;
-              return;
-            }
-            const itemTags = (item.getAttribute('data-bfbella-tags') || '').split(',');
-            item.hidden = !itemTags.includes(targetTag);
-          });
-        });
-      });
-    });
-  });
 {% endjavascript %}
 
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
@@ -77,26 +45,43 @@
     {% if section.settings.show_category_filter %}
       <div
         class="bfbella-shop-tabs"
-        data-grid-id="bfbella-shop-grid-{{ section.id }}"
         style="--bfbella-shop-accent: {{ section.settings.accent_color | default: settings.color_palette.color1 }};"
       >
-        <button type="button" class="bfbella-shop-tab bfbella-shop-tab--active" data-filter-tag="" aria-selected="true">
-          {{ section.settings.all_label | default: 'All' }}
-        </button>
-        {% if section.settings.category_1_tag != blank %}
-          <button type="button" class="bfbella-shop-tab" data-filter-tag="{{ section.settings.category_1_tag | downcase }}" aria-selected="false">
-            {{ section.settings.category_1_label }}
-          </button>
+        {% if section.settings.all_products_collection != blank %}
+          <a
+            href="{{ section.settings.all_products_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.all_products_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.all_products_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.all_label | default: 'All' }}
+          </a>
         {% endif %}
-        {% if section.settings.category_2_tag != blank %}
-          <button type="button" class="bfbella-shop-tab" data-filter-tag="{{ section.settings.category_2_tag | downcase }}" aria-selected="false">
-            {{ section.settings.category_2_label }}
-          </button>
+        {% if section.settings.category_1_collection != blank %}
+          <a
+            href="{{ section.settings.category_1_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.category_1_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.category_1_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.category_1_label | default: section.settings.category_1_collection.title }}
+          </a>
         {% endif %}
-        {% if section.settings.category_3_tag != blank %}
-          <button type="button" class="bfbella-shop-tab" data-filter-tag="{{ section.settings.category_3_tag | downcase }}" aria-selected="false">
-            {{ section.settings.category_3_label }}
-          </button>
+        {% if section.settings.category_2_collection != blank %}
+          <a
+            href="{{ section.settings.category_2_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.category_2_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.category_2_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.category_2_label | default: section.settings.category_2_collection.title }}
+          </a>
+        {% endif %}
+        {% if section.settings.category_3_collection != blank %}
+          <a
+            href="{{ section.settings.category_3_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.category_3_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.category_3_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.category_3_label | default: section.settings.category_3_collection.title }}
+          </a>
         {% endif %}
       </div>
     {% endif %}
@@ -126,7 +111,6 @@
               class="product-grid__item product-grid__item--{{ forloop.index0 }}"
               data-page="{{ paginate.current_page }}"
               data-product-id="{{ product.id }}"
-              data-bfbella-tags="{{ product.tags | join: ',' | downcase }}"
               ref="cards[]"
             >
               {% content_for 'block',
@@ -161,7 +145,7 @@
   }
 
   .bfbella-shop-tab {
-    appearance: none;
+    display: inline-block;
     border: 1px solid rgb(var(--color-border-rgb) / 0.4);
     background: transparent;
     border-radius: 999px;
@@ -169,7 +153,7 @@
     font-size: 0.9rem;
     font-weight: 600;
     color: rgb(var(--color-foreground));
-    cursor: pointer;
+    text-decoration: none;
     white-space: nowrap;
     transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
   }
@@ -182,10 +166,6 @@
     border-color: var(--bfbella-shop-accent);
     background: var(--bfbella-shop-accent);
     color: rgb(var(--color-background));
-  }
-
-  .product-grid__item[hidden] {
-    display: none;
   }
 
   @media screen and (max-width: 749px) {
@@ -206,55 +186,58 @@
   "settings": [
     {
       "type": "header",
-      "content": "Category filter (tabs)"
+      "content": "Category navigation (tabs)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Links between real collections — not a client-side filter. Each collection below should already contain the right products; this just draws a consistent tab bar linking them together."
     },
     {
       "type": "checkbox",
       "id": "show_category_filter",
-      "label": "Show category filter tabs",
+      "label": "Show category navigation tabs",
       "default": true
+    },
+    {
+      "type": "collection",
+      "id": "all_products_collection",
+      "label": "\"All\" tab — collection"
     },
     {
       "type": "text",
       "id": "all_label",
-      "label": "\"All\" tab label",
+      "label": "\"All\" tab — label",
       "default": "All"
     },
     {
-      "type": "text",
-      "id": "category_1_tag",
-      "label": "Category 1 — tag",
-      "default": "tracemineralbags"
+      "type": "collection",
+      "id": "category_1_collection",
+      "label": "Category 1 — collection"
     },
     {
       "type": "text",
       "id": "category_1_label",
-      "label": "Category 1 — label",
-      "default": "Trace Mineral Bags"
+      "label": "Category 1 — label override (optional)"
     },
     {
-      "type": "text",
-      "id": "category_2_tag",
-      "label": "Category 2 — tag",
-      "default": "microdust"
+      "type": "collection",
+      "id": "category_2_collection",
+      "label": "Category 2 — collection"
     },
     {
       "type": "text",
       "id": "category_2_label",
-      "label": "Category 2 — label",
-      "default": "Microdust"
+      "label": "Category 2 — label override (optional)"
     },
     {
-      "type": "text",
-      "id": "category_3_tag",
-      "label": "Category 3 — tag",
-      "default": "biostimulant"
+      "type": "collection",
+      "id": "category_3_collection",
+      "label": "Category 3 — collection"
     },
     {
       "type": "text",
       "id": "category_3_label",
-      "label": "Category 3 — label",
-      "default": "Biostimulant"
+      "label": "Category 3 — label override (optional)"
     },
     {
       "type": "color",
