@@ -1,0 +1,442 @@
+<script
+  src="{{ 'results-list.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{% javascript %}
+  const url = new URL(window.location.href);
+  if (url.hash) {
+    document.addEventListener(
+      'DOMContentLoaded',
+      () => {
+        const card = document.getElementById(url.hash.slice(1));
+        if (card) {
+          card.scrollIntoView({ behavior: 'instant' });
+        }
+      },
+      { once: true }
+    );
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.bfbella-shop-tabs').forEach((tabs) => {
+      const buttons = tabs.querySelectorAll('.bfbella-shop-tab');
+      const gridId = tabs.getAttribute('data-grid-id');
+      const grid = document.getElementById(gridId);
+      if (!grid) return;
+      const items = grid.querySelectorAll('[data-bfbella-tags]');
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const targetTag = button.getAttribute('data-filter-tag');
+
+          buttons.forEach((otherButton) => {
+            otherButton.classList.remove('bfbella-shop-tab--active');
+            otherButton.setAttribute('aria-selected', 'false');
+          });
+          button.classList.add('bfbella-shop-tab--active');
+          button.setAttribute('aria-selected', 'true');
+
+          items.forEach((item) => {
+            if (targetTag === '') {
+              item.hidden = false;
+              return;
+            }
+            const itemTags = (item.getAttribute('data-bfbella-tags') || '').split(',');
+            item.hidden = !itemTags.includes(targetTag);
+          });
+        });
+      });
+    });
+  });
+{% endjavascript %}
+
+{% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+{% render 'collection-wrapper-styles' %}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+{% # theme-check-disable-next-line UnknownFilter %}
+<collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
+  <results-list
+    class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+    style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
+    section-id="{{ section.id }}"
+    infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
+  >
+    {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
+
+    {% if section.settings.show_category_filter %}
+      <div
+        class="bfbella-shop-tabs"
+        data-grid-id="bfbella-shop-grid-{{ section.id }}"
+        style="--bfbella-shop-accent: {{ section.settings.accent_color | default: settings.color_palette.color1 }};"
+      >
+        <button type="button" class="bfbella-shop-tab bfbella-shop-tab--active" data-filter-tag="" aria-selected="true">
+          {{ section.settings.all_label | default: 'All' }}
+        </button>
+        {% if section.settings.category_1_tag != blank %}
+          <button type="button" class="bfbella-shop-tab" data-filter-tag="{{ section.settings.category_1_tag | downcase }}" aria-selected="false">
+            {{ section.settings.category_1_label }}
+          </button>
+        {% endif %}
+        {% if section.settings.category_2_tag != blank %}
+          <button type="button" class="bfbella-shop-tab" data-filter-tag="{{ section.settings.category_2_tag | downcase }}" aria-selected="false">
+            {{ section.settings.category_2_label }}
+          </button>
+        {% endif %}
+        {% if section.settings.category_3_tag != blank %}
+          <button type="button" class="bfbella-shop-tab" data-filter-tag="{{ section.settings.category_3_tag | downcase }}" aria-selected="false">
+            {{ section.settings.category_3_label }}
+          </button>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div
+      id="bfbella-shop-grid-{{ section.id }}"
+      class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+    >
+      {% content_for 'block',
+        type: 'filters',
+        id: 'filters',
+        results: collection,
+        results_size: collection.products_count
+      %}
+
+      {% assign products_per_page = 24 %}
+
+      {% if section.settings.enable_infinite_scroll == false %}
+        {% assign products_per_page = section.settings.products_per_page %}
+      {% endif %}
+
+      {% paginate collection.products by products_per_page %}
+        {% capture children %}
+          {% for product in collection.products %}
+            <li
+              id="{{ section.id }}-{{ product.id }}"
+              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+              data-page="{{ paginate.current_page }}"
+              data-product-id="{{ product.id }}"
+              data-bfbella-tags="{{ product.tags | join: ',' | downcase }}"
+              ref="cards[]"
+            >
+              {% content_for 'block',
+                type: '_product-card',
+                id: 'product-card',
+                closest.product: product,
+                product_view_context: 'collection'
+              %}
+            </li>
+          {% endfor %}
+        {% endcapture %}
+
+        {% render 'product-grid',
+          section: section,
+          children: children,
+          products: collection.products,
+          paginate: paginate,
+          enable_infinite_scroll: section.settings.enable_infinite_scroll
+        %}
+      {% endpaginate %}
+    </div>
+  </results-list>
+</collection-component>
+
+{% stylesheet %}
+  .bfbella-shop-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block-end: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bfbella-shop-tab {
+    appearance: none;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    background: transparent;
+    border-radius: 999px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgb(var(--color-foreground));
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .bfbella-shop-tab:hover {
+    border-color: var(--bfbella-shop-accent);
+  }
+
+  .bfbella-shop-tab--active {
+    border-color: var(--bfbella-shop-accent);
+    background: var(--bfbella-shop-accent);
+    color: rgb(var(--color-background));
+  }
+
+  .product-grid__item[hidden] {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .bfbella-shop-tabs {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-block-end: 0.25rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Shop Collection",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Category filter (tabs)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_filter",
+      "label": "Show category filter tabs",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "label": "\"All\" tab label",
+      "default": "All"
+    },
+    {
+      "type": "text",
+      "id": "category_1_tag",
+      "label": "Category 1 — tag",
+      "default": "tracemineralbags"
+    },
+    {
+      "type": "text",
+      "id": "category_1_label",
+      "label": "Category 1 — label",
+      "default": "Trace Mineral Bags"
+    },
+    {
+      "type": "text",
+      "id": "category_2_tag",
+      "label": "Category 2 — tag",
+      "default": "microdust"
+    },
+    {
+      "type": "text",
+      "id": "category_2_label",
+      "label": "Category 2 — label",
+      "default": "Microdust"
+    },
+    {
+      "type": "text",
+      "id": "category_3_tag",
+      "label": "Category 3 — tag",
+      "default": "biostimulant"
+    },
+    {
+      "type": "text",
+      "id": "category_3_label",
+      "label": "Category 3 — label",
+      "default": "Biostimulant"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Active tab color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "t:settings.type",
+      "options": [
+        {
+          "value": "grid",
+          "label": "t:options.grid"
+        },
+        {
+          "value": "organic",
+          "label": "t:options.editorial"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "select",
+      "id": "product_card_size",
+      "label": "t:settings.card_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:options.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:options.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:options.large"
+        },
+        {
+          "value": "extra-large",
+          "label": "t:options.extra_large"
+        }
+      ],
+      "default": "medium",
+      "visible_if": "{{ section.settings.layout_type == 'grid' }}"
+    },
+    {
+      "type": "select",
+      "id": "mobile_product_card_size",
+      "label": "t:settings.mobile_card_size",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:options.small"
+        },
+        {
+          "value": "large",
+          "label": "t:options.large"
+        }
+      ],
+      "default": "small"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_infinite_scroll",
+      "label": "t:settings.auto_load_products",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:settings.products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 24,
+      "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
+    },
+    {
+      "type": "select",
+      "id": "product_grid_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "centered",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "centered"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_on_mobile",
+      "label": "t:settings.full_width_on_mobile",
+      "default": true,
+      "visible_if": "{{ section.settings.product_grid_width != 'full-width' }}"
+    },
+    {
+      "type": "range",
+      "id": "columns_gap_horizontal",
+      "label": "t:settings.horizontal_gap",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "columns_gap_vertical",
+      "label": "t:settings.vertical_gap",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom_padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Shop Collection"
+    }
+  ]
+}
+{% endschema %}
