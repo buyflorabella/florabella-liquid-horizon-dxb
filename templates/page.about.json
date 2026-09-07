@@ -67,6 +67,7 @@
         "intro": "Founded on the belief that optimal SOIL begins with proper mineral nutrition, Flora Bella is committed to providing the highest quality trace minerals to support your wellness journey.",
         "mission_heading": "Our Mission",
         "mission_paragraphs": "At Flora Bella, we believe that everyone deserves access to pure, bioavailable minerals that support optimal health and vitality. Our mission is to bridge the gap between modern nutritional needs and the mineral-depleted foods of today's agricultural system.\nWe are dedicated to sourcing the finest quality minerals from pristine ancient sea beds and volcanic deposits, ensuring that each product delivers the full spectrum of trace minerals your body needs to thrive.\nThrough rigorous testing, transparent sourcing, and a commitment to education, we empower individuals to take control of their mineral nutrition and experience the transformative benefits of proper supplementation.",
+        "mission_image": "shopify://shop_images/5lb_bag_brick.jpg",
         "accent_color": "",
         "background_color": "",
         "padding_top": 96,
@@ -82,7 +83,8 @@
             "icon": "leaf",
             "title": "Pure Sourcing",
             "description": "Minerals sourced from pristine ancient sea beds and volcanic deposits, free from modern pollutants."
-          }
+          },
+          "blocks": {}
         },
         "value-2": {
           "type": "bfbella-value-card",
@@ -90,7 +92,8 @@
             "icon": "award",
             "title": "Quality Tested",
             "description": "Every batch is third-party tested for purity, potency, and safety to ensure premium quality."
-          }
+          },
+          "blocks": {}
         },
         "value-3": {
           "type": "bfbella-value-card",
@@ -98,7 +101,8 @@
             "icon": "heart",
             "title": "Science-Backed",
             "description": "Formulations based on cutting-edge research and clinical studies in mineral nutrition."
-          }
+          },
+          "blocks": {}
         },
         "value-4": {
           "type": "bfbella-value-card",
@@ -106,10 +110,16 @@
             "icon": "users",
             "title": "Community First",
             "description": "Supporting a vibrant community of health-conscious individuals on their wellness journey."
-          }
+          },
+          "blocks": {}
         }
       },
-      "block_order": ["value-1", "value-2", "value-3", "value-4"],
+      "block_order": [
+        "value-1",
+        "value-2",
+        "value-3",
+        "value-4"
+      ],
       "settings": {
         "heading": "",
         "subheading": "",
