@@ -1,0 +1,417 @@
+{% comment %}
+  BFBella — Contact Form
+
+  Copy-modify of the native contact-form block (blocks/contact-form.liquid), per project
+  convention: start from the native file, preserve its structure, layer in what's needed rather
+  than rebuilding from scratch. Kept: the real Shopify native form submission (posts to the
+  built-in contact form handler, no backend of our own), the name/email/phone/message fields,
+  the width/padding schema settings, and the submit-button sub-block wiring.
+
+  ADDED (2026-09-07, round 3, per production reference at ContactPage.tsx): an Inquiry Type
+  select dropdown and a Subject field, matching production's field set. Shopify's native contact
+  form accepts arbitrary "contact[Field Name]" inputs beyond the built-in name/email/phone/body —
+  they ride along in the notification email — so both new fields work exactly like the native
+  ones without needing a backend of our own.
+
+  STYLING: renamed every class from the native "contact-form" / "contact-form__x" prefix to
+  "bfbella-contact-form" / "bfbella-contact-form__x", confirmed via a repo-wide grep that the
+  native block wasn't reused anywhere else on the site (only this page referenced it before this
+  change), so the class rename can't affect any other page. This also lets this file's own
+  stylesheet block safely target the submit button by a scoped descendant selector, since the
+  button renders inside this file's own wrapper div — no risk of styling some other page's native
+  contact form by accident.
+
+  COLOR: input glass styling (translucent white, matching the rest of this page's dark-glass
+  cards) is hardcoded the same way the sibling opportunity/info/quickhelp cards already do it on
+  this page — a UI transparency effect over the section's real background color, not a new brand
+  color. Everything else (accent, button colors) is driven by CSS custom properties set from the
+  markup, in the same style as every other section on this page.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+{% endcomment %}
+
+{% capture submit_button %}
+  {% content_for 'block', type: 'contact-form-submit-button', id: 'submit-button' %}
+{% endcapture %}
+
+<div
+  class="bfbella-contact-form spacing-style size-style"
+  style="
+    --bfbella-accent: {{ settings.color_palette.color3 }};
+    {% render 'spacing-style', settings: block.settings %}
+    {% render 'size-style', settings: block.settings %}
+    {% if block.settings.background_color != blank %}background-color: {{ block.settings.background_color }};{% endif %}
+  "
+  {{ block.shopify_attributes }}
+>
+  {% assign form_id = block.id | default: section.id | prepend: 'ContactForm-' %}
+  {%- form 'contact', id: form_id, class: 'bfbella-contact-form__form' -%}
+    <input
+      name="contact[id]"
+      type="hidden"
+      value="{{ form_id }}"
+    >
+
+    {% liquid
+      assign form_matches = false
+      if form.id == form_id or form.id == blank
+        assign form_matches = true
+      endif
+    %}
+
+    {%- if form.errors and form_matches -%}
+      <div
+        class="bfbella-contact-form__error"
+        tabindex="-1"
+        autofocus
+      >
+        {{- 'icon-error.svg' | inline_asset_content -}}
+
+        {{- form.errors.translated_fields.email | capitalize }}
+        {{ form.errors.messages.email -}}
+      </div>
+    {%- endif -%}
+
+    {%- if form.posted_successfully? and form_matches -%}
+      <div
+        class="bfbella-contact-form__success"
+        tabindex="-1"
+        autofocus
+      >
+        {{- 'icon-checkmark.svg' | inline_asset_content -}}
+        {{- 'blocks.contact_form.post_success' | t -}}
+      </div>
+    {%- endif -%}
+
+    <div class="bfbella-contact-form__row">
+      <label
+        class="visually-hidden"
+        for="BfbellaContactForm-name"
+      >
+        {{- 'blocks.contact_form.name' | t -}}
+      </label>
+      <input
+        type="text"
+        id="BfbellaContactForm-name"
+        class="bfbella-contact-form__input"
+        autocomplete="name"
+        name="contact[name]"
+        value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+        placeholder="{{ 'blocks.contact_form.name' | t }}"
+      >
+
+      <label
+        class="visually-hidden"
+        for="BfbellaContactForm-email"
+      >
+        {{- 'blocks.contact_form.email' | t -}}
+        <span aria-hidden="true">*</span></label
+      >
+      <input
+        type="email"
+        id="BfbellaContactForm-email"
+        class="bfbella-contact-form__input"
+        autocomplete="email"
+        name="contact[email]"
+        spellcheck="false"
+        autocapitalize="off"
+        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+        aria-required="true"
+        {% if form.errors contains 'email' and form_matches %}
+          aria-invalid="true"
+          aria-describedby="BfbellaContactForm-email-error"
+        {% endif %}
+        placeholder="{{ 'blocks.contact_form.email' | t }}"
+      >
+    </div>
+
+    <div class="bfbella-contact-form__row">
+      <label
+        class="visually-hidden"
+        for="BfbellaContactForm-phone"
+      >
+        {{- 'blocks.contact_form.phone' | t -}}
+      </label>
+      <input
+        type="tel"
+        id="BfbellaContactForm-phone"
+        class="bfbella-contact-form__input"
+        autocomplete="tel"
+        name="contact[phone]"
+        pattern="[0-9\-]*"
+        value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+        placeholder="{{ 'blocks.contact_form.phone' | t }}"
+      >
+
+      <label
+        class="visually-hidden"
+        for="BfbellaContactForm-inquiry-type"
+      >
+        {{ block.settings.inquiry_type_label }}
+      </label>
+      <select
+        id="BfbellaContactForm-inquiry-type"
+        class="bfbella-contact-form__input bfbella-contact-form__input--select"
+        name="contact[{{ block.settings.inquiry_type_label }}]"
+      >
+        <option value="">{{ block.settings.inquiry_type_label }}</option>
+        {%- for line in block.settings.inquiry_type_options | newline_to_br | split: '<br />' -%}
+          {%- assign option = line | strip -%}
+          {%- if option != blank -%}
+            <option value="{{ option }}">{{ option }}</option>
+          {%- endif -%}
+        {%- endfor -%}
+      </select>
+    </div>
+
+    <label
+      class="visually-hidden"
+      for="BfbellaContactForm-subject"
+    >
+      {{ block.settings.subject_label }}
+    </label>
+    <input
+      type="text"
+      id="BfbellaContactForm-subject"
+      class="bfbella-contact-form__input"
+      name="contact[{{ block.settings.subject_label }}]"
+      placeholder="{{ block.settings.subject_label }}"
+    >
+
+    <label
+      class="visually-hidden"
+      for="BfbellaContactForm-body"
+    >
+      {{- 'blocks.contact_form.comment' | t -}}
+    </label>
+    <textarea
+      rows="6"
+      id="BfbellaContactForm-body"
+      class="bfbella-contact-form__input bfbella-contact-form__input--textarea"
+      name="contact[body]"
+      placeholder="{{ 'blocks.contact_form.comment' | t }}"
+    >
+      {{- form.body -}}
+    </textarea>
+
+    {{ submit_button }}
+  {%- endform -%}
+</div>
+
+{% stylesheet %}
+  .bfbella-contact-form__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+
+  .bfbella-contact-form__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+
+    @media screen and (min-width: 750px) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  .bfbella-contact-form__input {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+    background-color: rgb(255 255 255 / 0.05);
+    padding: 0.9rem 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    -webkit-font-smoothing: antialiased;
+    transition: border-color 0.2s;
+    font: inherit;
+  }
+
+  .bfbella-contact-form__input::placeholder {
+    color: rgb(255 255 255 / 0.4);
+  }
+
+  .bfbella-contact-form__input:focus {
+    outline: none;
+    border-color: var(--bfbella-accent);
+  }
+
+  .bfbella-contact-form__input--select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='white'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpolyline%20points='6%209%2012%2015%2018%209'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    padding-inline-end: 2.75rem;
+  }
+
+  .bfbella-contact-form__input--select option {
+    background-color: #1a1a2e;
+    color: #fff;
+  }
+
+  .bfbella-contact-form__input--textarea {
+    resize: vertical;
+    min-height: 10rem;
+  }
+
+  .bfbella-contact-form__error,
+  .bfbella-contact-form__success {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+  }
+
+  .bfbella-contact-form .submit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .bfbella-contact-form .submit-button::before {
+    content: "";
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    background-color: currentColor;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='white'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='m22%202-7%2020-4-9-9-4Z'/%3E%3Cpath%20d='M22%202%2011%2013'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='white'%20stroke-width='2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='m22%202-7%2020-4-9-9-4Z'/%3E%3Cpath%20d='M22%202%2011%2013'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Contact Form",
+  "tag": null,
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:settings.width_desktop",
+      "options": [
+        { "value": "fit-content", "label": "t:options.fit_content" },
+        { "value": "fill", "label": "t:options.fill" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "range",
+      "id": "custom_width",
+      "label": "t:settings.width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.width == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "width_mobile",
+      "label": "t:settings.width_mobile",
+      "options": [
+        { "value": "fit-content", "label": "t:options.fit_content" },
+        { "value": "fill", "label": "t:options.fill" },
+        { "value": "custom", "label": "t:options.custom" }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "range",
+      "id": "custom_width_mobile",
+      "label": "t:settings.width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.width_mobile == 'custom' }}"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subject_label",
+      "label": "Subject field label",
+      "default": "Subject"
+    },
+    {
+      "type": "text",
+      "id": "inquiry_type_label",
+      "label": "Inquiry type field label",
+      "default": "Inquiry Type"
+    },
+    {
+      "type": "textarea",
+      "id": "inquiry_type_options",
+      "label": "Inquiry type options",
+      "info": "One option per line.",
+      "default": "General Inquiry\nOrder Support\nProduct Question\nWholesale / Bulk Inquiry\nBrand Ambassador Program"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Contact Form",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

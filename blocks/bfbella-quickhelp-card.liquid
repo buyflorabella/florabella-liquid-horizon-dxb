@@ -6,7 +6,7 @@
   icon + address text, matching production (Partnerships also has no link in production).
 
   Built as a genuine theme block from the start (renders itself entirely; the parent section
-  only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's "Theme Blocks Must Render
+  only does the blocks content-for call) — see .claude/CLAUDE.md's "Theme Blocks Must Render
   Themselves" section.
 
   LAYOUT: as of 2026-09-07 (round 2), these 4 cards live inside a native `group` block
@@ -14,37 +14,61 @@
   stacked in one column beside the contact form (which sits in a sibling `group_left`,
   `content_direction: row` on the parent section) — matching production's side-by-side layout.
   The old standalone `bfbella-contact-quickhelp` section this block used to live under has been
-  removed since its content moved here; its accent/background inline styles no longer exist, so
-  `--bfbella-accent` now has an in-CSS fallback to `settings.color_palette.color3` and the
-  group's own `background_color` setting supplies the dark backdrop these glass-style cards were
-  designed against.
+  removed since its content moved here, so `--bfbella-accent` is no longer set by a parent —
+  each card now sets it on its own root element via an inline style attribute (in the markup,
+  which supports Liquid) rather than inside the stylesheet block. NOTE (round 3 correction): an
+  earlier attempt put a Liquid palette lookup directly inside a var() fallback in the stylesheet
+  block itself — Shopify's theme-block stylesheet blocks only accept static CSS, no Liquid, and
+  this was caught by the editor's own linter (not visually). Anywhere a stylesheet block needs a
+  palette-driven fallback, set the CSS custom property from the markup instead, never inline
+  Liquid into the stylesheet block's own CSS.
 
   ICON: map_pin, only shown for the Location card — reused verbatim from the theme's own native
   icon set is not applicable here since this block predates that reuse pattern being needed;
   hand-drawn to match lucide's published shape, not rendered standalone to visually confirm
   since this session has no browser/preview access.
 
+  LAYOUT (round 3, 2026-09-07): production puts the Location card's icon to the LEFT of the
+  address text, in a row, below the heading — not stacked above the heading the way this block
+  originally rendered it. Only the icon+text pairing goes into a row; heading and the optional
+  second paragraph stay on their own lines above/below it. `text2` added for Partnerships, which
+  has a second, visually muted paragraph in production ("Select the appropriate inquiry type in
+  the form...") that this block didn't have a field for before.
+
   DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
   live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
   commits and pushes by hand.
 {% endcomment %}
 
-<div class="bfbella-quickhelp-card" {{ block.shopify_attributes }}>
-  {%- if block.settings.icon == 'map_pin' -%}
-    <div class="bfbella-quickhelp-card__icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
-        <circle cx="12" cy="10" r="3"/>
-      </svg>
-    </div>
-  {%- endif -%}
-
+<div
+  class="bfbella-quickhelp-card"
+  style="--bfbella-accent: {{ settings.color_palette.color3 }};"
+  {{ block.shopify_attributes }}
+>
   {%- if block.settings.heading != blank -%}
     <h3 class="bfbella-quickhelp-card__heading">{{ block.settings.heading }}</h3>
   {%- endif -%}
-  {%- if block.settings.text != blank -%}
+
+  {%- if block.settings.icon == 'map_pin' -%}
+    <div class="bfbella-quickhelp-card__row">
+      <div class="bfbella-quickhelp-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+      {%- if block.settings.text != blank -%}
+        <p class="bfbella-quickhelp-card__text">{{ block.settings.text | newline_to_br }}</p>
+      {%- endif -%}
+    </div>
+  {%- elsif block.settings.text != blank -%}
     <p class="bfbella-quickhelp-card__text">{{ block.settings.text | newline_to_br }}</p>
   {%- endif -%}
+
+  {%- if block.settings.text2 != blank -%}
+    <p class="bfbella-quickhelp-card__text bfbella-quickhelp-card__text--muted">{{ block.settings.text2 }}</p>
+  {%- endif -%}
+
   {%- if block.settings.link_label != blank -%}
     <a
       {% if block.settings.link_url != blank %}href="{{ block.settings.link_url }}"{% else %}role="link" aria-disabled="true"{% endif %}
@@ -67,10 +91,21 @@
     padding: 1.5rem;
   }
 
+  .bfbella-quickhelp-card__row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
   .bfbella-quickhelp-card__icon {
     display: inline-flex;
-    color: var(--bfbella-accent, {{ settings.color_palette.color3 }});
-    margin-block-end: 0.75rem;
+    flex-shrink: 0;
+    color: var(--bfbella-accent);
+    margin-block-start: 0.15rem;
+  }
+
+  .bfbella-quickhelp-card__row .bfbella-quickhelp-card__text {
+    margin-block-end: 0;
   }
 
   .bfbella-quickhelp-card__icon svg {
@@ -89,13 +124,19 @@
     line-height: 1.6;
     color: rgb(255 255 255 / 0.7);
     margin-block-end: 0.75rem;
+    text-align: left;
+  }
+
+  .bfbella-quickhelp-card__text--muted {
+    font-size: 0.85rem;
+    color: rgb(255 255 255 / 0.5);
   }
 
   .bfbella-quickhelp-card__link {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    color: var(--bfbella-accent, {{ settings.color_palette.color3 }});
+    color: var(--bfbella-accent);
     font-weight: 600;
     font-size: 0.9rem;
     text-decoration: none;
@@ -136,6 +177,12 @@
       "id": "text",
       "label": "Text",
       "info": "For Location, put the full address here (line breaks preserved)."
+    },
+    {
+      "type": "text",
+      "id": "text2",
+      "label": "Second paragraph (muted, optional)",
+      "info": "For Partnerships' second, smaller line. Leave blank for cards that don't need one."
     },
     {
       "type": "header",

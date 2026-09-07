@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "main": {
       "type": "main-page",
@@ -248,19 +247,14 @@
               "blocks": {}
             },
             "contact_form_UwiCkQ": {
-              "type": "contact-form",
+              "type": "bfbella-contact-form",
               "settings": {
                 "width": "fill",
-                "custom_width": 100,
                 "width_mobile": "fill",
-                "custom_width_mobile": 100,
                 "background_color": "",
-                "input_style": "default",
-                "input_background_color": "{{ settings.color_palette.background }}",
-                "input_text_color": "{{ settings.color_palette.foreground }}",
-                "input_border_color": "{{ settings.color_palette.foreground }}",
-                "border_width": 1,
-                "border_radius": 0,
+                "subject_label": "Subject",
+                "inquiry_type_label": "Inquiry Type",
+                "inquiry_type_options": "General Inquiry\nOrder Support\nProduct Question\nWholesale / Bulk Inquiry\nBrand Ambassador Program",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -271,14 +265,14 @@
                   "type": "contact-form-submit-button",
                   "static": true,
                   "settings": {
-                    "label": "Submit",
-                    "style_class": "button",
-                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "label": "Send Message",
+                    "style_class": "button-custom",
+                    "custom_button_background": "{{ settings.color_palette.color3 }}",
                     "custom_button_text": "{{ settings.color_palette.background }}",
-                    "custom_button_border": "{{ settings.color_palette.background }}",
-                    "width": "fit-content",
+                    "custom_button_border": "{{ settings.color_palette.color3 }}",
+                    "width": "custom",
                     "custom_width": 100,
-                    "width_mobile": "fit-content",
+                    "width_mobile": "custom",
                     "custom_width_mobile": 100
                   },
                   "blocks": {}
@@ -386,7 +380,8 @@
                 "heading": "Partnerships",
                 "text": "Interested in partnering with Flora Bella? We offer opportunities for brand ambassadors, wholesale buyers, and retail partnerships.",
                 "link_label": "",
-                "link_url": ""
+                "link_url": "",
+                "text2": "Select the appropriate inquiry type in the form to learn more about partnership opportunities."
               },
               "blocks": {}
             },
@@ -444,6 +439,22 @@
         "padding-block-start": 32,
         "padding-block-end": 84
       }
+    },
+    "shop_cta": {
+      "type": "bfbella-contact-cta",
+      "settings": {
+        "heading": "Shop Flora Bella Products",
+        "paragraph": "Explore our premium mineral soil supplements, crafted to restore nutrient balance and help your garden thrive.",
+        "button1_label": "Shop Bio Trace Mix",
+        "button1_link": "shopify://collections",
+        "button2_label": "See Real Grower Results",
+        "button2_link": "",
+        "accent_color": "",
+        "background_color": "{{ settings.color_palette.color11 }}",
+        "card_background_color": "",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
     }
   },
   "order": [
@@ -451,6 +462,7 @@
     "intro",
     "opportunities",
     "info",
-    "form"
+    "form",
+    "shop_cta"
   ]
 }
