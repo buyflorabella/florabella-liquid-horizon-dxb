@@ -3200,6 +3200,7 @@
         "bfbella_article_card_amzBUB": {
           "type": "bfbella-article-card",
           "settings": {
+            "image": "shopify://shop_images/pexels-akilmazumder-1072824.jpg",
             "icon": "sprout",
             "read_time": "7 min read",
             "title": "More Than NPK: Why Soil Systems Matter for the Future of Food",
@@ -3211,6 +3212,7 @@
         "bfbella_article_card_WHyXYd": {
           "type": "bfbella-article-card",
           "settings": {
+            "image": "shopify://shop_images/article2_image.png",
             "icon": "bug",
             "read_time": "8 min read",
             "title": "Soil as a Resource Strategy: Building Resilience in a Resource-Constrained World",
@@ -3222,6 +3224,7 @@
         "bfbella_article_card_kQd7mb": {
           "type": "bfbella-article-card",
           "settings": {
+            "image": "shopify://shop_images/background_for_whychoose.png",
             "icon": "book_open",
             "read_time": "9 min read",
             "title": "What Is the Soil Food Web (and Why It Changes Everything)?",
@@ -3241,7 +3244,7 @@
         "heading": "Learn To Treat Soil As A Living System",
         "subheading": "Expert knowledge made accessible for gardeners at every level",
         "accent_color": "",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color12 }}",
         "padding_top": 80,
         "padding_bottom": 80
       }
