@@ -45,12 +45,26 @@
   verification pattern) showed only ONE guide card rendering, matching the first tagged
   position, with `enable_ordering` and `order_tag_prefix` both confirmed correctly set. Round 4's
   logic used three levels of nested `for` loops (position → article → tag) with `break`/
-  `continue` inside the two inner levels. Given the concrete symptom (exactly one match found,
-  then nothing further at any position), rewrote the whole ordering pass to use ONLY `unless`/
-  boolean flags (`found_this_position`, `already_shown`) instead of `break`/`continue` anywhere
-  in the nested loops — removes any dependency on exactly which loop level a `break`/`continue`
-  resolves against at this nesting depth, at the cost of a few extra (utterly negligible for
-  guide-sized lists) iterations per position.
+  `continue` inside the two inner levels; rewrote it to use `unless`/boolean flags instead,
+  suspecting the break/continue nesting depth itself as the cause.
+
+  ROUND 6 (still 2026-09-07, the actual root cause): DXB's own VS Code Liquid extension flagged
+  the real bug directly — round 5 introduced `assign already_shown = shown_handles contains
+  article.handle` (twice). This is invalid Liquid: `contains` (like `==`, `and`, `or`) is only
+  valid inside a conditional tag's expression (`if`/`unless`/`case`), never on the right-hand
+  side of `assign` — Liquid's assign grammar only accepts a variable, a literal, or a filtered
+  chain (`| filter: arg`), not a general boolean expression. This is the exact same class of
+  parse-time grammar violation as the earlier piped-filter-in-a-for-tag bug from task 0009 (see
+  CLAUDE.md's "Liquid Syntax Gotchas") — invalid in a way none of this project's own checks (JSON
+  schema validation, tag balance/nesting counting) can catch, since it's not a structural
+  mismatch, it's a grammar rule about which tags accept which kinds of expressions. Fixed by
+  moving the `contains` check directly into the enclosing `unless` condition instead of assigning
+  its result to a variable first (`unless found_this_position or shown_handles contains
+  article.handle`) — `contains` combined with `and`/`or` inside an `if`/`unless` IS valid, only
+  assigning its bare result to a variable isn't. Round 4/5's break/continue rewrite reasoning
+  above may well have been chasing the wrong culprit the whole time; this is the fix that
+  actually matches a concrete, tool-confirmed diagnosis rather than another plausible-sounding
+  theory.
 
   COLOR: no hardcoded hex. Accent resolves through section.settings.accent_color, falling back
   to color_palette.color3. Background falls back to color_palette.background.
@@ -116,8 +130,7 @@
                 assign found_this_position = false
 
                 for article in section.settings.guides_blog.articles
-                  assign already_shown = shown_handles contains article.handle
-                  unless already_shown or found_this_position
+                  unless found_this_position or shown_handles contains article.handle
                     assign matched = false
                     for tag in article.tags
                       assign tag_downcase = tag | downcase
@@ -141,8 +154,7 @@
             endfor
 
             for article in section.settings.guides_blog.articles
-              assign already_shown = shown_handles contains article.handle
-              unless already_shown or shown_count >= max_shown
+              unless shown_count >= max_shown or shown_handles contains article.handle
                 assign shown_handles = shown_handles | append: article.handle | append: '|'
                 assign shown_count = shown_count | plus: 1
                 assign word_count = article.content | strip_html | split: ' ' | size
