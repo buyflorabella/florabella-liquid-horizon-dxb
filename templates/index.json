@@ -1392,9 +1392,10 @@
         "bfbella_benefit_card_iCHcFt": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "icon": "none",
-            "title": "",
-            "description": ""
+            "image": "shopify://shop_images/pexels-pixabay-256262.jpg",
+            "icon": "users",
+            "title": "Handled with Care + Lab Verified",
+            "description": "Gently processed and packaged with care, with quality checks to support consistency and peace of mind."
           },
           "blocks": {}
         }
