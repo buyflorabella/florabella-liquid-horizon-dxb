@@ -1,0 +1,315 @@
+{% comment %}
+  ============================================================================
+  task 0004 (Task 1) — About Page, Section 1: "Our Story + Our Mission"
+  ============================================================================
+  DXB confirmed the 4-section grouping in 0004_task1_intent.md: the page-header intro
+  ("ABOUT US" eyebrow, "Our Story" heading, intro paragraph) is grouped with the Mission
+  block (photo + 3 paragraphs) directly below it into one combined section, since they're
+  visually adjacent and both establish who Flora Bella is. Content from AboutPage.tsx in the
+  Hydrogen reference (buyflorabella_restore/dev/frontend/app/componentsMockup2/pages/).
+
+  NO BLOCKS: unlike most of this task series, this section has zero repeatable content — one
+  eyebrow, one heading, one intro paragraph, one mission heading, a fixed set of mission
+  paragraphs, one mission photo. Per this project's rule that blocks are for repeatable
+  editorial content ("a list of things with text fields"), a single-instance section like this
+  is plain section settings, not a block — nothing here needs the theme-blocks architecture.
+
+  MISSION PARAGRAPHS: production has exactly 3 mission paragraphs, but rather than three
+  separate fixed textareas (brittle if DXB wants to add/remove one later), this uses one
+  textarea where each line becomes its own paragraph — same convention as
+  blocks/bfbella-step.liquid's "Bullet list" field in this same task series.
+
+  CONTENT: zero real copy hardcoded — every field is a blank native setting until DXB fills
+  it in. See 0004_task1_howto.md for the exact production text (including a note on the
+  source file's stray markdown-style "**SOIL**" that should be treated as plain text unless
+  DXB wants it styled as emphasis) and the flagged question of whether this mission copy is
+  still current for the site's present soil/gardening positioning.
+
+  MEDIA: the Mission photo has no source in this build at all — production's Hydrogen file
+  references a local path (`/20260105_163329.jpg`), not a Shopify CDN URL, so there's nothing
+  to point a fallback at. DXB needs to upload this photo (or a substitute) to Shopify Files
+  directly; the image_picker field below is blank until then.
+
+  COLOR: no hardcoded hex. Accent resolves through `section.settings.accent_color`, falling
+  back to the theme's own `color_palette.color3`. Background resolves through
+  `section.settings.background_color`, falling back to `settings.color_palette.background`
+  (the theme's base light color) — this is a page-intro section, styled light like
+  bfbella-community.liquid rather than dark like most homepage sections in this task series.
+
+  THIS SECTION RENDERS ITS OWN <h1> (see below) — same as Shopify's native "main-page" section's
+  title block does via `{{ closest.page.title }}`. Once both are live on the same page, that's
+  two H1s on one page (an SEO/accessibility issue, not just visual redundancy). See this
+  session's live-edit pilot notes for the recommendation on disabling the native title block's
+  visibility once this section goes live.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — a deliberate exception
+  to this project's normal task-folder-only rule, for this trial only. Claude still did not
+  commit or push this — DXB reviews, then commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.background
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="AboutStory-{{ section.id }}"
+  class="bfbella-about-story{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-about-story__inner page-width">
+
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.intro != blank -%}
+      <div class="bfbella-about-story__intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="bfbella-about-story__eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="bfbella-about-story__heading">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+        {%- if section.settings.intro != blank -%}
+          <p class="bfbella-about-story__intro-text">{{ section.settings.intro }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.mission_heading != blank or section.settings.mission_paragraphs != blank or section.settings.mission_image != blank -%}
+      <div class="bfbella-about-story__mission">
+        <div class="bfbella-about-story__mission-media">
+          <div class="bfbella-about-story__mission-frame">
+            {%- if section.settings.mission_image != blank -%}
+              {{
+                section.settings.mission_image
+                | image_url: width: 1200
+                | image_tag: loading: 'lazy', alt: section.settings.mission_heading, class: 'bfbella-about-story__mission-img'
+              }}
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="bfbella-about-story__mission-content">
+          {%- if section.settings.mission_heading != blank -%}
+            <h2 class="bfbella-about-story__mission-heading">{{ section.settings.mission_heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.mission_paragraphs != blank -%}
+            {%- assign mission_lines = section.settings.mission_paragraphs | newline_to_br | split: '<br />' -%}
+            {%- for line in mission_lines -%}
+              {%- assign trimmed = line | strip -%}
+              {%- if trimmed != blank -%}
+                <p class="bfbella-about-story__mission-paragraph">{{ trimmed }}</p>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-about-story {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 6rem);
+    padding-block-end: var(--bfbella-pad-bottom, 5rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-about-story__inner {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-about-story__intro {
+    text-align: center;
+    max-width: 44rem;
+    margin-inline: auto;
+    margin-block-end: 5rem;
+  }
+
+  .bfbella-about-story__eyebrow {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bfbella-accent);
+    background: color-mix(in srgb, var(--bfbella-accent) 15%, transparent);
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-about-story__heading {
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-about-story__intro-text {
+    font-size: 1.2rem;
+    opacity: 0.75;
+    line-height: 1.6;
+  }
+
+  .bfbella-about-story__mission {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .bfbella-about-story__mission-media {
+    position: relative;
+  }
+
+  .bfbella-about-story__mission-frame {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+    background-color: rgb(var(--color-foreground-rgb) / 0.05);
+  }
+
+  .bfbella-about-story__mission-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bfbella-about-story__mission-heading {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-block-end: 1.25rem;
+  }
+
+  .bfbella-about-story__mission-paragraph {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    opacity: 0.78;
+    margin-block-end: 1.1rem;
+  }
+
+  .bfbella-about-story__mission-paragraph:last-child {
+    margin-block-end: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — About Story",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Page-header intro"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow badge"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (H1)"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro paragraph"
+    },
+    {
+      "type": "header",
+      "content": "Mission"
+    },
+    {
+      "type": "text",
+      "id": "mission_heading",
+      "label": "Mission heading"
+    },
+    {
+      "type": "textarea",
+      "id": "mission_paragraphs",
+      "label": "Mission paragraphs",
+      "info": "One paragraph per line — each line becomes its own paragraph."
+    },
+    {
+      "type": "image_picker",
+      "id": "mission_image",
+      "label": "Mission photo"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the eyebrow badge. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's base light background — this is a page-intro section, styled light like the homepage's Community section."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — About Story",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
