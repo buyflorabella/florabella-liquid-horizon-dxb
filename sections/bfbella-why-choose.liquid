@@ -1,0 +1,274 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 3, custom code) — "Why Growers Choose Flora Bella"
+  ============================================================================
+  Task 3 originally shipped as 100% native block composition (see 0003_task3_howto.md) —
+  DXB later asked for the same genuine custom-code exercise given to Tasks 4/5/6. This is
+  that build.
+
+  NOTE: this comment deliberately never spells out the Liquid tag delimiters for the
+  schema, stylesheet, or javascript blocks below (plain words are used instead) — see the
+  2026-09-06 lesson in this project's self_improve/LESSONS.md.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-benefit-card.liquid   (0003_task3_bfbella-benefit-card.liquid)
+  Each card block renders itself entirely — this section only does
+  `{% content_for 'blocks' %}`. Built this way from the start (unlike Tasks 4/5/6's first
+  attempt) because a theme block referenced from an external blocks/*.liquid file cannot be
+  read as data from its parent section — confirmed live via Task 4's bug in this same task
+  series (block.type reports as the literal string "@theme" at runtime, not its declared
+  name, and .settings reads from outside the block's own render come back blank). See
+  .claude/CLAUDE.md's "Theme Blocks Must Render Themselves" section for the full rule.
+
+  ICONS: production uses six lucide icons (Leaf, FileStack, Flag, Sparkles, Bug, Users)
+  with no exact match in this theme's native icon set — hand-drawn inline SVGs for all six
+  live in blocks/bfbella-benefit-card.liquid, verified by rendering them standalone first.
+
+  HOVER ANIMATION: skipped when this section first shipped as native blocks (DXB's call,
+  citing cost/risk of scoping shared-file CSS). That specific cost doesn't apply to custom
+  code — a card lift + border glow, image zoom, and icon badge scale+rotate are a handful
+  of `:hover` rules fully scoped to this section's own classes, zero shared-file risk. So
+  they're included here. Flagging this clearly since it wasn't explicitly re-requested —
+  easy to strip out if not wanted.
+
+  CONTENT: zero real copy hardcoded — heading, subheading, and every card field are blank
+  native settings/block fields until DXB fills them in. See 0003_task3_howto.md for the
+  exact production text (still accurate) and 0003_task3_custom_howto.md (companion to this
+  file) for where each piece goes in this custom version specifically.
+
+  COLOR: no hardcoded hex. Accent (icon badges) resolves through
+  `section.settings.accent_color`, falling back to the theme's own `color_palette.color3`.
+  Background resolves through `section.settings.background_color`, falling back to
+  `color_palette.color9` — confirmed via config/settings_data.json to be an exact match for
+  production's #0a0a0a, same finding as the original native howto doc. Both are exposed to
+  the self-rendering card block via CSS custom properties (`--bfbella-accent`,
+  `--bfbella-bg`) set on this section's own root element, since Liquid variables can't cross
+  into a block's own render the way section.settings can't be read from it either.
+
+  MEDIA: two images in production are Pexels stock photos, not Shopify Files (the section's
+  background texture, and card 6's "Handled with Care" photo) — per this project's media
+  rule these can't be bundled by Claude. Both are optional/have a safe fallback (solid
+  background color; card 6 renders fine with the icon+gradient alone if no image is set) —
+  see 0003_task3_custom_howto.md for exactly which image DXB needs to source, and the five
+  that are already Shopify Files DXB can pick directly.
+
+  DEPLOY: save as sections/bfbella-why-choose.liquid in the live theme. DXB applies this —
+  Claude never commits or touches the live repo.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.color9
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="WhyChoose-{{ section.id }}"
+  class="bfbella-why-choose{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  {%- if section.settings.texture_image != blank -%}
+    <div class="bfbella-why-choose__texture" aria-hidden="true">
+      {{
+        section.settings.texture_image
+        | image_url: width: 1920
+        | image_tag: loading: 'lazy', alt: '', class: 'bfbella-why-choose__texture-img'
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="bfbella-why-choose__inner page-width">
+
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="bfbella-why-choose__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bfbella-why-choose__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="bfbella-why-choose__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="bfbella-why-choose__grid">
+        {% content_for 'blocks' %}
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-why-choose {
+    position: relative;
+    overflow: hidden;
+    padding-block-start: var(--bfbella-pad-top, 8rem);
+    padding-block-end: var(--bfbella-pad-bottom, 8rem);
+    background-color: var(--bfbella-bg);
+    color: #fff;
+  }
+
+  .bfbella-why-choose__texture {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.05;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .bfbella-why-choose__texture-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bfbella-why-choose__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-why-choose__intro {
+    text-align: center;
+    max-width: 48rem;
+    margin-inline: auto;
+    margin-block-end: 5rem;
+  }
+
+  .bfbella-why-choose__heading {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-why-choose__subheading {
+    font-size: 1.25rem;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  .bfbella-why-choose__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-why-choose * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Why Choose",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-benefit-card"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Used for the icon badges. Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's existing color9 swatch — an exact match for production's near-black background."
+    },
+    {
+      "type": "image_picker",
+      "id": "texture_image",
+      "label": "Background texture image",
+      "info": "Optional. Rendered at 5% opacity as a subtle full-bleed texture, matching production. The section looks correct without one — this is a nice-to-have layer, not load-bearing."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 128
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 128
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Why Choose",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-benefit-card" },
+        { "type": "bfbella-benefit-card" },
+        { "type": "bfbella-benefit-card" },
+        { "type": "bfbella-benefit-card" },
+        { "type": "bfbella-benefit-card" },
+        { "type": "bfbella-benefit-card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
