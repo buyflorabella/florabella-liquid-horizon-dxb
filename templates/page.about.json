@@ -66,7 +66,7 @@
         "heading": "Our Story",
         "intro": "Founded on the belief that optimal SOIL begins with proper mineral nutrition, Flora Bella is committed to providing the highest quality trace minerals to support your wellness journey.",
         "mission_heading": "Our Mission",
-        "mission_paragraphs": "<p>At Flora Bella, we believe that everyone deserves access to pure, bioavailable minerals that support optimal health and vitality. Our mission is to bridge the gap between modern nutritional needs and the mineral-depleted foods of today's agricultural system.</p><p>We are dedicated to sourcing the finest quality minerals from pristine ancient sea beds and volcanic deposits, ensuring that each product delivers the full spectrum of trace minerals your body needs to thrive.</p><p>Through rigorous testing, transparent sourcing, and a commitment to education, we empower individuals to take control of their mineral nutrition and experience the transformative benefits of proper supplementation.</p>",
+        "mission_paragraphs": "<p>At Flora Bella, we believe that everyone deserves access to <strong>pure, bioavailable minerals</strong> that support optimal health and vitality. Our mission is to bridge the gap between modern nutritional <strong>needs </strong>and the <strong>mineral-depleted foods</strong> of today's agricultural system.</p><p>We are dedicated to sourcing the finest quality minerals from pristine <strong>ancient sea beds and volcanic deposits</strong>, ensuring that each product delivers the full spectrum of trace minerals your body needs to thrive.</p><p>Through <strong>rigorous testing, transparent sourcing</strong>, and a commitment to education, we empower individuals to take control of their mineral nutrition and experience the transformative benefits of proper supplementation.</p>",
         "mission_image": "shopify://shop_images/5lb_bag_brick.jpg",
         "accent_color": "",
         "background_color": "{{ settings.color_palette.color11 }}",
@@ -82,7 +82,9 @@
           "settings": {
             "icon": "leaf",
             "title": "Pure Sourcing",
-            "description": "Minerals sourced from pristine ancient sea beds and volcanic deposits, free from modern pollutants."
+            "description": "Minerals sourced from pristine ancient sea beds and volcanic deposits, free from modern pollutants.",
+            "background_color": "{{ settings.color_palette.background }}",
+            "enable_hover_effect": true
           },
           "blocks": {}
         },
@@ -91,7 +93,9 @@
           "settings": {
             "icon": "award",
             "title": "Quality Tested",
-            "description": "Every batch is third-party tested for purity, potency, and safety to ensure premium quality."
+            "description": "Every batch is third-party tested for purity, potency, and safety to ensure premium quality.",
+            "background_color": "{{ settings.color_palette.background }}",
+            "enable_hover_effect": true
           },
           "blocks": {}
         },
@@ -100,7 +104,9 @@
           "settings": {
             "icon": "heart",
             "title": "Science-Backed",
-            "description": "Formulations based on cutting-edge research and clinical studies in mineral nutrition."
+            "description": "Formulations based on cutting-edge research and clinical studies in mineral nutrition.",
+            "background_color": "{{ settings.color_palette.background }}",
+            "enable_hover_effect": true
           },
           "blocks": {}
         },
@@ -109,7 +115,9 @@
           "settings": {
             "icon": "users",
             "title": "Community First",
-            "description": "Supporting a vibrant community of health-conscious individuals on their wellness journey."
+            "description": "Supporting a vibrant community of health-conscious individuals on their wellness journey.",
+            "background_color": "{{ settings.color_palette.background }}",
+            "enable_hover_effect": true
           },
           "blocks": {}
         }
@@ -184,6 +192,7 @@
         "subheading": "Every step, from source to supplement, meets the highest standards",
         "accent_color": "",
         "background_color": "",
+        "text_color": "",
         "padding_top": 96,
         "padding_bottom": 96
       }
@@ -199,6 +208,7 @@
         "button2_link": "shopify://pages/contact",
         "accent_color": "",
         "background_color": "{{ settings.color_palette.color11 }}",
+        "card_background_color": "",
         "padding_top": 80,
         "padding_bottom": 80
       }
