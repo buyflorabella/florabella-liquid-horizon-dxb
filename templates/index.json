@@ -3407,7 +3407,7 @@
         "heading": "A Community For Growers Who Care About Soil Health",
         "subheading": "Flora Bella exists to make expert level soil care simple for everyday gardeners. Join our growing community for seasonal tips, real case studies, and honest conversations about what works.",
         "accent_color": "",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color11 }}",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -3571,7 +3571,7 @@
         "section_height": "small",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "{{ settings.color_palette.color11 }}",
+        "background_color": "rgba(0,0,0,0)",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
