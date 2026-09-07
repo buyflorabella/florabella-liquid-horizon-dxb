@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "main": {
       "type": "main-page",
@@ -61,7 +60,7 @@
     },
     "bfbella_learn_articles_eqQnQR": {
       "type": "bfbella-learn-articles",
-      "name": "BFBella — Learn Articles",
+      "name": "BFBella \u2014 Learn Articles",
       "settings": {
         "eyebrow": "EDUCATION & INSIGHTS",
         "heading": "Learn About Minerals",
@@ -92,13 +91,34 @@
         "accent_color": "",
         "background_color": "",
         "padding_top": 64,
-        "padding_bottom": 64
+        "padding_bottom": 64,
+        "order_tag_prefix": "featured",
+        "card_background_color": "",
+        "card_heading_color": "",
+        "card_text_color": ""
+      }
+    },
+    "shop_cta": {
+      "type": "bfbella-learn-cta",
+      "settings": {
+        "heading": "Shop Flora Bella Products",
+        "paragraph": "Explore our premium mineral soil supplements, crafted to restore nutrient balance and help your garden thrive.",
+        "button1_label": "Shop Bio Trace Mix",
+        "button1_link": "shopify://collections",
+        "button2_label": "See Real Grower Results",
+        "button2_link": "",
+        "accent_color": "",
+        "background_color": "{{ settings.color_palette.color11 }}",
+        "card_background_color": "",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     }
   },
   "order": [
     "main",
     "bfbella_learn_articles_eqQnQR",
-    "guides"
+    "guides",
+    "shop_cta"
   ]
 }

@@ -35,6 +35,9 @@
 {% liquid
   assign accent = section.settings.accent_color | default: settings.color_palette.color3
   assign bg = section.settings.background_color | default: settings.color_palette.background
+  assign card_bg = section.settings.card_background_color | default: settings.color_palette.background
+  assign card_heading_color = section.settings.card_heading_color | default: settings.color_palette.foreground
+  assign card_text_color = section.settings.card_text_color | default: settings.color_palette.foreground
 
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
@@ -47,6 +50,9 @@
   style="
     --bfbella-accent: {{ accent }};
     --bfbella-bg: {{ bg }};
+    --bfbella-card-bg: {{ card_bg }};
+    --bfbella-card-heading-color: {{ card_heading_color }};
+    --bfbella-card-text-color: {{ card_text_color }};
     {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
     {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
   "
@@ -57,14 +63,42 @@
     {%- endif -%}
 
     {%- if section.settings.guides_blog != blank -%}
+      {%- liquid
+        assign order_prefix = section.settings.order_tag_prefix | default: 'featured'
+        assign sort_lines = ''
+
+        for article in section.settings.guides_blog.articles limit: section.settings.post_limit
+          assign order_key = blank
+          for tag in article.tags
+            if tag contains order_prefix
+              assign order_key = tag | remove: order_prefix | prepend: '00' | slice: -3, 3
+              break
+            endif
+          endfor
+          assign order_key = order_key | default: '999'
+          assign sort_lines = sort_lines | append: order_key | append: '|' | append: article.handle | append: newline
+        endfor
+
+        assign sort_lines = sort_lines | newline_to_br | split: '<br />'
+        assign sorted_handles = sort_lines | sort
+      -%}
       <div class="bfbella-learn-guides__grid">
-        {%- for article in section.settings.guides_blog.articles limit: section.settings.post_limit -%}
-          {%- liquid
-            assign word_count = article.content | strip_html | split: ' ' | size
-            assign read_minutes = word_count | divided_by: 200
-            assign read_minutes = read_minutes | at_least: 1
-          -%}
-          {% render 'bfbella-guide-card', article: article, read_minutes: read_minutes %}
+        {%- for line in sorted_handles -%}
+          {%- assign clean_line = line | strip -%}
+          {%- if clean_line == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign parts = clean_line | split: '|' -%}
+          {%- assign target_handle = parts | last -%}
+          {%- for article in section.settings.guides_blog.articles -%}
+            {%- if article.handle == target_handle -%}
+              {%- liquid
+                assign word_count = article.content | strip_html | split: ' ' | size
+                assign read_minutes = word_count | divided_by: 200
+                assign read_minutes = read_minutes | at_least: 1
+              -%}
+              {% render 'bfbella-guide-card', article: article, read_minutes: read_minutes %}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
         {%- endfor -%}
       </div>
     {%- endif -%}
@@ -134,6 +168,13 @@
       "default": 3
     },
     {
+      "type": "text",
+      "id": "order_tag_prefix",
+      "label": "Ordering tag prefix",
+      "default": "featured",
+      "info": "Tag each guide article with this prefix plus a number (e.g. \"featured1\", \"featured2\", \"featured3\") to control left-to-right order. Guides without a matching tag show last, in their normal blog order."
+    },
+    {
       "type": "header",
       "content": "Appearance"
     },
@@ -148,7 +189,28 @@
       "type": "color",
       "id": "background_color",
       "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "The outer section, behind the cards."
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "placeholder": "t:settings.default",
+      "info": "Each guide card's own background — independent from the section background above."
+    },
+    {
+      "type": "color",
+      "id": "card_heading_color",
+      "label": "Card heading color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text color",
+      "placeholder": "t:settings.default",
+      "info": "Applies to the description and read-time text."
     },
     {
       "type": "header",
