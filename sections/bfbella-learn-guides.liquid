@@ -39,6 +39,19 @@
   unchecked, this section just shows the first `post_limit` guides in the blog's own order, no
   tag logic at all.
 
+  ROUND 5 (still 2026-09-07): round 4's exact-match logic was confirmed correct in code, and
+  confirmed to be the actual deployed version this time (checked git log, not just memory) — yet
+  a direct curl fetch of the live page (cookie-jar method, per this project's own established
+  verification pattern) showed only ONE guide card rendering, matching the first tagged
+  position, with `enable_ordering` and `order_tag_prefix` both confirmed correctly set. Round 4's
+  logic used three levels of nested `for` loops (position → article → tag) with `break`/
+  `continue` inside the two inner levels. Given the concrete symptom (exactly one match found,
+  then nothing further at any position), rewrote the whole ordering pass to use ONLY `unless`/
+  boolean flags (`found_this_position`, `already_shown`) instead of `break`/`continue` anywhere
+  in the nested loops — removes any dependency on exactly which loop level a `break`/`continue`
+  resolves against at this nesting depth, at the cost of a few extra (utterly negligible for
+  guide-sized lists) iterations per position.
+
   COLOR: no hardcoded hex. Accent resolves through section.settings.accent_color, falling back
   to color_palette.color3. Background falls back to color_palette.background.
 
@@ -98,53 +111,45 @@
             assign shown_count = 0
 
             for n in (1..12)
-              if shown_count >= max_shown
-                break
-              endif
-              assign target_tag = order_prefix | append: n
+              unless shown_count >= max_shown
+                assign target_tag = order_prefix | append: n
+                assign found_this_position = false
 
-              for article in section.settings.guides_blog.articles
-                assign already_shown = shown_handles contains article.handle
-                if already_shown
-                  continue
-                endif
+                for article in section.settings.guides_blog.articles
+                  assign already_shown = shown_handles contains article.handle
+                  unless already_shown or found_this_position
+                    assign matched = false
+                    for tag in article.tags
+                      assign tag_downcase = tag | downcase
+                      if tag_downcase == target_tag
+                        assign matched = true
+                      endif
+                    endfor
 
-                assign matched = false
-                for tag in article.tags
-                  assign tag_downcase = tag | downcase
-                  if tag_downcase == target_tag
-                    assign matched = true
-                    break
-                  endif
+                    if matched
+                      assign shown_handles = shown_handles | append: article.handle | append: '|'
+                      assign shown_count = shown_count | plus: 1
+                      assign found_this_position = true
+                      assign word_count = article.content | strip_html | split: ' ' | size
+                      assign read_minutes = word_count | divided_by: 200
+                      assign read_minutes = read_minutes | at_least: 1
+                      render 'bfbella-guide-card', article: article, read_minutes: read_minutes
+                    endif
+                  endunless
                 endfor
-
-                if matched
-                  assign shown_handles = shown_handles | append: article.handle | append: '|'
-                  assign shown_count = shown_count | plus: 1
-                  assign word_count = article.content | strip_html | split: ' ' | size
-                  assign read_minutes = word_count | divided_by: 200
-                  assign read_minutes = read_minutes | at_least: 1
-                  render 'bfbella-guide-card', article: article, read_minutes: read_minutes
-                  break
-                endif
-              endfor
+              endunless
             endfor
 
             for article in section.settings.guides_blog.articles
-              if shown_count >= max_shown
-                break
-              endif
               assign already_shown = shown_handles contains article.handle
-              if already_shown
-                continue
-              endif
-
-              assign shown_handles = shown_handles | append: article.handle | append: '|'
-              assign shown_count = shown_count | plus: 1
-              assign word_count = article.content | strip_html | split: ' ' | size
-              assign read_minutes = word_count | divided_by: 200
-              assign read_minutes = read_minutes | at_least: 1
-              render 'bfbella-guide-card', article: article, read_minutes: read_minutes
+              unless already_shown or shown_count >= max_shown
+                assign shown_handles = shown_handles | append: article.handle | append: '|'
+                assign shown_count = shown_count | plus: 1
+                assign word_count = article.content | strip_html | split: ' ' | size
+                assign read_minutes = word_count | divided_by: 200
+                assign read_minutes = read_minutes | at_least: 1
+                render 'bfbella-guide-card', article: article, read_minutes: read_minutes
+              endunless
             endfor
           -%}
         {%- endif -%}
