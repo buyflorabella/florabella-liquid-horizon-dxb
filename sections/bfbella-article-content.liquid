@@ -1,0 +1,481 @@
+{% comment %}
+  ============================================================================
+  Article Detail Page — custom content section (task 0007, round 4)
+  ============================================================================
+  Replaces the native `main-blog-post` section on `templates/article.json` for the same reason
+  every other page in this build went custom: DXB wants production's exact bounded-card look
+  (buyflorabella_restore/dev/frontend/app/routes/article.$blogHandle.$articleHandle.tsx), which
+  the native block-composed section doesn't produce out of the box.
+
+  MATCHES PRODUCTION:
+  - "← Back to Articles" breadcrumb above the card, linking to the Learn hub page.
+  - A single bounded, rounded, drop-shadowed card holding the featured image + all content
+    (background color and corner radius both configurable, per DXB's request).
+  - Category badge (article.blog.title — the real Blog name, e.g. "Soil Education") + read time
+    with a clock icon, inline row above the title.
+  - Author (icon + article.author) + published date (icon + article.published_at) on the left of
+    a second row.
+
+  DELIBERATE DEVIATIONS FROM PRODUCTION, PER DXB:
+  - **No Table of Contents.** Production has a sticky sidebar TOC built from a client-side
+    IntersectionObserver watching the article's own h2/h3 headings — DXB asked to drop this
+    concept entirely, not port it. Body content is a single column instead of the
+    two-column body+TOC split production uses.
+  - **Share is copy-link only, no native OS share sheet.** Production's Share button tries
+    `navigator.share()` first (mobile share sheet) and only falls back to clipboard copy. DXB
+    asked specifically for "an easy copy-to-clipboard the URL" — simpler, no share-sheet branch,
+    no Bookmark button (production has one gated behind a feature flag; not asked for here).
+
+  READ TIME: not a native Article field. Production's own calculation
+  (`article.$blogHandle.$articleHandle.tsx`'s `calculateReadTime`) is
+  `Math.ceil(strip_html(content).split(/\s+/).length / 200) || 1` — word count over a flat
+  200 words/minute, rounded UP, floored at 1. This section uses the same word-count/200wpm
+  formula already shipped on the Learn page's Articles/Guides sections
+  (`divided_by: 200 | at_least: 1`, which rounds down instead of up) for consistency across the
+  site's read-time numbers, rather than reintroducing a second, slightly different formula for
+  just this one page — per DXB's own call that pixel-exact replication of this specific
+  calculation isn't necessary.
+
+  SHARE BUTTON: vanilla JS, `navigator.clipboard.writeText(window.location.href)`, with a brief
+  "Copied!" label swap for feedback — no dependencies, progressive enhancement (button still
+  exists and links nowhere destructive if JS fails to run, it simply won't respond to clicks).
+
+  COLOR: no hardcoded hex. Page background falls back to color_palette.color11 (light, matching
+  every other page's light wash). Card background is an independent setting, falling back to
+  color_palette.background. Accent (category badge, share button hover) falls back to color3.
+
+  DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
+  live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
+  commits and pushes by hand.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+  assign bg = section.settings.background_color | default: settings.color_palette.color11
+  assign card_bg = section.settings.card_background_color | default: settings.color_palette.background
+  assign corner_radius = section.settings.card_corner_radius | default: 24
+
+  assign word_count = article.content | strip_html | split: ' ' | size
+  assign read_minutes = word_count | divided_by: 200
+  assign read_minutes = read_minutes | at_least: 1
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="ArticleContent-{{ section.id }}"
+  class="bfbella-article-content{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    --bfbella-card-bg: {{ card_bg }};
+    --bfbella-card-radius: {{ corner_radius }}px;
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-article-content__inner page-width">
+    <a href="{{ section.settings.back_link | default: '/pages/learn' }}" class="bfbella-article-content__back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12,19 5,12 12,5"/>
+      </svg>
+      {{ section.settings.back_label | default: 'Back to Articles' }}
+    </a>
+
+    <div class="bfbella-article-content__card">
+      {%- if article.image -%}
+        <div class="bfbella-article-content__media">
+          <img
+            src="{{ article.image | image_url: width: 1200 }}"
+            alt="{{ article.image.alt | escape }}"
+            width="1200"
+            height="{{ 1200 | divided_by: article.image.aspect_ratio }}"
+          >
+        </div>
+      {%- endif -%}
+
+      <div class="bfbella-article-content__body">
+        <div class="bfbella-article-content__meta">
+          {%- if article.blog.title != blank -%}
+            <span class="bfbella-article-content__category">{{ article.blog.title }}</span>
+          {%- endif -%}
+          <span class="bfbella-article-content__readtime">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            {{ read_minutes }} min read
+          </span>
+        </div>
+
+        <h1 class="bfbella-article-content__title">{{ article.title }}</h1>
+
+        <div class="bfbella-article-content__byline">
+          <div class="bfbella-article-content__byline-info">
+            <span class="bfbella-article-content__author">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              {{ article.author | default: 'Staff' }}
+            </span>
+            <span class="bfbella-article-content__date">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+              </svg>
+              {{ article.published_at | date: '%B %d, %Y' }}
+            </span>
+          </div>
+          <button type="button" class="bfbella-article-content__share" data-share-url="{{ shop.url }}{{ article.url }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            <span class="bfbella-article-content__share-label">Share</span>
+          </button>
+        </div>
+
+        <div class="bfbella-article-content__prose">
+          {{ article.content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('ArticleContent-{{ section.id }}');
+    if (!root) return;
+    var button = root.querySelector('.bfbella-article-content__share');
+    if (!button) return;
+    var label = button.querySelector('.bfbella-article-content__share-label');
+    button.addEventListener('click', function () {
+      var url = button.getAttribute('data-share-url');
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(url).then(function () {
+        var original = label.textContent;
+        label.textContent = 'Copied!';
+        setTimeout(function () {
+          label.textContent = original;
+        }, 2000);
+      });
+    });
+  })();
+</script>
+
+{% stylesheet %}
+  .bfbella-article-content {
+    position: relative;
+    padding-block-start: var(--bfbella-pad-top, 3rem);
+    padding-block-end: var(--bfbella-pad-bottom, 5rem);
+    background-color: var(--bfbella-bg);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-article-content__inner {
+    max-width: 64rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-article-content__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: inherit;
+    opacity: 0.7;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-block-end: 1.5rem;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  .bfbella-article-content__back:hover {
+    opacity: 1;
+    color: var(--bfbella-accent);
+  }
+
+  .bfbella-article-content__back svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .bfbella-article-content__card {
+    background-color: var(--bfbella-card-bg);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: var(--bfbella-card-radius, 1.5rem);
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .bfbella-article-content__media {
+    width: 100%;
+    max-height: 32rem;
+    overflow: hidden;
+  }
+
+  .bfbella-article-content__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .bfbella-article-content__body {
+    padding: 2rem;
+
+    @media screen and (min-width: 750px) {
+      padding: 3rem;
+    }
+  }
+
+  .bfbella-article-content__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-block-end: 1rem;
+  }
+
+  .bfbella-article-content__category {
+    color: var(--bfbella-accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .bfbella-article-content__readtime {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 0.6;
+    font-size: 0.9rem;
+  }
+
+  .bfbella-article-content__readtime svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .bfbella-article-content__title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-block-end: 1.5rem;
+  }
+
+  .bfbella-article-content__byline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-block-end: 2rem;
+    margin-block-end: 2rem;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+  }
+
+  .bfbella-article-content__byline-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .bfbella-article-content__author,
+  .bfbella-article-content__date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .bfbella-article-content__author {
+    font-weight: 700;
+  }
+
+  .bfbella-article-content__date {
+    opacity: 0.6;
+  }
+
+  .bfbella-article-content__author svg,
+  .bfbella-article-content__date svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .bfbella-article-content__share {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    appearance: none;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+    background-color: transparent;
+    color: inherit;
+    padding: 0.6rem 1.1rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .bfbella-article-content__share:hover {
+    border-color: var(--bfbella-accent);
+    color: var(--bfbella-accent);
+  }
+
+  .bfbella-article-content__share svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .bfbella-article-content__prose {
+    max-width: none;
+    line-height: 1.75;
+  }
+
+  .bfbella-article-content__prose :is(h2, h3, h4) {
+    font-weight: 700;
+    line-height: 1.3;
+    margin-block: 1.75rem 0.75rem;
+  }
+
+  .bfbella-article-content__prose h2 {
+    font-size: 1.5rem;
+  }
+
+  .bfbella-article-content__prose h3 {
+    font-size: 1.25rem;
+  }
+
+  .bfbella-article-content__prose p {
+    margin-block-end: 1.25rem;
+    opacity: 0.85;
+  }
+
+  .bfbella-article-content__prose ul,
+  .bfbella-article-content__prose ol {
+    margin-block-end: 1.25rem;
+    padding-inline-start: 1.5rem;
+    opacity: 0.85;
+  }
+
+  .bfbella-article-content__prose li {
+    margin-block-end: 0.5rem;
+  }
+
+  .bfbella-article-content__prose a {
+    color: var(--bfbella-accent);
+  }
+
+  .bfbella-article-content__prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    margin-block: 1.5rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Article Content",
+  "tag": "section",
+  "class": "section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Back link label",
+      "default": "Back to Articles"
+    },
+    {
+      "type": "url",
+      "id": "back_link",
+      "label": "Back link URL",
+      "info": "Defaults to the Learn hub page (/pages/learn) if left blank."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to use the theme's existing color3 (brand green) swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Page background color",
+      "placeholder": "t:settings.default",
+      "info": "The outer page wash, behind the card."
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "placeholder": "t:settings.default",
+      "info": "The bounded, rounded card holding the article — independent from the page background above."
+    },
+    {
+      "type": "range",
+      "id": "card_corner_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Article Content",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
