@@ -23,9 +23,21 @@
   real Shopify blog article once one exists (Online Store → Blog posts), or leave it blank
   for a non-clickable card. See 0003_task8_howto.md.
 
-  COLOR: no hardcoded hex. Accent (icon badges, read-time label, "Read guide" link) resolves
-  through `section.settings.accent_color`, falling back to the theme's existing `color8`
-  (lime) swatch — an exact match for production's accent here too.
+  COLOR: no hardcoded hex.
+
+  2026-09-07 — COLOR FIX: originally this section's background fell back to the ambient page
+  background (via `var(--color-background)`) and its heading/subheading used
+  `var(--color-foreground)` with no override setting — reasonable in isolation, but this
+  theme's actual ambient background here is white, and the article-card block (see its own
+  file) hardcoded WHITE card text assuming a dark backdrop, so the two combined made card text
+  invisible. DXB worked around it by picking a green background manually, but the heading had
+  no matching color control and stayed black-on-green. Fixed properly: `background_color`,
+  `accent_color`, `heading_color`, and `subheading_color` are now real settings, each with a
+  concrete native-palette default (not "ambient"/blank) so the section is legible with zero
+  configuration, not just when DXB happens to override every field. Recommendation baked into
+  the defaults: `color3` (green) background, white heading/subheading text, `color12` (a
+  darker green — better contrast than `color8`/lime against the article cards' white
+  background) for accent elements. See 0003_task8_color_fix_howto.md.
 
   DEPLOY: save as sections/bfbella-education.liquid in the live theme. DXB applies this —
   Claude never commits or touches the live repo.
@@ -33,18 +45,22 @@
 {% endcomment %}
 
 {% liquid
-  assign accent = section.settings.accent_color | default: settings.color_palette.color8
+  assign accent = section.settings.accent_color | default: settings.color_palette.color12
+  assign bg = section.settings.background_color | default: settings.color_palette.color3
+  assign heading_color = section.settings.heading_color | default: settings.color_palette.background
+  assign subheading_color = section.settings.subheading_color | default: settings.color_palette.background
 
-  if section.settings.background_color != blank
-    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
-  endif
+  render 'contrast-override', background_color: bg, section_id: section.id, skip_contrast: true
 %}
 
 <div
   id="Education-{{ section.id }}"
-  class="bfbella-education{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  class="bfbella-education color-custom-{{ section.id }}"
   style="
     --bfbella-accent: {{ accent }};
+    --bfbella-bg: {{ bg }};
+    --bfbella-heading-color: {{ heading_color }};
+    --bfbella-subheading-color: {{ subheading_color }};
     {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
     {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
   "
@@ -76,7 +92,7 @@
     position: relative;
     padding-block-start: var(--bfbella-pad-top, 5rem);
     padding-block-end: var(--bfbella-pad-bottom, 5rem);
-    background-color: var(--color-background);
+    background-color: var(--bfbella-bg);
     color: var(--color-foreground);
   }
 
@@ -98,11 +114,13 @@
     font-weight: 700;
     line-height: 1.1;
     margin-block-end: 1rem;
+    color: var(--bfbella-heading-color);
   }
 
   .bfbella-education__subheading {
     font-size: 1.15rem;
-    opacity: 0.7;
+    color: var(--bfbella-subheading-color);
+    opacity: 0.85;
   }
 
   .bfbella-education__grid {
@@ -147,17 +165,31 @@
     },
     {
       "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank for white — reads correctly against the default green background below."
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "placeholder": "t:settings.default",
+      "info": "Leave blank to match Heading color (rendered at reduced opacity)."
+    },
+    {
+      "type": "color",
       "id": "accent_color",
       "label": "Accent color",
       "placeholder": "t:settings.default",
-      "info": "Used for icon badges, the read-time label, and the \"Read guide\" link. Leave blank to use the theme's existing color8 (lime) swatch."
+      "info": "Used for icon badges, the read-time label, and the \"Read guide\" link — these sit on the article cards' own (usually white) background, not this section's. Leave blank to use the theme's color12 (a darker green) swatch, chosen for contrast against white cards — the original color8 (lime) reads poorly there."
     },
     {
       "type": "color",
       "id": "background_color",
       "label": "Background color",
       "placeholder": "t:settings.default",
-      "info": "Leave blank to use the ambient page background, matching production's subtle (not solid) section background."
+      "info": "Leave blank to use the theme's color3 (brand green) swatch — recommended. The section previously defaulted to the ambient page background (white), which made the article cards' text unreadable; this default fixes that without requiring you to set anything."
     },
     {
       "type": "header",
