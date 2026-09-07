@@ -58,6 +58,10 @@
         "padding-block-end": 0
       }
     },
+    "story": {
+      "type": "bfbella-about-story",
+      "settings": {}
+    },
     "cta": {
       "type": "bfbella-about-cta",
       "settings": {
@@ -76,6 +80,7 @@
   },
   "order": [
     "main",
+    "story",
     "cta"
   ]
 }
