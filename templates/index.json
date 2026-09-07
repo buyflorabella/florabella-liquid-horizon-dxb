@@ -2979,10 +2979,10 @@
         "bfbella_mineral_r9a6gx": {
           "type": "bfbella-mineral",
           "settings": {
-            "symbol": "",
-            "atomic_number": "",
-            "name": "",
-            "benefit": ""
+            "symbol": "B",
+            "atomic_number": "5",
+            "name": "Boron",
+            "benefit": "Critical for cell division and proper fruit and seed development."
           },
           "blocks": {}
         }
