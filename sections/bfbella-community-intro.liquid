@@ -30,6 +30,15 @@
   THIS SECTION RENDERS ITS OWN <h1> — same pattern as bfbella-about-story.liquid. The native
   "main" title block must stay disabled on this page's template to avoid a duplicate H1.
 
+  2026-09-07 UPDATE: DXB asked for a 4th stat slot (left blank by default — matches production's
+  card-only-shows-if-it-has-content pattern used elsewhere in this build), each stat card now
+  showing whenever EITHER its number OR its label is filled in (not requiring both), and an
+  independent background color for the stats box itself — same "second color setting instead of
+  restructuring into blocks" call already made for bfbella-about-cta.liquid's card, for the same
+  reason (DXB again suggested a Group block; a plain `stats_background_color` setting achieves
+  the same independently-colorable-box outcome without adding theme-blocks machinery to a
+  section that has no repeatable content).
+
   DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
   live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
   commits and pushes by hand.
@@ -39,6 +48,7 @@
 {% liquid
   assign accent = section.settings.accent_color | default: settings.color_palette.color3
   assign bg = section.settings.background_color | default: settings.color_palette.background
+  assign stats_bg = section.settings.stats_background_color | default: settings.color_palette.background
 
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
@@ -51,6 +61,7 @@
   style="
     --bfbella-accent: {{ accent }};
     --bfbella-bg: {{ bg }};
+    --bfbella-stats-bg: {{ stats_bg }};
     {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
     {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
   "
@@ -71,24 +82,48 @@
       </div>
     {%- endif -%}
 
-    {%- if section.settings.stat1_number != blank or section.settings.stat2_number != blank or section.settings.stat3_number != blank -%}
+    {%- liquid
+      assign has_stat1 = false
+      assign has_stat2 = false
+      assign has_stat3 = false
+      assign has_stat4 = false
+      if section.settings.stat1_number != blank or section.settings.stat1_label != blank
+        assign has_stat1 = true
+      endif
+      if section.settings.stat2_number != blank or section.settings.stat2_label != blank
+        assign has_stat2 = true
+      endif
+      if section.settings.stat3_number != blank or section.settings.stat3_label != blank
+        assign has_stat3 = true
+      endif
+      if section.settings.stat4_number != blank or section.settings.stat4_label != blank
+        assign has_stat4 = true
+      endif
+    -%}
+    {%- if has_stat1 or has_stat2 or has_stat3 or has_stat4 -%}
       <div class="bfbella-community-intro__stats">
-        {%- if section.settings.stat1_number != blank -%}
+        {%- if has_stat1 -%}
           <div class="bfbella-community-intro__stat">
             <div class="bfbella-community-intro__stat-number">{{ section.settings.stat1_number }}</div>
             <div class="bfbella-community-intro__stat-label">{{ section.settings.stat1_label }}</div>
           </div>
         {%- endif -%}
-        {%- if section.settings.stat2_number != blank -%}
+        {%- if has_stat2 -%}
           <div class="bfbella-community-intro__stat">
             <div class="bfbella-community-intro__stat-number">{{ section.settings.stat2_number }}</div>
             <div class="bfbella-community-intro__stat-label">{{ section.settings.stat2_label }}</div>
           </div>
         {%- endif -%}
-        {%- if section.settings.stat3_number != blank -%}
+        {%- if has_stat3 -%}
           <div class="bfbella-community-intro__stat">
             <div class="bfbella-community-intro__stat-number">{{ section.settings.stat3_number }}</div>
             <div class="bfbella-community-intro__stat-label">{{ section.settings.stat3_label }}</div>
+          </div>
+        {%- endif -%}
+        {%- if has_stat4 -%}
+          <div class="bfbella-community-intro__stat">
+            <div class="bfbella-community-intro__stat-number">{{ section.settings.stat4_number }}</div>
+            <div class="bfbella-community-intro__stat-label">{{ section.settings.stat4_label }}</div>
           </div>
         {%- endif -%}
       </div>
@@ -154,11 +189,11 @@
     margin-inline: auto;
     padding: 2.5rem 2rem;
     border-radius: 1.5rem;
-    background-color: var(--color-background);
+    background-color: var(--bfbella-stats-bg);
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
 
     @media screen and (min-width: 750px) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     }
   }
 
@@ -240,8 +275,26 @@
       "label": "Stat 3 label"
     },
     {
+      "type": "text",
+      "id": "stat4_number",
+      "label": "Stat 4 number",
+      "info": "Optional — leave both Stat 4 fields blank to show only 3 stats."
+    },
+    {
+      "type": "text",
+      "id": "stat4_label",
+      "label": "Stat 4 label"
+    },
+    {
       "type": "header",
       "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "stats_background_color",
+      "label": "Stats box background color",
+      "placeholder": "t:settings.default",
+      "info": "The bounded box behind the stat row — independent from the section background below."
     },
     {
       "type": "color",

@@ -20,6 +20,10 @@
   only does `{% content_for 'blocks' %}`) — see .claude/CLAUDE.md's "Theme Blocks Must Render
   Themselves" section.
 
+  2026-09-07 UPDATE: DXB liked these but asked for the hover effect to match the lift+shadow
+  used on the About page's Value cards for site consistency — switched from `scale(1.05)` to
+  `translateY(-4px)` with the same shadow strength, replacing the original scale-based hover.
+
   DEPLOY: written directly into this live repo's working tree as part of the 2026-09-07
   live-edit pilot (see claude_docs/build_docs/live_edit_pilot_plan.md) — DXB reviews, then
   commits and pushes by hand.
@@ -64,9 +68,9 @@
   }
 
   .bfbella-social-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-4px);
     border-color: var(--bfbella-accent);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.12);
   }
 
   .bfbella-social-card__icon {
