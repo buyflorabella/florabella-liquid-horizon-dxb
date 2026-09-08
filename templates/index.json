@@ -3626,6 +3626,21 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "divider_baGbqY": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "background_color": "",
+        "divider_color": "",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
     }
   },
   "order": [
@@ -3643,6 +3658,7 @@
     "bfbella_guaranteed_analysis_RLBrzj",
     "bfbella_education_UpKJDn",
     "bfbella_testimonials_z49VtR",
+    "divider_baGbqY",
     "bfbella_video_showcase_bkh98U",
     "bfbella_community_UGMTbF",
     "section_4Uhr3k"
