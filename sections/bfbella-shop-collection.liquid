@@ -18,6 +18,27 @@
       { once: true }
     );
   }
+
+  document.addEventListener('click', (event) => {
+    const buyNowButton = event.target instanceof Element
+      ? event.target.closest('[data-bfbella-buy-now]')
+      : null;
+    if (buyNowButton) {
+      window.__bfbellaBuyNowArmed = true;
+    }
+  });
+
+  import('@shopify/events').then(({ StandardEvents }) => {
+    document.addEventListener(StandardEvents.cartLinesUpdate, (cartEvent) => {
+      if (window.__bfbellaBuyNowArmed && cartEvent.action === 'add') {
+        window.__bfbellaBuyNowArmed = false;
+        const drawer = document.getElementById('cart-drawer');
+        if (drawer && typeof drawer.open === 'function') {
+          drawer.open();
+        }
+      }
+    });
+  });
 {% endjavascript %}
 
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
@@ -298,6 +319,22 @@
     width: 18px;
     height: 18px;
     flex-shrink: 0;
+  }
+
+  .bfbella-shop-card__buynow-form {
+    display: block;
+    width: 100%;
+  }
+
+  .bfbella-shop-card__buynow-button.bfbella-shop-card__buynow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: transparent;
+    color: rgb(var(--color-foreground));
+    border: 1px solid rgb(var(--color-border-rgb) / 0.6);
+    border-radius: 4px;
   }
 
   .bfbella-shop-card__view-details {
