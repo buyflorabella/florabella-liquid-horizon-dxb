@@ -79,7 +79,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Standard shipping takes 3-5 business days within the continental US. Express shipping (2-3 days) and overnight shipping options are available at checkout. International shipping times vary by location.",
+                    "text": "<p>Standard shipping takes 3-5 business days within the continental US. Express shipping (2-3 days) and overnight shipping options are available at checkout. International shipping times vary by location.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -115,7 +115,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "We offer shipping discount promotions throughout the year, follow us on social media to receive updates.",
+                    "text": "<p>We offer shipping discount promotions throughout the year, follow us on social media to receive updates.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -151,7 +151,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Absolutely! Once your order ships, you will receive a tracking number via email. You can also track your order by logging into your account and viewing your order history.",
+                    "text": "<p>Absolutely! Once your order ships, you will receive a tracking number via email. You can also track your order by logging into your account and viewing your order history.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -187,7 +187,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Yes, we ship to most countries worldwide. Shipping rates and delivery times vary by destination. International customers are responsible for any customs fees or import duties.",
+                    "text": "<p>Yes, we ship to most countries worldwide. Shipping rates and delivery times vary by destination. International customers are responsible for any customs fees or import duties.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -306,7 +306,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Flora Bella is designed to support soil vitality and plant development by replenishing naturally occurring trace minerals. It can be used across a wide range of gardens, from vegetables and flowers to trees, lawns, and container plants.",
+                    "text": "<p>Flora Bella is designed to support soil vitality and plant development by replenishing naturally occurring trace minerals. It can be used across a wide range of gardens, from vegetables and flowers to trees, lawns, and container plants.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -342,7 +342,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Flora Bella can be mixed into soil, added to water, or used as part of a regular feeding routine. Application methods may vary based on plant type, growing medium, and season. Always start with recommended guidelines and adjust as needed.",
+                    "text": "<p>Flora Bella can be mixed into soil, added to water, or used as part of a regular feeding routine. Application methods may vary based on plant type, growing medium, and season. Always start with recommended guidelines and adjust as needed.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -378,7 +378,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Flora Bella can be used throughout the growing cycle, including planting, active growth, and maintenance phases. Many gardeners incorporate it at the beginning of the season and continue as plants develop.",
+                    "text": "<p>Flora Bella can be used throughout the growing cycle, including planting, active growth, and maintenance phases. Many gardeners incorporate it at the beginning of the season and continue as plants develop.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -414,7 +414,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Yes. Flora Bella is intended for use in gardens that include vegetables, herbs, and fruiting plants. As with any soil input, it should be applied according to usage guidance and good gardening practices.",
+                    "text": "<p>Yes. Flora Bella is intended for use in gardens that include vegetables, herbs, and fruiting plants. As with any soil input, it should be applied according to usage guidance and good gardening practices.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -450,7 +450,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Flora Bella is often used alongside compost, organic matter, and standard fertilization programs. Gardeners may choose to integrate it into existing routines rather than replace other inputs.",
+                    "text": "<p>Flora Bella is often used alongside compost, organic matter, and standard fertilization programs. Gardeners may choose to integrate it into existing routines rather than replace other inputs.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -486,7 +486,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Yes. Flora Bella can be used in raised beds, container gardens, and in-ground plantings. Application amounts may differ depending on soil volume and planting density.",
+                    "text": "<p>Yes. Flora Bella can be used in raised beds, container gardens, and in-ground plantings. Application amounts may differ depending on soil volume and planting density.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -522,7 +522,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Many gardeners use Flora Bella for indoor plants as part of regular care. Adjust application frequency and amounts based on pot size and plant needs.",
+                    "text": "<p>Many gardeners use Flora Bella for indoor plants as part of regular care. Adjust application frequency and amounts based on pot size and plant needs.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -558,7 +558,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Flora Bella is produced with attention to sourcing and consistency. Quality practices are in place to ensure the product meets internal standards before reaching customers.",
+                    "text": "<p>Flora Bella is produced with attention to sourcing and consistency. Quality practices are in place to ensure the product meets internal standards before reaching customers.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -681,7 +681,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Subscribe & Save lets you receive Flora Bella products automatically on a recurring basis. You choose a delivery schedule that fits your needs, and we take care of the rest. Subscription benefits and details may vary over time and are always shown at checkout.",
+                    "text": "<p>Subscribe & Save lets you receive Flora Bella products automatically on a recurring basis. You choose a delivery schedule that fits your needs, and we take care of the rest. Subscription benefits and details may vary over time and are always shown at checkout.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -717,7 +717,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Yes. You can manage your subscription at any time, including adjusting delivery frequency, skipping an order, or making changes to your selections through your customer account.",
+                    "text": "<p>Yes. You can manage your subscription at any time, including adjusting delivery frequency, skipping an order, or making changes to your selections through your customer account.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -753,7 +753,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Subscriptions can be paused or canceled at any time through your customer account. Changes typically take effect before the next scheduled order processes.",
+                    "text": "<p>Subscriptions can be paused or canceled at any time through your customer account. Changes typically take effect before the next scheduled order processes.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -789,7 +789,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Yes. You’ll receive a notification ahead of each scheduled shipment so you have time to review, update, or make changes if needed.",
+                    "text": "<p>Yes. You\u2019ll receive a notification ahead of each scheduled shipment so you have time to review, update, or make changes if needed.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -908,7 +908,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "We offer a 60-day money-back guarantee on all products. If you are not completely satisfied, return the product (even if opened) for a full refund. Just contact our support team to initiate a return.",
+                    "text": "<p>We offer a 60-day money-back guarantee on all products. If you are not completely satisfied, return the product (even if opened) for a full refund. Just contact our support team to initiate a return.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -1024,7 +1024,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Click the Account icon in the header and select \"Create Account.\" Enter your email and create a password. An account makes checkout faster and allows you to track orders and manage subscriptions.",
+                    "text": "<p>Click the Account icon in the header and select \"Create Account.\" Enter your email and create a password. An account makes checkout faster and allows you to track orders and manage subscriptions.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -1060,7 +1060,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Absolutely. We use industry-standard SSL encryption to protect your data. We never sell or share your personal information with third parties. Read our Privacy Policy for complete details.",
+                    "text": "<p>Absolutely. We use industry-standard SSL encryption to protect your data. We never sell or share your personal information with third parties. Read our Privacy Policy for complete details.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -1096,7 +1096,7 @@
                 "text": {
                   "type": "text",
                   "settings": {
-                    "text": "Log into your account and go to Account Settings. You can update your email, password, shipping addresses, and payment methods at any time.",
+                    "text": "<p>Log into your account and go to Account Settings. You can update your email, password, shipping addresses, and payment methods at any time.</p>",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
                     "font_size": "",
@@ -1187,7 +1187,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "Our customer support team is here to help",
+            "text": "<p>Our customer support team is here to help</p>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
