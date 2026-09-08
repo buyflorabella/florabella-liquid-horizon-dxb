@@ -371,7 +371,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "Shop Bio Trace Mix",
-                "link": "shopify://collections/all",
+                "link": "shopify://collections/shop",
                 "open_in_new_tab": false,
                 "style_class": "button-custom",
                 "custom_button_background": "{{ settings.color_palette.color3 }}",
