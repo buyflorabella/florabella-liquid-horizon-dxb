@@ -31,6 +31,7 @@
   if variant.compare_at_price > variant.price
     assign has_sale = true
   endif
+  assign add_form_id = 'BfbellaShopAdd-' | append: product.id
 %}
 
 <div
@@ -65,11 +66,25 @@
       {% endif %}
     </div>
     <div class="bfbella-shop-card__actions">
-      {% render 'quick-add', product: product, section_id: section.id %}
-      {% form 'product', product, id: buy_now_form_id %}
-        <input type="hidden" name="id" value="{{ variant.id }}">
-        {{ form | payment_button }}
-      {% endform %}
+      {% render 'add-to-cart-button-styles' %}
+      <product-form-component
+        data-section-id="{{ section.id }}"
+        data-product-id="{{ product.id }}"
+        on:submit="/handleSubmit"
+        class="bfbella-shop-card__add-form"
+      >
+        {% form 'product', product, id: add_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          {% render 'add-to-cart-button',
+            add_to_cart_text: 'actions.add_to_cart' | t,
+            class: 'bfbella-shop-card__add-button',
+            can_add_to_cart: variant.available,
+            show_icon: true,
+            product: product
+          %}
+        {% endform %}
+      </product-form-component>
     </div>
     <a href="{{ product.url }}" class="bfbella-shop-card__view-details">View Details</a>
   </div>
