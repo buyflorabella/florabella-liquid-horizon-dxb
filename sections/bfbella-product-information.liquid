@@ -484,6 +484,37 @@
     margin-block-end: 20px;
   }
 
+  /* Production shows the minus button, the number, and the plus button as three
+     visually separate boxes with a gap between them — not one joined pill. The
+     native quantity-selector component ships as a single bordered container by
+     default, so this overrides it to match. */
+  .bfbella-pdp .quantity-selector {
+    border: none;
+    background: transparent;
+    gap: 12px;
+    flex: 0 0 auto;
+  }
+
+  .bfbella-pdp .quantity-selector .quantity-minus.quantity-minus,
+  .bfbella-pdp .quantity-selector .quantity-plus.quantity-plus {
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: var(--bfbella-button-radius);
+    background: transparent;
+    width: 48px;
+    height: 48px;
+  }
+
+  .bfbella-pdp .quantity-selector input[type='number'] {
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: var(--bfbella-button-radius);
+    background: transparent;
+    color: inherit;
+    text-align: center;
+    width: 64px;
+    height: 48px;
+    flex: 0 0 auto;
+  }
+
   .bfbella-pdp__add-button.bfbella-pdp__add-button {
     display: flex;
     flex-direction: row;
