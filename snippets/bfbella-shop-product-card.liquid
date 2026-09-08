@@ -52,7 +52,7 @@
       }}
     {% endif %}
     {% if has_sale %}
-      <span class="bfbella-shop-card__badge">{{ 'products.product.on_sale' | t }}</span>
+      <span class="bfbella-shop-card__badge">Sale</span>
     {% endif %}
   </a>
   <div class="bfbella-shop-card__content">
@@ -84,13 +84,26 @@
         {% form 'product', product, id: add_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
           <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
           <input type="hidden" name="quantity" value="1">
-          {% render 'add-to-cart-button',
-            add_to_cart_text: add_to_cart_label,
-            class: 'bfbella-shop-card__add-button',
-            can_add_to_cart: variant.available,
-            show_icon: true,
-            product: product
-          %}
+          <add-to-cart-component ref="addToCartButtonContainer">
+            <button
+              type="submit"
+              name="add"
+              ref="addToCartButton"
+              on:click="/handleClick"
+              class="button bfbella-shop-card__add-button"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              <span aria-hidden="true" class="svg-wrapper bfbella-shop-card__add-icon">
+                {{- 'icon-shopping-cart.svg' | inline_asset_content -}}
+              </span>
+              <span>{{ add_to_cart_label }}</span>
+              <span class="add-to-cart__added">
+                <span class="svg-wrapper add-to-cart__added-icon">
+                  {{- 'icon-checkmark-burst.svg' | inline_asset_content -}}
+                </span>
+              </span>
+            </button>
+          </add-to-cart-component>
         {% endform %}
       </product-form-component>
     </div>
