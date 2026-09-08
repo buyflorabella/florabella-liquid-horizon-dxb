@@ -45,7 +45,11 @@
     {% if section.settings.show_category_filter %}
       <div
         class="bfbella-shop-tabs"
-        style="--bfbella-shop-accent: {{ section.settings.accent_color | default: settings.color_palette.color1 }};"
+        style="
+          --bfbella-shop-accent: {{ section.settings.accent_color | default: settings.color_palette.color1 }};
+          {% if section.settings.tab_text_color != blank %}--bfbella-shop-tab-text: {{ section.settings.tab_text_color }};{% endif %}
+          {% if section.settings.tab_active_text_color != blank %}--bfbella-shop-tab-active-text: {{ section.settings.tab_active_text_color }};{% endif %}
+        "
       >
         {% if section.settings.all_products_collection != blank %}
           <a
@@ -148,11 +152,11 @@
     display: inline-block;
     border: 1px solid rgb(var(--color-border-rgb) / 0.4);
     background: transparent;
-    border-radius: 999px;
+    border-radius: 8px;
     padding: 0.5rem 1.1rem;
     font-size: 0.9rem;
     font-weight: 600;
-    color: rgb(var(--color-foreground));
+    color: var(--bfbella-shop-tab-text, rgb(var(--color-foreground)));
     text-decoration: none;
     white-space: nowrap;
     transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
@@ -165,7 +169,7 @@
   .bfbella-shop-tab--active {
     border-color: var(--bfbella-shop-accent);
     background: var(--bfbella-shop-accent);
-    color: rgb(var(--color-background));
+    color: var(--bfbella-shop-tab-active-text, rgb(var(--color-background)));
   }
 
   @media screen and (max-width: 749px) {
@@ -243,6 +247,18 @@
       "type": "color",
       "id": "accent_color",
       "label": "Active tab color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Active tab text color",
       "placeholder": "t:settings.default"
     },
     {
