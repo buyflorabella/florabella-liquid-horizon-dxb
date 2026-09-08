@@ -215,7 +215,7 @@
       },
       "settings": {
         "show_category_filter": true,
-        "all_products_collection": "all-products",
+        "all_products_collection": "shop",
         "all_label": "All",
         "category_1_collection": "trace-mineral-bags",
         "category_1_label": "",
