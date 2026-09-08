@@ -17,6 +17,7 @@
   if variant.compare_at_price > variant.price
     assign has_sale = true
   endif
+  assign buy_now_form_id = 'BfbellaShopBuyNow-' | append: product.id
 %}
 
 <div
@@ -52,7 +53,7 @@
     </div>
     <div class="bfbella-shop-card__actions">
       {% render 'quick-add', product: product, section_id: section.id %}
-      {% form 'product', product, id: 'BfbellaShopBuyNow-' | append: product.id %}
+      {% form 'product', product, id: buy_now_form_id %}
         <input type="hidden" name="id" value="{{ variant.id }}">
         {{ form | payment_button }}
       {% endform %}
