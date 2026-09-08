@@ -32,6 +32,7 @@
     assign has_sale = true
   endif
   assign add_form_id = 'BfbellaShopAdd-' | append: product.id
+  assign add_to_cart_label = 'actions.add_to_cart' | t
 %}
 
 <div
@@ -73,11 +74,18 @@
         on:submit="/handleSubmit"
         class="bfbella-shop-card__add-form"
       >
+        <div
+          class="visually-hidden"
+          aria-live="assertive"
+          role="status"
+          aria-atomic="true"
+          ref="liveRegion"
+        ></div>
         {% form 'product', product, id: add_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
           <input type="hidden" name="id" value="{{ variant.id }}">
           <input type="hidden" name="quantity" value="1">
           {% render 'add-to-cart-button',
-            add_to_cart_text: 'actions.add_to_cart' | t,
+            add_to_cart_text: add_to_cart_label,
             class: 'bfbella-shop-card__add-button',
             can_add_to_cart: variant.available,
             show_icon: true,
