@@ -100,7 +100,7 @@
             "heading": "Brand Ambassadors",
             "description": "Earn rewards by sharing Flora Bella with your community. Sign-ups are managed through our partner platform.",
             "button_label": "Apply via UpPromote",
-            "button_link": "https://uppromote.com",
+            "button_link": "https://af.uppromote.com/buyflorabella/register",
             "open_in_new_tab": true,
             "button_style": "primary",
             "small_print": "Opens in new tab"
@@ -251,7 +251,9 @@
               "type": "bfbella-customcontact-form",
               "settings": {
                 "width": "fill",
+                "custom_width": 100,
                 "width_mobile": "fill",
+                "custom_width_mobile": 100,
                 "name_label": "Name *",
                 "name_placeholder": "Your name",
                 "email_label": "Email *",
@@ -366,6 +368,7 @@
                 "icon": "none",
                 "heading": "Order Help",
                 "text": "Need help with an existing order? Track your shipment, make changes, or request a return.",
+                "text2": "",
                 "link_label": "View Order FAQs",
                 "link_url": "/pages/faq"
               },
@@ -377,6 +380,7 @@
                 "icon": "none",
                 "heading": "Product Questions",
                 "text": "Learn about our products, ingredients, usage instructions, and certifications.",
+                "text2": "",
                 "link_label": "View Product FAQs",
                 "link_url": "/pages/faq"
               },
@@ -400,6 +404,7 @@
                 "icon": "map_pin",
                 "heading": "Location",
                 "text": "Flora Bella Trace Minerals\n218 Julia Street\nBay St. Louis, MS 39520",
+                "text2": "",
                 "link_label": "",
                 "link_url": ""
               },
