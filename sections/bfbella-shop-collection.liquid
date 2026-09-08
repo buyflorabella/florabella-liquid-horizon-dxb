@@ -29,6 +29,14 @@
 
 {% render 'collection-wrapper-styles' %}
 
+{% style %}
+  @media screen and (min-width: 750px) {
+    .product-grid--{{ section.id }} {
+      grid-template-columns: repeat({{ section.settings.max_columns | default: 3 }}, 1fr) !important;
+    }
+  }
+{% endstyle %}
+
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
@@ -44,7 +52,7 @@
 
     {% if section.settings.show_category_filter %}
       <div
-        class="bfbella-shop-tabs"
+        class="bfbella-shop-tabs bfbella-shop-tabs--{{ section.settings.tabs_alignment | default: 'left' }}"
         style="
           --bfbella-shop-accent: {{ section.settings.accent_color | default: settings.color_palette.color1 }};
           {% if section.settings.tab_text_color != blank %}--bfbella-shop-tab-text: {{ section.settings.tab_text_color }};{% endif %}
@@ -117,12 +125,7 @@
               data-product-id="{{ product.id }}"
               ref="cards[]"
             >
-              {% content_for 'block',
-                type: '_product-card',
-                id: 'product-card',
-                closest.product: product,
-                product_view_context: 'collection'
-              %}
+              {% render 'bfbella-shop-product-card', product: product, section: section %}
             </li>
           {% endfor %}
         {% endcapture %}
@@ -146,6 +149,18 @@
     gap: 0.5rem;
     margin-block-end: 1.5rem;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .bfbella-shop-tabs--left {
+    justify-content: flex-start;
+  }
+
+  .bfbella-shop-tabs--center {
+    justify-content: center;
+  }
+
+  .bfbella-shop-tabs--right {
+    justify-content: flex-end;
   }
 
   .bfbella-shop-tab {
@@ -178,6 +193,104 @@
       overflow-x: auto;
       padding-block-end: 0.25rem;
     }
+  }
+
+  .bfbella-shop-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bfbella-card-bg);
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: var(--bfbella-card-radius);
+    overflow: hidden;
+  }
+
+  .bfbella-shop-card__media {
+    display: block;
+    position: relative;
+  }
+
+  .bfbella-shop-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .bfbella-shop-card__badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--bfbella-shop-accent, rgb(var(--color-foreground)));
+    color: rgb(var(--color-background));
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  .bfbella-shop-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    flex-grow: 1;
+    color: var(--bfbella-card-text, rgb(var(--color-foreground)));
+  }
+
+  .bfbella-shop-card__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .bfbella-shop-card__excerpt {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bfbella-shop-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .bfbella-shop-card__compare-price {
+    font-size: 0.95rem;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .bfbella-shop-card__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-block-start: 0.25rem;
+  }
+
+  .bfbella-shop-card__actions > * {
+    flex: 1;
+  }
+
+  .bfbella-shop-card__view-details {
+    display: block;
+    text-align: center;
+    margin-block-start: 0.5rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
 {% endstylesheet %}
 
@@ -260,6 +373,52 @@
       "id": "tab_active_text_color",
       "label": "Active tab text color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "select",
+      "id": "tabs_alignment",
+      "label": "Tabs alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Product cards"
+    },
+    {
+      "type": "range",
+      "id": "max_columns",
+      "label": "Max columns (desktop)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 18
     },
     {
       "type": "header",

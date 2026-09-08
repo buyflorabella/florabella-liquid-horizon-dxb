@@ -1,0 +1,62 @@
+{%- doc -%}
+  BFBella custom shop grid card — image, title, description excerpt, price, Add to Cart
+  (native quick-add, real AJAX cart-drawer behavior), Buy Now (native accelerated/dynamic
+  checkout via payment_button), and an explicit View Details button.
+
+  @param {object} product - The product to render
+  @param {object} section - The parent section (for card_background_color/card_text_color/
+    card_border_radius settings)
+
+  @example
+  {% render 'bfbella-shop-product-card', product: product, section: section %}
+{%- enddoc -%}
+
+{% liquid
+  assign variant = product.selected_or_first_available_variant
+  assign has_sale = false
+  if variant.compare_at_price > variant.price
+    assign has_sale = true
+  endif
+%}
+
+<div
+  class="bfbella-shop-card"
+  style="
+    --bfbella-card-bg: {{ section.settings.card_background_color | default: settings.color_palette.background }};
+    --bfbella-card-text: {{ section.settings.card_text_color | default: settings.color_palette.foreground }};
+    --bfbella-card-radius: {{ section.settings.card_border_radius | default: 18 }}px;
+  "
+>
+  <a href="{{ product.url }}" class="bfbella-shop-card__media">
+    {% if product.featured_media %}
+      {{
+        product.featured_media
+        | image_url: width: 600
+        | image_tag: loading: 'lazy', widths: '300, 450, 600', class: 'bfbella-shop-card__image'
+      }}
+    {% endif %}
+    {% if has_sale %}
+      <span class="bfbella-shop-card__badge">{{ 'products.product.on_sale' | t }}</span>
+    {% endif %}
+  </a>
+  <div class="bfbella-shop-card__content">
+    <a href="{{ product.url }}" class="bfbella-shop-card__title">{{ product.title }}</a>
+    {% if product.description != blank %}
+      <p class="bfbella-shop-card__excerpt">{{ product.description | strip_html | truncate: 110 }}</p>
+    {% endif %}
+    <div class="bfbella-shop-card__price">
+      <span>{{ variant.price | money }}</span>
+      {% if has_sale %}
+        <s class="bfbella-shop-card__compare-price">{{ variant.compare_at_price | money }}</s>
+      {% endif %}
+    </div>
+    <div class="bfbella-shop-card__actions">
+      {% render 'quick-add', product: product, section_id: section.id %}
+      {% form 'product', product, id: 'BfbellaShopBuyNow-' | append: product.id %}
+        <input type="hidden" name="id" value="{{ variant.id }}">
+        {{ form | payment_button }}
+      {% endform %}
+    </div>
+    <a href="{{ product.url }}" class="bfbella-shop-card__view-details">View Details</a>
+  </div>
+</div>
