@@ -41,7 +41,6 @@
         "callout_button_1",
         "callout_button_2"
       ],
-      "disabled": true,
       "name": "NewProductCallout",
       "settings": {
         "message": "<p>We are excited to introduce two new <strong>amazing</strong> products this June!</p>",
