@@ -23,6 +23,7 @@
         "add_to_cart_button_text_color": "{{ settings.color_palette.background }}",
         "show_callout_cards": true,
         "callout_card_background_color": "{{ settings.color_palette.background }}",
+        "callout_card_text_color": "",
         "callout_card_border_radius": 12,
         "callout_1_title": "Quality Sourced",
         "callout_1_subtitle": "Carefully selected inputs",
@@ -30,7 +31,8 @@
         "callout_2_subtitle": "Reliable, repeatable fulfillment",
         "callout_3_title": "Secure Payment",
         "callout_3_subtitle": "SSL encrypted",
-        "background_color": "{{ settings.color_palette.background }}",
+        "background_color": "{{ settings.color_palette.color11 }}",
+        "heading_color": "",
         "text_color": "{{ settings.color_palette.foreground }}"
       }
     }
