@@ -43,7 +43,7 @@
       ],
       "name": "NewProductCallout",
       "settings": {
-        "message": "<p>We are excited to introduce two new <strong>amazing</strong> products this June!</p>",
+        "message": "<p>We are <strong>excited </strong>to introduce our two new <strong>amazing</strong> products!</p>",
         "background_color": "#FFC0E2",
         "padding_top": 64,
         "padding_bottom": 32
