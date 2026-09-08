@@ -11,8 +11,6 @@
   "sections": {
     "main": {
       "type": "bfbella-product-information",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "back_label": "Back to Shop",
         "back_link": "/collections/shop",
