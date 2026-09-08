@@ -1,0 +1,41 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "bfbella-product-information",
+      "settings": {
+        "back_label": "Back to Shop",
+        "back_link": "/collections/shop",
+        "show_best_seller_badge": false,
+        "best_seller_label": "Best Seller",
+        "show_star_rating": true,
+        "rating_text": "5.0",
+        "button_border_radius": 8,
+        "add_to_cart_button_color": "{{ settings.color_palette.color3 }}",
+        "add_to_cart_button_text_color": "{{ settings.color_palette.background }}",
+        "show_callout_cards": true,
+        "callout_card_background_color": "{{ settings.color_palette.background }}",
+        "callout_card_border_radius": 12,
+        "callout_1_title": "Quality Sourced",
+        "callout_1_subtitle": "Carefully selected inputs",
+        "callout_2_title": "Consistent Supply",
+        "callout_2_subtitle": "Reliable, repeatable fulfillment",
+        "callout_3_title": "Secure Payment",
+        "callout_3_subtitle": "SSL encrypted",
+        "background_color": "{{ settings.color_palette.background }}",
+        "text_color": "{{ settings.color_palette.foreground }}"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

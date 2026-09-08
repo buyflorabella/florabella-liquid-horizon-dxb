@@ -1,0 +1,606 @@
+{% comment %}
+  BFBella custom Product Detail Page. Hand-built (not copy-modified from the native product-
+  information section) since the specific customizations asked for here — large-image/thumbnails-
+  below gallery, optional Best Seller / star-rating badges, real selling-plan-based Subscribe &
+  Save, three configurable callout cards — have no native equivalent to copy from.
+
+  Add to Cart reuses the exact same proven mechanism/markup pattern validated on the Shop page
+  (product-form-component + native form + quantity-selector snippet + add-to-cart-button), not the
+  native accelerated-checkout button — per DXB, only Add to Cart should show here for now.
+{% endcomment %}
+
+{% liquid
+  assign variant = product.selected_or_first_available_variant
+  assign has_sale = false
+  if variant.compare_at_price > variant.price
+    assign has_sale = true
+  endif
+  assign add_form_id = 'BfbellaPdpForm-' | append: product.id
+  assign add_to_cart_label = 'actions.add_to_cart' | t
+  assign allocations = variant.selling_plan_allocations
+  assign product_images = product.media | where: 'media_type', 'image'
+%}
+
+<div
+  class="bfbella-pdp"
+  style="
+    --bfbella-pdp-bg: {{ section.settings.background_color | default: settings.color_palette.background }};
+    --bfbella-pdp-text: {{ section.settings.text_color | default: settings.color_palette.foreground }};
+    --bfbella-button-radius: {{ section.settings.button_border_radius | default: 8 }}px;
+    --bfbella-add-btn-bg: {{ section.settings.add_to_cart_button_color | default: settings.color_palette.color3 }};
+    --bfbella-add-btn-text: {{ section.settings.add_to_cart_button_text_color | default: settings.color_palette.background }};
+    --bfbella-card-bg: {{ section.settings.callout_card_background_color | default: settings.color_palette.background }};
+    --bfbella-card-radius: {{ section.settings.callout_card_border_radius | default: 12 }}px;
+  "
+>
+  <div class="bfbella-pdp__wrap page-width">
+    <a href="{{ section.settings.back_link | default: '/collections/shop' }}" class="bfbella-pdp__back">
+      ← {{ section.settings.back_label | default: 'Back to Shop' }}
+    </a>
+
+    <div class="bfbella-pdp__grid">
+      <div class="bfbella-pdp__gallery">
+        <div class="bfbella-pdp__main-image" data-bfbella-main-image>
+          {% if product.featured_media %}
+            {{
+              product.featured_media
+              | image_url: width: 1000
+              | image_tag: loading: 'eager', widths: '500, 750, 1000', class: 'bfbella-pdp__main-image-img'
+            }}
+          {% endif %}
+        </div>
+        {% if product_images.size > 1 %}
+          <div class="bfbella-pdp__thumbnails">
+            {% for media in product_images %}
+              <button
+                type="button"
+                class="bfbella-pdp__thumbnail{% if forloop.first %} bfbella-pdp__thumbnail--active{% endif %}"
+                data-bfbella-thumbnail
+                data-full-src="{{ media | image_url: width: 1000 }}"
+              >
+                {{ media | image_url: width: 150 | image_tag: loading: 'lazy', class: 'bfbella-pdp__thumbnail-img' }}
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="bfbella-pdp__details">
+        {% if section.settings.show_best_seller_badge %}
+          <span class="bfbella-pdp__badge">{{ section.settings.best_seller_label | default: 'Best Seller' }}</span>
+        {% endif %}
+
+        <h1 class="bfbella-pdp__title">{{ product.title }}</h1>
+
+        {% if section.settings.show_star_rating %}
+          <div class="bfbella-pdp__rating">
+            <span class="bfbella-pdp__stars" aria-hidden="true">★★★★★</span>
+            <span class="bfbella-pdp__rating-text">{{ section.settings.rating_text | default: '5.0' }}</span>
+          </div>
+        {% endif %}
+
+        <div class="bfbella-pdp__price">
+          <span>{{ variant.price | money }}</span>
+          {% if has_sale %}
+            <s class="bfbella-pdp__compare-price">{{ variant.compare_at_price | money }}</s>
+          {% endif %}
+        </div>
+
+        <div class="bfbella-pdp__description">{{ product.description }}</div>
+
+        {% form 'product', product, id: add_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+          <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
+
+          {% if allocations.size > 0 %}
+            <div class="bfbella-pdp__purchase-options">
+              <span class="bfbella-pdp__purchase-label">Purchase Options:</span>
+              <label class="bfbella-pdp__purchase-option">
+                <input type="radio" name="bfbella_purchase_type" value="onetime" checked data-bfbella-purchase-radio>
+                <span>
+                  <strong>One-time Purchase</strong>
+                  <span class="bfbella-pdp__purchase-price">{{ variant.price | money }}</span>
+                </span>
+              </label>
+              <label class="bfbella-pdp__purchase-option">
+                <input type="radio" name="bfbella_purchase_type" value="subscribe" data-bfbella-purchase-radio>
+                <span>
+                  <strong>Subscribe &amp; Save</strong>
+                  <span class="bfbella-pdp__purchase-price">{{ allocations.first.price | money }} per delivery</span>
+                </span>
+              </label>
+              <div class="bfbella-pdp__frequency" data-bfbella-frequency hidden>
+                <label class="bfbella-pdp__purchase-label" for="{{ add_form_id }}-frequency">Delivery Frequency:</label>
+                <select id="{{ add_form_id }}-frequency" data-bfbella-frequency-select>
+                  {% for allocation in allocations %}
+                    <option value="{{ allocation.selling_plan.id }}">
+                      {{ allocation.selling_plan.name }} — {{ allocation.price | money }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <input type="hidden" name="selling_plan" value="" data-bfbella-selling-plan-input>
+            </div>
+          {% endif %}
+
+          <div class="bfbella-pdp__quantity-row">
+            <span class="bfbella-pdp__purchase-label">Quantity:</span>
+            {% render 'quantity-selector', product: product %}
+          </div>
+
+          <add-to-cart-component ref="addToCartButtonContainer">
+            <button
+              type="submit"
+              name="add"
+              ref="addToCartButton"
+              on:click="/handleClick"
+              class="button bfbella-pdp__add-button"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              <span aria-hidden="true" class="svg-wrapper bfbella-pdp__add-icon">
+                {{- 'icon-shopping-cart.svg' | inline_asset_content -}}
+              </span>
+              <span>{% unless variant.available %}Out of Stock{% else %}{{ add_to_cart_label }}{% endunless %}</span>
+              <span class="add-to-cart__added">
+                <span class="svg-wrapper add-to-cart__added-icon">
+                  {{- 'icon-checkmark-burst.svg' | inline_asset_content -}}
+                </span>
+              </span>
+            </button>
+          </add-to-cart-component>
+        {% endform %}
+
+        {% if section.settings.show_callout_cards %}
+          <div class="bfbella-pdp__callouts">
+            <div class="bfbella-pdp__callout">
+              <span class="svg-wrapper bfbella-pdp__callout-icon">{{- 'icon-quality-sourced.svg' | inline_asset_content -}}</span>
+              <div class="bfbella-pdp__callout-title">{{ section.settings.callout_1_title | default: 'Quality Sourced' }}</div>
+              <div class="bfbella-pdp__callout-subtitle">{{ section.settings.callout_1_subtitle | default: 'Carefully selected inputs' }}</div>
+            </div>
+            <div class="bfbella-pdp__callout">
+              <span class="svg-wrapper bfbella-pdp__callout-icon">{{- 'icon-consistent-supply.svg' | inline_asset_content -}}</span>
+              <div class="bfbella-pdp__callout-title">{{ section.settings.callout_2_title | default: 'Consistent Supply' }}</div>
+              <div class="bfbella-pdp__callout-subtitle">{{ section.settings.callout_2_subtitle | default: 'Reliable, repeatable fulfillment' }}</div>
+            </div>
+            <div class="bfbella-pdp__callout">
+              <span class="svg-wrapper bfbella-pdp__callout-icon">{{- 'icon-secure-payment.svg' | inline_asset_content -}}</span>
+              <div class="bfbella-pdp__callout-title">{{ section.settings.callout_3_title | default: 'Secure Payment' }}</div>
+              <div class="bfbella-pdp__callout-subtitle">{{ section.settings.callout_3_subtitle | default: 'SSL encrypted' }}</div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% render 'add-to-cart-button-styles' %}
+{% render 'quantity-selector-styles' %}
+
+{% javascript %}
+  document.addEventListener('click', (event) => {
+    const thumb = event.target instanceof Element ? event.target.closest('[data-bfbella-thumbnail]') : null;
+    if (thumb) {
+      const gallery = thumb.closest('.bfbella-pdp__gallery');
+      const mainImage = gallery?.querySelector('[data-bfbella-main-image] img');
+      const fullSrc = thumb.getAttribute('data-full-src');
+      if (mainImage && fullSrc) {
+        mainImage.src = fullSrc;
+      }
+      gallery?.querySelectorAll('[data-bfbella-thumbnail]').forEach((el) => {
+        el.classList.remove('bfbella-pdp__thumbnail--active');
+      });
+      thumb.classList.add('bfbella-pdp__thumbnail--active');
+    }
+  });
+
+  document.addEventListener('change', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    if (target.matches('[data-bfbella-purchase-radio]')) {
+      const wrapper = target.closest('.bfbella-pdp__purchase-options');
+      const frequency = wrapper?.querySelector('[data-bfbella-frequency]');
+      const sellingPlanInput = wrapper?.querySelector('[data-bfbella-selling-plan-input]');
+      const select = wrapper?.querySelector('[data-bfbella-frequency-select]');
+      const isSubscribe = target.value === 'subscribe';
+      if (frequency) frequency.hidden = !isSubscribe;
+      if (sellingPlanInput) {
+        sellingPlanInput.value = isSubscribe ? select?.value || '' : '';
+      }
+    }
+
+    if (target.matches('[data-bfbella-frequency-select]')) {
+      const wrapper = target.closest('.bfbella-pdp__purchase-options');
+      const sellingPlanInput = wrapper?.querySelector('[data-bfbella-selling-plan-input]');
+      if (sellingPlanInput) sellingPlanInput.value = target.value;
+    }
+  });
+{% endjavascript %}
+
+{% stylesheet %}
+  .bfbella-pdp {
+    background: var(--bfbella-pdp-bg);
+    color: var(--bfbella-pdp-text);
+    padding-block: 48px;
+  }
+
+  .bfbella-pdp__wrap {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  .bfbella-pdp__back {
+    display: inline-block;
+    margin-block-end: 24px;
+    color: inherit;
+    opacity: 0.7;
+    text-decoration: none;
+  }
+
+  .bfbella-pdp__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .bfbella-pdp__grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  .bfbella-pdp__main-image {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .bfbella-pdp__main-image-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .bfbella-pdp__thumbnails {
+    display: flex;
+    gap: 12px;
+    margin-block-start: 16px;
+    overflow-x: auto;
+  }
+
+  .bfbella-pdp__thumbnail {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    background: none;
+  }
+
+  .bfbella-pdp__thumbnail--active {
+    border-color: var(--bfbella-add-btn-bg);
+  }
+
+  .bfbella-pdp__thumbnail-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .bfbella-pdp__badge {
+    display: inline-block;
+    background: var(--bfbella-add-btn-bg);
+    color: var(--bfbella-add-btn-text);
+    padding: 0.3rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-block-end: 12px;
+  }
+
+  .bfbella-pdp__title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    margin-block: 0 12px;
+  }
+
+  .bfbella-pdp__rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-block-end: 16px;
+  }
+
+  .bfbella-pdp__stars {
+    color: var(--bfbella-add-btn-bg);
+    letter-spacing: 0.1em;
+  }
+
+  .bfbella-pdp__rating-text {
+    opacity: 0.7;
+  }
+
+  .bfbella-pdp__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-block-end: 20px;
+  }
+
+  .bfbella-pdp__compare-price {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .bfbella-pdp__description {
+    opacity: 0.85;
+    line-height: 1.6;
+    margin-block-end: 24px;
+  }
+
+  .bfbella-pdp__purchase-label {
+    display: block;
+    font-weight: 600;
+    margin-block-end: 8px;
+  }
+
+  .bfbella-pdp__purchase-options {
+    margin-block-end: 20px;
+  }
+
+  .bfbella-pdp__purchase-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 12px 16px;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: var(--bfbella-button-radius);
+    margin-block-end: 8px;
+    cursor: pointer;
+  }
+
+  .bfbella-pdp__purchase-price {
+    display: block;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+
+  .bfbella-pdp__frequency {
+    margin-block: 8px 8px;
+  }
+
+  .bfbella-pdp__frequency select {
+    width: 100%;
+    padding: 10px;
+    border-radius: var(--bfbella-button-radius);
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    background: transparent;
+    color: inherit;
+  }
+
+  .bfbella-pdp__quantity-row {
+    margin-block-end: 20px;
+  }
+
+  .bfbella-pdp__add-button.bfbella-pdp__add-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    border-radius: var(--bfbella-button-radius);
+    background: var(--bfbella-add-btn-bg);
+    color: var(--bfbella-add-btn-text);
+    margin-block-end: 32px;
+  }
+
+  .bfbella-pdp__add-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bfbella-pdp__callouts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media screen and (max-width: 480px) {
+    .bfbella-pdp__callouts {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .bfbella-pdp__callout {
+    background: var(--bfbella-card-bg);
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: var(--bfbella-card-radius);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .bfbella-pdp__callout-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--bfbella-add-btn-bg);
+    margin-block-end: 8px;
+  }
+
+  .bfbella-pdp__callout-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .bfbella-pdp__callout-subtitle {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — PDP",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Back link label",
+      "default": "Back to Shop"
+    },
+    {
+      "type": "url",
+      "id": "back_link",
+      "label": "Back link URL"
+    },
+    {
+      "type": "header",
+      "content": "Optional badges (currently not backed by real data)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_best_seller_badge",
+      "label": "Show \"Best Seller\" badge",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "best_seller_label",
+      "label": "Best Seller badge text",
+      "default": "Best Seller"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_star_rating",
+      "label": "Show star rating (decorative, not real reviews)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "5.0"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_button_color",
+      "label": "Add to Cart button color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_button_text_color",
+      "label": "Add to Cart button text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Callout cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_callout_cards",
+      "label": "Show the three callout cards",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "callout_card_background_color",
+      "label": "Callout card background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "range",
+      "id": "callout_card_border_radius",
+      "label": "Callout card corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "callout_1_title",
+      "label": "Callout 1 — title",
+      "default": "Quality Sourced"
+    },
+    {
+      "type": "text",
+      "id": "callout_1_subtitle",
+      "label": "Callout 1 — subtitle",
+      "default": "Carefully selected inputs"
+    },
+    {
+      "type": "text",
+      "id": "callout_2_title",
+      "label": "Callout 2 — title",
+      "default": "Consistent Supply"
+    },
+    {
+      "type": "text",
+      "id": "callout_2_subtitle",
+      "label": "Callout 2 — subtitle",
+      "default": "Reliable, repeatable fulfillment"
+    },
+    {
+      "type": "text",
+      "id": "callout_3_title",
+      "label": "Callout 3 — title",
+      "default": "Secure Payment"
+    },
+    {
+      "type": "text",
+      "id": "callout_3_subtitle",
+      "label": "Callout 3 — subtitle",
+      "default": "SSL encrypted"
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "placeholder": "t:settings.default"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — PDP"
+    }
+  ]
+}
+{% endschema %}
