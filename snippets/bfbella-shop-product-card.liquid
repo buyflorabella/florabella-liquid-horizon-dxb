@@ -1,7 +1,21 @@
 {%- doc -%}
   BFBella custom shop grid card — image, title, description excerpt, price, Add to Cart
-  (native quick-add, real AJAX cart-drawer behavior), Buy Now (native accelerated/dynamic
-  checkout via payment_button), and an explicit View Details button.
+  (native quick-add, real AJAX cart-drawer behavior), and an explicit View Details button.
+
+  Buy Now (native accelerated/dynamic checkout via payment_button) is deliberately parked for
+  now, not deleted. Checkout always resolves against the store's registered primary domain
+  regardless of which theme is being previewed — since that domain currently serves the old
+  storefront app rather than Shopify natively, any checkout-bound button 404s today through no
+  fault of this code. This resolves itself automatically once this theme goes live on that
+  domain, with no code change needed then either. Re-add the form block below (kept in this
+  comment) once that happens:
+
+    assign buy_now_form_id = 'BfbellaShopBuyNow-' | append: product.id
+    ...
+    {% form 'product', product, id: buy_now_form_id %}
+      <input type="hidden" name="id" value="{{ variant.id }}">
+      {{ form | payment_button }}
+    {% endform %}
 
   @param {object} product - The product to render
   @param {object} section - The parent section (for card_background_color/card_text_color/
@@ -17,7 +31,6 @@
   if variant.compare_at_price > variant.price
     assign has_sale = true
   endif
-  assign buy_now_form_id = 'BfbellaShopBuyNow-' | append: product.id
 %}
 
 <div
