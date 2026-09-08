@@ -30,7 +30,10 @@
     --bfbella-add-btn-bg: {{ section.settings.add_to_cart_button_color | default: settings.color_palette.color3 }};
     --bfbella-add-btn-text: {{ section.settings.add_to_cart_button_text_color | default: settings.color_palette.background }};
     --bfbella-card-bg: {{ section.settings.callout_card_background_color | default: settings.color_palette.background }};
+    --bfbella-card-text: {{ section.settings.callout_card_text_color | default: settings.color_palette.foreground }};
     --bfbella-card-radius: {{ section.settings.callout_card_border_radius | default: 12 }}px;
+    --bfbella-heading-color: {{ section.settings.heading_color | default: settings.color_palette.foreground }};
+    --style-border-radius-inputs: var(--bfbella-button-radius);
   "
 >
   <div class="bfbella-pdp__wrap page-width">
@@ -50,17 +53,25 @@
           {% endif %}
         </div>
         {% if product_images.size > 1 %}
-          <div class="bfbella-pdp__thumbnails">
-            {% for media in product_images %}
-              <button
-                type="button"
-                class="bfbella-pdp__thumbnail{% if forloop.first %} bfbella-pdp__thumbnail--active{% endif %}"
-                data-bfbella-thumbnail
-                data-full-src="{{ media | image_url: width: 1000 }}"
-              >
-                {{ media | image_url: width: 150 | image_tag: loading: 'lazy', class: 'bfbella-pdp__thumbnail-img' }}
-              </button>
-            {% endfor %}
+          <div class="bfbella-pdp__thumbnails-row">
+            <button type="button" class="bfbella-pdp__thumbnail-nav bfbella-pdp__thumbnail-nav--prev" data-bfbella-thumbnail-prev aria-label="Scroll thumbnails left">
+              <span class="svg-wrapper">{{- 'icon-chevron-left.svg' | inline_asset_content -}}</span>
+            </button>
+            <div class="bfbella-pdp__thumbnails" data-bfbella-thumbnails-track>
+              {% for media in product_images %}
+                <button
+                  type="button"
+                  class="bfbella-pdp__thumbnail{% if forloop.first %} bfbella-pdp__thumbnail--active{% endif %}"
+                  data-bfbella-thumbnail
+                  data-full-src="{{ media | image_url: width: 1000 }}"
+                >
+                  {{ media | image_url: width: 150 | image_tag: loading: 'lazy', class: 'bfbella-pdp__thumbnail-img' }}
+                </button>
+              {% endfor %}
+            </div>
+            <button type="button" class="bfbella-pdp__thumbnail-nav bfbella-pdp__thumbnail-nav--next" data-bfbella-thumbnail-next aria-label="Scroll thumbnails right">
+              <span class="svg-wrapper">{{- 'icon-chevron-right.svg' | inline_asset_content -}}</span>
+            </button>
           </div>
         {% endif %}
       </div>
@@ -88,6 +99,18 @@
 
         <div class="bfbella-pdp__description">{{ product.description }}</div>
 
+        <product-form-component
+          data-section-id="{{ section.id }}"
+          data-product-id="{{ product.id }}"
+          on:submit="/handleSubmit"
+        >
+        <div
+          class="visually-hidden"
+          aria-live="assertive"
+          role="status"
+          aria-atomic="true"
+          ref="liveRegion"
+        ></div>
         {% form 'product', product, id: add_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
           <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
 
@@ -148,6 +171,7 @@
             </button>
           </add-to-cart-component>
         {% endform %}
+        </product-form-component>
 
         {% if section.settings.show_callout_cards %}
           <div class="bfbella-pdp__callouts">
@@ -180,10 +204,15 @@
   document.addEventListener('click', (event) => {
     const thumb = event.target instanceof Element ? event.target.closest('[data-bfbella-thumbnail]') : null;
     if (thumb) {
+      event.preventDefault();
       const gallery = thumb.closest('.bfbella-pdp__gallery');
       const mainImage = gallery?.querySelector('[data-bfbella-main-image] img');
       const fullSrc = thumb.getAttribute('data-full-src');
       if (mainImage && fullSrc) {
+        // Clear srcset/sizes first — a browser ignores a plain .src change
+        // when a srcset attribute (built for the previous image) is still present.
+        mainImage.removeAttribute('srcset');
+        mainImage.removeAttribute('sizes');
         mainImage.src = fullSrc;
       }
       gallery?.querySelectorAll('[data-bfbella-thumbnail]').forEach((el) => {
@@ -214,6 +243,33 @@
       const sellingPlanInput = wrapper?.querySelector('[data-bfbella-selling-plan-input]');
       if (sellingPlanInput) sellingPlanInput.value = target.value;
     }
+  });
+
+  document.addEventListener('click', (event) => {
+    const navButton = event.target instanceof Element
+      ? event.target.closest('[data-bfbella-thumbnail-prev], [data-bfbella-thumbnail-next]')
+      : null;
+    if (!navButton) return;
+    const row = navButton.closest('.bfbella-pdp__thumbnails-row');
+    const track = row?.querySelector('[data-bfbella-thumbnails-track]');
+    if (!track) return;
+    const amount = track.clientWidth * 0.8;
+    track.scrollBy({
+      left: navButton.hasAttribute('data-bfbella-thumbnail-next') ? amount : -amount,
+      behavior: 'smooth',
+    });
+  });
+
+  function bfbellaUpdateThumbnailNav(row) {
+    const track = row.querySelector('[data-bfbella-thumbnails-track]');
+    if (!track) return;
+    const hasOverflow = track.scrollWidth > track.clientWidth + 1;
+    row.classList.toggle('bfbella-pdp__thumbnails-row--has-overflow', hasOverflow);
+  }
+
+  document.querySelectorAll('.bfbella-pdp__thumbnails-row').forEach((row) => {
+    bfbellaUpdateThumbnailNav(row);
+    window.addEventListener('resize', () => bfbellaUpdateThumbnailNav(row));
   });
 {% endjavascript %}
 
@@ -261,13 +317,50 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    transition: none;
+  }
+
+  .bfbella-pdp__thumbnails-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-block-start: 16px;
+  }
+
+  .bfbella-pdp__thumbnail-nav {
+    flex-shrink: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .bfbella-pdp__thumbnail-nav svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .bfbella-pdp__thumbnails-row--has-overflow .bfbella-pdp__thumbnail-nav {
+    display: flex;
   }
 
   .bfbella-pdp__thumbnails {
     display: flex;
     gap: 12px;
-    margin-block-start: 16px;
     overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .bfbella-pdp__thumbnails::-webkit-scrollbar {
+    display: none;
   }
 
   .bfbella-pdp__thumbnail {
@@ -307,6 +400,7 @@
   .bfbella-pdp__title {
     font-size: clamp(1.75rem, 4vw, 2.75rem);
     margin-block: 0 12px;
+    color: var(--bfbella-heading-color, inherit);
   }
 
   .bfbella-pdp__rating {
@@ -422,6 +516,7 @@
 
   .bfbella-pdp__callout {
     background: var(--bfbella-card-bg);
+    color: var(--bfbella-card-text, inherit);
     border: 1px solid rgb(var(--color-border-rgb) / 0.4);
     border-radius: var(--bfbella-card-radius);
     padding: 16px;
@@ -535,6 +630,12 @@
       "placeholder": "t:settings.default"
     },
     {
+      "type": "color",
+      "id": "callout_card_text_color",
+      "label": "Callout card text color",
+      "placeholder": "t:settings.default"
+    },
+    {
       "type": "range",
       "id": "callout_card_border_radius",
       "label": "Callout card corner radius",
@@ -588,6 +689,12 @@
       "type": "color",
       "id": "background_color",
       "label": "Background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Title/heading color",
       "placeholder": "t:settings.default"
     },
     {
