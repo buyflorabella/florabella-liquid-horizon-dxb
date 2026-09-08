@@ -83,7 +83,7 @@
         "section_height": "",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "{{ settings.color_palette.background }}",
+        "background_color": "#2D1B4E",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -224,6 +224,8 @@
         "category_3_collection": "biostimulant",
         "category_3_label": "",
         "accent_color": "",
+        "tab_text_color": "",
+        "tab_active_text_color": "",
         "layout_type": "grid",
         "product_card_size": "large",
         "mobile_product_card_size": "large",
@@ -235,7 +237,7 @@
         "columns_gap_vertical": 24,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
-        "background_color": "{{ settings.color_palette.color6 }}",
+        "background_color": "#2D1B4E",
         "padding-block-start": 0,
         "padding-block-end": 32
       }
