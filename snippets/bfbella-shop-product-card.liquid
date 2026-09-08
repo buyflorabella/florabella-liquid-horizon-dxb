@@ -41,6 +41,10 @@
     --bfbella-card-bg: {{ section.settings.card_background_color | default: settings.color_palette.background }};
     --bfbella-card-text: {{ section.settings.card_text_color | default: settings.color_palette.foreground }};
     --bfbella-card-radius: {{ section.settings.card_border_radius | default: 18 }}px;
+    --bfbella-button-radius: {{ section.settings.button_border_radius | default: 6 }}px;
+    --bfbella-add-btn-bg: {{ section.settings.add_to_cart_button_color | default: settings.color_palette.color3 }};
+    --bfbella-add-btn-text: {{ section.settings.add_to_cart_button_text_color | default: settings.color_palette.background }};
+    --bfbella-buynow-text: {{ section.settings.buy_now_button_text_color | default: settings.color_palette.foreground }};
   "
 >
   <a href="{{ product.url }}" class="bfbella-shop-card__media">

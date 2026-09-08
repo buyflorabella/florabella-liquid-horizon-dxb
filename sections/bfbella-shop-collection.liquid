@@ -313,6 +313,9 @@
     justify-content: center;
     gap: 0.5rem;
     width: 100%;
+    border-radius: var(--bfbella-button-radius);
+    background: var(--bfbella-add-btn-bg);
+    color: var(--bfbella-add-btn-text);
   }
 
   .bfbella-shop-card__add-icon svg {
@@ -332,9 +335,9 @@
     justify-content: center;
     width: 100%;
     background: transparent;
-    color: rgb(var(--color-foreground));
-    border: 1px solid rgb(var(--color-border-rgb) / 0.6);
-    border-radius: 4px;
+    color: var(--bfbella-buynow-text);
+    border: 1px solid var(--bfbella-buynow-text);
+    border-radius: var(--bfbella-button-radius);
   }
 
   .bfbella-shop-card__view-details {
@@ -476,6 +479,34 @@
       "step": 2,
       "unit": "px",
       "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button corner radius (all buttons in card)",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_button_color",
+      "label": "Add to Cart button color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_button_text_color",
+      "label": "Add to Cart button text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "buy_now_button_text_color",
+      "label": "Buy Now button text/border color",
+      "placeholder": "t:settings.default"
     },
     {
       "type": "header",
