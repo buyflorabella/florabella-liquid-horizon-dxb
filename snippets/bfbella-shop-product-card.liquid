@@ -82,7 +82,7 @@
           ref="liveRegion"
         ></div>
         {% form 'product', product, id: add_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
-          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
           <input type="hidden" name="quantity" value="1">
           {% render 'add-to-cart-button',
             add_to_cart_text: add_to_cart_label,
