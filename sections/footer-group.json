@@ -336,7 +336,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Provide us your email address</p>",
+                "text": "<p>Provide us your email address and we'll send you news, updates, and new product announcements</p>",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
