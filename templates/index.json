@@ -44,7 +44,7 @@
       "name": "NewProductCallout",
       "settings": {
         "message": "<p>We are <strong>excited </strong>to introduce our two new <strong>amazing</strong> products!</p>",
-        "background_color": "#FFC0E2",
+        "background_color": "#ffc0e2",
         "padding_top": 64,
         "padding_bottom": 32
       }
@@ -164,7 +164,7 @@
               "name": "t:names.button",
               "settings": {
                 "label": "BUY NOW",
-                "link": "shopify://collections/all",
+                "link": "shopify://collections/shop",
                 "open_in_new_tab": false,
                 "style_class": "button-custom",
                 "custom_button_background": "{{ settings.color_palette.color4 }}",
