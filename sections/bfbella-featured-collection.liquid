@@ -27,9 +27,7 @@
         id="bfbella-featured-grid-{{ section.id }}"
         class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
       >
-        {% assign collection = collections[section.settings.collection] %}
-
-        {% if collection %}
+        {% if section.settings.collection %}
           <ul
             class="product-grid product-grid--{{ section.id }}"
             id="ResultsList"
@@ -37,7 +35,7 @@
             aria-live="polite"
             aria-label="{{ 'accessibility.products' | t }}"
           >
-            {% for product in collection.products limit: section.settings.products_limit %}
+            {% for product in section.settings.collection.products limit: section.settings.products_limit %}
               <li
                 id="{{ section.id }}-{{ product.id }}"
                 class="product-grid__item"
