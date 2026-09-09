@@ -40,14 +40,7 @@
                 id="{{ section.id }}-{{ product.id }}"
                 class="product-grid__item"
               >
-                {% render 'product-card',
-                  product: product,
-                  media_aspect_ratio: section.settings.media_aspect_ratio,
-                  image_shape: section.settings.image_shape,
-                  show_secondary_image: section.settings.show_secondary_image,
-                  show_vendor: section.settings.show_vendor,
-                  show_rating: section.settings.show_rating
-                %}
+                {% render 'bfbella-shop-product-card', product: product, section: section %}
               </li>
             {% endfor %}
           </ul>
@@ -149,90 +142,6 @@
       "step": 4,
       "unit": "px",
       "default": 48
-    },
-    {
-      "type": "header",
-      "content": "Product card settings"
-    },
-    {
-      "type": "select",
-      "id": "media_aspect_ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "Adapt to image"
-        },
-        {
-          "value": "1/1",
-          "label": "Square"
-        },
-        {
-          "value": "4/5",
-          "label": "Portrait"
-        },
-        {
-          "value": "16/9",
-          "label": "Landscape"
-        }
-      ],
-      "default": "adapt"
-    },
-    {
-      "type": "select",
-      "id": "image_shape",
-      "options": [
-        {
-          "value": "default",
-          "label": "Default"
-        },
-        {
-          "value": "arch",
-          "label": "Arch"
-        },
-        {
-          "value": "blob",
-          "label": "Blob"
-        },
-        {
-          "value": "chevronleft",
-          "label": "Chevron left"
-        },
-        {
-          "value": "chevronright",
-          "label": "Chevron right"
-        },
-        {
-          "value": "diamond",
-          "label": "Diamond"
-        },
-        {
-          "value": "parallelogram",
-          "label": "Parallelogram"
-        },
-        {
-          "value": "round",
-          "label": "Round"
-        }
-      ],
-      "default": "default"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "label": "Show secondary image on hover",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "label": "Show vendor",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "label": "Show rating",
-      "default": true
     },
     {
       "type": "select",
