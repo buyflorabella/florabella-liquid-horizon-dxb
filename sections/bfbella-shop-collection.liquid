@@ -62,7 +62,11 @@
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 {% # theme-check-disable-next-line UnknownFilter %}
-<collection-component id="home-store" view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
+{% assign event_payload = '' %}
+{% if collection %}
+  {% assign event_payload = collection | standard_event_data: 'view' | escape %}
+{% endif %}
+<collection-component id="home-shop" view-event-payload="{{ event_payload }}">
   <results-list
     class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
     style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
@@ -136,9 +140,10 @@
         {% assign products_per_page = section.settings.products_per_page %}
       {% endif %}
 
-      {% paginate collection.products by products_per_page %}
-        {% capture children %}
-          {% for product in collection.products %}
+      {% if collection %}
+        {% paginate collection.products by products_per_page %}
+          {% capture children %}
+            {% for product in collection.products %}
             <li
               id="{{ section.id }}-{{ product.id }}"
               class="product-grid__item product-grid__item--{{ forloop.index0 }}"
@@ -158,7 +163,8 @@
           paginate: paginate,
           enable_infinite_scroll: section.settings.enable_infinite_scroll
         %}
-      {% endpaginate %}
+        {% endpaginate %}
+      {% endif %}
     </div>
   </results-list>
 </collection-component>
