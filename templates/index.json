@@ -372,7 +372,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p><strong>Flora Bella</strong> is a <strong>family based</strong> business located in south Mississippi.  We're lucky to be <strong>the distributor</strong> of these <strong>organic products to market</strong> and to share them with <strong>you</strong>.<br/><br/></p>",
+                "text": "<p><strong>Flora Bella</strong> is a family business located in south Mississippi.  We're lucky to be the distributor of these <strong>organic products to market</strong> and to share them with <strong>you</strong>.<br/><br/></p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
