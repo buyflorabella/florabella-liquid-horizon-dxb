@@ -29,11 +29,19 @@
       >
         {% if section.settings.collection %}
           <ul
-            class="product-grid product-grid--{{ section.id }}"
+            class="product-grid"
             id="ResultsList"
             role="region"
             aria-live="polite"
             aria-label="{{ 'accessibility.products' | t }}"
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+              gap: 1.5rem;
+              list-style: none;
+              padding: 0;
+              margin: 0;
+            "
           >
             {% for product in section.settings.collection.products limit: section.settings.products_limit %}
               <li
@@ -54,31 +62,22 @@
   </collection-component>
 </section>
 
-{% stylesheet %}
-  .product-grid--{{ section.id }} {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
+<style>
   @media screen and (max-width: 750px) {
-    .product-grid--{{ section.id }} {
+    #bfbella-featured-grid-{{ section.id }} > ul {
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
   }
 
-  .placeholder-content {
+  #bfbella-featured-grid-{{ section.id }} .placeholder-content {
     padding: 3rem;
     text-align: center;
     background: rgb(var(--color-background));
     border-radius: 0.25rem;
     grid-column: 1 / -1;
   }
-{% endstylesheet %}
+</style>
 
 {% schema %}
 {
