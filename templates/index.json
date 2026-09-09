@@ -164,10 +164,10 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Certified Organic.  </p><p>OMRI Listed</p>",
-                "width": "fit-content",
+                "text": "<p>OMRI Listed</p><p>Certified Organic</p>",
+                "width": "100%",
                 "max_width": "normal",
-                "alignment": "left",
+                "alignment": "center",
                 "type_preset": "h1",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
