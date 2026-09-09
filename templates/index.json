@@ -735,7 +735,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Loved by organic growers</p>",
+                    "text": "<p>Loved by plants</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -819,7 +819,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>From Farmers to you</p>",
+                    "text": "<p>More aggressive growth for better farm profits</p>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
