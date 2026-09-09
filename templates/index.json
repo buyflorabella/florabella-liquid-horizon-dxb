@@ -187,7 +187,7 @@
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
                 "border": "solid",
-                "border_width": 1,
+                "border_width": 3,
                 "border_opacity": 100,
                 "border_color": "#2D1B4E",
                 "border_radius": 24,
