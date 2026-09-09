@@ -3656,6 +3656,9 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "bfbella_back_to_top_FmK7Nj": {
+      "type": "bfbella-back-to-top"
     }
   },
   "order": [
@@ -3676,6 +3679,7 @@
     "bfbella_video_showcase_bkh98U",
     "bfbella_community_UGMTbF",
     "bfbella_shop_home_6y8KmL",
-    "section_4Uhr3k"
+    "section_4Uhr3k",
+    "bfbella_back_to_top_FmK7Nj"
   ]
 }
