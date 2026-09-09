@@ -3627,34 +3627,32 @@
         "padding-block-end": 0
       }
     },
-    "bfbella_shop_home_6y8KmL": {
-      "type": "bfbella-shop-collection",
+    "bfbella_featured_collection_K9xL2M": {
+      "type": "bfbella-featured-collection",
       "settings": {
+        "heading": "Shop Flora Bella Products",
+        "subheading": "",
+        "collection": "all",
+        "products_to_show": 12,
         "show_category_filter": true,
-        "all_products_collection": "all",
         "all_label": "All",
-        "category_1_collection": "trace-mineral-bags",
+        "category_1": "trace-mineral-bags",
         "category_1_label": "Trace Mineral Bags",
-        "category_2_collection": "microdust",
+        "category_2": "microdust",
         "category_2_label": "Microdust",
-        "category_3_collection": "biostimulant",
+        "category_3": "biostimulant",
         "category_3_label": "Biostimulant",
-        "tabs_alignment": "left",
-        "accent_color": "{{ settings.color_palette.color3 }}",
-        "background_color": "{{ settings.color_palette.background }}",
-        "max_columns": 3,
-        "layout_type": "grid",
-        "product_card_size": "medium",
-        "mobile_product_card_size": "small",
-        "enable_infinite_scroll": true,
-        "product_grid_width": "centered",
-        "full_width_on_mobile": true,
-        "columns_gap_horizontal": 16,
-        "columns_gap_vertical": 16,
-        "padding-inline-start": 24,
-        "padding-inline-end": 24,
+        "show_view_all_button": true,
+        "view_all_text": "View All Products",
+        "section_width": "page-width",
+        "background_color": "",
         "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-end": 48,
+        "media_aspect_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true
       }
     },
     "bfbella_back_to_top_FmK7Nj": {
@@ -3678,7 +3676,7 @@
     "bfbella_testimonials_z49VtR",
     "bfbella_video_showcase_bkh98U",
     "bfbella_community_UGMTbF",
-    "bfbella_shop_home_6y8KmL",
+    "bfbella_featured_collection_K9xL2M",
     "section_4Uhr3k",
     "bfbella_back_to_top_FmK7Nj"
   ]
