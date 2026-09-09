@@ -160,6 +160,30 @@
               },
               "blocks": {}
             },
+            "image_b9N9it": {
+              "type": "image",
+              "name": "t:names.image",
+              "settings": {
+                "image": "shopify://shop_images/pexels-akilmazumder-1072824.jpg",
+                "link": "",
+                "image_ratio": "adapt",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "text_krdjkb": {
               "type": "text",
               "name": "t:names.text",
@@ -189,6 +213,7 @@
           },
           "block_order": [
             "text_kVtTt8",
+            "image_b9N9it",
             "text_krdjkb"
           ]
         },
