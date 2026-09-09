@@ -1,0 +1,401 @@
+<script
+  src="{{ 'results-list.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{% javascript %}
+  const url = new URL(window.location.href);
+  if (url.hash) {
+    document.addEventListener(
+      'DOMContentLoaded',
+      () => {
+        const card = document.getElementById(url.hash.slice(1));
+        if (card) {
+          card.scrollIntoView({ behavior: 'instant' });
+        }
+      },
+      { once: true }
+    );
+  }
+
+  document.addEventListener('click', (event) => {
+    const buyNowButton = event.target instanceof Element
+      ? event.target.closest('[data-bfbella-buy-now]')
+      : null;
+    if (buyNowButton) {
+      window.__bfbellaBuyNowArmed = true;
+    }
+  });
+
+  import('@shopify/events').then(({ StandardEvents }) => {
+    document.addEventListener(StandardEvents.cartLinesUpdate, (cartEvent) => {
+      if (window.__bfbellaBuyNowArmed && cartEvent.action === 'add') {
+        window.__bfbellaBuyNowArmed = false;
+        const drawer = document.getElementById('cart-drawer');
+        if (drawer && typeof drawer.open === 'function') {
+          drawer.open();
+        }
+      }
+    });
+  });
+{% endjavascript %}
+
+{% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+{% render 'collection-wrapper-styles' %}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+{% # theme-check-disable-next-line UnknownFilter %}
+{% assign event_payload = '' %}
+{% if section.settings.collection %}
+  {% assign event_payload = section.settings.collection | standard_event_data: 'view' | escape %}
+{% endif %}
+<collection-component id="home-shop" view-event-payload="{{ event_payload }}">
+  <results-list
+    class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+    style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
+    section-id="{{ section.id }}"
+  >
+    {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
+
+    <div
+      id="bfbella-shop-grid-{{ section.id }}"
+      class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+    >
+      {% if section.settings.collection %}
+        <ul class="product-grid product-grid--{{ section.id }}" id="ResultsList" role="list">
+          {% for product in section.settings.collection.products limit: section.settings.products_limit %}
+            <li id="{{ section.id }}-{{ product.id }}" class="product-grid__item">
+              {% render 'bfbella-shop-product-card', product: product, section: section %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="placeholder-text">
+          <p>{{ 'sections.featured_collection.empty' | t }}</p>
+        </div>
+      {% endif %}
+    </div>
+  </results-list>
+</collection-component>
+
+{% stylesheet %}
+  .bfbella-shop-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block-end: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bfbella-shop-tabs--left {
+    justify-content: flex-start;
+  }
+
+  .bfbella-shop-tabs--center {
+    justify-content: center;
+  }
+
+  .bfbella-shop-tabs--right {
+    justify-content: flex-end;
+  }
+
+  .bfbella-shop-tab {
+    display: inline-block;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    background: transparent;
+    border-radius: 8px;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--bfbella-shop-tab-text, rgb(var(--color-foreground)));
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .bfbella-shop-tab:hover {
+    border-color: var(--bfbella-shop-accent);
+  }
+
+  .bfbella-shop-tab--active {
+    border-color: var(--bfbella-shop-accent);
+    background: var(--bfbella-shop-accent);
+    color: var(--bfbella-shop-tab-active-text, rgb(var(--color-background)));
+  }
+
+  .bfbella-shop-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bfbella-card-bg);
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: var(--bfbella-card-radius);
+    overflow: hidden;
+  }
+
+  .bfbella-shop-card__media {
+    display: block;
+    position: relative;
+  }
+
+  .bfbella-shop-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .bfbella-shop-card__badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--bfbella-shop-accent, rgb(var(--color-foreground)));
+    color: rgb(var(--color-background));
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  .bfbella-shop-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    flex-grow: 1;
+    color: var(--bfbella-card-text, rgb(var(--color-foreground)));
+  }
+
+  .bfbella-shop-card__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .bfbella-shop-card__excerpt {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bfbella-shop-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .bfbella-shop-card__compare-price {
+    font-size: 0.95rem;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .bfbella-shop-card__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-block-start: 0.25rem;
+  }
+
+  .bfbella-shop-card__actions > * {
+    flex: 1;
+  }
+
+  .bfbella-shop-card__add-form {
+    display: block;
+    width: 100%;
+  }
+
+  .bfbella-shop-card__add-button.bfbella-shop-card__add-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    border-radius: var(--bfbella-button-radius);
+    background: var(--bfbella-add-btn-bg);
+    color: var(--bfbella-add-btn-text);
+  }
+
+  .bfbella-shop-card__add-icon svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .bfbella-shop-card__buynow-form {
+    display: block;
+    width: 100%;
+  }
+
+  .bfbella-shop-card__buynow-button.bfbella-shop-card__buynow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: transparent;
+    color: var(--bfbella-buynow-text);
+    border: 1px solid var(--bfbella-buynow-text);
+    border-radius: var(--bfbella-button-radius);
+  }
+
+  .bfbella-shop-card__view-details {
+    display: block;
+    text-align: center;
+    margin-block-start: 0.5rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Featured Coll.",
+  "enabled_on": {
+    "templates": ["index"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Number of products",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Card styling"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button corner radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_button_color",
+      "label": "Add to Cart color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "add_to_cart_button_text_color",
+      "label": "Add to Cart text",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "buy_now_button_text_color",
+      "label": "Buy Now color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "select",
+      "id": "product_grid_width",
+      "label": "Grid width",
+      "options": [
+        {
+          "value": "centered",
+          "label": "Centered"
+        },
+        {
+          "value": "full-width",
+          "label": "Full width"
+        }
+      ],
+      "default": "centered"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Featured Coll."
+    }
+  ]
+}
+{% endschema %}
