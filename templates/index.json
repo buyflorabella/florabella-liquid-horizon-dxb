@@ -3636,23 +3636,18 @@
         "products_to_show": 12,
         "show_category_filter": true,
         "all_label": "All",
-        "category_1": "trace-mineral-bags",
         "category_1_label": "Trace Mineral Bags",
-        "category_2": "microdust",
+        "category_1_url": "/collections/trace-mineral-bags",
         "category_2_label": "Microdust",
-        "category_3": "biostimulant",
+        "category_2_url": "/collections/microdust",
         "category_3_label": "Biostimulant",
+        "category_3_url": "/collections/biostimulant",
         "show_view_all_button": true,
         "view_all_text": "View All Products",
         "section_width": "page-width",
         "background_color": "",
         "padding-block-start": 48,
-        "padding-block-end": 48,
-        "media_aspect_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": true
+        "padding-block-end": 48
       }
     },
     "bfbella_back_to_top_FmK7Nj": {

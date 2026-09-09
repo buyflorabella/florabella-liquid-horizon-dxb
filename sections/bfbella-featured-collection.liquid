@@ -35,41 +35,53 @@
               {{ section.settings.all_label }}
             </button>
             {% if section.settings.category_1 != blank %}
-              <button class="featured-collection__filter-btn" data-filter="{{ section.settings.category_1 }}">
+              <a href="{{ section.settings.category_1_url }}" class="featured-collection__filter-btn">
                 {{ section.settings.category_1_label }}
-              </button>
+              </a>
             {% endif %}
             {% if section.settings.category_2 != blank %}
-              <button class="featured-collection__filter-btn" data-filter="{{ section.settings.category_2 }}">
+              <a href="{{ section.settings.category_2_url }}" class="featured-collection__filter-btn">
                 {{ section.settings.category_2_label }}
-              </button>
+              </a>
             {% endif %}
             {% if section.settings.category_3 != blank %}
-              <button class="featured-collection__filter-btn" data-filter="{{ section.settings.category_3 }}">
+              <a href="{{ section.settings.category_3_url }}" class="featured-collection__filter-btn">
                 {{ section.settings.category_3_label }}
-              </button>
+              </a>
             {% endif %}
           </div>
         {% endif %}
 
         <div class="featured-collection__products">
           {% assign products_to_show = section.settings.products_to_show | default: 12 %}
-          {% assign product_count = 0 %}
 
           {% for product in collection.products limit: products_to_show %}
-            {% if section.settings.show_category_filter == false or section.settings.all_label == "All" %}
-              <div class="featured-collection__product-item">
-                {% render 'product-card',
-                  product: product,
-                  media_aspect_ratio: section.settings.media_aspect_ratio,
-                  image_shape: section.settings.image_shape,
-                  show_secondary_image: section.settings.show_secondary_image,
-                  show_vendor: section.settings.show_vendor,
-                  show_rating: section.settings.show_rating
-                %}
+            <div class="featured-collection__product-item">
+              <a href="{{ product.url }}" class="featured-collection__product-link">
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | image_url: width: 400 }}"
+                    alt="{{ product.featured_image.alt }}"
+                    loading="lazy"
+                    class="featured-collection__product-image"
+                  />
+                {% endif %}
+              </a>
+              <h3 class="featured-collection__product-title">{{ product.title }}</h3>
+              {% if product.metafields.custom.tagline %}
+                <p class="featured-collection__product-tagline">{{ product.metafields.custom.tagline }}</p>
+              {% endif %}
+              {% if product.price %}
+                <p class="featured-collection__product-price">{{ product.price | money }}</p>
+              {% endif %}
+              <div class="featured-collection__product-actions">
+                <a href="{{ product.url }}" class="button button--secondary">View Details</a>
+                <form method="post" action="/cart/add" class="featured-collection__form">
+                  <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                  <button type="submit" class="button button--primary">Add to cart</button>
+                </form>
               </div>
-              {% assign product_count = product_count | plus: 1 %}
-            {% endif %}
+            </div>
           {% endfor %}
         </div>
 
@@ -80,10 +92,6 @@
             </a>
           </div>
         {% endif %}
-      </div>
-    {% else %}
-      <div class="featured-collection__placeholder">
-        <p>{{ 'sections.featured_collection.no_collection_selected' | t }}</p>
       </div>
     {% endif %}
   </div>
@@ -227,21 +235,14 @@
     },
     {
       "type": "text",
-      "id": "category_1",
-      "label": "Category 1 handle",
-      "default": "trace-mineral-bags"
-    },
-    {
-      "type": "text",
       "id": "category_1_label",
       "label": "Category 1 label",
       "default": "Trace Mineral Bags"
     },
     {
-      "type": "text",
-      "id": "category_2",
-      "label": "Category 2 handle",
-      "default": "microdust"
+      "type": "url",
+      "id": "category_1_url",
+      "label": "Category 1 link"
     },
     {
       "type": "text",
@@ -250,16 +251,20 @@
       "default": "Microdust"
     },
     {
-      "type": "text",
-      "id": "category_3",
-      "label": "Category 3 handle",
-      "default": "biostimulant"
+      "type": "url",
+      "id": "category_2_url",
+      "label": "Category 2 link"
     },
     {
       "type": "text",
       "id": "category_3_label",
       "label": "Category 3 label",
       "default": "Biostimulant"
+    },
+    {
+      "type": "url",
+      "id": "category_3_url",
+      "label": "Category 3 link"
     },
     {
       "type": "checkbox",
@@ -317,90 +322,6 @@
       "step": 4,
       "unit": "px",
       "default": 48
-    },
-    {
-      "type": "header",
-      "content": "Product card"
-    },
-    {
-      "type": "select",
-      "id": "media_aspect_ratio",
-      "options": [
-        {
-          "value": "adapt",
-          "label": "Adapt to image"
-        },
-        {
-          "value": "1/1",
-          "label": "Square"
-        },
-        {
-          "value": "4/5",
-          "label": "Portrait"
-        },
-        {
-          "value": "16/9",
-          "label": "Landscape"
-        }
-      ],
-      "default": "adapt"
-    },
-    {
-      "type": "select",
-      "id": "image_shape",
-      "options": [
-        {
-          "value": "default",
-          "label": "Default"
-        },
-        {
-          "value": "arch",
-          "label": "Arch"
-        },
-        {
-          "value": "blob",
-          "label": "Blob"
-        },
-        {
-          "value": "chevronleft",
-          "label": "Chevron left"
-        },
-        {
-          "value": "chevronright",
-          "label": "Chevron right"
-        },
-        {
-          "value": "diamond",
-          "label": "Diamond"
-        },
-        {
-          "value": "parallelogram",
-          "label": "Parallelogram"
-        },
-        {
-          "value": "round",
-          "label": "Round"
-        }
-      ],
-      "default": "default"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_secondary_image",
-      "label": "Show secondary image on hover",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "label": "Show vendor",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rating",
-      "label": "Show rating",
-      "default": true
     }
   ],
   "presets": [
