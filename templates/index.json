@@ -3066,7 +3066,7 @@
             "icon": "droplets",
             "title": "Beneficial Microbes",
             "description": "Naturally occurring beneficial bacteria:",
-            "bullets": "Convert nutrients into forms plants can absorb\n  Support root development through natural growth signaling\n  Compete with harmful organisms in the root zone\n  Improve tolerance to environmental stress (drought, heat, poor soil condition)"
+            "bullets": "Convert nutrients into forms plants can absorb\n  Support root development through natural growth\n  Compete with harmful organisms in the root zone\n  Improve tolerance to environmental stress (drought, heat, poor soil condition)"
           },
           "blocks": {}
         },
