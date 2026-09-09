@@ -300,7 +300,7 @@
                   "type": "button",
                   "name": "t:names.button",
                   "settings": {
-                    "label": "BUY NOW",
+                    "label": "SHOP NOW",
                     "link": "#home-shop",
                     "open_in_new_tab": false,
                     "style_class": "button-custom",
