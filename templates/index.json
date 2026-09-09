@@ -160,6 +160,32 @@
               },
               "blocks": {}
             },
+            "text_krdjkb": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>Certified Organic.  OMRI Listed</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "button_d6A3dc": {
               "type": "button",
               "name": "t:names.button",
@@ -182,6 +208,7 @@
           },
           "block_order": [
             "text_kVtTt8",
+            "text_krdjkb",
             "button_d6A3dc"
           ]
         },
