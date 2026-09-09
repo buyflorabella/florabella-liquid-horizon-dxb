@@ -3072,6 +3072,7 @@
         },
         "bfbella_step_UUwhgK": {
           "type": "bfbella-step",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Rectangle_-_How_Flora_Bella_Works_2_of_3_Humic_Acid.jpg",
             "icon": "sparkles",
@@ -3083,6 +3084,7 @@
         },
         "bfbella_step_nQzXxa": {
           "type": "bfbella-step",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Rectangle_-_How_Flora_Bella_Works_3_of_3_Fulvic_Acid.jpg",
             "icon": "trending_up",
