@@ -3831,7 +3831,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "text_color": "{{ settings.color_palette.color8 }}",
+                "text_color": "#382062",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -3882,7 +3882,7 @@
         "buy_now_button_text_color": "",
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color4 }}",
-        "padding-block-start": 48,
+        "padding-block-start": 68,
         "padding-block-end": 48
       }
     }
