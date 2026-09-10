@@ -3881,7 +3881,7 @@
         "add_to_cart_button_text_color": "",
         "buy_now_button_text_color": "",
         "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.color10 }}",
+        "background_color": "{{ settings.color_palette.color4 }}",
         "padding-block-start": 48,
         "padding-block-end": 48
       }
