@@ -31,6 +31,7 @@
         },
         "birdlabs_announcement_tPpe6Y": {
           "type": "birdlabs-announcement",
+          "disabled": true,
           "settings": {
             "text": "Flora Pharm",
             "link": "https://www.florapharmteausa.com/0/0/us/home.html",
@@ -80,6 +81,7 @@
       "block_order": [
         "announcement_BxgCk9"
       ],
+      "disabled": true,
       "name": "t:names.announcement_bar",
       "settings": {
         "speed": 5,
