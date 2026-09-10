@@ -3865,128 +3865,22 @@
             "product_list_text_kndcqB",
             "product_list_button_dbEjak"
           ]
-        },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 12,
-            "border": "solid",
-            "border_width": 1,
-            "border_opacity": 40,
-            "border_color": "",
-            "border_radius": 18,
-            "padding-block-start": 20,
-            "padding-block-end": 20,
-            "padding-inline-start": 20,
-            "padding-inline-end": 20
-          },
-          "blocks": {
-            "product_card_gallery_NEhPxH": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 18,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_AxEK7J": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h6",
-                "font": "var(--font-body--family)",
-                "font_size": "1.125rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_6gEfCj": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1.25rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "buy_buttons_hS8mQ2": {
-              "type": "buy-buttons",
-              "name": "t:names.product_buy_buttons",
-              "settings": {
-                "stacking": false,
-                "text_color": "",
-                "show_pickup_availability": false,
-                "gift_card_form": true,
-                "recipient_button_style": "default",
-                "selected_recipient_button_style": "default",
-                "input_style": "default"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_NEhPxH",
-            "product_title_AxEK7J",
-            "price_6gEfCj",
-            "buy_buttons_hS8mQ2"
-          ]
         }
       },
       "name": "BFBella — Home Shop",
       "settings": {
         "collection": "shop",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
         "max_products": 12,
         "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 16,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
+        "gap": 24,
+        "card_background_color": "",
+        "card_text_color": "",
+        "card_border_radius": 18,
+        "button_border_radius": 6,
+        "add_to_cart_button_color": "",
+        "add_to_cart_button_text_color": "",
+        "buy_now_button_text_color": "",
         "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
         "background_color": "",
         "padding-block-start": 48,
         "padding-block-end": 48

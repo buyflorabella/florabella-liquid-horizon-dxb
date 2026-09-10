@@ -1,0 +1,311 @@
+{%- doc -%}
+  BFBella's canonical product card — the single card used across the whole site
+  (homepage shop, /collections/shop, and anywhere else products are listed). Image,
+  title, description excerpt, price, Add to Cart, Buy Now, and a View Details button.
+
+  Fully self-contained: styling comes from the parent section's own settings (passed
+  in via `section`), and the Buy Now -> open-cart-drawer behavior is wired inside this
+  snippet's own javascript block, not the parent's - so this card works correctly no
+  matter which section renders it.
+
+  Add to Cart and Buy Now both submit the same real add-to-cart mechanism
+  (product-form-component + native form). Add to Cart adds silently; Buy Now adds AND
+  force-opens the cart drawer.
+
+  @param {object} product - The product to render
+  @param {object} section - The parent section (for card_background_color/card_text_color/
+    card_border_radius/button_border_radius/add_to_cart_button_color/
+    add_to_cart_button_text_color/buy_now_button_text_color settings)
+
+  @example
+  {% render 'bfbella-product-card', product: product, section: section %}
+{%- enddoc -%}
+
+{% javascript %}
+  document.addEventListener('click', (event) => {
+    const buyNowButton = event.target instanceof Element
+      ? event.target.closest('[data-bfbella-buy-now]')
+      : null;
+    if (buyNowButton) {
+      window.__bfbellaBuyNowArmed = true;
+    }
+  });
+
+  import('@shopify/events').then(({ StandardEvents }) => {
+    document.addEventListener(StandardEvents.cartLinesUpdate, (cartEvent) => {
+      if (window.__bfbellaBuyNowArmed && cartEvent.action === 'add') {
+        window.__bfbellaBuyNowArmed = false;
+        const drawer = document.getElementById('cart-drawer');
+        if (drawer && typeof drawer.open === 'function') {
+          drawer.open();
+        }
+      }
+    });
+  });
+{% endjavascript %}
+
+{% liquid
+  assign variant = product.selected_or_first_available_variant
+  assign has_sale = false
+  if variant.compare_at_price > variant.price
+    assign has_sale = true
+  endif
+  assign add_form_id = 'BfbellaProductAdd-' | append: product.id
+  assign add_to_cart_label = 'actions.add_to_cart' | t
+  assign buy_now_form_id = 'BfbellaProductBuyNow-' | append: product.id
+%}
+
+<div
+  class="bfbella-product-card"
+  style="
+    --bfbella-card-bg: {{ section.settings.card_background_color | default: settings.color_palette.background }};
+    --bfbella-card-text: {{ section.settings.card_text_color | default: settings.color_palette.foreground }};
+    --bfbella-card-radius: {{ section.settings.card_border_radius | default: 18 }}px;
+    --bfbella-button-radius: {{ section.settings.button_border_radius | default: 6 }}px;
+    --bfbella-add-btn-bg: {{ section.settings.add_to_cart_button_color | default: settings.color_palette.color3 }};
+    --bfbella-add-btn-text: {{ section.settings.add_to_cart_button_text_color | default: settings.color_palette.background }};
+    --bfbella-buynow-text: {{ section.settings.buy_now_button_text_color | default: settings.color_palette.foreground }};
+  "
+>
+  <a href="{{ product.url }}" class="bfbella-product-card__media">
+    {% if product.featured_media %}
+      {{
+        product.featured_media
+        | image_url: width: 600
+        | image_tag: loading: 'lazy', widths: '300, 450, 600', class: 'bfbella-product-card__image'
+      }}
+    {% endif %}
+    {% if has_sale %}
+      <span class="bfbella-product-card__badge">Sale</span>
+    {% endif %}
+  </a>
+  <div class="bfbella-product-card__content">
+    <a href="{{ product.url }}" class="bfbella-product-card__title">{{ product.title }}</a>
+    {% if product.description != blank %}
+      <p class="bfbella-product-card__excerpt">{{ product.description | strip_html | truncate: 110 }}</p>
+    {% endif %}
+    <div class="bfbella-product-card__price">
+      <span>{{ variant.price | money }}</span>
+      {% if has_sale %}
+        <s class="bfbella-product-card__compare-price">{{ variant.compare_at_price | money }}</s>
+      {% endif %}
+    </div>
+    <div class="bfbella-product-card__actions">
+      {% render 'add-to-cart-button-styles' %}
+      <product-form-component
+        data-section-id="{{ section.id }}"
+        data-product-id="{{ product.id }}"
+        on:submit="/handleSubmit"
+        class="bfbella-product-card__add-form"
+      >
+        <div
+          class="visually-hidden"
+          aria-live="assertive"
+          role="status"
+          aria-atomic="true"
+          ref="liveRegion"
+        ></div>
+        {% form 'product', product, id: add_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+          <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <add-to-cart-component ref="addToCartButtonContainer">
+            <button
+              type="submit"
+              name="add"
+              ref="addToCartButton"
+              on:click="/handleClick"
+              class="button bfbella-product-card__add-button"
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              <span aria-hidden="true" class="svg-wrapper bfbella-product-card__add-icon">
+                {{- 'icon-shopping-cart.svg' | inline_asset_content -}}
+              </span>
+              <span>{{ add_to_cart_label }}</span>
+              <span class="add-to-cart__added">
+                <span class="svg-wrapper add-to-cart__added-icon">
+                  {{- 'icon-checkmark-burst.svg' | inline_asset_content -}}
+                </span>
+              </span>
+            </button>
+          </add-to-cart-component>
+        {% endform %}
+      </product-form-component>
+      <product-form-component
+        data-section-id="{{ section.id }}"
+        data-product-id="{{ product.id }}"
+        on:submit="/handleSubmit"
+        class="bfbella-product-card__buynow-form"
+      >
+        <div
+          class="visually-hidden"
+          aria-live="assertive"
+          role="status"
+          aria-atomic="true"
+          ref="liveRegion"
+        ></div>
+        {% form 'product', product, id: buy_now_form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
+          <input type="hidden" name="id" ref="variantId" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <add-to-cart-component ref="addToCartButtonContainer">
+            <button
+              type="submit"
+              name="add"
+              ref="addToCartButton"
+              on:click="/handleClick"
+              class="button bfbella-product-card__buynow-button"
+              data-bfbella-buy-now
+              {% unless variant.available %}disabled{% endunless %}
+            >
+              <span>Buy Now</span>
+              <span class="add-to-cart__added">
+                <span class="svg-wrapper add-to-cart__added-icon">
+                  {{- 'icon-checkmark-burst.svg' | inline_asset_content -}}
+                </span>
+              </span>
+            </button>
+          </add-to-cart-component>
+        {% endform %}
+      </product-form-component>
+    </div>
+    <a href="{{ product.url }}" class="bfbella-product-card__view-details">View Details</a>
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bfbella-card-bg);
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: var(--bfbella-card-radius);
+    overflow: hidden;
+  }
+
+  .bfbella-product-card__media {
+    display: block;
+    position: relative;
+  }
+
+  .bfbella-product-card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .bfbella-product-card__badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--bfbella-shop-accent, rgb(var(--color-foreground)));
+    color: rgb(var(--color-background));
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  .bfbella-product-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    flex-grow: 1;
+    color: var(--bfbella-card-text, rgb(var(--color-foreground)));
+  }
+
+  .bfbella-product-card__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .bfbella-product-card__excerpt {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bfbella-product-card__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .bfbella-product-card__compare-price {
+    font-size: 0.95rem;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .bfbella-product-card__actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-block-start: 0.25rem;
+  }
+
+  .bfbella-product-card__actions > * {
+    flex: 1;
+  }
+
+  .bfbella-product-card__add-form {
+    display: block;
+    width: 100%;
+  }
+
+  .bfbella-product-card__add-button.bfbella-product-card__add-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    border-radius: var(--bfbella-button-radius);
+    background: var(--bfbella-add-btn-bg);
+    color: var(--bfbella-add-btn-text);
+  }
+
+  .bfbella-product-card__add-icon svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  .bfbella-product-card__buynow-form {
+    display: block;
+    width: 100%;
+  }
+
+  .bfbella-product-card__buynow-button.bfbella-product-card__buynow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: transparent;
+    color: var(--bfbella-buynow-text);
+    border: 1px solid var(--bfbella-buynow-text);
+    border-radius: var(--bfbella-button-radius);
+  }
+
+  .bfbella-product-card__view-details {
+    display: block;
+    text-align: center;
+    margin-block-start: 0.5rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+{% endstylesheet %}
