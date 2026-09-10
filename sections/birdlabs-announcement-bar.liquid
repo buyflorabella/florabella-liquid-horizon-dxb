@@ -1,0 +1,165 @@
+
+
+{% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+
+<div class="section-background color-custom-{{ section.id }}"></div>
+<aside
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %} --birdlabs-marquee-speed: {{ section.settings.speed }}s;"
+>
+  <div class="birdlabs-marquee">
+    <div class="birdlabs-marquee__track">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</aside>
+
+{% stylesheet %}
+  .announcement-bar {
+    border-block-end: var(--border-bottom-width) solid var(--color-border);
+  }
+
+  .birdlabs-marquee {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .birdlabs-marquee__track {
+    display: inline-flex;
+    align-items: baseline;
+    white-space: nowrap;
+    animation: birdlabs-marquee-scroll var(--birdlabs-marquee-speed, 5s) linear infinite;
+  }
+
+  .birdlabs-marquee:hover .birdlabs-marquee__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes birdlabs-marquee-scroll {
+    from {
+      transform: translateX(100%);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .birdlabs-marquee__item {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .birdlabs-marquee__item:not(:last-child) {
+    margin-inline-end: 3rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .birdlabs-marquee__track {
+      animation: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BirdLabs — Announcement",
+  "blocks": [
+    {
+      "type": "birdlabs-announcement"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "t:settings.scroll_speed",
+      "min": 2,
+      "max": 10,
+      "default": 5,
+      "unit": "sec"
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.section_width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "label": "t:settings.divider_thickness",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "t:settings.divider_color",
+      "placeholder": "t:settings.default",
+      "visible_if": "{{ section.settings.divider_width > 0 }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "BirdLabs — Announcement",
+      "blocks": {
+        "announcement_1": {
+          "type": "birdlabs-announcement"
+        }
+      },
+      "block_order": ["announcement_1"]
+    }
+  ]
+}
+{% endschema %}
