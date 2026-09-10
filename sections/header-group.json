@@ -32,8 +32,8 @@
         "birdlabs_announcement_tPpe6Y": {
           "type": "birdlabs-announcement",
           "settings": {
-            "text": "Shop our latest arrivals!",
-            "link": "",
+            "text": "Your SDET in TEST",
+            "link": "https://boardmansgame.com",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "weight": "",
