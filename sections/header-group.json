@@ -11,6 +11,54 @@
   "type": "header",
   "name": "t:names.header",
   "sections": {
+    "birdlabs_announcement_bar_84m8RR": {
+      "type": "birdlabs-announcement-bar",
+      "blocks": {
+        "birdlabs_announcement_qQfq4b": {
+          "type": "birdlabs-announcement",
+          "name": "BirdLabs — Announcement",
+          "settings": {
+            "text": "Shop our latest arrivals!",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        },
+        "birdlabs_announcement_tPpe6Y": {
+          "type": "birdlabs-announcement",
+          "settings": {
+            "text": "Shop our latest arrivals!",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "birdlabs_announcement_qQfq4b",
+        "birdlabs_announcement_tPpe6Y"
+      ],
+      "name": "BirdLabs — Announcement",
+      "settings": {
+        "speed": 9,
+        "section_width": "page-width",
+        "background_color": "",
+        "divider_width": 0,
+        "divider_color": "",
+        "padding-block-start": 15,
+        "padding-block-end": 15
+      }
+    },
     "header_announcements_9jGBFp": {
       "type": "header-announcements",
       "blocks": {
@@ -39,38 +87,6 @@
         "background_color": "{{ settings.color_palette.color5 }}",
         "divider_width": 1,
         "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
-        "padding-block-end": 15
-      }
-    },
-    "birdlabs_announcement_bar_84m8RR": {
-      "type": "birdlabs-announcement-bar",
-      "blocks": {
-        "birdlabs_announcement_tPpe6Y": {
-          "type": "birdlabs-announcement",
-          "settings": {
-            "text": "Shop our latest arrivals!",
-            "link": "",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "weight": "",
-            "letter_spacing": "normal",
-            "case": "none",
-            "text_color": ""
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "birdlabs_announcement_tPpe6Y"
-      ],
-      "name": "BirdLabs — Announcement",
-      "settings": {
-        "speed": 5,
-        "section_width": "page-width",
-        "background_color": "",
-        "divider_width": 0,
-        "divider_color": "",
         "padding-block-start": 15,
         "padding-block-end": 15
       }
