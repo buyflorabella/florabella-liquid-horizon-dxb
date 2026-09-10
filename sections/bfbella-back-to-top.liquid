@@ -19,7 +19,7 @@
   </svg>
 </button>
 
-<style>
+{% stylesheet %}
   .bfbella-back-to-top {
     position: fixed;
     bottom: 2rem;
@@ -65,15 +65,27 @@
       height: 1.25rem;
     }
   }
-</style>
+{% endstylesheet %}
 
-<script>
+{% javascript %}
   (function() {
     const button = document.querySelector('[data-scroll-to-top]');
     if (!button) return;
 
+    // This theme scrolls on window/body at narrow widths, but at >=990px
+    // html/body get overflow: hidden and .page-wrapper becomes the real
+    // scrollable element instead (see assets/base.css). Must check/act on
+    // both, since which one is actually scrolling depends on viewport width.
+    function getScrollPosition() {
+      const wrapper = document.querySelector('.page-wrapper');
+      if (wrapper && wrapper.scrollTop > 0) {
+        return wrapper.scrollTop;
+      }
+      return window.scrollY;
+    }
+
     function toggleButtonVisibility() {
-      if (window.scrollY > 300) {
+      if (getScrollPosition() > 300) {
         button.classList.add('is-visible');
       } else {
         button.classList.remove('is-visible');
@@ -81,13 +93,18 @@
     }
 
     button.addEventListener('click', function() {
+      const wrapper = document.querySelector('.page-wrapper');
+      if (wrapper) {
+        wrapper.scrollTo({ top: 0, behavior: 'smooth' });
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     window.addEventListener('scroll', toggleButtonVisibility, { passive: true });
+    document.querySelector('.page-wrapper')?.addEventListener('scroll', toggleButtonVisibility, { passive: true });
     toggleButtonVisibility();
   })();
-</script>
+{% endjavascript %}
 
 {% schema %}
 {
