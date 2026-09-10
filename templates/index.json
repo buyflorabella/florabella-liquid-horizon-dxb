@@ -3885,6 +3885,12 @@
         "padding-block-start": 68,
         "padding-block-end": 48
       }
+    },
+    "bfbella_return_to_top_qW3xNp": {
+      "type": "bfbella-return-to-top",
+      "settings": {
+        "button_label": "Return to Top"
+      }
     }
   },
   "order": [
@@ -3906,6 +3912,7 @@
     "bfbella_community_UGMTbF",
     "section_4Uhr3k",
     "bfbella_back_to_top_FmK7Nj",
-    "bfbella_homepage_shop_collection_CgNX3w"
+    "bfbella_homepage_shop_collection_CgNX3w",
+    "bfbella_return_to_top_qW3xNp"
   ]
 }
