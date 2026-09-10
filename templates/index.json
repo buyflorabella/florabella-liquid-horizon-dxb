@@ -139,7 +139,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>Wake Your Soil Up Today<br/><br/></p>",
+                "text": "<p>Wake Up Your Soil Today<br/><br/></p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
