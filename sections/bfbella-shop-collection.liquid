@@ -4,6 +4,12 @@
   fetchpriority="low"
 ></script>
 
+{% comment %}
+  The Buy Now -> open-cart-drawer behavior used to live here, but now lives inside
+  snippets/bfbella-product-card.liquid itself (the card is self-contained so it works
+  correctly regardless of which section renders it). Only the scroll-to-anchor logic,
+  which is genuinely specific to this section, stays here.
+{% endcomment %}
 {% javascript %}
   const url = new URL(window.location.href);
   if (url.hash) {
@@ -18,27 +24,6 @@
       { once: true }
     );
   }
-
-  document.addEventListener('click', (event) => {
-    const buyNowButton = event.target instanceof Element
-      ? event.target.closest('[data-bfbella-buy-now]')
-      : null;
-    if (buyNowButton) {
-      window.__bfbellaBuyNowArmed = true;
-    }
-  });
-
-  import('@shopify/events').then(({ StandardEvents }) => {
-    document.addEventListener(StandardEvents.cartLinesUpdate, (cartEvent) => {
-      if (window.__bfbellaBuyNowArmed && cartEvent.action === 'add') {
-        window.__bfbellaBuyNowArmed = false;
-        const drawer = document.getElementById('cart-drawer');
-        if (drawer && typeof drawer.open === 'function') {
-          drawer.open();
-        }
-      }
-    });
-  });
 {% endjavascript %}
 
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
@@ -146,7 +131,7 @@
               data-product-id="{{ product.id }}"
               ref="cards[]"
             >
-              {% render 'bfbella-shop-product-card', product: product, section: section %}
+              {% render 'bfbella-product-card', product: product, section: section %}
             </li>
           {% endfor %}
         {% endcapture %}
@@ -208,142 +193,6 @@
     color: var(--bfbella-shop-tab-active-text, rgb(var(--color-background)));
   }
 
-  .bfbella-shop-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background: var(--bfbella-card-bg);
-    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
-    border-radius: var(--bfbella-card-radius);
-    overflow: hidden;
-  }
-
-  .bfbella-shop-card__media {
-    display: block;
-    position: relative;
-  }
-
-  .bfbella-shop-card__image {
-    display: block;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-  }
-
-  .bfbella-shop-card__badge {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    background: var(--bfbella-shop-accent, rgb(var(--color-foreground)));
-    color: rgb(var(--color-background));
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-  }
-
-  .bfbella-shop-card__content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.25rem;
-    flex-grow: 1;
-    color: var(--bfbella-card-text, rgb(var(--color-foreground)));
-  }
-
-  .bfbella-shop-card__title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .bfbella-shop-card__excerpt {
-    margin: 0;
-    font-size: 0.9rem;
-    opacity: 0.7;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .bfbella-shop-card__price {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-  }
-
-  .bfbella-shop-card__compare-price {
-    font-size: 0.95rem;
-    font-weight: 400;
-    opacity: 0.5;
-  }
-
-  .bfbella-shop-card__actions {
-    display: flex;
-    gap: 0.5rem;
-    margin-block-start: 0.25rem;
-  }
-
-  .bfbella-shop-card__actions > * {
-    flex: 1;
-  }
-
-  .bfbella-shop-card__add-form {
-    display: block;
-    width: 100%;
-  }
-
-  .bfbella-shop-card__add-button.bfbella-shop-card__add-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    border-radius: var(--bfbella-button-radius);
-    background: var(--bfbella-add-btn-bg);
-    color: var(--bfbella-add-btn-text);
-  }
-
-  .bfbella-shop-card__add-icon svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-  }
-
-  .bfbella-shop-card__buynow-form {
-    display: block;
-    width: 100%;
-  }
-
-  .bfbella-shop-card__buynow-button.bfbella-shop-card__buynow-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background: transparent;
-    color: var(--bfbella-buynow-text);
-    border: 1px solid var(--bfbella-buynow-text);
-    border-radius: var(--bfbella-button-radius);
-  }
-
-  .bfbella-shop-card__view-details {
-    display: block;
-    text-align: center;
-    margin-block-start: 0.5rem;
-    padding: 0.65rem 1rem;
-    border: 1px solid rgb(var(--color-border-rgb) / 0.4);
-    border-radius: 8px;
-    text-decoration: none;
-    color: inherit;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
 {% endstylesheet %}
 
 {% schema %}
