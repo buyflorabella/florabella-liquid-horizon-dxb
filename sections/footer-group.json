@@ -405,6 +405,7 @@
         "group_H6VpwJ",
         "group_ixBeMW"
       ],
+      "disabled": true,
       "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
@@ -446,7 +447,7 @@
       "settings": {
         "section_width": "page-width",
         "gap": 24,
-        "background_color": "{{ settings.color_palette.color8 }}",
+        "background_color": "{{ settings.color_palette.color5 }}",
         "divider_thickness": 1,
         "divider_color": "{{ settings.color_palette.color2 }}",
         "padding-block-start": 20,
