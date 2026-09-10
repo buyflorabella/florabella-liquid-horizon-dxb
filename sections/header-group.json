@@ -19,7 +19,7 @@
           "name": "BirdLabs — Announcement",
           "settings": {
             "text": "Shop our latest arrivals!",
-            "link": "",
+            "link": "shopify://collections/shop",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "weight": "",
