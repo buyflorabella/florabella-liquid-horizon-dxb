@@ -1,0 +1,35 @@
+<div class="bfbella-return-to-top">
+  <a href="#MainContent" class="button bfbella-return-to-top__button">
+    {{ section.settings.button_label | default: 'Return to Top' }}
+  </a>
+</div>
+
+{% stylesheet %}
+  .bfbella-return-to-top {
+    display: flex;
+    justify-content: center;
+    padding-block: 10px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Return Top",
+  "enabled_on": {
+    "templates": ["index"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Return to Top"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Return Top"
+    }
+  ]
+}
+{% endschema %}
