@@ -3871,17 +3871,16 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 4,
-            "background_color": "",
-            "border": "none",
+            "product_card_gap": 12,
+            "border": "solid",
             "border_width": 1,
-            "border_opacity": 100,
+            "border_opacity": 40,
             "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "border_radius": 18,
+            "padding-block-start": 20,
+            "padding-block-end": 20,
+            "padding-inline-start": 20,
+            "padding-inline-end": 20
           },
           "blocks": {
             "product_card_gallery_NEhPxH": {
@@ -3893,7 +3892,7 @@
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_color": "",
-                "border_radius": 0,
+                "border_radius": 18,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -3908,9 +3907,9 @@
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
-                "type_preset": "paragraph",
+                "type_preset": "h6",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "font_size": "1.125rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -3937,7 +3936,7 @@
                 "width": "100%",
                 "alignment": "left",
                 "font": "var(--font-body--family)",
-                "font_size": "1rem",
+                "font_size": "1.25rem",
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
@@ -3948,12 +3947,27 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "buy_buttons_hS8mQ2": {
+              "type": "buy-buttons",
+              "name": "t:names.product_buy_buttons",
+              "settings": {
+                "stacking": false,
+                "text_color": "",
+                "show_pickup_availability": false,
+                "gift_card_form": true,
+                "recipient_button_style": "default",
+                "selected_recipient_button_style": "default",
+                "input_style": "default"
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "product_card_gallery_NEhPxH",
             "product_title_AxEK7J",
-            "price_6gEfCj"
+            "price_6gEfCj",
+            "buy_buttons_hS8mQ2"
           ]
         }
       },
