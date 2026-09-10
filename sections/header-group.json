@@ -32,7 +32,7 @@
         "birdlabs_announcement_tPpe6Y": {
           "type": "birdlabs-announcement",
           "settings": {
-            "text": "Your SDET in TEST",
+            "text": "Partners",
             "link": "https://boardmansgame.com",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
