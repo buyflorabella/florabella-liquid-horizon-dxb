@@ -62,11 +62,7 @@
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 ></div>
 {% # theme-check-disable-next-line UnknownFilter %}
-{% assign event_payload = '' %}
-{% if collection %}
-  {% assign event_payload = collection | standard_event_data: 'view' | escape %}
-{% endif %}
-<collection-component id="home-shop" view-event-payload="{{ event_payload }}">
+<collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
   <results-list
     class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
     style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
@@ -75,18 +71,64 @@
   >
     {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
+    {% if section.settings.show_category_filter %}
+      <div
+        class="bfbella-shop-tabs bfbella-shop-tabs--{{ section.settings.tabs_alignment | default: 'left' }}"
+        style="
+          --bfbella-shop-accent: {{ section.settings.accent_color | default: settings.color_palette.color1 }};
+          {% if section.settings.tab_text_color != blank %}--bfbella-shop-tab-text: {{ section.settings.tab_text_color }};{% endif %}
+          {% if section.settings.tab_active_text_color != blank %}--bfbella-shop-tab-active-text: {{ section.settings.tab_active_text_color }};{% endif %}
+        "
+      >
+        {% if section.settings.all_products_collection != blank %}
+          <a
+            href="{{ section.settings.all_products_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.all_products_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.all_products_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.all_label | default: 'All' }}
+          </a>
+        {% endif %}
+        {% if section.settings.category_1_collection != blank %}
+          <a
+            href="{{ section.settings.category_1_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.category_1_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.category_1_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.category_1_label | default: section.settings.category_1_collection.title }}
+          </a>
+        {% endif %}
+        {% if section.settings.category_2_collection != blank %}
+          <a
+            href="{{ section.settings.category_2_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.category_2_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.category_2_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.category_2_label | default: section.settings.category_2_collection.title }}
+          </a>
+        {% endif %}
+        {% if section.settings.category_3_collection != blank %}
+          <a
+            href="{{ section.settings.category_3_collection.url }}"
+            class="bfbella-shop-tab{% if collection.handle == section.settings.category_3_collection.handle %} bfbella-shop-tab--active{% endif %}"
+            {% if collection.handle == section.settings.category_3_collection.handle %}aria-current="page"{% endif %}
+          >
+            {{ section.settings.category_3_label | default: section.settings.category_3_collection.title }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
     <div
       id="bfbella-shop-grid-{{ section.id }}"
       class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
     >
-      {% if collection %}
-        {% content_for 'block',
-          type: 'filters',
-          id: 'filters',
-          results: collection,
-          results_size: collection.products_count
-        %}
-      {% endif %}
+      {% content_for 'block',
+        type: 'filters',
+        id: 'filters',
+        results: collection,
+        results_size: collection.products_count
+      %}
 
       {% assign products_per_page = 24 %}
 
@@ -94,10 +136,9 @@
         {% assign products_per_page = section.settings.products_per_page %}
       {% endif %}
 
-      {% if collection %}
-        {% paginate collection.products by products_per_page %}
-          {% capture children %}
-            {% for product in collection.products %}
+      {% paginate collection.products by products_per_page %}
+        {% capture children %}
+          {% for product in collection.products %}
             <li
               id="{{ section.id }}-{{ product.id }}"
               class="product-grid__item product-grid__item--{{ forloop.index0 }}"
@@ -117,8 +158,7 @@
           paginate: paginate,
           enable_infinite_scroll: section.settings.enable_infinite_scroll
         %}
-        {% endpaginate %}
-      {% endif %}
+      {% endpaginate %}
     </div>
   </results-list>
 </collection-component>
@@ -310,12 +350,92 @@
 {
   "name": "BFBella — Shop Collection",
   "enabled_on": {
-    "templates": ["collection", "index"]
+    "templates": ["collection"]
   },
   "settings": [
     {
       "type": "header",
       "content": "Category navigation (tabs)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Links between real collections — not a client-side filter. Each collection below should already contain the right products; this just draws a consistent tab bar linking them together."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_filter",
+      "label": "Show category navigation tabs",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "all_products_collection",
+      "label": "\"All\" tab — collection"
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "label": "\"All\" tab — label",
+      "default": "All"
+    },
+    {
+      "type": "collection",
+      "id": "category_1_collection",
+      "label": "Category 1 — collection"
+    },
+    {
+      "type": "text",
+      "id": "category_1_label",
+      "label": "Category 1 — label override (optional)"
+    },
+    {
+      "type": "collection",
+      "id": "category_2_collection",
+      "label": "Category 2 — collection"
+    },
+    {
+      "type": "text",
+      "id": "category_2_label",
+      "label": "Category 2 — label override (optional)"
+    },
+    {
+      "type": "collection",
+      "id": "category_3_collection",
+      "label": "Category 3 — collection"
+    },
+    {
+      "type": "text",
+      "id": "category_3_label",
+      "label": "Category 3 — label override (optional)"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Active tab color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Active tab text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "select",
+      "id": "tabs_alignment",
+      "label": "Tabs alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     {
       "type": "header",
