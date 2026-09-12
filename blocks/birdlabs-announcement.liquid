@@ -3,13 +3,20 @@
 {% render 'text-block-styles' %}
 
 {%- assign block_settings = block.settings -%}
-{%- assign plain_text = block_settings.text | strip_newlines | strip_html | strip -%}
+{%- assign pre_text = block_settings.pre_text -%}
+{%- assign discount_code = block_settings.discount_code | strip -%}
+{%- assign post_text = block_settings.post_text -%}
+{%- assign discount_font_size = block_settings.discount_font_size -%}
+{%- assign discount_weight = block_settings.discount_weight -%}
 {%- assign item_tag = 'span' -%}
 {%- if block_settings.link != blank -%}
   {%- assign item_tag = 'a' -%}
 {%- endif -%}
 
-{%- unless plain_text == '' -%}
+{%- assign plain_pre = pre_text | strip_newlines | strip_html | strip -%}
+{%- assign plain_post = post_text | strip_newlines | strip_html | strip -%}
+
+{%- unless plain_pre == '' and discount_code == '' and plain_post == '' -%}
   <{{ item_tag }}
     class="
       birdlabs-marquee__item
@@ -27,7 +34,10 @@
     "
     {% if item_tag == 'a' %}href="{{ block_settings.link }}"{% endif %}
     {{ block.shopify_attributes }}
-  >{{ block.settings.text }}</{{ item_tag }}>
+  >{%- if plain_pre != '' -%}<span class="birdlabs-marquee__pre-text">{{ pre_text }}</span>{%- endif -%}{%- if discount_code != '' -%}<span
+      class="birdlabs-marquee__discount-code{% if discount_font_size != blank %} custom-font-size{% endif %}{% if discount_weight != blank %} custom-font-weight{% endif %}"
+      style="{% if discount_font_size != blank %}--font-size: {{ discount_font_size }};{% endif %}{% if discount_weight != blank %}--font-weight: {{ discount_weight }};{% endif %}"
+    >{{ discount_code }}</span>{%- endif -%}{%- if plain_post != '' -%}<span class="birdlabs-marquee__post-text">{{ post_text }}</span>{%- endif -%}</{{ item_tag }}>
 {%- endunless -%}
 
 {% schema %}
@@ -36,10 +46,23 @@
   "tag": null,
   "settings": [
     {
+      "type": "header",
+      "content": "Announcement text"
+    },
+    {
       "type": "inline_richtext",
-      "id": "text",
-      "label": "t:settings.text",
-      "default": "t:text_defaults.shop_our_latest_arrivals"
+      "id": "pre_text",
+      "label": "Pre-text"
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Discount code"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "post_text",
+      "label": "Post-text"
     },
     {
       "type": "url",
@@ -225,6 +248,126 @@
         }
       ],
       "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "Discount code style"
+    },
+    {
+      "type": "select",
+      "id": "discount_font_size",
+      "label": "Discount code size",
+      "options": [
+        {
+          "value": "",
+          "label": "Inherit"
+        },
+        {
+          "value": "0.625rem",
+          "label": "10px"
+        },
+        {
+          "value": "0.75rem",
+          "label": "12px"
+        },
+        {
+          "value": "0.875rem",
+          "label": "14px"
+        },
+        {
+          "value": "1rem",
+          "label": "16px"
+        },
+        {
+          "value": "1.125rem",
+          "label": "18px"
+        },
+        {
+          "value": "1.25rem",
+          "label": "20px"
+        },
+        {
+          "value": "1.5rem",
+          "label": "24px"
+        },
+        {
+          "value": "2rem",
+          "label": "32px"
+        },
+        {
+          "value": "2.5rem",
+          "label": "40px"
+        },
+        {
+          "value": "3rem",
+          "label": "48px"
+        },
+        {
+          "value": "3.5rem",
+          "label": "56px"
+        },
+        {
+          "value": "4.5rem",
+          "label": "72px"
+        },
+        {
+          "value": "5.5rem",
+          "label": "88px"
+        },
+        {
+          "value": "7.5rem",
+          "label": "120px"
+        },
+        {
+          "value": "9.5rem",
+          "label": "152px"
+        },
+        {
+          "value": "11.5rem",
+          "label": "184px"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "discount_weight",
+      "label": "Discount code weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Inherit"
+        },
+        {
+          "value": "100",
+          "label": "t:options.thin"
+        },
+        {
+          "value": "300",
+          "label": "t:options.light"
+        },
+        {
+          "value": "400",
+          "label": "t:options.regular"
+        },
+        {
+          "value": "500",
+          "label": "t:options.medium"
+        },
+        {
+          "value": "600",
+          "label": "t:options.semibold"
+        },
+        {
+          "value": "700",
+          "label": "t:options.bold"
+        },
+        {
+          "value": "900",
+          "label": "t:options.black"
+        }
+      ],
+      "default": ""
     },
     {
       "type": "header",
