@@ -8,6 +8,9 @@
 {%- assign post_text = block_settings.post_text -%}
 {%- assign discount_font_size = block_settings.discount_font_size -%}
 {%- assign discount_weight = block_settings.discount_weight -%}
+{%- assign pre_color = block_settings.pre_text_color -%}
+{%- assign discount_color = block_settings.discount_text_color -%}
+{%- assign post_color = block_settings.post_text_color -%}
 {%- assign item_tag = 'span' -%}
 {%- if block_settings.link != blank -%}
   {%- assign item_tag = 'a' -%}
@@ -27,18 +30,68 @@
     "
     style="
       {% render 'typography-style', settings: block_settings, preset: 'custom' %}
-      {% if block_settings.text_color != blank %}--color: {{ block_settings.text_color }}; --color-rgb: {{ block_settings.text_color.rgb }};{% endif %}
       --width: auto;
       --text-align: left;
       --line-height: 1;
     "
     {% if item_tag == 'a' %}href="{{ block_settings.link }}"{% endif %}
     {{ block.shopify_attributes }}
-  >{%- if plain_pre != '' -%}<span class="birdlabs-marquee__pre-text">{{ pre_text }}</span>{%- endif -%}{%- if discount_code != '' -%}<span
-      class="birdlabs-marquee__discount-code{% if discount_font_size != blank %} custom-font-size{% endif %}{% if discount_weight != blank %} custom-font-weight{% endif %}"
-      style="{% if discount_font_size != blank %}--font-size: {{ discount_font_size }};{% endif %}{% if discount_weight != blank %}--font-weight: {{ discount_weight }};{% endif %}"
-    >{{ discount_code }}</span>{%- endif -%}{%- if plain_post != '' -%}<span class="birdlabs-marquee__post-text">{{ post_text }}</span>{%- endif -%}</{{ item_tag }}>
+  >{%- if plain_pre != '' -%}<span
+      class="birdlabs-marquee__pre-text{% if pre_color != blank %} custom-color{% endif %}"
+      {% if pre_color != blank %}style="--color: {{ pre_color }}; --color-rgb: {{ pre_color.rgb }};"{% endif %}
+    >{{ pre_text }}</span>{%- endif -%}{%- if discount_code != '' -%}<span
+      class="
+        birdlabs-marquee__discount-code
+        {% if discount_font_size != blank %}custom-font-size{% endif %}
+        {% if discount_weight != blank %}custom-font-weight{% endif %}
+        {% if discount_color != blank %}custom-color{% endif %}
+        {% if block_settings.discount_glow %}birdlabs-marquee__discount-code--glow{% endif %}
+      "
+      style="
+        {% if discount_font_size != blank %}--font-size: {{ discount_font_size }};{% endif %}
+        {% if discount_weight != blank %}--font-weight: {{ discount_weight }};{% endif %}
+        {% if discount_color != blank %}--color: {{ discount_color }}; --color-rgb: {{ discount_color.rgb }};{% endif %}
+      "
+    >{{ discount_code }}</span>{%- endif -%}{%- if plain_post != '' -%}<span
+      class="birdlabs-marquee__post-text{% if post_color != blank %} custom-color{% endif %}"
+      {% if post_color != blank %}style="--color: {{ post_color }}; --color-rgb: {{ post_color.rgb }};"{% endif %}
+    >{{ post_text }}</span>{%- endif -%}</{{ item_tag }}>
 {%- endunless -%}
+
+{% stylesheet %}
+  /*
+    Overrides the shared .text-block component's flex-column layout (built for
+    stacking a heading over a paragraph) so this block's pre-text / discount-code /
+    post-text spans flow in a single row instead of stacking as separate lines.
+    Two-class specificity beats the single-class global rule regardless of the
+    compiled bundle's rule order.
+  */
+  .birdlabs-marquee__item.text-block {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: baseline;
+    white-space: nowrap;
+  }
+
+  .birdlabs-marquee__pre-text,
+  .birdlabs-marquee__discount-code {
+    margin-inline-end: 0.35em;
+  }
+
+  .birdlabs-marquee__discount-code--glow {
+    text-shadow:
+      0 0 4px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.9),
+      0 0 11px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.75),
+      0 0 19px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.55),
+      0 0 40px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.35);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .birdlabs-marquee__discount-code--glow {
+      text-shadow: none;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
@@ -370,13 +423,31 @@
       "default": ""
     },
     {
+      "type": "checkbox",
+      "id": "discount_glow",
+      "label": "Neon glow effect",
+      "default": true
+    },
+    {
       "type": "header",
-      "content": "t:content.appearance"
+      "content": "Colors"
     },
     {
       "type": "color",
-      "id": "text_color",
-      "label": "t:settings.text_color",
+      "id": "pre_text_color",
+      "label": "Pre-text color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "discount_text_color",
+      "label": "Discount code color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "post_text_color",
+      "label": "Post-text color",
       "placeholder": "t:settings.default"
     }
   ],
