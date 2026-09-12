@@ -18,9 +18,9 @@
           "type": "birdlabs-announcement",
           "name": "BirdLabs — Announcement",
           "settings": {
-            "pre_text": "FALL Discount code -->>",
+            "pre_text": "FALL Discount code ->>",
             "discount_code": "FLORAFAM",
-            "post_text": "<<-- To receive 20% off at checkout.",
+            "post_text": "<<- To receive 20% off at checkout.",
             "link": "shopify://collections/shop",
             "font": "var(--font-subheading--family)",
             "font_size": "0.875rem",
