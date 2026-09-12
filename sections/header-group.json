@@ -18,13 +18,17 @@
           "type": "birdlabs-announcement",
           "name": "BirdLabs — Announcement",
           "settings": {
-            "text": "FALL Special! Enter discount code --->>> FLORAFAM <<< --- For 20% off at Checkout!",
+            "pre_text": "FALL Discount! Enter code -->>",
+            "discount_code": "FLORAFAM",
+            "post_text": "<<-- To receive 20% off at checkout.",
             "link": "shopify://collections/shop",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
             "weight": "",
             "letter_spacing": "normal",
             "case": "none",
+            "discount_font_size": "",
+            "discount_weight": "",
             "text_color": ""
           },
           "blocks": {}
@@ -33,13 +37,17 @@
           "type": "birdlabs-announcement",
           "disabled": true,
           "settings": {
-            "text": "Flora Pharm",
+            "pre_text": "",
+            "discount_code": "",
+            "post_text": "",
             "link": "https://www.florapharmteausa.com/0/0/us/home.html",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "weight": "",
             "letter_spacing": "normal",
             "case": "none",
+            "discount_font_size": "",
+            "discount_weight": "",
             "text_color": ""
           },
           "blocks": {}
@@ -52,6 +60,7 @@
       "name": "BirdLabs — Announcement",
       "settings": {
         "speed": 9,
+        "direction": "left",
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color5 }}",
         "divider_width": 0,
