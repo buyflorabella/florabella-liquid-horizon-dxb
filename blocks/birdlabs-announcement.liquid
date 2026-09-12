@@ -21,10 +21,18 @@
   {%- assign item_tag = 'a' -%}
 {%- endif -%}
 
+{%- comment -%}
+  The discount code always sits in the middle grid column (column 2) so its
+  center lands on the bar's center regardless of viewport width — see the
+  stylesheet note below. Direction only swaps which OUTER column pre-text vs.
+  post-text renders into; it never moves the discount code itself.
+{%- endcomment -%}
 {%- assign marquee_direction = section.settings.direction | default: 'left' -%}
-{%- assign item_flex_direction = 'row' -%}
+{%- assign pre_grid_column = 1 -%}
+{%- assign post_grid_column = 3 -%}
 {%- if marquee_direction == 'right' -%}
-  {%- assign item_flex_direction = 'row-reverse' -%}
+  {%- assign pre_grid_column = 3 -%}
+  {%- assign post_grid_column = 1 -%}
 {%- endif -%}
 
 {%- assign plain_pre = pre_text | strip_newlines | strip_html | strip -%}
@@ -41,13 +49,12 @@
     style="
       {% render 'typography-style', settings: block_settings, preset: 'custom' %}
       --line-height: 1;
-      --birdlabs-item-direction: {{ item_flex_direction }};
     "
     {% if item_tag == 'a' %}href="{{ block_settings.link }}"{% endif %}
     {{ block.shopify_attributes }}
   >{%- if plain_pre != '' -%}<span
       class="birdlabs-marquee__pre-text{% if pre_color != blank %} custom-color{% endif %}"
-      {% if pre_color != blank %}style="--color: {{ pre_color }}; --color-rgb: {{ pre_color.rgb }};"{% endif %}
+      style="grid-column: {{ pre_grid_column }}; justify-self: {% if pre_grid_column == 1 %}end{% else %}start{% endif %};{% if pre_color != blank %} --color: {{ pre_color }}; --color-rgb: {{ pre_color.rgb }};{% endif %}"
     >{{ pre_text }}</span>{%- endif -%}{%- if discount_code != '' -%}<span
       class="
         birdlabs-marquee__discount-code
@@ -57,13 +64,14 @@
         {% if block_settings.discount_glow %}birdlabs-marquee__discount-code--glow{% endif %}
       "
       style="
+        grid-column: 2;
         {% if discount_font_size != blank %}--font-size: {{ discount_font_size }};{% endif %}
         {% if discount_weight != blank %}--font-weight: {{ discount_weight }};{% endif %}
         {% if discount_color != blank %}--color: {{ discount_color }}; --color-rgb: {{ discount_color.rgb }};{% endif %}
       "
     >{{ discount_code }}</span>{%- endif -%}{%- if plain_post != '' -%}<span
       class="birdlabs-marquee__post-text{% if post_color != blank %} custom-color{% endif %}"
-      {% if post_color != blank %}style="--color: {{ post_color }}; --color-rgb: {{ post_color.rgb }};"{% endif %}
+      style="grid-column: {{ post_grid_column }}; justify-self: {% if post_grid_column == 1 %}end{% else %}start{% endif %};{% if post_color != blank %} --color: {{ post_color }}; --color-rgb: {{ post_color.rgb }};{% endif %}"
     >{{ post_text }}</span>{%- endif -%}</{{ item_tag }}>
 {%- endunless -%}
 
@@ -80,11 +88,25 @@
     display/wrap/typography directly here, without that shared class, avoids
     fighting either rule instead of trying to out-specificity them.
   */
+  /*
+    3-column grid (pre-text | discount-code | post-text), spanning the item's
+    full width. The discount code always renders into the middle column, so its
+    center lands on the item's own horizontal center — and since the item and
+    its ancestor track/bar are all full-bleed (see the section's stylesheet),
+    the item's center IS the viewport's center, on both mobile and desktop, in
+    both marquee's resting/held state and in fully static mode. min-width: 0 +
+    overflow: hidden on the outer columns matter just as much as the 1fr sizing
+    itself — without them a grid track defaults to its content's full
+    min-content width, which drags the discount code off-center the moment
+    pre-text or post-text gets long. With them, the longer side simply clips at
+    its own edge instead of pushing the discount code.
+  */
   .birdlabs-marquee__item {
-    display: inline-flex;
-    flex-direction: var(--birdlabs-item-direction, row);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: baseline;
-    white-space: nowrap;
+    width: 100%;
+    column-gap: 0.35em;
   }
 
   .birdlabs-marquee__pre-text,
@@ -94,8 +116,9 @@
   }
 
   .birdlabs-marquee__pre-text,
-  .birdlabs-marquee__discount-code {
-    margin-inline-end: 0.35em;
+  .birdlabs-marquee__post-text {
+    min-width: 0;
+    overflow: hidden;
   }
 
   .birdlabs-marquee__discount-code--glow {
