@@ -65,7 +65,8 @@
       ],
       "name": "BirdLabs — Announcement",
       "settings": {
-        "speed": 9,
+        "enable_marquee": true,
+        "speed": 20,
         "direction": "left",
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color5 }}",
