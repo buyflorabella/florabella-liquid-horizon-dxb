@@ -33,24 +33,23 @@
     Horizon's ".section--page-width > *" rule (base.css) places this section's
     only child into the middle column of a 3-column layout grid, inset from the
     true screen edges by the page margin on both sides — confirmed live at a
-    1440px viewport: .birdlabs-marquee sits at x=40 with 40px reserved on the
-    right too, not edge-to-edge. For scrolling content that's the "truncated near
-    the left rail" symptom: the marquee's own clipping boundary sits 40px+ inside
-    the true edge, so text visibly disappears well before it reaches the actual
-    side of the screen, on every pass, regardless of Direction. Forcing this
-    element to span the section's full grid row (native Horizon's own
-    ".section--full-width > *" pattern, just applied unconditionally here) gives
-    the scroll its full, true edge-to-edge travel distance. Scoped to marquee mode
-    only — static mode still honors the Section width setting, since a centered,
-    non-moving line reads fine inset the way a normal page-width section does.
+    1440px viewport: .birdlabs-marquee sat at x=40 with 40px reserved on the
+    right too, not edge-to-edge. Forcing this element to span the section's full
+    grid row (native Horizon's own ".section--full-width > *" pattern, just
+    applied unconditionally here) gives it the true, full viewport width.
+    Unconditional now (both marquee and static mode) because centering the
+    discount code on the actual screen center — not the page-width column's
+    center — needs the full width either way. Net effect: the "Section width"
+    setting (page-width vs. full-width) no longer visibly changes anything for
+    this section; flag it to DXB if that setting should just be removed.
   */
-  .announcement-bar:not(.birdlabs-marquee--static) > .birdlabs-marquee {
+  .announcement-bar > .birdlabs-marquee {
     grid-column: 1 / -1;
   }
 
   .birdlabs-marquee__track {
-    display: inline-flex;
-    align-items: baseline;
+    display: block;
+    width: 100%;
     white-space: nowrap;
     animation-name: birdlabs-marquee-scroll;
     animation-duration: var(--birdlabs-marquee-speed, 5s);
@@ -87,66 +86,15 @@
   }
 
   /*
-    Item-level display/wrap/typography rules live in
-    blocks/birdlabs-announcement.liquid's own stylesheet — this section only owns
-    the marquee track/animation and the between-item spacing.
-  */
-  .birdlabs-marquee__item:not(:last-child) {
-    margin-inline-end: 3rem;
-  }
-
-  /*
-    Static mode: freeze the track in place instead of animating it, and center the
-    discount code in the bar regardless of how long pre-text/post-text are. The
-    item becomes a 3-column grid (pre-text | discount-code | post-text) spanning
-    the full bar width, with the discount code's column always in the middle.
-    Pre-text is right-aligned toward the discount code, so if it's too long to fit
-    it overflows/clips off the LEFT edge of the bar (the .birdlabs-marquee
-    overflow:hidden ancestor does the clipping) instead of pushing the discount
-    code off-center. This targets the single-announcement case — with more than
-    one enabled block, each item would independently try to center itself across
-    the full bar and overlap, which static mode doesn't attempt to solve.
+    Item-level grid/typography/color rules (the pre-text | discount-code |
+    post-text layout that centers the discount code) live in
+    blocks/birdlabs-announcement.liquid's own stylesheet — that same layout is
+    now used in both marquee and static mode, so this section only needs to
+    stop the track's animation for static mode.
   */
   .birdlabs-marquee--static .birdlabs-marquee__track {
     animation: none;
     transform: none;
-    display: block;
-    width: 100%;
-  }
-
-  .birdlabs-marquee--static .birdlabs-marquee__item {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: baseline;
-    width: 100%;
-    column-gap: 0.35em;
-  }
-
-  .birdlabs-marquee--static .birdlabs-marquee__pre-text {
-    grid-column: 1;
-    justify-self: end;
-    text-align: right;
-    margin-inline-end: 0;
-    /* Grid tracks default to their content's min-content width, which for
-       nowrap text is its full width — that blows the "1fr" sizing out and
-       drags the discount code off-center. min-width: 0 + overflow: hidden let
-       this column actually shrink to its 1fr share so the overflow spills past
-       the bar's own edge (where it gets clipped) instead of past this column. */
-    min-width: 0;
-    overflow: hidden;
-  }
-
-  .birdlabs-marquee--static .birdlabs-marquee__discount-code {
-    grid-column: 2;
-    justify-self: center;
-    margin-inline-end: 0;
-  }
-
-  .birdlabs-marquee--static .birdlabs-marquee__post-text {
-    grid-column: 3;
-    justify-self: start;
-    min-width: 0;
-    overflow: hidden;
   }
 
   @media (prefers-reduced-motion: reduce) {
