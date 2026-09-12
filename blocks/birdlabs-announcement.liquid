@@ -1,6 +1,11 @@
 
-
 {% render 'text-block-styles' %}
+
+{%- comment -%}
+  Renders text-block-styles for its .custom-color rule (used by the color pickers
+  below), but this item deliberately never carries the "text-block" class itself —
+  see the note in the stylesheet block further down for why.
+{%- endcomment -%}
 
 {%- assign block_settings = block.settings -%}
 {%- assign pre_text = block_settings.pre_text -%}
@@ -16,6 +21,12 @@
   {%- assign item_tag = 'a' -%}
 {%- endif -%}
 
+{%- assign marquee_direction = section.settings.direction | default: 'left' -%}
+{%- assign item_flex_direction = 'row' -%}
+{%- if marquee_direction == 'right' -%}
+  {%- assign item_flex_direction = 'row-reverse' -%}
+{%- endif -%}
+
 {%- assign plain_pre = pre_text | strip_newlines | strip_html | strip -%}
 {%- assign plain_post = post_text | strip_newlines | strip_html | strip -%}
 
@@ -23,16 +34,14 @@
   <{{ item_tag }}
     class="
       birdlabs-marquee__item
-      text-block
       custom-typography
       {% if block_settings.font_size != "" %}custom-font-size{% endif %}
       {% if block_settings.weight != "" %}custom-font-weight{% endif %}
     "
     style="
       {% render 'typography-style', settings: block_settings, preset: 'custom' %}
-      --width: auto;
-      --text-align: left;
       --line-height: 1;
+      --birdlabs-item-direction: {{ item_flex_direction }};
     "
     {% if item_tag == 'a' %}href="{{ block_settings.link }}"{% endif %}
     {{ block.shopify_attributes }}
@@ -60,16 +69,27 @@
 
 {% stylesheet %}
   /*
-    Overrides the shared .text-block component's flex-column layout (built for
-    stacking a heading over a paragraph) so this block's pre-text / discount-code /
-    post-text spans flow in a single row instead of stacking as separate lines.
-    Two-class specificity beats the single-class global rule regardless of the
-    compiled bundle's rule order.
+    This item deliberately does NOT use the theme's shared .text-block class.
+    .text-block sets display:flex/flex-direction:column (built for stacking a
+    heading over a paragraph) and its ".text-block > *" rule sets text-wrap on
+    direct children, which permits wrapping and beats an inherited nowrap because
+    a direct declaration always wins over an inherited one regardless of
+    specificity. Both together produced two confirmed bugs: the three parts
+    stacking as separate lines, and pre-text/post-text each wrapping onto a
+    second line on narrow viewports even after the first bug was fixed. Owning
+    display/wrap/typography directly here, without that shared class, avoids
+    fighting either rule instead of trying to out-specificity them.
   */
-  .birdlabs-marquee__item.text-block {
+  .birdlabs-marquee__item {
     display: inline-flex;
-    flex-direction: row;
+    flex-direction: var(--birdlabs-item-direction, row);
     align-items: baseline;
+    white-space: nowrap;
+  }
+
+  .birdlabs-marquee__pre-text,
+  .birdlabs-marquee__discount-code,
+  .birdlabs-marquee__post-text {
     white-space: nowrap;
   }
 
