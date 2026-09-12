@@ -9,7 +9,7 @@
 
 <div class="section-background color-custom-{{ section.id }}"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}{% unless section.settings.enable_marquee %} birdlabs-marquee--static{% endunless %}"
   style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %} --birdlabs-marquee-speed: {{ section.settings.speed }}s; --birdlabs-marquee-direction: {{ birdlabs_marquee_direction }};"
 >
   <div class="birdlabs-marquee">
@@ -55,13 +55,20 @@
   }
 
   /*
-    Base display/white-space for .birdlabs-marquee__item now lives in
-    blocks/birdlabs-announcement.liquid's own stylesheet (it needs enough
-    selector specificity to beat the shared .text-block component's flex-column
-    layout). This section only owns the between-item spacing.
+    Item-level display/wrap/typography rules live in
+    blocks/birdlabs-announcement.liquid's own stylesheet — this section only owns
+    the marquee track/animation and the between-item spacing.
   */
   .birdlabs-marquee__item:not(:last-child) {
     margin-inline-end: 3rem;
+  }
+
+  /* Static mode: freeze the track in place instead of animating it. */
+  .birdlabs-marquee--static .birdlabs-marquee__track {
+    animation: none;
+    transform: none;
+    width: 100%;
+    justify-content: center;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -85,26 +92,35 @@
   },
   "settings": [
     {
+      "type": "checkbox",
+      "id": "enable_marquee",
+      "label": "Marquee scrolling",
+      "info": "Off = static, non-scrolling bar",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "speed",
       "label": "t:settings.scroll_speed",
       "min": 1,
       "max": 30,
       "default": 5,
-      "unit": "sec"
+      "unit": "sec",
+      "visible_if": "{{ section.settings.enable_marquee }}"
     },
     {
       "type": "select",
       "id": "direction",
-      "label": "Scroll direction",
+      "label": "Direction",
+      "info": "Also sets which side the pre-text leads from",
       "options": [
         {
           "value": "left",
-          "label": "Scroll left"
+          "label": "Left"
         },
         {
           "value": "right",
-          "label": "Scroll right"
+          "label": "Right"
         }
       ],
       "default": "left"
