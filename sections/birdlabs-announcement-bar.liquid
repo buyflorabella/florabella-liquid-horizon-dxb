@@ -2,10 +2,15 @@
 
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
 
+{%- assign birdlabs_marquee_direction = 'normal' -%}
+{%- if section.settings.direction == 'right' -%}
+  {%- assign birdlabs_marquee_direction = 'reverse' -%}
+{%- endif -%}
+
 <div class="section-background color-custom-{{ section.id }}"></div>
 <aside
   class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %} --birdlabs-marquee-speed: {{ section.settings.speed }}s;"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %} --birdlabs-marquee-speed: {{ section.settings.speed }}s; --birdlabs-marquee-direction: {{ birdlabs_marquee_direction }};"
 >
   <div class="birdlabs-marquee">
     <div class="birdlabs-marquee__track">
@@ -28,7 +33,11 @@
     display: inline-flex;
     align-items: baseline;
     white-space: nowrap;
-    animation: birdlabs-marquee-scroll var(--birdlabs-marquee-speed, 5s) linear infinite;
+    animation-name: birdlabs-marquee-scroll;
+    animation-duration: var(--birdlabs-marquee-speed, 5s);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: var(--birdlabs-marquee-direction, normal);
   }
 
   .birdlabs-marquee:hover .birdlabs-marquee__track {
@@ -52,6 +61,11 @@
 
   .birdlabs-marquee__item:not(:last-child) {
     margin-inline-end: 3rem;
+  }
+
+  .birdlabs-marquee__pre-text,
+  .birdlabs-marquee__discount-code {
+    margin-inline-end: 0.35em;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -78,10 +92,26 @@
       "type": "range",
       "id": "speed",
       "label": "t:settings.scroll_speed",
-      "min": 2,
-      "max": 10,
+      "min": 1,
+      "max": 30,
       "default": 5,
       "unit": "sec"
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "Scroll direction",
+      "options": [
+        {
+          "value": "left",
+          "label": "Scroll left"
+        },
+        {
+          "value": "right",
+          "label": "Scroll right"
+        }
+      ],
+      "default": "left"
     },
     {
       "type": "header",
