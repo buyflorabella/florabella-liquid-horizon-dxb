@@ -29,7 +29,10 @@
             "case": "none",
             "discount_font_size": "",
             "discount_weight": "",
-            "text_color": ""
+            "discount_glow": true,
+            "pre_text_color": "",
+            "discount_text_color": "{{ settings.color_palette.color8 }}",
+            "post_text_color": ""
           },
           "blocks": {}
         },
@@ -48,7 +51,10 @@
             "case": "none",
             "discount_font_size": "",
             "discount_weight": "",
-            "text_color": ""
+            "discount_glow": true,
+            "pre_text_color": "",
+            "discount_text_color": "",
+            "post_text_color": ""
           },
           "blocks": {}
         }
