@@ -54,18 +54,14 @@
     }
   }
 
-  .birdlabs-marquee__item {
-    display: inline-block;
-    white-space: nowrap;
-  }
-
+  /*
+    Base display/white-space for .birdlabs-marquee__item now lives in
+    blocks/birdlabs-announcement.liquid's own stylesheet (it needs enough
+    selector specificity to beat the shared .text-block component's flex-column
+    layout). This section only owns the between-item spacing.
+  */
   .birdlabs-marquee__item:not(:last-child) {
     margin-inline-end: 3rem;
-  }
-
-  .birdlabs-marquee__pre-text,
-  .birdlabs-marquee__discount-code {
-    margin-inline-end: 0.35em;
   }
 
   @media (prefers-reduced-motion: reduce) {
