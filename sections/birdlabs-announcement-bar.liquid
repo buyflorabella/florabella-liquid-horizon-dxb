@@ -7,16 +7,68 @@
   {%- assign birdlabs_marquee_direction = 'reverse' -%}
 {%- endif -%}
 
+{%- comment -%}
+  Task 0024: ported the native announcement bar's slideshow mechanism
+  (announcement-bar-component + slideshow-arrows + assets/announcement-bar.js,
+  all from sections/header-announcements.liquid) for non-marquee mode, and
+  moved marquee mode onto a JS-driven delay-then-scroll cycle
+  (assets/birdlabs-marquee.js) instead of a fixed keyframe hold. See
+  claude_docs/tasks/0024_birdlabs_header_adjustments/0024_dd.md for the full
+  writeup of why each of these changed.
+{%- endcomment -%}
+{%- liquid
+  assign show_slideshow_controls = false
+  if section.blocks.size > 1
+    assign show_slideshow_controls = true
+  endif
+-%}
+
+{% if section.settings.enable_marquee == false and show_slideshow_controls %}
+  <script
+    src="{{ 'announcement-bar.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+{% endif %}
+
+{% if section.settings.enable_marquee %}
+  <script
+    src="{{ 'birdlabs-marquee.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+{% endif %}
+
 <div class="section-background color-custom-{{ section.id }}"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}{% unless section.settings.enable_marquee %} birdlabs-marquee--static{% endunless %}"
-  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %} --birdlabs-marquee-speed: {{ section.settings.speed }}s; --birdlabs-marquee-direction: {{ birdlabs_marquee_direction }};"
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %} --birdlabs-marquee-speed: {{ section.settings.speed }}s; --birdlabs-marquee-direction: {{ birdlabs_marquee_direction }}; --birdlabs-marquee-gap: {{ section.settings.gap_between_elements }}px;"
 >
-  <div class="birdlabs-marquee">
-    <div class="birdlabs-marquee__track">
-      {% content_for 'blocks' %}
-    </div>
-  </div>
+  {% if section.settings.enable_marquee %}
+    <birdlabs-marquee delay="{{ section.settings.delay }}">
+      <div
+        class="birdlabs-marquee__track"
+        ref="track"
+      >
+        {% content_for 'blocks' %}
+      </div>
+    </birdlabs-marquee>
+  {% else %}
+    <announcement-bar-component
+      class="birdlabs-announcement-bar__slider"
+      {% if show_slideshow_controls %}
+        autoplay="{{ section.settings.slide_interval }}" aria-live="polite"
+      {% endif %}
+    >
+      {% if show_slideshow_controls %}
+        {% render 'slideshow-arrows', icon_style: 'chevron' %}
+      {% endif %}
+
+      <div class="birdlabs-announcement-bar__slides">
+        {% content_for 'blocks' %}
+      </div>
+    </announcement-bar-component>
+  {% endif %}
 </aside>
 
 {% stylesheet %}
@@ -24,7 +76,8 @@
     border-block-end: var(--border-bottom-width) solid var(--color-border);
   }
 
-  .birdlabs-marquee {
+  birdlabs-marquee {
+    display: block;
     overflow: hidden;
     width: 100%;
   }
@@ -33,74 +86,134 @@
     Horizon's ".section--page-width > *" rule (base.css) places this section's
     only child into the middle column of a 3-column layout grid, inset from the
     true screen edges by the page margin on both sides — confirmed live at a
-    1440px viewport: .birdlabs-marquee sat at x=40 with 40px reserved on the
-    right too, not edge-to-edge. Forcing this element to span the section's full
+    1440px viewport: the marquee sat at x=40 with 40px reserved on the right
+    too, not edge-to-edge. Forcing this element to span the section's full
     grid row (native Horizon's own ".section--full-width > *" pattern, just
-    applied unconditionally here) gives it the true, full viewport width.
-    Unconditional now (both marquee and static mode) because centering the
-    discount code on the actual screen center — not the page-width column's
-    center — needs the full width either way. Net effect: the "Section width"
-    setting (page-width vs. full-width) no longer visibly changes anything for
-    this section; flag it to DXB if that setting should just be removed.
+    applied unconditionally here) gives it the true, full viewport width in
+    both marquee and slideshow mode.
   */
-  .announcement-bar > .birdlabs-marquee {
+  .announcement-bar > birdlabs-marquee,
+  .announcement-bar > .birdlabs-announcement-bar__slider {
     grid-column: 1 / -1;
   }
 
+  /* ---- Marquee mode (task 0021 original, task 0024 delay/gap/row rework) ---- */
+
   .birdlabs-marquee__track {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     width: 100%;
     white-space: nowrap;
-    animation-name: birdlabs-marquee-scroll;
-    animation-duration: var(--birdlabs-marquee-speed, 5s);
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: var(--birdlabs-marquee-direction, normal);
-  }
-
-  .birdlabs-marquee:hover .birdlabs-marquee__track {
-    animation-play-state: paused;
+    gap: var(--birdlabs-marquee-gap, 0px);
+    transform: translateX(0);
   }
 
   /*
-    Starts fully visible at rest (translateX(0)), holds there for the first 15% of
-    the loop, then scrolls out to fully off-screen left. Previously this started at
-    translateX(100%) — 100% of the TRACK'S OWN width, not the viewport's — which on
-    narrow/mobile widths put the track's left edge close to or past the right edge
-    of the screen at the very start of the loop, so nothing was visible for a
-    stretch of each cycle before it scrolled into view. Starting at rest removes
-    that dead time entirely: the announcement is readable immediately, then moves.
+    Task 0024 fix: this was `display: block`, and blocks/birdlabs-announcement.liquid's
+    .birdlabs-marquee__item is `display: grid` — which forces a block-level box
+    regardless of the underlying <span>/<a> tag, so multiple announcements stacked
+    as separate rows instead of sitting side by side. Flex here fixes it: once the
+    track is a flex container, each item's own outer display no longer matters for
+    sibling layout — flex children always lay out in a row. `gap` (above) is the
+    new "space between announcements" setting (section.settings.gap_between_elements),
+    ported from native blocks/_marquee.liquid's identical pattern.
   */
+
+  /*
+    Task 0024: delay-before-scroll is now driven by JS (assets/birdlabs-marquee.js),
+    not baked into the keyframe as a fixed hold percentage. A merchant-adjustable
+    "Delay before scroll" (real seconds, independent of scroll speed) can't be
+    expressed as a keyframe percentage — keyframe stops are static CSS, and
+    Shopify stylesheet blocks don't accept Liquid-templated values in them (see
+    .claude/CLAUDE.md). The track sits at rest (rule above) until JS adds
+    --scrolling below, which plays a single scroll pass
+    (animation-iteration-count: 1, not infinite — JS needs the animationend
+    event to fire so it can reschedule the next delay+scroll cycle).
+  */
+  .birdlabs-marquee__track--scrolling {
+    animation-name: birdlabs-marquee-scroll;
+    animation-duration: var(--birdlabs-marquee-speed, 5s);
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-direction: var(--birdlabs-marquee-direction, normal);
+  }
+
+  birdlabs-marquee:hover .birdlabs-marquee__track--scrolling {
+    animation-play-state: paused;
+  }
+
   @keyframes birdlabs-marquee-scroll {
-    0% {
+    from {
       transform: translateX(0);
     }
 
-    15% {
-      transform: translateX(0);
-    }
-
-    100% {
+    to {
       transform: translateX(-100%);
     }
   }
 
-  /*
-    Item-level grid/typography/color rules (the pre-text | discount-code |
-    post-text layout that centers the discount code) live in
-    blocks/birdlabs-announcement.liquid's own stylesheet — that same layout is
-    now used in both marquee and static mode, so this section only needs to
-    stop the track's animation for static mode.
-  */
-  .birdlabs-marquee--static .birdlabs-marquee__track {
-    animation: none;
-    transform: none;
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .birdlabs-marquee__track {
+    .birdlabs-marquee__track--scrolling {
       animation: none;
     }
+  }
+
+  /* ---- Non-marquee (slideshow) mode — task 0024, ported from header-announcements.liquid ---- */
+
+  .birdlabs-announcement-bar__slider {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+    @media screen and (max-width: 749px) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .birdlabs-announcement-bar__slides {
+    display: grid;
+    grid: [stack] auto / [stack] auto;
+    width: calc(100% - var(--button-size) * 2);
+    max-width: 680px;
+    margin-inline: auto;
+  }
+
+  .birdlabs-announcement-bar__slides > * {
+    grid-area: stack;
+  }
+
+  .birdlabs-announcement-bar__slider slideshow-arrows {
+    padding: 0;
+    mix-blend-mode: normal;
+  }
+
+  .birdlabs-announcement-bar__slider slideshow-arrows .slideshow-control {
+    color: var(--color-foreground);
+    display: flex;
+    padding: 0;
+    width: var(--button-size);
+    height: var(--button-size);
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    animation: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .birdlabs-announcement-bar__slider .slideshow-control {
+      --slideshow-control-offset: calc((var(--button-size) - var(--icon-size-xs)) / 2);
+    }
+
+    .section--page-width .birdlabs-announcement-bar__slider .slideshow-control--previous {
+      transform: translateX(var(--slideshow-control-offset));
+    }
+  }
+
+  .birdlabs-announcement-bar__slider .slideshow-control .svg-wrapper {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
   }
 {% endstylesheet %}
 
@@ -121,7 +234,7 @@
       "type": "checkbox",
       "id": "enable_marquee",
       "label": "Marquee scrolling",
-      "info": "Off = static, non-scrolling bar",
+      "info": "Off = slideshow bar with arrows, like the native announcement bar",
       "default": true
     },
     {
@@ -133,6 +246,39 @@
       "default": 5,
       "unit": "sec",
       "visible_if": "{{ section.settings.enable_marquee }}"
+    },
+    {
+      "type": "range",
+      "id": "delay",
+      "label": "Delay before scroll",
+      "info": "Pause at rest before each scroll pass begins",
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "default": 1,
+      "unit": "sec",
+      "visible_if": "{{ section.settings.enable_marquee }}"
+    },
+    {
+      "type": "range",
+      "id": "gap_between_elements",
+      "label": "Gap between announcements",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 48,
+      "unit": "px",
+      "visible_if": "{{ section.settings.enable_marquee }}"
+    },
+    {
+      "type": "range",
+      "id": "slide_interval",
+      "label": "Time to next announcement",
+      "min": 2,
+      "max": 10,
+      "default": 5,
+      "unit": "sec",
+      "visible_if": "{{ section.settings.enable_marquee == false }}"
     },
     {
       "type": "select",

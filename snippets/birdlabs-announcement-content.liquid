@@ -1,0 +1,56 @@
+{%- doc -%}
+  Shared pre-text / discount-code / post-text markup for one BirdLabs
+  announcement item. Used by blocks/birdlabs-announcement.liquid in both
+  marquee mode (plain flex item) and slideshow mode (wrapped in
+  slideshow-slide) so the two modes never drift out of sync with each other.
+
+  @param {object} block_settings - the announcement block's settings object
+  @param {object} section - the parent section, read for settings.direction
+{%- enddoc -%}
+
+{%- assign pre_text = block_settings.pre_text -%}
+{%- assign discount_code = block_settings.discount_code | strip -%}
+{%- assign post_text = block_settings.post_text -%}
+{%- assign discount_font_size = block_settings.discount_font_size -%}
+{%- assign discount_weight = block_settings.discount_weight -%}
+{%- assign pre_color = block_settings.pre_text_color -%}
+{%- assign discount_color = block_settings.discount_text_color -%}
+{%- assign post_color = block_settings.post_text_color -%}
+
+{%- comment -%}
+  The discount code always sits in the middle grid column (column 2) so its
+  center lands on the item's center regardless of viewport width. Direction
+  only swaps which OUTER column pre-text vs. post-text renders into.
+{%- endcomment -%}
+{%- assign marquee_direction = section.settings.direction | default: 'left' -%}
+{%- assign pre_grid_column = 1 -%}
+{%- assign post_grid_column = 3 -%}
+{%- if marquee_direction == 'right' -%}
+  {%- assign pre_grid_column = 3 -%}
+  {%- assign post_grid_column = 1 -%}
+{%- endif -%}
+
+{%- assign plain_pre = pre_text | strip_newlines | strip_html | strip -%}
+{%- assign plain_post = post_text | strip_newlines | strip_html | strip -%}
+
+{%- if plain_pre != '' -%}<span
+    class="birdlabs-marquee__pre-text{% if pre_color != blank %} custom-color{% endif %}"
+    style="grid-column: {{ pre_grid_column }}; justify-self: {% if pre_grid_column == 1 %}end{% else %}start{% endif %};{% if pre_color != blank %} --color: {{ pre_color }}; --color-rgb: {{ pre_color.rgb }};{% endif %}"
+  >{{ pre_text }}</span>{%- endif -%}{%- if discount_code != '' -%}<span
+    class="
+      birdlabs-marquee__discount-code
+      {% if discount_font_size != blank %}custom-font-size{% endif %}
+      {% if discount_weight != blank %}custom-font-weight{% endif %}
+      {% if discount_color != blank %}custom-color{% endif %}
+      {% if block_settings.discount_glow %}birdlabs-marquee__discount-code--glow{% endif %}
+    "
+    style="
+      grid-column: 2;
+      {% if discount_font_size != blank %}--font-size: {{ discount_font_size }};{% endif %}
+      {% if discount_weight != blank %}--font-weight: {{ discount_weight }};{% endif %}
+      {% if discount_color != blank %}--color: {{ discount_color }}; --color-rgb: {{ discount_color.rgb }};{% endif %}
+    "
+  >{{ discount_code }}</span>{%- endif -%}{%- if plain_post != '' -%}<span
+    class="birdlabs-marquee__post-text{% if post_color != blank %} custom-color{% endif %}"
+    style="grid-column: {{ post_grid_column }}; justify-self: {% if post_grid_column == 1 %}end{% else %}start{% endif %};{% if post_color != blank %} --color: {{ post_color }}; --color-rgb: {{ post_color.rgb }};{% endif %}"
+  >{{ post_text }}</span>{%- endif -%}
