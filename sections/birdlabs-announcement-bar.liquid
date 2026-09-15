@@ -8,8 +8,6 @@
 {%- endif -%}
 
 {%- comment -%}
-  Claude 0915 21:xx - re-touch to force fresh sync attempt
-
   Task 0024: ported the native announcement bar's slideshow mechanism
   (announcement-bar-component + slideshow-arrows + assets/announcement-bar.js,
   all from sections/header-announcements.liquid) for non-marquee mode, and
@@ -17,15 +15,27 @@
   (assets/birdlabs-marquee.js) instead of a fixed keyframe hold. See
   claude_docs/tasks/0024_birdlabs_header_adjustments/0024_dd.md for the full
   writeup of why each of these changed.
+
+  IMPORTANT: this file has exactly ONE content-for-blocks call (the theme-block
+  insertion point), even though marquee vs. slideshow mode need different
+  wrapper markup around it. A real Shopify save-time constraint, confirmed via
+  a live FileSaveError naming a duplicate entry for that insertion point — the
+  very first version
+  of this fix had two calls, one per branch of an enable_marquee if/else,
+  which never both execute but still counts as a duplicate at save time
+  regardless of reachability. Both custom elements below are therefore
+  always present; the mode difference is expressed as attributes/classes on
+  them, not as separate branches around a repeated content_for call.
 {%- endcomment -%}
 {%- liquid
+  assign is_marquee = section.settings.enable_marquee
   assign show_slideshow_controls = false
   if section.blocks.size > 1
     assign show_slideshow_controls = true
   endif
 -%}
 
-{% if section.settings.enable_marquee == false and show_slideshow_controls %}
+{% if is_marquee == false and show_slideshow_controls %}
   <script
     src="{{ 'announcement-bar.js' | asset_url }}"
     type="module"
@@ -33,7 +43,7 @@
   ></script>
 {% endif %}
 
-{% if section.settings.enable_marquee %}
+{% if is_marquee %}
   <script
     src="{{ 'birdlabs-marquee.js' | asset_url }}"
     type="module"
@@ -46,23 +56,14 @@
   class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
   style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %} --birdlabs-marquee-speed: {{ section.settings.speed }}s; --birdlabs-marquee-direction: {{ birdlabs_marquee_direction }}; --birdlabs-marquee-gap: {{ section.settings.gap_between_elements }}px;"
 >
-  {% if section.settings.enable_marquee %}
-    <birdlabs-marquee delay="{{ section.settings.delay }}">
-      <div
-        class="birdlabs-marquee__track"
-        ref="track"
-      >
-        {% content_for 'blocks' %}
-      </div>
-    </birdlabs-marquee>
-  {% else %}
+  <birdlabs-marquee{% if is_marquee %} delay="{{ section.settings.delay }}"{% endif %}>
     <announcement-bar-component
       class="birdlabs-announcement-bar__slider"
-      {% if show_slideshow_controls %}
+      {% if is_marquee == false and show_slideshow_controls %}
         autoplay="{{ section.settings.slide_interval }}" aria-live="polite"
       {% endif %}
     >
-      {% if show_slideshow_controls %}
+      {% if is_marquee == false and show_slideshow_controls %}
         {% render 'slideshow-arrows', icon_style: 'chevron' %}
       {% endif %}
 
@@ -70,7 +71,7 @@
         {% content_for 'blocks' %}
       </div>
     </announcement-bar-component>
-  {% endif %}
+  </birdlabs-marquee>
 </aside>
 
 {% stylesheet %}
@@ -92,77 +93,23 @@
     too, not edge-to-edge. Forcing this element to span the section's full
     grid row (native Horizon's own ".section--full-width > *" pattern, just
     applied unconditionally here) gives it the true, full viewport width in
-    both marquee and slideshow mode.
+    both marquee and slideshow mode. <birdlabs-marquee> is always the direct
+    child of .announcement-bar now (see the markup note above about why both
+    custom elements are unconditional), so this one selector covers both modes.
   */
-  .announcement-bar > birdlabs-marquee,
-  .announcement-bar > .birdlabs-announcement-bar__slider {
+  .announcement-bar > birdlabs-marquee {
     grid-column: 1 / -1;
   }
 
-  /* ---- Marquee mode (task 0021 original, task 0024 delay/gap/row rework) ---- */
-
-  .birdlabs-marquee__track {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    white-space: nowrap;
-    gap: var(--birdlabs-marquee-gap, 0px);
-    transform: translateX(0);
-  }
-
   /*
-    Task 0024 fix: this was `display: block`, and blocks/birdlabs-announcement.liquid's
-    .birdlabs-marquee__item is `display: grid` — which forces a block-level box
-    regardless of the underlying <span>/<a> tag, so multiple announcements stacked
-    as separate rows instead of sitting side by side. Flex here fixes it: once the
-    track is a flex container, each item's own outer display no longer matters for
-    sibling layout — flex children always lay out in a row. `gap` (above) is the
-    new "space between announcements" setting (section.settings.gap_between_elements),
-    ported from native blocks/_marquee.liquid's identical pattern.
+    .birdlabs-announcement-bar__slider (announcement-bar-component) and
+    .birdlabs-announcement-bar__slides (the shared blocks container) are
+    shared by both modes — task 0024 ported the slideshow layout in as the
+    base/default, and marquee mode overrides it via the --marquee and
+    --scrolling modifier classes below (added by assets/birdlabs-marquee.js),
+    rather than two separate DOM structures — see the markup note above for
+    why (Shopify only allows one theme-block insertion point per file).
   */
-
-  /*
-    Task 0024: delay-before-scroll is now driven by JS (assets/birdlabs-marquee.js),
-    not baked into the keyframe as a fixed hold percentage. A merchant-adjustable
-    "Delay before scroll" (real seconds, independent of scroll speed) can't be
-    expressed as a keyframe percentage — keyframe stops are static CSS, and
-    Shopify stylesheet blocks don't accept Liquid-templated values in them (see
-    .claude/CLAUDE.md). The track sits at rest (rule above) until JS adds
-    --scrolling below, which plays a single scroll pass
-    (animation-iteration-count: 1, not infinite — JS needs the animationend
-    event to fire so it can reschedule the next delay+scroll cycle).
-  */
-  .birdlabs-marquee__track--scrolling {
-    animation-name: birdlabs-marquee-scroll;
-    animation-duration: var(--birdlabs-marquee-speed, 5s);
-    animation-timing-function: linear;
-    animation-iteration-count: 1;
-    animation-direction: var(--birdlabs-marquee-direction, normal);
-  }
-
-  birdlabs-marquee:hover .birdlabs-marquee__track--scrolling {
-    animation-play-state: paused;
-  }
-
-  @keyframes birdlabs-marquee-scroll {
-    from {
-      transform: translateX(0);
-    }
-
-    to {
-      transform: translateX(-100%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .birdlabs-marquee__track--scrolling {
-      animation: none;
-    }
-  }
-
-  /* ---- Non-marquee (slideshow) mode — task 0024, ported from header-announcements.liquid ---- */
-
   .birdlabs-announcement-bar__slider {
     display: flex;
     flex-direction: row;
@@ -184,6 +131,76 @@
 
   .birdlabs-announcement-bar__slides > * {
     grid-area: stack;
+  }
+
+  /*
+    Task 0024 fix: the old marquee track was `display: block`, and
+    blocks/birdlabs-announcement.liquid's .birdlabs-marquee__item is
+    `display: grid` — which forces a block-level box regardless of the
+    underlying <span>/<a> tag, so multiple announcements stacked as separate
+    rows instead of sitting side by side. This modifier (added by JS only
+    when section.settings.enable_marquee is on) switches the shared slides
+    container to a flex row instead: once it's a flex container, each item's
+    own outer display no longer matters for sibling layout — flex children
+    always lay out in a row. `gap` is the new "space between announcements"
+    setting (section.settings.gap_between_elements), ported from native
+    blocks/_marquee.liquid's identical pattern. `grid-template-columns: none`
+    /`max-width: none` undo the slideshow-mode grid-stack/680px constraints
+    above, which don't apply once this is a horizontally-scrolling row.
+  */
+  .birdlabs-announcement-bar__slides--marquee {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    white-space: nowrap;
+    gap: var(--birdlabs-marquee-gap, 0px);
+    transform: translateX(0);
+  }
+
+  .birdlabs-announcement-bar__slides--marquee > * {
+    grid-area: unset;
+  }
+
+  /*
+    Task 0024: delay-before-scroll is now driven by JS (assets/birdlabs-marquee.js),
+    not baked into a keyframe as a fixed hold percentage. A merchant-adjustable
+    "Delay before scroll" (real seconds, independent of scroll speed) can't be
+    expressed as a keyframe percentage — keyframe stops are static CSS, and
+    Shopify stylesheet blocks don't accept Liquid-templated values in them (see
+    .claude/CLAUDE.md). The track sits at rest (rule above) until JS adds
+    --scrolling below, which plays a single scroll pass
+    (animation-iteration-count: 1, not infinite — JS needs the animationend
+    event to fire so it can reschedule the next delay+scroll cycle).
+  */
+  .birdlabs-announcement-bar__slides--scrolling {
+    animation-name: birdlabs-marquee-scroll;
+    animation-duration: var(--birdlabs-marquee-speed, 5s);
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-direction: var(--birdlabs-marquee-direction, normal);
+  }
+
+  birdlabs-marquee:hover .birdlabs-announcement-bar__slides--scrolling {
+    animation-play-state: paused;
+  }
+
+  @keyframes birdlabs-marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .birdlabs-announcement-bar__slides--scrolling {
+      animation: none;
+    }
   }
 
   .birdlabs-announcement-bar__slider slideshow-arrows {
