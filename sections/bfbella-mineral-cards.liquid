@@ -1,0 +1,198 @@
+{% comment %}
+  ============================================================================
+  task 0003 (Task 5, part 2 of 3) — "Inside Every Scoop Of Flora Bella" — detail card grid
+  ============================================================================
+  Second of three sections — see bfbella-mineral-tiles.liquid's header comment for why this
+  is split into three, and 0003_task5_split_howto.md for deployment order/settings.
+
+  WHAT THIS FILE NEEDS ALONGSIDE IT:
+    - blocks/bfbella-mineral-card.liquid   (0003_task5_bfbella-mineral-card.liquid)
+  Renders itself — this section only does `{% content_for 'blocks' %}`.
+
+  DEPLOY: save as sections/bfbella-mineral-cards.liquid in the live theme. DXB applies this —
+  Claude never commits or touches the live repo.
+  ============================================================================
+{% endcomment %}
+
+{% liquid
+  assign accent = section.settings.accent_color | default: settings.color_palette.color3
+
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id, skip_contrast: true
+  endif
+%}
+
+<div
+  id="MineralCards-{{ section.id }}"
+  class="bfbella-mineral-comp bfbella-mineral-comp--cards{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    --bfbella-accent: {{ accent }};
+    {% if section.settings.padding_top != blank %}--bfbella-pad-top: {{ section.settings.padding_top }}px;{% endif %}
+    {% if section.settings.padding_bottom != blank %}--bfbella-pad-bottom: {{ section.settings.padding_bottom }}px;{% endif %}
+  "
+>
+  <div class="bfbella-mineral-comp__inner page-width">
+    {%- if section.blocks.size > 0 -%}
+      <div class="bfbella-mineral-comp__cards">
+        {% content_for 'blocks' %}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .bfbella-mineral-comp {
+    position: relative;
+    overflow: hidden;
+    padding-block-start: var(--bfbella-pad-top, 0rem);
+    padding-block-end: var(--bfbella-pad-bottom, 0rem);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .bfbella-mineral-comp__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .bfbella-mineral-comp__cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @media screen and (min-width: 750px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (min-width: 990px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .bfbella-mineral-card {
+    background-color: var(--color-background);
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-inline-start: 3px solid var(--bfbella-accent);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+
+  .bfbella-mineral-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    border-color: color-mix(in srgb, var(--bfbella-accent) 50%, transparent);
+  }
+
+  .bfbella-mineral-card__badge {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--bfbella-accent) 20%, transparent);
+    color: var(--bfbella-accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .bfbella-mineral-card__name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-block-end: 0.5rem;
+  }
+
+  .bfbella-mineral-card__benefit {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    line-height: 1.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bfbella-mineral-card {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Mineral Cards",
+  "tag": "section",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "bfbella-mineral-card"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "placeholder": "t:settings.default",
+      "info": "Match this to the Mineral Tiles section above it. Leave blank to use the theme's existing color3 swatch."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "t:settings.default",
+      "info": "Match this to the Mineral Tiles section above it."
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Defaults to 0 to flow directly from the Mineral Tiles section above it."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Defaults to 0 to flow directly into the Guaranteed Analysis section below it."
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Mineral Cards",
+      "category": "Custom",
+      "blocks": [
+        { "type": "bfbella-mineral-card" },
+        { "type": "bfbella-mineral-card" },
+        { "type": "bfbella-mineral-card" },
+        { "type": "bfbella-mineral-card" },
+        { "type": "bfbella-mineral-card" },
+        { "type": "bfbella-mineral-card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
