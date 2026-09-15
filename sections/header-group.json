@@ -64,8 +64,11 @@
       ],
       "name": "BirdLabs — Announcement",
       "settings": {
-        "enable_marquee": true,
+        "enable_marquee": false,
         "speed": 20,
+        "delay": 1,
+        "gap_between_elements": 48,
+        "slide_interval": 5,
         "direction": "left",
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color5 }}",
