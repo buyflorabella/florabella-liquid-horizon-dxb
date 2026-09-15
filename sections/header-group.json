@@ -27,7 +27,7 @@
             "weight": "",
             "letter_spacing": "normal",
             "case": "none",
-            "discount_font_size": "",
+            "discount_font_size": "1.5rem",
             "discount_weight": "",
             "discount_glow": true,
             "pre_text_color": "",
@@ -38,6 +38,7 @@
         },
         "birdlabs_announcement_tPpe6Y": {
           "type": "birdlabs-announcement",
+          "disabled": true,
           "settings": {
             "pre_text": "The second announcement",
             "discount_code": "DXB420",
@@ -115,6 +116,7 @@
         "announcement_BxgCk9",
         "announcement_RGYFPW"
       ],
+      "disabled": true,
       "name": "t:names.announcement_bar",
       "settings": {
         "speed": 2,
