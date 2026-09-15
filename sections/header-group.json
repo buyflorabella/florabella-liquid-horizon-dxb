@@ -85,7 +85,7 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "Type in coupon code at checkout for 20% off",
+            "text": "Type in coupon code at checkout",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
