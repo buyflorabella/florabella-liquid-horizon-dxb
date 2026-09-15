@@ -135,9 +135,45 @@
       0 0 40px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.35);
   }
 
+  /*
+    Pulse breathes the SAME glow's intensity up and down using the discount
+    code's own color (var(--color-rgb), same fallback chain as the static
+    glow above) — deliberately not a second color to pulse between, per
+    DXB's ask to avoid one if the effect works with just the existing color.
+    Animating text-shadow directly (not opacity) keeps the discount code
+    text itself fully legible at every point in the cycle; only the glow's
+    reach breathes. Works independently of the static glow checkbox above —
+    if both are checked, the animation simply overrides the static shadow
+    while running, so pulse wins with no visual conflict.
+  */
+  .birdlabs-marquee__discount-code--pulse {
+    animation: birdlabs-discount-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes birdlabs-discount-pulse {
+    0%,
+    100% {
+      text-shadow:
+        0 0 4px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.9),
+        0 0 11px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.75),
+        0 0 19px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.55),
+        0 0 40px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.35);
+    }
+
+    50% {
+      text-shadow:
+        0 0 6px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 1),
+        0 0 16px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.9),
+        0 0 28px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.75),
+        0 0 60px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.55);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .birdlabs-marquee__discount-code--glow {
+    .birdlabs-marquee__discount-code--glow,
+    .birdlabs-marquee__discount-code--pulse {
       text-shadow: none;
+      animation: none;
     }
   }
 
@@ -499,6 +535,13 @@
       "id": "discount_glow",
       "label": "Neon glow effect",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "discount_pulse",
+      "label": "Pulse effect",
+      "info": "Breathes the glow's intensity using the discount code color below — works with or without the glow effect on",
+      "default": false
     },
     {
       "type": "header",
