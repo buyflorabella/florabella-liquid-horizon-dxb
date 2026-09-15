@@ -65,7 +65,7 @@
       ],
       "name": "BirdLabs — Announcement",
       "settings": {
-        "enable_marquee": true,
+        "enable_marquee": false,
         "speed": 20,
         "direction": "left",
         "section_width": "page-width",
