@@ -38,11 +38,10 @@
         },
         "birdlabs_announcement_tPpe6Y": {
           "type": "birdlabs-announcement",
-          "disabled": true,
           "settings": {
-            "pre_text": "",
-            "discount_code": "",
-            "post_text": "",
+            "pre_text": "The second announcement",
+            "discount_code": "DXB420",
+            "post_text": "after text",
             "link": "https://www.florapharmteausa.com/0/0/us/home.html",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
@@ -65,7 +64,7 @@
       ],
       "name": "BirdLabs — Announcement",
       "settings": {
-        "enable_marquee": false,
+        "enable_marquee": true,
         "speed": 20,
         "direction": "left",
         "section_width": "page-width",
@@ -115,7 +114,7 @@
       ],
       "name": "t:names.announcement_bar",
       "settings": {
-        "speed": 5,
+        "speed": 2,
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color5 }}",
         "divider_width": 1,
