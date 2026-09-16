@@ -30,8 +30,11 @@
             "discount_font_size": "1.25rem",
             "discount_weight": "",
             "discount_glow": true,
+            "discount_pulse": true,
+            "discount_pulse_speed": 5,
             "pre_text_color": "",
             "discount_text_color": "{{ settings.color_palette.color8 }}",
+            "discount_pulse_color": "#370BD7",
             "post_text_color": ""
           },
           "blocks": {}
@@ -52,8 +55,11 @@
             "discount_font_size": "",
             "discount_weight": "",
             "discount_glow": true,
+            "discount_pulse": false,
+            "discount_pulse_speed": 1.6,
             "pre_text_color": "",
             "discount_text_color": "",
+            "discount_pulse_color": "",
             "post_text_color": ""
           },
           "blocks": {}
