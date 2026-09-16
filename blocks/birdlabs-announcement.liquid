@@ -1,4 +1,5 @@
 
+
 {% render 'text-block-styles' %}
 
 {%- comment -%}
@@ -8,71 +9,75 @@
 {%- endcomment -%}
 
 {%- assign block_settings = block.settings -%}
-{%- assign pre_text = block_settings.pre_text -%}
+{%- assign plain_pre = block_settings.pre_text | strip_newlines | strip_html | strip -%}
+{%- assign plain_post = block_settings.post_text | strip_newlines | strip_html | strip -%}
 {%- assign discount_code = block_settings.discount_code | strip -%}
-{%- assign post_text = block_settings.post_text -%}
-{%- assign discount_font_size = block_settings.discount_font_size -%}
-{%- assign discount_weight = block_settings.discount_weight -%}
-{%- assign pre_color = block_settings.pre_text_color -%}
-{%- assign discount_color = block_settings.discount_text_color -%}
-{%- assign post_color = block_settings.post_text_color -%}
+
+{%- comment -%}
+  Task 0024: this block now renders two different ways depending on
+  section.settings.enable_marquee — a plain flex-row item in marquee mode, or
+  a slideshow-slide (native slider mechanism, ported from
+  sections/header-announcements.liquid) in non-marquee mode. Blocks can read
+  `section` from inside their own file, so this switch lives entirely here —
+  no variable is being passed down from the parent (not supported for theme
+  blocks; see .claude/CLAUDE.md's "Theme Blocks Must Render Themselves").
+{%- endcomment -%}
+{%- assign is_marquee = section.settings.enable_marquee -%}
 {%- assign item_tag = 'span' -%}
-{%- if block_settings.link != blank -%}
+{%- if is_marquee and block_settings.link != blank -%}
   {%- assign item_tag = 'a' -%}
 {%- endif -%}
 
-{%- comment -%}
-  The discount code always sits in the middle grid column (column 2) so its
-  center lands on the bar's center regardless of viewport width — see the
-  stylesheet note below. Direction only swaps which OUTER column pre-text vs.
-  post-text renders into; it never moves the discount code itself.
-{%- endcomment -%}
-{%- assign marquee_direction = section.settings.direction | default: 'left' -%}
-{%- assign pre_grid_column = 1 -%}
-{%- assign post_grid_column = 3 -%}
-{%- if marquee_direction == 'right' -%}
-  {%- assign pre_grid_column = 3 -%}
-  {%- assign post_grid_column = 1 -%}
-{%- endif -%}
-
-{%- assign plain_pre = pre_text | strip_newlines | strip_html | strip -%}
-{%- assign plain_post = post_text | strip_newlines | strip_html | strip -%}
+{%- assign block_index = section.blocks | find_index: 'id', block.id -%}
 
 {%- unless plain_pre == '' and discount_code == '' and plain_post == '' -%}
-  <{{ item_tag }}
-    class="
-      birdlabs-marquee__item
-      custom-typography
-      {% if block_settings.font_size != "" %}custom-font-size{% endif %}
-      {% if block_settings.weight != "" %}custom-font-weight{% endif %}
-    "
-    style="
-      {% render 'typography-style', settings: block_settings, preset: 'custom' %}
-      --line-height: 1;
-    "
-    {% if item_tag == 'a' %}href="{{ block_settings.link }}"{% endif %}
-    {{ block.shopify_attributes }}
-  >{%- if plain_pre != '' -%}<span
-      class="birdlabs-marquee__pre-text{% if pre_color != blank %} custom-color{% endif %}"
-      style="grid-column: {{ pre_grid_column }}; justify-self: {% if pre_grid_column == 1 %}end{% else %}start{% endif %};{% if pre_color != blank %} --color: {{ pre_color }}; --color-rgb: {{ pre_color.rgb }};{% endif %}"
-    >{{ pre_text }}</span>{%- endif -%}{%- if discount_code != '' -%}<span
+  {%- if is_marquee -%}
+    <{{ item_tag }}
       class="
-        birdlabs-marquee__discount-code
-        {% if discount_font_size != blank %}custom-font-size{% endif %}
-        {% if discount_weight != blank %}custom-font-weight{% endif %}
-        {% if discount_color != blank %}custom-color{% endif %}
-        {% if block_settings.discount_glow %}birdlabs-marquee__discount-code--glow{% endif %}
+        birdlabs-marquee__item
+        custom-typography
+        {% if block_settings.font_size != "" %}custom-font-size{% endif %}
+        {% if block_settings.weight != "" %}custom-font-weight{% endif %}
       "
       style="
-        grid-column: 2;
-        {% if discount_font_size != blank %}--font-size: {{ discount_font_size }};{% endif %}
-        {% if discount_weight != blank %}--font-weight: {{ discount_weight }};{% endif %}
-        {% if discount_color != blank %}--color: {{ discount_color }}; --color-rgb: {{ discount_color.rgb }};{% endif %}
+        {% render 'typography-style', settings: block_settings, preset: 'custom' %}
+        --line-height: 1;
       "
-    >{{ discount_code }}</span>{%- endif -%}{%- if plain_post != '' -%}<span
-      class="birdlabs-marquee__post-text{% if post_color != blank %} custom-color{% endif %}"
-      style="grid-column: {{ post_grid_column }}; justify-self: {% if post_grid_column == 1 %}end{% else %}start{% endif %};{% if post_color != blank %} --color: {{ post_color }}; --color-rgb: {{ post_color.rgb }};{% endif %}"
-    >{{ post_text }}</span>{%- endif -%}</{{ item_tag }}>
+      {% if item_tag == 'a' %}href="{{ block_settings.link }}"{% endif %}
+      {{ block.shopify_attributes }}
+    >{% render 'birdlabs-announcement-content', block_settings: block_settings, section: section %}</{{ item_tag }}>
+  {%- else -%}
+    <slideshow-slide
+      ref="slides[]"
+      class="
+        birdlabs-announcement-bar__slide
+        custom-typography
+        {% if block_settings.font_size != "" %}custom-font-size{% endif %}
+        {% if block_settings.weight != "" %}custom-font-weight{% endif %}
+      "
+      style="
+        {% render 'typography-style', settings: block_settings, preset: 'custom' %}
+        --line-height: 1;
+      "
+      {{ block.shopify_attributes }}
+      aria-hidden="{% if block_index == 0 %}false{% else %}true{% endif %}"
+    >
+      <div class="birdlabs-announcement-bar__item">
+        {% render 'birdlabs-announcement-content', block_settings: block_settings, section: section %}
+      </div>
+
+      {% if block_settings.link != blank %}
+        <a
+          class="birdlabs-announcement-bar__link"
+          href="{{ block_settings.link }}"
+        >
+          <span class="visually-hidden">
+            {{ plain_pre }} {{ discount_code }} {{ plain_post }}
+          </span>
+        </a>
+      {% endif %}
+    </slideshow-slide>
+  {%- endif -%}
 {%- endunless -%}
 
 {% stylesheet %}
@@ -90,18 +95,19 @@
   */
   /*
     3-column grid (pre-text | discount-code | post-text), spanning the item's
-    full width. The discount code always renders into the middle column, so its
-    center lands on the item's own horizontal center — and since the item and
-    its ancestor track/bar are all full-bleed (see the section's stylesheet),
-    the item's center IS the viewport's center, on both mobile and desktop, in
-    both marquee's resting/held state and in fully static mode. min-width: 0 +
-    overflow: hidden on the outer columns matter just as much as the 1fr sizing
-    itself — without them a grid track defaults to its content's full
-    min-content width, which drags the discount code off-center the moment
-    pre-text or post-text gets long. With them, the longer side simply clips at
-    its own edge instead of pushing the discount code.
+    full width — shared by both the marquee item and the slideshow item, so
+    the child span classes below (.birdlabs-marquee__pre-text etc., emitted by
+    snippets/birdlabs-announcement-content.liquid) work identically in either
+    mode. The discount code always renders into the middle column, so its
+    center lands on the item's own horizontal center. min-width: 0 + overflow:
+    hidden on the outer columns matter just as much as the 1fr sizing itself —
+    without them a grid track defaults to its content's full min-content
+    width, which drags the discount code off-center the moment pre-text or
+    post-text gets long. With them, the longer side simply clips at its own
+    edge instead of pushing the discount code.
   */
-  .birdlabs-marquee__item {
+  .birdlabs-marquee__item,
+  .birdlabs-announcement-bar__item {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: baseline;
@@ -129,10 +135,75 @@
       0 0 40px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.35);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .birdlabs-marquee__discount-code--glow {
-      text-shadow: none;
+  /*
+    Task 0024 follow-up: a glow-intensity-only pulse (first version of this
+    effect) turned out too subtle to notice in practice — human vision reads
+    hue changes far more readily than blur-radius changes. Now animates
+    `color` between --pulse-color-a/-b (set by snippets/birdlabs-announcement-content.liquid
+    from discount_text_color and the new discount_pulse_color setting) as well
+    as the glow intensity, so there's an unmistakable color shift plus the
+    original breathing glow on top. If discount_pulse_color is left blank,
+    the snippet sets --pulse-color-b equal to --pulse-color-a, so the color
+    never visibly changes and this degrades gracefully to the original
+    glow-only pulse rather than doing nothing. Works independently of the
+    static glow checkbox — if both are checked, the animation simply
+    overrides the static shadow while running, so pulse wins with no visual
+    conflict.
+  */
+  .birdlabs-marquee__discount-code--pulse {
+    animation: birdlabs-discount-pulse var(--pulse-duration, 1.6s) ease-in-out infinite;
+  }
+
+  @keyframes birdlabs-discount-pulse {
+    0%,
+    100% {
+      color: var(--pulse-color-a, currentColor);
+      text-shadow:
+        0 0 4px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.9),
+        0 0 11px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.75),
+        0 0 19px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.55),
+        0 0 40px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.35);
     }
+
+    50% {
+      color: var(--pulse-color-b, currentColor);
+      text-shadow:
+        0 0 7px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 1),
+        0 0 18px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.95),
+        0 0 32px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.85),
+        0 0 65px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.65);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .birdlabs-marquee__discount-code--glow,
+    .birdlabs-marquee__discount-code--pulse {
+      text-shadow: none;
+      animation: none;
+    }
+  }
+
+  /*
+    Non-marquee (slideshow) mode item — ported from header-announcements.liquid's
+    .announcement-bar__slide. Stacks every slide in the same grid cell (parent
+    section's .birdlabs-announcement-bar__slides sets grid: [stack] auto /
+    [stack] auto) and cross-fades on the aria-hidden toggle that
+    assets/announcement-bar.js drives.
+  */
+  .birdlabs-announcement-bar__slide {
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    content-visibility: visible;
+    place-content: center;
+
+    &[aria-hidden='true'] {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .birdlabs-announcement-bar__link {
+    position: absolute;
+    inset: 0;
   }
 {% endstylesheet %}
 
@@ -472,6 +543,24 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "discount_pulse",
+      "label": "Pulse effect",
+      "info": "Transitions to the Pulse color below, plus a breathing glow. Works with or without the glow effect on.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "discount_pulse_speed",
+      "label": "Pulse speed",
+      "min": 0.5,
+      "max": 5,
+      "step": 0.1,
+      "default": 1.6,
+      "unit": "sec",
+      "visible_if": "{{ block.settings.discount_pulse }}"
+    },
+    {
       "type": "header",
       "content": "Colors"
     },
@@ -486,6 +575,13 @@
       "id": "discount_text_color",
       "label": "Discount code color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "discount_pulse_color",
+      "label": "Pulse color",
+      "info": "The color the discount code pulses to. Leave blank to just pulse the glow's intensity instead.",
+      "visible_if": "{{ block.settings.discount_pulse }}"
     },
     {
       "type": "color",

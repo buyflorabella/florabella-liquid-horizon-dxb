@@ -18,20 +18,23 @@
           "type": "birdlabs-announcement",
           "name": "BirdLabs — Announcement",
           "settings": {
-            "pre_text": "Enter Code:",
+            "pre_text": "Use code",
             "discount_code": "FLORAFAM",
-            "post_text": "<<- And receive 20% off at checkout.",
+            "post_text": "for 20% off",
             "link": "shopify://collections/shop",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.875rem",
+            "font_size": "1rem",
             "weight": "",
             "letter_spacing": "normal",
             "case": "none",
-            "discount_font_size": "",
+            "discount_font_size": "1.25rem",
             "discount_weight": "",
             "discount_glow": true,
+            "discount_pulse": true,
+            "discount_pulse_speed": 5,
             "pre_text_color": "",
             "discount_text_color": "{{ settings.color_palette.color8 }}",
+            "discount_pulse_color": "#370BD7",
             "post_text_color": ""
           },
           "blocks": {}
@@ -40,9 +43,9 @@
           "type": "birdlabs-announcement",
           "disabled": true,
           "settings": {
-            "pre_text": "",
-            "discount_code": "",
-            "post_text": "",
+            "pre_text": "The second announcement",
+            "discount_code": "DXB420",
+            "post_text": "after text",
             "link": "https://www.florapharmteausa.com/0/0/us/home.html",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
@@ -52,8 +55,11 @@
             "discount_font_size": "",
             "discount_weight": "",
             "discount_glow": true,
+            "discount_pulse": false,
+            "discount_pulse_speed": 1.6,
             "pre_text_color": "",
             "discount_text_color": "",
+            "discount_pulse_color": "",
             "post_text_color": ""
           },
           "blocks": {}
@@ -67,13 +73,16 @@
       "settings": {
         "enable_marquee": false,
         "speed": 20,
+        "delay": 1,
+        "gap_between_elements": 48,
+        "slide_interval": 5,
         "direction": "left",
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color5 }}",
         "divider_width": 0,
         "divider_color": "",
-        "padding-block-start": 15,
-        "padding-block-end": 15
+        "padding-block-start": 5,
+        "padding-block-end": 5
       }
     },
     "header_announcements_9jGBFp": {
@@ -82,7 +91,23 @@
         "announcement_BxgCk9": {
           "type": "_announcement",
           "settings": {
-            "text": "MORE UPDATES COMING SOON!",
+            "text": "Type in coupon code at checkout",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        },
+        "announcement_RGYFPW": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "disabled": true,
+          "settings": {
+            "text": "Shop our latest arrivals!",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
@@ -95,17 +120,17 @@
         }
       },
       "block_order": [
-        "announcement_BxgCk9"
+        "announcement_BxgCk9",
+        "announcement_RGYFPW"
       ],
-      "disabled": true,
       "name": "t:names.announcement_bar",
       "settings": {
-        "speed": 5,
+        "speed": 2,
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color5 }}",
         "divider_width": 1,
         "divider_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 15,
+        "padding-block-start": 2,
         "padding-block-end": 15
       }
     },
