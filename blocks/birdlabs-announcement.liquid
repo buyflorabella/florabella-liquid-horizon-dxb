@@ -136,36 +136,42 @@
   }
 
   /*
-    Pulse breathes the SAME glow's intensity up and down using the discount
-    code's own color (var(--color-rgb), same fallback chain as the static
-    glow above) — deliberately not a second color to pulse between, per
-    DXB's ask to avoid one if the effect works with just the existing color.
-    Animating text-shadow directly (not opacity) keeps the discount code
-    text itself fully legible at every point in the cycle; only the glow's
-    reach breathes. Works independently of the static glow checkbox above —
-    if both are checked, the animation simply overrides the static shadow
-    while running, so pulse wins with no visual conflict.
+    Task 0024 follow-up: a glow-intensity-only pulse (first version of this
+    effect) turned out too subtle to notice in practice — human vision reads
+    hue changes far more readily than blur-radius changes. Now animates
+    `color` between --pulse-color-a/-b (set by snippets/birdlabs-announcement-content.liquid
+    from discount_text_color and the new discount_pulse_color setting) as well
+    as the glow intensity, so there's an unmistakable color shift plus the
+    original breathing glow on top. If discount_pulse_color is left blank,
+    the snippet sets --pulse-color-b equal to --pulse-color-a, so the color
+    never visibly changes and this degrades gracefully to the original
+    glow-only pulse rather than doing nothing. Works independently of the
+    static glow checkbox — if both are checked, the animation simply
+    overrides the static shadow while running, so pulse wins with no visual
+    conflict.
   */
   .birdlabs-marquee__discount-code--pulse {
-    animation: birdlabs-discount-pulse 2s ease-in-out infinite;
+    animation: birdlabs-discount-pulse 1.6s ease-in-out infinite;
   }
 
   @keyframes birdlabs-discount-pulse {
     0%,
     100% {
+      color: var(--pulse-color-a, currentColor);
       text-shadow:
-        0 0 4px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.9),
-        0 0 11px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.75),
-        0 0 19px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.55),
-        0 0 40px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.35);
+        0 0 4px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.9),
+        0 0 11px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.75),
+        0 0 19px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.55),
+        0 0 40px rgb(var(--pulse-color-a-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.35);
     }
 
     50% {
+      color: var(--pulse-color-b, currentColor);
       text-shadow:
-        0 0 6px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 1),
-        0 0 16px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.9),
-        0 0 28px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.75),
-        0 0 60px rgb(var(--color-rgb, var(--color-foreground-rgb)) / 0.55);
+        0 0 7px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 1),
+        0 0 18px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.95),
+        0 0 32px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.85),
+        0 0 65px rgb(var(--pulse-color-b-rgb, var(--color-rgb, var(--color-foreground-rgb))) / 0.65);
     }
   }
 
@@ -540,7 +546,7 @@
       "type": "checkbox",
       "id": "discount_pulse",
       "label": "Pulse effect",
-      "info": "Breathes the glow's intensity using the discount code color below — works with or without the glow effect on",
+      "info": "Transitions to the Pulse color below, plus a breathing glow. Works with or without the glow effect on.",
       "default": false
     },
     {
@@ -558,6 +564,13 @@
       "id": "discount_text_color",
       "label": "Discount code color",
       "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "discount_pulse_color",
+      "label": "Pulse color",
+      "info": "The color the discount code pulses to. Leave blank to just pulse the glow's intensity instead.",
+      "visible_if": "{{ block.settings.discount_pulse }}"
     },
     {
       "type": "color",
