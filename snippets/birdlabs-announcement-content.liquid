@@ -51,6 +51,7 @@
       {% if discount_weight != blank %}--font-weight: {{ discount_weight }};{% endif %}
       {% if discount_color != blank %}--color: {{ discount_color }}; --color-rgb: {{ discount_color.rgb }};{% endif %}
       {% if block_settings.discount_pulse %}
+        {% if block_settings.discount_pulse_speed != blank %}--pulse-duration: {{ block_settings.discount_pulse_speed }}s;{% endif %}
         {% if discount_color != blank %}--pulse-color-a: {{ discount_color }}; --pulse-color-a-rgb: {{ discount_color.rgb }};{% endif %}
         {% if block_settings.discount_pulse_color != blank %}
           --pulse-color-b: {{ block_settings.discount_pulse_color }}; --pulse-color-b-rgb: {{ block_settings.discount_pulse_color.rgb }};

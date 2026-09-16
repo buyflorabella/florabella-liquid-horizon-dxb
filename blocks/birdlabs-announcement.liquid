@@ -151,7 +151,7 @@
     conflict.
   */
   .birdlabs-marquee__discount-code--pulse {
-    animation: birdlabs-discount-pulse 1.6s ease-in-out infinite;
+    animation: birdlabs-discount-pulse var(--pulse-duration, 1.6s) ease-in-out infinite;
   }
 
   @keyframes birdlabs-discount-pulse {
@@ -548,6 +548,17 @@
       "label": "Pulse effect",
       "info": "Transitions to the Pulse color below, plus a breathing glow. Works with or without the glow effect on.",
       "default": false
+    },
+    {
+      "type": "range",
+      "id": "discount_pulse_speed",
+      "label": "Pulse speed",
+      "min": 0.5,
+      "max": 5,
+      "step": 0.1,
+      "default": 1.6,
+      "unit": "sec",
+      "visible_if": "{{ block.settings.discount_pulse }}"
     },
     {
       "type": "header",
