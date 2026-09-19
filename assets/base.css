@@ -1842,3 +1842,62 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
   }
 }
+
+/*
+ * Task 0025 — native split-hero reproduction, homepage only (section_bfb_native_split_0025).
+ * Both rules below are scoped to this one section's own auto-generated wrapper id, or to one
+ * button block's own native `.button-custom--{{ block.id }}` per-instance class — neither
+ * touches any shared component's default styling or any other section/button on the site.
+ */
+
+/* Square media frame + gentle float, matching bfb-hero.liquid's own aspect-ratio: 1/1 and
+ * bfb-hero-media-float keyframes. A `group` block has no native aspect-ratio/animation setting,
+ * so this fills the gap the same way bfb-hero.liquid's own custom CSS does. Also fixes a real
+ * layout bug: this group used `height: fill` (100%), which only resolves correctly while the
+ * section's row is actually in row-flow — once `.mobile-column` switches it to column-flow
+ * (stacked, <750px) a 100%-height flex item in an auto-height column collapses to zero height,
+ * since `.layout-panel-flex--column > .group-block--height-fill { flex: 1; }` never matches a
+ * `.mobile-column` row (only a real `.layout-panel-flex--column`). An aspect-ratio box has a
+ * definite height in any flex context, row or column, so this also makes the two columns stack
+ * correctly instead of the media panel silently vanishing when narrowed below 750px.
+ */
+#shopify-section-section_bfb_native_split_0025 .layout-panel-flex--row.mobile-column > .group-block:last-child {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  animation: bfbella-native-hero-float 5s ease-in-out infinite;
+}
+
+@media screen and (max-width: 749px) {
+  #shopify-section-section_bfb_native_split_0025 .layout-panel-flex--row.mobile-column > .group-block:last-child {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #shopify-section-section_bfb_native_split_0025 .layout-panel-flex--row.mobile-column > .group-block:last-child {
+    animation: none;
+  }
+}
+
+@keyframes bfbella-native-hero-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-30px) scale(1.05);
+  }
+}
+
+/* Rectangular "Shop Now" button, no wrapping group. DXB's original bfb-hero.liquid wrapped this
+ * button in a bordered/background group as a workaround for the sitewide pill-shaped button
+ * radius (--style-border-radius-buttons-primary, Theme Settings > Buttons). This button block
+ * already gets its own per-instance class from snippets/button.liquid
+ * (`{{ style_class }}--{{ block.id }}`) specifically so one button can be styled without
+ * affecting `--style-border-radius-buttons-primary` or any other button on the site. Change the
+ * value here (not in Theme Settings) if a different corner radius is wanted for this one button.
+ */
+.button-custom--button_6rVNnm_native {
+  border-radius: 8px;
+}

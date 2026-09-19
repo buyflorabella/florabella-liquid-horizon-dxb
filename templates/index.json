@@ -1103,76 +1103,31 @@
                   },
                   "blocks": {}
                 },
-                "group_BXbieR_native": {
-                  "type": "group",
-                  "name": "t:names.group",
+                "button_6rVNnm_native": {
+                  "type": "button",
+                  "name": "t:names.button",
                   "settings": {
-                    "content_direction": "column",
-                    "vertical_on_mobile": true,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "center",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "gap": 12,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "background_media": "none",
-                    "background_color": "{{ settings.color_palette.color4 }}",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "border": "solid",
-                    "border_width": 3,
-                    "border_opacity": 100,
-                    "border_color": "#382062",
-                    "border_radius": 24,
+                    "label": "SHOP NOW",
                     "link": "#home-shop",
                     "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 3,
-                    "padding-block-end": 3,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "style_class": "button-custom",
+                    "custom_button_background": "{{ settings.color_palette.color4 }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.background }}",
+                    "link_text_color": "",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
                   },
-                  "blocks": {
-                    "button_6rVNnm_native": {
-                      "type": "button",
-                      "name": "t:names.button",
-                      "settings": {
-                        "label": "SHOP NOW",
-                        "link": "#home-shop",
-                        "open_in_new_tab": false,
-                        "style_class": "button-custom",
-                        "custom_button_background": "{{ settings.color_palette.color4 }}",
-                        "custom_button_text": "{{ settings.color_palette.background }}",
-                        "custom_button_border": "{{ settings.color_palette.background }}",
-                        "link_text_color": "",
-                        "width": "fit-content",
-                        "custom_width": 100,
-                        "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "button_6rVNnm_native"
-                  ]
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "text_kVtTt8_native",
                 "group_BBrTQq_native",
                 "text_krdjkb_native",
-                "group_BXbieR_native"
+                "button_6rVNnm_native"
               ]
             },
             "group_KQtjBB_native": {
@@ -1291,8 +1246,8 @@
                   "name": "t:names.text",
                   "settings": {
                     "text": "<p><strong>Flora Bella</strong> <strong>Living Trace Mineral  </strong>was Discovered 50 years ago by a soil scientist.  </p><p>He realized the bucatunna clay was loaded with 70 trace minerals, amino acids, beneficial bacteria and a beautiful balance of micronutrients all existing in ancient plant and animal deposits.  </p><p>These ancient plant and animal deposits were encapsulated in an Iron Ore which preserved all the naturally occurring biology.</p><p>The bucutanna clay is quarried, composted and cured for 6-8 months.  This process activates all of the naturally occurring biology inside, bringing it to peak levels.</p><p>The quality of Flora Bella is consistent, and comes directly from our family to yours.<br/><br/>Made by us, formulated by us, and sold by us.</p>",
-                    "width": "fit-content",
-                    "max_width": "normal",
+                    "width": "100%",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "rte",
                     "font": "var(--font-body--family)",
@@ -1640,7 +1595,7 @@
             "custom_width": 50,
             "width_mobile": "fill",
             "custom_width_mobile": 100,
-            "height": "fill",
+            "height": "fit",
             "custom_height": 100,
             "background_media": "image",
             "background_color": "",
