@@ -1201,7 +1201,7 @@
                 "text_KtttmE_native"
               ]
             },
-            "group_j4Xfe4_native": {
+            "group_xYdyJr": {
               "type": "group",
               "name": "t:names.group",
               "settings": {
@@ -1213,80 +1213,9 @@
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
                 "gap": 12,
-                "width": "fill",
+                "width": "fit-content",
                 "custom_width": 100,
-                "width_mobile": "fill",
-                "custom_width_mobile": 100,
-                "height": "fit",
-                "custom_height": 100,
-                "background_media": "none",
-                "background_color": "{{ settings.color_palette.color2 }}",
-                "video_position": "cover",
-                "background_image_position": "cover",
-                "toggle_overlay": false,
-                "overlay_color": "#00000026",
-                "overlay_style": "solid",
-                "gradient_direction": "to top",
-                "border": "solid",
-                "border_width": 3,
-                "border_opacity": 100,
-                "border_color": "{{ settings.color_palette.color4 }}",
-                "border_radius": 15,
-                "link": "",
-                "open_in_new_tab": false,
-                "placeholder": "",
-                "padding-block-start": 25,
-                "padding-block-end": 25,
-                "padding-inline-start": 25,
-                "padding-inline-end": 25
-              },
-              "blocks": {
-                "text_tH6bHA_native": {
-                  "type": "text",
-                  "name": "t:names.text",
-                  "settings": {
-                    "text": "<p><strong>Flora Bella</strong> <strong>Living Trace Mineral  </strong>was Discovered 50 years ago by a soil scientist.  </p><p>He realized the bucatunna clay was loaded with 70 trace minerals, amino acids, beneficial bacteria and a beautiful balance of micronutrients all existing in ancient plant and animal deposits.  </p><p>These ancient plant and animal deposits were encapsulated in an Iron Ore which preserved all the naturally occurring biology.</p><p>The bucutanna clay is quarried, composted and cured for 6-8 months.  This process activates all of the naturally occurring biology inside, bringing it to peak levels.</p><p>The quality of Flora Bella is consistent, and comes directly from our family to yours.<br/><br/>Made by us, formulated by us, and sold by us.</p>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "rte",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_tH6bHA_native"
-              ]
-            },
-            "group_pxebAy_native": {
-              "type": "group",
-              "name": "t:names.group",
-              "settings": {
-                "content_direction": "column",
-                "vertical_on_mobile": true,
-                "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
-                "align_baseline": false,
-                "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
-                "width": "fill",
-                "custom_width": 100,
-                "width_mobile": "fill",
+                "width_mobile": "fit-content",
                 "custom_width_mobile": 100,
                 "height": "fit",
                 "custom_height": 100,
@@ -1312,11 +1241,11 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "group_df96YF_native": {
+                "group_dej3T7": {
                   "type": "group",
                   "name": "t:names.group",
                   "settings": {
-                    "content_direction": "row",
+                    "content_direction": "column",
                     "vertical_on_mobile": true,
                     "horizontal_alignment": "flex-start",
                     "vertical_alignment": "center",
@@ -1331,46 +1260,34 @@
                     "height": "fit",
                     "custom_height": 100,
                     "background_media": "none",
-                    "background_color": "",
+                    "background_color": "{{ settings.color_palette.color2 }}",
                     "video_position": "cover",
                     "background_image_position": "cover",
                     "toggle_overlay": false,
                     "overlay_color": "#00000026",
                     "overlay_style": "solid",
                     "gradient_direction": "to top",
-                    "border": "none",
-                    "border_width": 1,
+                    "border": "solid",
+                    "border_width": 3,
                     "border_opacity": 100,
-                    "border_color": "",
-                    "border_radius": 0,
+                    "border_color": "{{ settings.color_palette.color4 }}",
+                    "border_radius": 15,
                     "link": "",
                     "open_in_new_tab": false,
                     "placeholder": "",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
+                    "padding-block-start": 25,
+                    "padding-block-end": 25,
+                    "padding-inline-start": 25,
+                    "padding-inline-end": 25
                   },
                   "blocks": {
-                    "icon_wzBar6_native": {
-                      "type": "icon",
-                      "name": "t:names.icon",
-                      "settings": {
-                        "icon": "check_box",
-                        "width": 24,
-                        "link": "",
-                        "open_in_new_tab": false,
-                        "icon_color": ""
-                      },
-                      "blocks": {}
-                    },
-                    "text_G4Bb3J_native": {
+                    "text_tH6bHA_native": {
                       "type": "text",
                       "name": "t:names.text",
                       "settings": {
-                        "text": "<p>Over seventy trace minerals</p>",
-                        "width": "fit-content",
-                        "max_width": "normal",
+                        "text": "<p><strong>Flora Bella</strong> <strong>Living Trace Mineral  </strong>was Discovered 50 years ago by a soil scientist.  </p><p>He realized the bucatunna clay was loaded with 70 trace minerals, amino acids, beneficial bacteria and a beautiful balance of micronutrients all existing in ancient plant and animal deposits.  </p><p>These ancient plant and animal deposits were encapsulated in an Iron Ore which preserved all the naturally occurring biology.</p><p>The bucutanna clay is quarried, composted and cured for 6-8 months.  This process activates all of the naturally occurring biology inside, bringing it to peak levels.</p><p>The quality of Flora Bella is consistent, and comes directly from our family to yours.<br/><br/>Made by us, formulated by us, and sold by us.</p>",
+                        "width": "100%",
+                        "max_width": "none",
                         "alignment": "left",
                         "type_preset": "rte",
                         "font": "var(--font-body--family)",
@@ -1392,15 +1309,14 @@
                     }
                   },
                   "block_order": [
-                    "icon_wzBar6_native",
-                    "text_G4Bb3J_native"
+                    "text_tH6bHA_native"
                   ]
                 },
-                "group_driz4q_native": {
+                "group_JWWhFc": {
                   "type": "group",
                   "name": "t:names.group",
                   "settings": {
-                    "content_direction": "row",
+                    "content_direction": "column",
                     "vertical_on_mobile": true,
                     "horizontal_alignment": "flex-start",
                     "vertical_alignment": "center",
@@ -1436,147 +1352,276 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "icon_WnXxkz_native": {
-                      "type": "icon",
-                      "name": "t:names.icon",
+                    "group_df96YF_native": {
+                      "type": "group",
+                      "name": "t:names.group",
                       "settings": {
-                        "icon": "check_box",
-                        "width": 24,
+                        "content_direction": "row",
+                        "vertical_on_mobile": true,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 12,
+                        "width": "fill",
+                        "custom_width": 100,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "background_media": "none",
+                        "background_color": "",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_color": "",
+                        "border_radius": 0,
                         "link": "",
                         "open_in_new_tab": false,
-                        "icon_color": ""
-                      },
-                      "blocks": {}
-                    },
-                    "text_J3fbW8_native": {
-                      "type": "text",
-                      "name": "t:names.text",
-                      "settings": {
-                        "text": "<p>Loved by plants</p>",
-                        "width": "fit-content",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "type_preset": "rte",
-                        "font": "var(--font-body--family)",
-                        "font_size": "1rem",
-                        "line_height": "normal",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "text_color": "",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
+                        "placeholder": "",
                         "padding-block-start": 0,
                         "padding-block-end": 0,
                         "padding-inline-start": 0,
                         "padding-inline-end": 0
                       },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "icon_WnXxkz_native",
-                    "text_J3fbW8_native"
-                  ]
-                },
-                "group_hHdPhY_native": {
-                  "type": "group",
-                  "name": "t:names.group",
-                  "settings": {
-                    "content_direction": "row",
-                    "vertical_on_mobile": true,
-                    "horizontal_alignment": "flex-start",
-                    "vertical_alignment": "center",
-                    "align_baseline": false,
-                    "horizontal_alignment_flex_direction_column": "flex-start",
-                    "vertical_alignment_flex_direction_column": "center",
-                    "gap": 12,
-                    "width": "fill",
-                    "custom_width": 100,
-                    "width_mobile": "fill",
-                    "custom_width_mobile": 100,
-                    "height": "fit",
-                    "custom_height": 100,
-                    "background_media": "none",
-                    "background_color": "",
-                    "video_position": "cover",
-                    "background_image_position": "cover",
-                    "toggle_overlay": false,
-                    "overlay_color": "#00000026",
-                    "overlay_style": "solid",
-                    "gradient_direction": "to top",
-                    "border": "none",
-                    "border_width": 1,
-                    "border_opacity": 100,
-                    "border_color": "",
-                    "border_radius": 0,
-                    "link": "",
-                    "open_in_new_tab": false,
-                    "placeholder": "",
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {
-                    "icon_qQCrAm_native": {
-                      "type": "icon",
-                      "name": "t:names.icon",
+                      "blocks": {
+                        "icon_wzBar6_native": {
+                          "type": "icon",
+                          "name": "t:names.icon",
+                          "settings": {
+                            "icon": "check_box",
+                            "width": 24,
+                            "link": "",
+                            "open_in_new_tab": false,
+                            "icon_color": ""
+                          },
+                          "blocks": {}
+                        },
+                        "text_G4Bb3J_native": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>Over seventy trace minerals</p>",
+                            "width": "fit-content",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "icon_wzBar6_native",
+                        "text_G4Bb3J_native"
+                      ]
+                    },
+                    "group_driz4q_native": {
+                      "type": "group",
+                      "name": "t:names.group",
                       "settings": {
-                        "icon": "check_box",
-                        "width": 24,
+                        "content_direction": "row",
+                        "vertical_on_mobile": true,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 12,
+                        "width": "fill",
+                        "custom_width": 100,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "background_media": "none",
+                        "background_color": "",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_color": "",
+                        "border_radius": 0,
                         "link": "",
                         "open_in_new_tab": false,
-                        "icon_color": ""
-                      },
-                      "blocks": {}
-                    },
-                    "text_YUnceW_native": {
-                      "type": "text",
-                      "name": "t:names.text",
-                      "settings": {
-                        "text": "<p>More aggressive growth for better farm profits</p>",
-                        "width": "fit-content",
-                        "max_width": "normal",
-                        "alignment": "left",
-                        "type_preset": "rte",
-                        "font": "var(--font-body--family)",
-                        "font_size": "1rem",
-                        "line_height": "normal",
-                        "letter_spacing": "normal",
-                        "case": "none",
-                        "wrap": "pretty",
-                        "text_color": "",
-                        "background": false,
-                        "background_color": "#00000026",
-                        "corner_radius": 0,
+                        "placeholder": "",
                         "padding-block-start": 0,
                         "padding-block-end": 0,
                         "padding-inline-start": 0,
                         "padding-inline-end": 0
                       },
-                      "blocks": {}
+                      "blocks": {
+                        "icon_WnXxkz_native": {
+                          "type": "icon",
+                          "name": "t:names.icon",
+                          "settings": {
+                            "icon": "check_box",
+                            "width": 24,
+                            "link": "",
+                            "open_in_new_tab": false,
+                            "icon_color": ""
+                          },
+                          "blocks": {}
+                        },
+                        "text_J3fbW8_native": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>Loved by plants</p>",
+                            "width": "fit-content",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "icon_WnXxkz_native",
+                        "text_J3fbW8_native"
+                      ]
+                    },
+                    "group_hHdPhY_native": {
+                      "type": "group",
+                      "name": "t:names.group",
+                      "settings": {
+                        "content_direction": "row",
+                        "vertical_on_mobile": true,
+                        "horizontal_alignment": "flex-start",
+                        "vertical_alignment": "center",
+                        "align_baseline": false,
+                        "horizontal_alignment_flex_direction_column": "flex-start",
+                        "vertical_alignment_flex_direction_column": "center",
+                        "gap": 12,
+                        "width": "fill",
+                        "custom_width": 100,
+                        "width_mobile": "fill",
+                        "custom_width_mobile": 100,
+                        "height": "fit",
+                        "custom_height": 100,
+                        "background_media": "none",
+                        "background_color": "",
+                        "video_position": "cover",
+                        "background_image_position": "cover",
+                        "toggle_overlay": false,
+                        "overlay_color": "#00000026",
+                        "overlay_style": "solid",
+                        "gradient_direction": "to top",
+                        "border": "none",
+                        "border_width": 1,
+                        "border_opacity": 100,
+                        "border_color": "",
+                        "border_radius": 0,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "placeholder": "",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {
+                        "icon_qQCrAm_native": {
+                          "type": "icon",
+                          "name": "t:names.icon",
+                          "settings": {
+                            "icon": "check_box",
+                            "width": 24,
+                            "link": "",
+                            "open_in_new_tab": false,
+                            "icon_color": ""
+                          },
+                          "blocks": {}
+                        },
+                        "text_YUnceW_native": {
+                          "type": "text",
+                          "name": "t:names.text",
+                          "settings": {
+                            "text": "<p>More aggressive growth for better farm profits</p>",
+                            "width": "fit-content",
+                            "max_width": "normal",
+                            "alignment": "left",
+                            "type_preset": "rte",
+                            "font": "var(--font-body--family)",
+                            "font_size": "1rem",
+                            "line_height": "normal",
+                            "letter_spacing": "normal",
+                            "case": "none",
+                            "wrap": "pretty",
+                            "text_color": "",
+                            "background": false,
+                            "background_color": "#00000026",
+                            "corner_radius": 0,
+                            "padding-block-start": 0,
+                            "padding-block-end": 0,
+                            "padding-inline-start": 0,
+                            "padding-inline-end": 0
+                          },
+                          "blocks": {}
+                        }
+                      },
+                      "block_order": [
+                        "icon_qQCrAm_native",
+                        "text_YUnceW_native"
+                      ]
                     }
                   },
                   "block_order": [
-                    "icon_qQCrAm_native",
-                    "text_YUnceW_native"
+                    "group_df96YF_native",
+                    "group_driz4q_native",
+                    "group_hHdPhY_native"
                   ]
                 }
               },
               "block_order": [
-                "group_df96YF_native",
-                "group_driz4q_native",
-                "group_hHdPhY_native"
+                "group_dej3T7",
+                "group_JWWhFc"
               ]
             }
           },
           "block_order": [
             "group_UxrTH6_native",
             "group_KQtjBB_native",
-            "group_j4Xfe4_native",
-            "group_pxebAy_native"
+            "group_xYdyJr"
           ]
         },
         "group_media_0025": {
