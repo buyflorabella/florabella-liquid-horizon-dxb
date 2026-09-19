@@ -1915,7 +1915,14 @@ a[class*="__button_6rVNnm_native"] {
  * content column instead of reading as a distinct narrow block like the original. Scoped via the
  * group's own native `color-custom-{{ block.id }}` class (present because this group has a
  * background color set), same dynamic-prefix-safe attribute-substring approach as above.
+ *
+ * Selector updated 2026-09-19: DXB restructured this panel in the Shopify Admin editor (wrapped
+ * the text in a new group alongside a new sibling group for the icon checklist, so the two could
+ * be aligned together). The Admin editor generates a brand-new random block id whenever a block
+ * is wrapped this way — the original id (`group_j4Xfe4_native`) no longer exists in the JSON at
+ * all, which is why this rule stopped matching anything. The bordered/background text panel is
+ * now `group_dej3T7`; targeting it directly here again.
  */
-[class*="__group_j4Xfe4_native"] {
+[class*="__group_dej3T7"] {
   max-width: 26rem;
 }
