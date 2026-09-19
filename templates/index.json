@@ -1283,7 +1283,7 @@
         "group_media_0025"
       ],
       "custom_css": [
-        "/* Hero image position: right on desktop top on mobile — matches bfb-hero.liquids behavior. No native Shopify setting can reorder content per breakpoint; this is the one thing here that genuinely requires CSS. Flexbox `order` moves the media column first (visually top) below 750px only — desktop is untouched so content stays left media stays right there. */@media screen and (max-width: 749px) {[id*=\"__section_bfb_native_split_0025\"] .layout-panel-flex--row.mobile-column > .group-block:last-child {order: -1; }}"
+        "@media screen and (max-width: 749px) {[id*=\"__section_bfb_native_split_0025\"] .layout-panel-flex--row.mobile-column > .group-block:last-child {order: -1; }}"
       ],
       "name": "Native Split Hero (0025)",
       "settings": {
