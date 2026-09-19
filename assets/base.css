@@ -1845,9 +1845,16 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
 
 /*
  * Task 0025 — native split-hero reproduction, homepage only (section_bfb_native_split_0025).
- * Both rules below are scoped to this one section's own auto-generated wrapper id, or to one
- * button block's own native `.button-custom--{{ block.id }}` per-instance class — neither
- * touches any shared component's default styling or any other section/button on the site.
+ * All rules below are scoped by an attribute-substring selector, not a plain #id/.class exact
+ * match — confirmed via live DOM inspection (Playwright) that Shopify renders both a section's
+ * wrapper id and a block's per-instance class with an extra dynamic per-page token prefix
+ * (e.g. `shopify-section-template--19911277674599__section_bfb_native_split_0025`, and
+ * `button-custom--AZWhKeU9nZlZvSzNha__button_6rVNnm_native`) — the exact-match selectors this
+ * block originally shipped with never matched anything live, which is why the aspect-ratio/
+ * animation/border-radius fixes below silently had zero effect the first time and the media
+ * group's height collapsed to 0 (confirmed live: group-block height 0px, image present in the
+ * DOM but invisible). `[attr*="...__name"]` matches regardless of that prefix and is otherwise
+ * exactly as scoped to this one section/block as an exact match would be.
  */
 
 /* Square media frame + gentle float, matching bfb-hero.liquid's own aspect-ratio: 1/1 and
@@ -1861,20 +1868,20 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
  * definite height in any flex context, row or column, so this also makes the two columns stack
  * correctly instead of the media panel silently vanishing when narrowed below 750px.
  */
-#shopify-section-section_bfb_native_split_0025 .layout-panel-flex--row.mobile-column > .group-block:last-child {
+[id*="__section_bfb_native_split_0025"] .layout-panel-flex--row.mobile-column > .group-block:last-child {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   animation: bfbella-native-hero-float 5s ease-in-out infinite;
 }
 
 @media screen and (max-width: 749px) {
-  #shopify-section-section_bfb_native_split_0025 .layout-panel-flex--row.mobile-column > .group-block:last-child {
+  [id*="__section_bfb_native_split_0025"] .layout-panel-flex--row.mobile-column > .group-block:last-child {
     animation: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #shopify-section-section_bfb_native_split_0025 .layout-panel-flex--row.mobile-column > .group-block:last-child {
+  [id*="__section_bfb_native_split_0025"] .layout-panel-flex--row.mobile-column > .group-block:last-child {
     animation: none;
   }
 }
@@ -1898,6 +1905,17 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
  * affecting `--style-border-radius-buttons-primary` or any other button on the site. Change the
  * value here (not in Theme Settings) if a different corner radius is wanted for this one button.
  */
-.button-custom--button_6rVNnm_native {
+a[class*="__button_6rVNnm_native"] {
   border-radius: 8px;
+}
+
+/* Narrow, tall reading column for the "50 years ago... soil scientist" panel, matching
+ * bfb-hero.liquid's own narrow content column. A `group` block has no native max-width setting
+ * (only fit-content/fill/percentage-of-parent), so this panel was spanning the full 50%-page
+ * content column instead of reading as a distinct narrow block like the original. Scoped via the
+ * group's own native `color-custom-{{ block.id }}` class (present because this group has a
+ * background color set), same dynamic-prefix-safe attribute-substring approach as above.
+ */
+[class*="__group_j4Xfe4_native"] {
+  max-width: 26rem;
 }
