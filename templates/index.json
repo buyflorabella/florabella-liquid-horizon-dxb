@@ -1081,7 +1081,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Certified Organic</p>",
+                    "text": "<p>Certified<br/>Organic</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
