@@ -1283,7 +1283,7 @@
         "group_media_0025"
       ],
       "custom_css": [
-        "@media screen and (max-width: 749px) {[id*=\"__section_bfb_native_split_0025\"] .layout-panel-flex--row.mobile-column > .group-block:last-child {order: -1; }}"
+        "@media screen and (max-width: 749px) {.layout-panel-flex--row.mobile-column > .group-block:last-child {order: -1; }}"
       ],
       "name": "Native Split Hero (0025)",
       "settings": {
