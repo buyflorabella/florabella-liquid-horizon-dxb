@@ -1035,7 +1035,7 @@
                     "overlay_color": "#00000026",
                     "overlay_style": "solid",
                     "gradient_direction": "to top",
-                    "border": "solid",
+                    "border": "none",
                     "border_width": 3,
                     "border_opacity": 100,
                     "border_color": "#2d1b4e",
