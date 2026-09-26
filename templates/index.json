@@ -2108,6 +2108,7 @@
       "block_order": [
         "price_97Ua6q"
       ],
+      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "shop",
@@ -2637,7 +2638,6 @@
           ]
         }
       },
-      "disabled": true,
       "name": "BFBella — Home Shop",
       "settings": {
         "collection": "shop",
