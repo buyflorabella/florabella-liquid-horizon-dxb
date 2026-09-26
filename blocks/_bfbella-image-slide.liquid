@@ -1,0 +1,56 @@
+{%- comment -%}
+  BFBella — Image Slide (task 0027). One image inside a BFBella image slideshow block.
+  Private block: only addable inside the image slideshow block. Renders its own slide element,
+  the same way Horizon's native carousel cards do (ref="slides[]" is what the native slideshow
+  script looks for). A nested block cannot know its own position among its siblings, so the
+  parent slideshow block sets each slide's dot-tracking timeline name with nth-child rules.
+{%- endcomment -%}
+
+{%- liquid
+  assign widths = '416, 600, 832, 1200, 1600, 1920, 2560'
+  assign sizes = '(min-width: 750px) 50vw, 100vw'
+
+  assign loading = 'lazy'
+  if section.index <= 3
+    assign loading = 'eager'
+  endif
+-%}
+
+<slideshow-slide
+  ref="slides[]"
+  class="bfbella-image-slide"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.image != blank -%}
+    {{
+      block.settings.image
+      | image_url: width: 2560
+      | image_tag:
+        widths: widths,
+        sizes: sizes,
+        loading: loading,
+        class: 'bfbella-image-slide__image'
+    }}
+  {%- else -%}
+    {{ 'hero-apparel-1' | placeholder_svg_tag: 'bfbella-image-slide__image' }}
+  {%- endif -%}
+</slideshow-slide>
+
+{% schema %}
+{
+  "name": "BFBella — Image Slide",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Image Slide"
+    }
+  ]
+}
+{% endschema %}

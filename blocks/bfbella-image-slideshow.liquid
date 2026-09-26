@@ -1,16 +1,25 @@
 {%- comment -%}
-  BFBella — Hero Slideshow (task 0027). Fixed (static) block rendered once inside the BFBella
-  hero's media column. Same shape as Horizon's native carousel section: a static block holding
-  repeatable child blocks, handed to the shared slideshow snippet and script.
-  - 0 slides: renders nothing, so the hero keeps showing its own section image.
+  BFBella — Image Slideshow (task 0027). A theme block that can go anywhere a native Image block
+  can (any section or group that accepts theme blocks) and shows one or more images as a slider.
+  Same shape as Horizon's native carousel: repeatable child blocks handed to the shared slideshow
+  snippet and script. Auto-rotate, pagination and arrow settings are copied from the native
+  Slideshow section; aspect ratio and corner radius mirror the native Image block.
+  - 0 slides: renders nothing on the storefront.
   - 1 slide: a still image, no arrows or dots.
-  - 2+ slides: a slider. Settings below are copied from the native Slideshow section.
-  Carries the hero__media-wrapper class so the hero's rounded corners, frame color, animate-media
-  float and two-column layout apply to the slideshow exactly as they did to the single image.
+  - 2+ slides: a slider.
 {%- endcomment -%}
 
 {%- liquid
   assign slide_count = block.blocks.size
+
+  case block.settings.image_ratio
+    when 'landscape'
+      assign ratio = '16 / 9'
+    when 'portrait'
+      assign ratio = '4 / 5'
+    else
+      assign ratio = '1'
+  endcase
 
   assign show_arrows = false
   if block.settings.icons_style != 'none' and slide_count > 1
@@ -22,7 +31,7 @@
     assign autoplay = true
   endif
 
-  assign slideshow_class = 'bfbella-hero-slideshow__component'
+  assign slideshow_class = 'bfbella-image-slideshow__component'
   if slide_count == 1
     assign slideshow_class = slideshow_class | append: ' slideshow--single-media'
   endif
@@ -50,15 +59,16 @@
 
   {% style %}
     {%- for i in (1..slide_count) -%}
-      #BfbHeroSlideshow-{{ block.id }} slideshow-slide:nth-child({{ i }}) {
+      #BfbImageSlideshow-{{ block.id }} slideshow-slide:nth-child({{ i }}) {
         --slideshow-timeline: --slide-{{ i | minus: 1 }};
       }
     {%- endfor -%}
   {% endstyle %}
 
   <div
-    id="BfbHeroSlideshow-{{ block.id }}"
-    class="hero__media-wrapper bfbella-hero-slideshow"
+    id="BfbImageSlideshow-{{ block.id }}"
+    class="bfbella-image-slideshow"
+    style="--bfbella-slideshow-ratio: {{ ratio }}; --bfbella-slideshow-radius: {{ block.settings.border_radius }}px;"
     {{ block.shopify_attributes }}
   >
     {% render 'slideshow',
@@ -76,45 +86,84 @@
 {%- endif -%}
 
 {% stylesheet %}
-  .bfbella-hero-slideshow {
-    display: block;
+  .bfbella-image-slideshow {
+    width: 100%;
+    aspect-ratio: var(--bfbella-slideshow-ratio, 1);
+    border-radius: var(--bfbella-slideshow-radius, 0);
+    overflow: hidden;
+  }
+
+  .bfbella-image-slideshow slideshow-component {
     height: 100%;
   }
 
-  .bfbella-hero-slideshow slideshow-component {
-    height: 100%;
-  }
-
-  .bfbella-hero-slideshow slideshow-container {
+  .bfbella-image-slideshow slideshow-container {
     position: relative;
     flex: 1 1 auto;
     min-height: 0;
   }
 
-  .bfbella-hero-slideshow slideshow-slides,
-  .bfbella-hero-slideshow slideshow-slide {
+  .bfbella-image-slideshow slideshow-slides,
+  .bfbella-image-slideshow slideshow-slide {
     height: 100%;
   }
 
+  .bfbella-image-slide__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* First slide paints before the slideshow script has stamped aria-hidden on it. */
-  .bfbella-hero-slideshow slideshow-slide:first-child:not([aria-hidden]) {
+  .bfbella-image-slideshow slideshow-slide:first-child:not([aria-hidden]) {
     content-visibility: visible;
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "BFBella — Hero Slideshow",
+  "name": "BFBella — Image Slideshow",
   "tag": null,
   "blocks": [
     {
-      "type": "_bfbella-hero-slide"
+      "type": "_bfbella-image-slide"
     }
   ],
   "settings": [
     {
       "type": "paragraph",
-      "content": "Add one slide per image. With no slides, the hero shows its own section image. One slide shows a still image; two or more become a slider."
+      "content": "Add one slide per image. One slide shows a still image; two or more become a slider."
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.aspect_ratio",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "t:options.portrait"
+        },
+        {
+          "value": "square",
+          "label": "t:options.square"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.landscape"
+        }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "checkbox",
@@ -205,7 +254,7 @@
   ],
   "presets": [
     {
-      "name": "BFBella — Hero Slideshow"
+      "name": "BFBella — Image Slideshow"
     }
   ]
 }
