@@ -1035,7 +1035,7 @@
                     "overlay_color": "#00000026",
                     "overlay_style": "solid",
                     "gradient_direction": "to top",
-                    "border": "solid",
+                    "border": "none",
                     "border_width": 3,
                     "border_opacity": 100,
                     "border_color": "#2d1b4e",
@@ -1053,7 +1053,7 @@
                       "type": "image",
                       "name": "t:names.image",
                       "settings": {
-                        "image": "shopify://shop_images/omri_listed_logo.png",
+                        "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
                         "link": "",
                         "image_ratio": "adapt",
                         "width": "fit-content",
@@ -1066,10 +1066,10 @@
                         "border_opacity": 100,
                         "border_color": "",
                         "border_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
+                        "padding-block-start": 5,
+                        "padding-block-end": 5,
+                        "padding-inline-start": 5,
+                        "padding-inline-end": 5
                       },
                       "blocks": {}
                     }
@@ -1082,11 +1082,11 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>Certified<br/>Organic</p>",
+                    "text": "<p>For Use in <br/>Organic Production</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "center",
-                    "type_preset": "h1",
+                    "type_preset": "h2",
                     "font": "var(--font-body--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
@@ -1402,7 +1402,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p><strong>Flora Bella</strong> <strong>Living Trace Mineral  </strong>was Discovered 50 years ago by a soil scientist.  </p><p>He realized the bucatunna clay was loaded with 70 trace minerals, amino acids, beneficial bacteria and a beautiful balance of micronutrients all existing in ancient plant and animal deposits.  </p><p>These ancient plant and animal deposits were encapsulated in an Iron Ore which preserved all the naturally occurring biology.</p><p>The bucutanna clay is quarried, composted and cured for 6-8 months.  This process activates all of the naturally occurring biology inside, bringing it to peak levels.</p><p>The quality of Flora Bella is consistent, and comes directly from our family to yours.<br/><br/>Made by us, formulated by us, and sold by us.</p>",
+                    "text": "<p><strong>Flora Bella</strong> <strong>Living Trace Minerals  </strong>were Discovered 50 years ago by a soil scientist.  </p><p>He realized the bucatunna clay was loaded with 70 trace minerals, amino acids, beneficial bacteria and a beautiful balance of micronutrients all existing in ancient plant and animal deposits.  </p><p>These ancient plant and animal deposits were encapsulated in an Iron Ore which preserved all the naturally occurring biology.</p><p>The bucatunna clay is quarried, composted and cured for 6-8 months.  This process activates the naturally occurring biology inside, bringing it to peak levels.</p><p>The quality of Flora Bella is consistent, and comes directly from our family to yours.<br/><br/>Available directly from Flora Bella.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -4158,9 +4158,9 @@
           "settings": {
             "image": "shopify://shop_images/Why_Growers_Choose_5_of_6_lighted_roots.jpg",
             "icon": "droplets",
-            "title": "Beneficial Microbes",
+            "title": "Micronutrient Fertilizer",
             "description": "Naturally occurring beneficial bacteria:",
-            "bullets": "Convert nutrients into forms plants can absorb\n  Support root development through natural growth\n  Compete with harmful organisms in the root zone\n  Improve tolerance to environmental stress (drought, heat, poor soil condition)"
+            "bullets": "Convert nutrients into forms plants can absorb\n  Support root development through natural growth\n  Improve tolerance to environmental stress (drought, heat, poor soil condition)\n  Use according to label directions"
           },
           "blocks": {}
         },
@@ -4196,8 +4196,8 @@
       ],
       "name": "BFBella — How It Works",
       "settings": {
-        "heading": "How Flora Bella Living Trace Minerals Work With Your Soil",
-        "subheading": "A precise blend of over 70 trace minerals working in harmony with your soil",
+        "heading": "How Flora Bella Bio Trace Minerals Work With Your Soil",
+        "subheading": "Derived from a naturally occurring mineral deposit, Bio Trace is composted, refined and prepared for soil application. It supplies the micronutrients guaranteed on the product label.",
         "accent_color": "",
         "background_color": "",
         "padding_top": 96,
@@ -4598,7 +4598,7 @@
           "type": "bfbella-video",
           "settings": {
             "youtube_id": "CMgfUwSaAdE",
-            "title": "Yealdboost provide 50% more flower power",
+            "title": "YieldBoost in Action: A Flower-Growing Demonstration",
             "platform": "YouTube"
           },
           "blocks": {}
