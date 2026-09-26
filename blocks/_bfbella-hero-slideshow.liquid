@@ -1,0 +1,212 @@
+{%- comment -%}
+  BFBella — Hero Slideshow (task 0027). Fixed (static) block rendered once inside the BFBella
+  hero's media column. Same shape as Horizon's native carousel section: a static block holding
+  repeatable child blocks, handed to the shared slideshow snippet and script.
+  - 0 slides: renders nothing, so the hero keeps showing its own section image.
+  - 1 slide: a still image, no arrows or dots.
+  - 2+ slides: a slider. Settings below are copied from the native Slideshow section.
+  Carries the hero__media-wrapper class so the hero's rounded corners, frame color, animate-media
+  float and two-column layout apply to the slideshow exactly as they did to the single image.
+{%- endcomment -%}
+
+{%- liquid
+  assign slide_count = block.blocks.size
+
+  assign show_arrows = false
+  if block.settings.icons_style != 'none' and slide_count > 1
+    assign show_arrows = true
+  endif
+
+  assign autoplay = false
+  if block.settings.autoplay and slide_count > 1
+    assign autoplay = true
+  endif
+
+  assign slideshow_class = 'bfbella-hero-slideshow__component'
+  if slide_count == 1
+    assign slideshow_class = slideshow_class | append: ' slideshow--single-media'
+  endif
+-%}
+
+{%- if slide_count > 0 -%}
+  {%- if slide_count > 1 and block.settings.slideshow_controls_style != 'none' -%}
+    {% capture controls %}
+      {%- render 'slideshow-controls',
+        style: block.settings.slideshow_controls_style,
+        autoplay: autoplay,
+        item_count: slide_count,
+        show_arrows: false,
+        arrows_on_media: true,
+        controls_on_media: true,
+        pagination_position: 'center',
+        icon_style: block.settings.icons_style
+      -%}
+    {% endcapture %}
+  {%- endif -%}
+
+  {% capture slides %}
+    {% content_for 'blocks' %}
+  {% endcapture %}
+
+  {% style %}
+    {%- for i in (1..slide_count) -%}
+      #BfbHeroSlideshow-{{ block.id }} slideshow-slide:nth-child({{ i }}) {
+        --slideshow-timeline: --slide-{{ i | minus: 1 }};
+      }
+    {%- endfor -%}
+  {% endstyle %}
+
+  <div
+    id="BfbHeroSlideshow-{{ block.id }}"
+    class="hero__media-wrapper bfbella-hero-slideshow"
+    {{ block.shopify_attributes }}
+  >
+    {% render 'slideshow',
+      class: slideshow_class,
+      controls: controls,
+      show_arrows: show_arrows,
+      icon_style: block.settings.icons_style,
+      icon_shape: block.settings.icons_shape,
+      autoplay: autoplay,
+      autoplay_speed: block.settings.autoplay_speed,
+      slides: slides,
+      slide_count: slide_count
+    %}
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .bfbella-hero-slideshow {
+    display: block;
+    height: 100%;
+  }
+
+  .bfbella-hero-slideshow slideshow-component {
+    height: 100%;
+  }
+
+  .bfbella-hero-slideshow slideshow-container {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .bfbella-hero-slideshow slideshow-slides,
+  .bfbella-hero-slideshow slideshow-slide {
+    height: 100%;
+  }
+
+  /* First slide paints before the slideshow script has stamped aria-hidden on it. */
+  .bfbella-hero-slideshow slideshow-slide:first-child:not([aria-hidden]) {
+    content-visibility: visible;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Hero Slideshow",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "_bfbella-hero-slide"
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add one slide per image. With no slides, the hero shows its own section image. One slide shows a still image; two or more become a slider."
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:settings.auto_rotate_slides",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:settings.speed",
+      "min": 3,
+      "max": 7,
+      "step": 1,
+      "unit": "s",
+      "default": 4,
+      "visible_if": "{{ block.settings.autoplay }}"
+    },
+    {
+      "type": "select",
+      "id": "slideshow_controls_style",
+      "label": "t:settings.pagination",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "dots",
+          "label": "t:options.dots"
+        },
+        {
+          "value": "counter",
+          "label": "t:options.counter"
+        }
+      ],
+      "default": "dots"
+    },
+    {
+      "type": "select",
+      "id": "icons_style",
+      "label": "t:settings.icons",
+      "options": [
+        {
+          "value": "arrow",
+          "label": "t:options.arrows"
+        },
+        {
+          "value": "chevron",
+          "label": "t:options.chevrons"
+        },
+        {
+          "value": "arrows_large",
+          "label": "t:options.large_arrows"
+        },
+        {
+          "value": "chevron_large",
+          "label": "t:options.large_chevrons"
+        },
+        {
+          "value": "none",
+          "label": "t:options.none"
+        }
+      ],
+      "default": "arrows_large"
+    },
+    {
+      "type": "select",
+      "id": "icons_shape",
+      "label": "t:settings.icon_background",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "circle",
+          "label": "t:options.circle"
+        },
+        {
+          "value": "square",
+          "label": "t:options.square"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ block.settings.icons_style != 'none' }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Hero Slideshow"
+    }
+  ]
+}
+{% endschema %}
