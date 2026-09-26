@@ -2108,16 +2108,15 @@
       "block_order": [
         "price_97Ua6q"
       ],
-      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
-        "collection": "all",
+        "collection": "shop",
         "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
+        "carousel_on_mobile": true,
+        "max_products": 12,
         "columns": 4,
         "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
+        "mobile_card_size": "44cqw",
         "columns_gap": 8,
         "rows_gap": 24,
         "icons_style": "arrow",
@@ -2125,8 +2124,8 @@
         "section_width": "page-width",
         "horizontal_alignment": "flex-start",
         "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
+        "background_color": "{{ settings.color_palette.color4 }}",
+        "padding-block-start": 68,
         "padding-block-end": 48
       }
     },
@@ -2638,6 +2637,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "BFBella — Home Shop",
       "settings": {
         "collection": "shop",
@@ -4927,8 +4927,8 @@
     "bfb_hero_aw9WhN",
     "section_bfb_native_split_0025",
     "section_N3jmJb",
-    "product_list_fa6P9H",
     "section_bCGbfp",
+    "product_list_fa6P9H",
     "bfbella_homepage_shop_collection_CgNX3w",
     "bfbella_why_choose_UgUDn9",
     "section_tCcnFD",
