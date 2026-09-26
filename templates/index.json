@@ -2049,7 +2049,7 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_color": "",
-            "border_radius": 0,
+            "border_radius": 18,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -2097,18 +2097,33 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "buy_buttons_0029": {
+              "type": "buy-buttons",
+              "name": "t:names.product_buy_buttons",
+              "settings": {
+                "stacking": false,
+                "text_color": "",
+                "border_width": 1,
+                "border_radius": 6,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
             "product_card_gallery_677WP3",
-            "product_title_YXxMTj"
+            "product_title_YXxMTj",
+            "buy_buttons_0029"
           ]
         }
       },
       "block_order": [
         "price_97Ua6q"
       ],
-      "disabled": true,
       "name": "t:names.product_list",
       "settings": {
         "collection": "shop",
@@ -2638,6 +2653,7 @@
           ]
         }
       },
+      "disabled": true,
       "name": "BFBella — Home Shop",
       "settings": {
         "collection": "shop",
