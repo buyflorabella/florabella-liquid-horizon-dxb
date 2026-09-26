@@ -2499,7 +2499,7 @@
               "type": "text",
               "name": "t:names.text",
               "settings": {
-                "text": "<p>{{ closest.product.description | strip_html | truncate: 120 }}</p>",
+                "text": "{{ closest.product.description | truncate: 120 }}",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
