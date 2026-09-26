@@ -998,7 +998,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "{{ settings.color_palette.color3 }}",
+                    "text_color": "{{ settings.color_palette.color1 }}",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -1251,6 +1251,7 @@
             "image_hero_media_0025": {
               "type": "image",
               "name": "t:names.image",
+              "disabled": true,
               "settings": {
                 "image": "shopify://shop_images/home_page_featured_image_0909.jpg",
                 "link": "",
@@ -1270,8 +1271,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "bfbella_image_slideshow_0027": {
               "type": "bfbella-image-slideshow",
@@ -1444,7 +1444,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p><strong>Flora Bella</strong> <strong>Living Trace Minerals  </strong>were Discovered 50 years ago by a soil scientist.  </p><p>He realized the bucatunna clay was loaded with 70 trace minerals, amino acids, beneficial bacteria and a beautiful balance of micronutrients all existing in ancient plant and animal deposits.  </p><p>These ancient plant and animal deposits were encapsulated in an Iron Ore which preserved all the naturally occurring biology.</p><p>The bucatunna clay is quarried, composted and cured for 6-8 months.  This process activates the naturally occurring biology inside.  For consistent results.  Consistent growth.</p><p>The quality of Flora Bella is consistent, and comes directly from our family to yours.<br/><br/>Available directly from Flora Bella.</p>",
+                    "text": "<p><strong>Flora Bella</strong> <strong>Living Trace Minerals &nbsp;</strong>were Discovered 50 years ago by a soil scientist. &nbsp;</p><p>He realized the bucatunna clay was loaded with 70 trace minerals, amino acids, beneficial bacteria and a beautiful balance of micronutrients all existing in ancient plant and animal deposits. &nbsp;</p><p>These ancient plant and animal deposits were encapsulated in an Iron Ore which preserved all the naturally occurring biology.</p><p>The bucatunna clay is quarried, composted and cured for 6-8 months. &nbsp;This process activates the naturally occurring biology inside. &nbsp;For consistent results. &nbsp;Consistent growth.</p><p>The quality of Flora Bella is consistent, and comes directly from our family to yours.<br/><br/>Available directly from Flora Bella.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
