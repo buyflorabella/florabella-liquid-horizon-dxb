@@ -1251,6 +1251,7 @@
             "image_hero_media_0025": {
               "type": "image",
               "name": "t:names.image",
+              "disabled": true,
               "settings": {
                 "image": "shopify://shop_images/home_page_featured_image_0909.jpg",
                 "link": "",
@@ -1270,8 +1271,7 @@
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {},
-              "disabled": true
+              "blocks": {}
             },
             "bfbella_image_slideshow_0027": {
               "type": "bfbella-image-slideshow",
@@ -1294,6 +1294,7 @@
                 },
                 "image_slide_2": {
                   "type": "_bfbella-image-slide",
+                  "disabled": true,
                   "settings": {
                     "image": "shopify://shop_images/Why_Growers_Choose_5_of_6_lighted_roots.jpg"
                   },
@@ -1301,6 +1302,7 @@
                 },
                 "image_slide_3": {
                   "type": "_bfbella-image-slide",
+                  "disabled": true,
                   "settings": {
                     "image": "shopify://shop_images/Bioavailable_forms.jpg"
                   },
