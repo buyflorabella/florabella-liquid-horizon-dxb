@@ -50,6 +50,10 @@
   ============================================================================
 {% endcomment %}
 
+<script type="application/ld+json">
+  {{ article | structured_data }}
+</script>
+
 {% liquid
   assign accent = section.settings.accent_color | default: settings.color_palette.color3
   assign bg = section.settings.background_color | default: settings.color_palette.color11
