@@ -200,11 +200,11 @@
     "cta": {
       "type": "bfbella-about-cta",
       "settings": {
-        "heading": "Join Our Wellness Community",
-        "paragraph": "Experience the difference that pure, bioavailable minerals can make in your life. Join thousands of satisfied customers who have transformed their health with Flora Bella.",
-        "button1_label": "Shop Products",
+        "heading": "Join A Growing Community",
+        "paragraph": "Discover what pure, bioavailable minerals can do for your soil and everything growing in it. \n\nJoin a growing community of gardeners who are getting back to what matters most — healthier soil, stronger roots, and plants built to thrive.",
+        "button1_label": "Shop Trace Minerals",
         "button1_link": "shopify://collections",
-        "button2_label": "Contact Us",
+        "button2_label": "Get in Touch",
         "button2_link": "shopify://pages/contact",
         "accent_color": "",
         "background_color": "{{ settings.color_palette.color11 }}",
