@@ -177,8 +177,8 @@
                     "case": "uppercase",
                     "wrap": "nowrap",
                     "text_color": "{{ settings.color_palette.color3 }}",
-                    "background": true,
-                    "background_color": "#7cb3421a",
+                    "background": false,
+                    "background_color": "#00000026",
                     "corner_radius": 50,
                     "padding-block-start": 8,
                     "padding-block-end": 8,
@@ -588,8 +588,7 @@
       "custom_css": [
         ".text-block.h1 h1 {font-size: clamp(2.5rem, 6vw, 3.75rem); font-weight: 700; line-height: 1.1;}",
         "[class*=\"__intro_group\"] {max-width: 44rem;}",
-        "[class*=\"__stats\"] {max-width: 56rem; box-shadow: 0 10px 15px -3px #00000014;}",
-        ".text-block[class*=\"__eyebrow_text\"] {padding: 0.5rem 1rem;}",
+        "[class*=\"__stats\"] {max-width: 56rem; box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.08);}",
         "[class*=\"__eyebrow_text\"] * {font-size: 0.8rem; letter-spacing: 0.08em;}",
         "[class*=\"__intro_text\"] * {font-size: 1.2rem; opacity: 0.75;}",
         "[class*=\"__stat_number\"] * {font-size: 2.25rem;}",
@@ -1540,7 +1539,7 @@
                     "open_in_new_tab": true,
                     "style_class": "button-custom",
                     "custom_button_background": "{{ settings.color_palette.color3 }}",
-                    "custom_button_text": "#ffffff",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
                     "custom_button_border": "{{ settings.color_palette.color3 }}",
                     "link_text_color": "",
                     "width": "fit-content",
@@ -1586,10 +1585,9 @@
         "cta_card"
       ],
       "custom_css": [
-        ".group-block:has(> .group-block-content > .text-block.h2) {max-width: 44rem; margin-inline: auto; box-shadow: 0 20px 25px -5px #0000001a, 0 8px 10px -6px #0000001a;}",
+        ".group-block:has(> .group-block-content > .text-block.h2) {max-width: 44rem; margin-inline: auto; box-shadow: 0 20px 25px -5px rgb(var(--color-foreground-rgb) / 0.1);}",
         ".text-block.h2 h2 {font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; line-height: 1.1;}",
         "a[class*=\"__button_\"] {font-size: 1rem; font-weight: 700; padding: 0.9rem 2rem; border-radius: 0.75rem;}",
-        "a[class*=\"__button_2\"] {--button-border-width: 2px; --button-border-color: #0003;}",
         "a[class*=\"__button_\"]:hover:not([aria-disabled]) {transform: scale(1.03);}"
       ],
       "name": "BFBella — Community CTA (Native test)",
