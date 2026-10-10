@@ -282,28 +282,72 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "mission_image": {
-              "type": "image",
+            "mission_media": {
+              "type": "group",
               "settings": {
-                "image": "shopify://shop_images/5lb_bag_brick.jpg",
-                "link": "",
-                "image_ratio": "landscape",
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 0,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
                 "custom_width_mobile": 100,
                 "height": "fit",
-                "border": "solid",
+                "custom_height": 100,
+                "background_media": "none",
+                "background_color": "",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
                 "border_width": 1,
-                "border_opacity": 10,
-                "border_color": "{{ settings.color_palette.foreground }}",
-                "border_radius": 16,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
-              "blocks": {}
+              "blocks": {
+                "mission_image": {
+                  "type": "image",
+                  "settings": {
+                    "image": "shopify://shop_images/5lb_bag_brick.jpg",
+                    "link": "",
+                    "image_ratio": "landscape",
+                    "width": "fill",
+                    "custom_width": 100,
+                    "width_mobile": "fill",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "border": "solid",
+                    "border_width": 1,
+                    "border_opacity": 10,
+                    "border_color": "",
+                    "border_radius": 16,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "mission_image"
+              ]
             },
             "mission_content": {
               "type": "group",
@@ -402,7 +446,7 @@
             }
           },
           "block_order": [
-            "mission_image",
+            "mission_media",
             "mission_content"
           ]
         }
@@ -412,10 +456,14 @@
         "mission_row"
       ],
       "custom_css": [
-        ".text-block.h1 h1 {font-size: clamp(2.5rem, 6vw, 3.75rem); font-weight: 700; line-height: 1.1;}",
-        "[class*=\"__intro_group\"] {max-width: 44rem;}",
-        "[class*=\"__eyebrow_text\"] * {font-size: 0.8rem; letter-spacing: 0.08em;}",
-        "[class*=\"__intro_text\"] * {font-size: 1.2rem; opacity: 0.75;}"
+        "h1 {font-size: clamp(2.5rem, 6vw, 3.75rem); font-weight: 700; line-height: 1.1;}",
+        "[class*=__intro_group] {max-width: 44rem;}",
+        "[class*=__eyebrow_text] * {font-size: 0.8rem; letter-spacing: 0.08em;}",
+        "[class*=__intro_text] * {font-size: 1.2rem; opacity: 0.75;}",
+        "h2 {font-size: 1.9rem; font-weight: 700; line-height: 1.15;}",
+        "[class*=__mission_text] p {font-size: 1.05rem; line-height: 1.65; opacity: 0.78;}",
+        "img {aspect-ratio: 4/3; box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 0.15);}",
+        ".section-content-wrapper > * + * {max-width: 77rem;}"
       ],
       "name": "BFBella — About Story (Native)",
       "settings": {
