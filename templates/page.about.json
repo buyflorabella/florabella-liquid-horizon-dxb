@@ -457,10 +457,10 @@
       ],
       "custom_css": [
         "h1 {font-size: clamp(2.5rem, 6vw, 3.75rem); font-weight: 700; line-height: 1.1;}",
-        "[class*=intro_g] {max-width: 44rem;}",
-        "[class*=intro_t] * {font-size: 1.2rem; opacity: 0.75;}",
+        "[class*=\"intro_g\"] {max-width: 44rem;}",
+        "[class*=\"intro_t\"] * {font-size: 1.2rem; opacity: 0.75;}",
         "h2 {font-size: 1.9rem; font-weight: 700; line-height: 1.15;}",
-        "[class*=mission_t] p {font-size: 1.05rem; line-height: 1.65; opacity: 0.78;}",
+        "[class*=\"mission_t\"] p {font-size: 1.05rem; line-height: 1.65; opacity: 0.78;}",
         "img {aspect-ratio: 4/3; transition: 0.7s;}",
         "img:hover {transform: scale(1.1);}",
         ":has(> * > * > img) {box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 0.15);}",
@@ -1224,7 +1224,7 @@
         ".layout-panel-flex--row > * {box-shadow: 0 4px 6px -1px rgb(var(--color-foreground-rgb) / 0.08); transition: 0.3s;}",
         ".layout-panel-flex--row > :hover {transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.12);}",
         ".group-block:has(> * > * > svg) {background-color: rgb(var(--color-background-rgb) / 0.15);}",
-        "[class*=__description] {opacity: 0.7;}"
+        "[class*=\"__description\"] {opacity: 0.7;}"
       ],
       "name": "BFBella — About Values (Native)",
       "settings": {
@@ -2312,8 +2312,8 @@
         ".layout-panel-flex--row > * {background: rgb(var(--color-foreground-rgb) / 0.05); transition: 0.3s;}",
         ".layout-panel-flex--row > :hover {transform: scale(1.05);}",
         ".group-block:has(> * > .background-image-container) {display: flex; align-items: flex-end; height: 12rem;}",
-        "[class*=__heading] {max-width: 48rem;}",
-        "[class*=__description], [class*=__subheading] {opacity: 0.6;}"
+        "[class*=\"__heading\"] {max-width: 48rem;}",
+        "[class*=\"__description\"],[class*=\"__subheading\"] {opacity: 0.6;}"
       ],
       "name": "BFBella — About Values 2 (Native)",
       "settings": {
@@ -2329,7 +2329,7 @@
         "section_height": "",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "{{ settings.color_palette.color9 }}",
+        "background_color": "#8D42B3",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -3462,8 +3462,8 @@
         ".layout-panel-flex--row > * {background: rgb(var(--color-foreground-rgb) / 0.05); transition: 0.3s;}",
         ".layout-panel-flex--row > :hover {transform: scale(1.05);}",
         ".group-block:has(> * > .background-image-container) {display: flex; align-items: flex-end; height: 12rem;}",
-        "[class*=__heading] {max-width: 48rem;}",
-        "[class*=__description], [class*=__subheading] {opacity: 0.6;}"
+        "[class*=\"__heading\"] {max-width: 48rem;}",
+        "[class*=\"__description\"],[class*=\"__subheading\"] {opacity: 0.6;}"
       ],
       "name": "BFBella — About Sourcing (Native)",
       "settings": {
