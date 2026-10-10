@@ -1752,7 +1752,7 @@
                     "background_media": "image",
                     "background_color": "",
                     "video_position": "cover",
-                    "background_image_position": "cover",
+                    "background_image_position": "fit",
                     "toggle_overlay": true,
                     "overlay_color": "{{ settings.color_palette.color9 }}",
                     "overlay_style": "gradient",
@@ -1769,7 +1769,7 @@
                     "padding-block-end": 16,
                     "padding-inline-start": 16,
                     "padding-inline-end": 16,
-                    "background_image": "shopify://shop_images/about_page_benefits_image2.png"
+                    "background_image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png"
                   },
                   "blocks": {
                     "badge": {
@@ -1874,7 +1874,7 @@
                     "title": {
                       "type": "text",
                       "settings": {
-                        "text": "<h3>Rigorous Testing</h3>",
+                        "text": "<h3>OMRI Listed</h3>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -1899,7 +1899,7 @@
                     "description": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Third-party tested for heavy metals, contaminants, and potency at every stage.</p>",
+                        "text": "<p>Reviewed and listed by the Organic Materials Review Institute for use in organic growing.</p>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
