@@ -278,7 +278,7 @@
                     "text_color": "",
                     "background": false,
                     "corner_radius": 0,
-                    "padding-block-start": 0,
+                    "padding-block-start": 8,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -415,7 +415,7 @@
                     "text_color": "",
                     "background": false,
                     "corner_radius": 0,
-                    "padding-block-start": 0,
+                    "padding-block-start": 8,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -552,7 +552,7 @@
                     "text_color": "",
                     "background": false,
                     "corner_radius": 0,
-                    "padding-block-start": 0,
+                    "padding-block-start": 8,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -689,7 +689,7 @@
                     "text_color": "",
                     "background": false,
                     "corner_radius": 0,
-                    "padding-block-start": 0,
+                    "padding-block-start": 8,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -740,14 +740,11 @@
         "social_row"
       ],
       "custom_css": [
-        ".layout-panel-flex--row:has(> .group-block:has(> .group-block__link)) {display: grid; grid-template-columns: 1fr; align-items: stretch;}",
-        "@media screen and (min-width: 600px) {.layout-panel-flex--row:has(> .group-block:has(> .group-block__link)) {grid-template-columns: repeat(2, 1fr);}}",
-        "@media screen and (min-width: 990px) {.layout-panel-flex--row:has(> .group-block:has(> .group-block__link)) {grid-template-columns: repeat(4, 1fr);}}",
-        ".group-block:has(> .group-block__link) {border-color: rgb(var(--color-foreground-rgb) / 0.1); transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;}",
-        ".group-block:has(> .group-block__link):hover {transform: translateY(-4px); border-color: var(--border-color); box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.12);}",
-        ".group-block:has(> .group-block-content > .icon-block__media) {background-color: rgb(var(--color-background-rgb) / 0.15); margin-block-end: 0.5rem;}",
-        ".group-block:has(> .group-block__link) .text-block:last-child {opacity: 0.6;}",
-        "@media (prefers-reduced-motion: reduce) {.group-block:has(> .group-block__link) {transition: none;}}"
+        ".mobile-column:has(>.group-block>a){display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}",
+        ".group-block:has(>a){border-color:rgb(var(--color-foreground-rgb)/.1);transition:.3s}",
+        ".group-block:has(>a):hover{transform:translateY(-4px);border-color:var(--border-color);box-shadow:0 10px 15px -3px rgb(var(--color-foreground-rgb)/.12)}",
+        ".group-block:has(>*>svg){background-color:rgb(var(--color-background-rgb)/.15)}",
+        ".group-block:has(>a) .text-block:last-child{opacity:.6}"
       ],
       "name": "BFBella — Social Native",
       "settings": {
