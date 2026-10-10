@@ -457,11 +457,11 @@
       ],
       "custom_css": [
         "h1 {font-size: clamp(2.5rem, 6vw, 3.75rem); font-weight: 700; line-height: 1.1;}",
-        "[class*=__intro_group] {max-width: 44rem;}",
-        "[class*=__eyebrow_text] * {font-size: 0.8rem; letter-spacing: 0.08em;}",
-        "[class*=__intro_text] * {font-size: 1.2rem; opacity: 0.75;}",
+        "[class*=intro_g] {max-width: 44rem;}",
+        "[class*=eyebrow] * {font-size: 0.8rem; letter-spacing: 0.08em;}",
+        "[class*=intro_t] * {font-size: 1.2rem; opacity: 0.75;}",
         "h2 {font-size: 1.9rem; font-weight: 700; line-height: 1.15;}",
-        "[class*=__mission_text] p {font-size: 1.05rem; line-height: 1.65; opacity: 0.78;}",
+        "[class*=mission_t] p {font-size: 1.05rem; line-height: 1.65; opacity: 0.78;}",
         "img {aspect-ratio: 4/3; box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 0.15);}",
         ".section-content-wrapper > :last-child {max-width: 77rem;}"
       ],
