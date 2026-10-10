@@ -463,7 +463,7 @@
         "h2 {font-size: 1.9rem; font-weight: 700; line-height: 1.15;}",
         "[class*=__mission_text] p {font-size: 1.05rem; line-height: 1.65; opacity: 0.78;}",
         "img {aspect-ratio: 4/3; box-shadow: 0 25px 50px -12px rgb(var(--color-foreground-rgb) / 0.15);}",
-        ".section-content-wrapper > * + * {max-width: 77rem;}"
+        ".section-content-wrapper > :last-child {max-width: 77rem;}"
       ],
       "name": "BFBella — About Story (Native)",
       "settings": {
