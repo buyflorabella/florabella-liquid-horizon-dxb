@@ -850,7 +850,7 @@
                 "title": {
                   "type": "text",
                   "settings": {
-                    "text": "<h3>Quality Tested</h3>",
+                    "text": "<h3>OMRI Listed</h3>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -875,7 +875,7 @@
                 "description": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Every batch is third-party tested for purity, potency, and safety to ensure premium quality.</p>",
+                    "text": "<p>Reviewed and listed by the Organic Materials Review Institute for use in organic growing.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -1026,7 +1026,7 @@
                 "description": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Formulations based on cutting-edge research and clinical studies in mineral nutrition.</p>",
+                    "text": "<p>Over 70 trace minerals, documented in certified Certificates of Analysis (COAs).</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -1152,7 +1152,7 @@
                 "title": {
                   "type": "text",
                   "settings": {
-                    "text": "<h3>Community First</h3>",
+                    "text": "<h3>Garden Tested</h3>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -1177,7 +1177,7 @@
                 "description": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>Supporting a vibrant community of health-conscious individuals on their wellness journey.</p>",
+                    "text": "<p>Home gardeners see results they have never seen before, and they will tell you so themselves.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
