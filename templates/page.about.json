@@ -214,7 +214,7 @@
             "intro_text": {
               "type": "text",
               "settings": {
-                "text": "<p>Founded on the belief that optimal SOIL begins with proper mineral nutrition, Flora Bella is committed to providing the highest quality trace minerals to support your wellness journey.</p>",
+                "text": "<p>Flora Bella began with a soil scientist and a deposit of mineral-rich earth in Louisiana. Today a small family business in south Mississippi carries his work forward.</p>",
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
@@ -416,7 +416,7 @@
                 "mission_text": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>At Flora Bella, we believe that everyone deserves access to <strong>pure, bioavailable minerals</strong> that support optimal health and vitality. Our mission is to bridge the gap between modern nutritional <strong>needs </strong>and the <strong>mineral-depleted foods</strong> of today's agricultural system.</p><p>We are dedicated to sourcing the finest quality minerals from pristine <strong>ancient sea beds and volcanic deposits</strong>, ensuring that each product delivers the full spectrum of trace minerals your body needs to thrive.</p><p>Through <strong>rigorous testing, transparent sourcing</strong>, and a commitment to education, we empower individuals to take control of their mineral nutrition and experience the transformative benefits of proper supplementation.</p>",
+                    "text": "<p>It started with one man's fascination with soil. After years of consulting for farms, he found deep, dark, <strong>mineral-rich earth in Louisiana</strong>, where nature had concentrated <strong>rare trace minerals</strong> over centuries. He saw that most soil sold to gardeners was missing what makes plants thrive.</p><p>Commercial farms have relied on this earth by the ton for decades. His mission was to bring it to every garden, in a form anyone could use. That is why we pack it in <strong>2 lb and 5 lb bags</strong> for home gardeners.</p><p>Flora Bella is a <strong>small family business in south Mississippi</strong>, and we are continuing that mission: helping gardeners <strong>feed the soil itself</strong>, not only the plants growing in it.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
