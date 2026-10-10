@@ -1219,7 +1219,7 @@
         "values_row"
       ],
       "custom_css": [
-        ".layout-panel-flex--row {display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));}",
+        ".layout-panel-flex--row {display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); align-items: stretch;}",
         ".layout-panel-flex--row > * {box-shadow: 0 4px 6px -1px rgb(var(--color-foreground-rgb) / 0.08); transition: 0.3s;}",
         ".layout-panel-flex--row > :hover {transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.12);}",
         ".group-block:has(> * > * > svg) {background-color: rgb(var(--color-background-rgb) / 0.15);}",
@@ -2427,7 +2427,7 @@
         "sourcing_row"
       ],
       "custom_css": [
-        ".layout-panel-flex--row {display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));}",
+        ".layout-panel-flex--row {display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); align-items: stretch;}",
         ".layout-panel-flex--row > * {background: rgb(var(--color-foreground-rgb) / 0.05); transition: 0.3s;}",
         ".layout-panel-flex--row > :hover {transform: scale(1.05);}",
         ".group-block:has(> * > .background-image-container) {display: flex; align-items: flex-end; height: 12rem;}",
