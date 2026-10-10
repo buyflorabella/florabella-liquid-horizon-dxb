@@ -1873,7 +1873,7 @@
                     "background_media": "image",
                     "background_color": "",
                     "video_position": "cover",
-                    "background_image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
+                    "background_image": "shopify://shop_images/about_page_benefits_image2.png",
                     "background_image_position": "cover",
                     "toggle_overlay": true,
                     "overlay_color": "{{ settings.color_palette.color9 }}",
