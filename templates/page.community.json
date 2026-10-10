@@ -330,7 +330,7 @@
                 "stat_number": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Every batch</strong></p>",
+                    "text": "<p><strong>1,000+</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -355,7 +355,7 @@
                 "stat_label": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Third-party tested</strong></p>",
+                    "text": "<p><strong>Followers</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -520,7 +520,7 @@
                 "stat_number": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>100%</strong></p>",
+                    "text": "<p><strong>Dozens</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -545,7 +545,7 @@
                 "stat_label": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Satisfaction guaranteed</strong></p>",
+                    "text": "<p><strong>Of home gardeners growing with us</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
