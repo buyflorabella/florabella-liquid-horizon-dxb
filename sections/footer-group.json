@@ -585,7 +585,7 @@
         "bfbella_popup_script": {
           "type": "custom-liquid",
           "settings": {
-            "custom_liquid": "{% if template.name == 'index' %}{% unless request.design_mode %}\n<script type=\"module\">\n  // bfbella-popup\n  const KEY = 'bfbella-popup-2026-10';\n  const DAYS = 14;\n  const DELAY = 4000;\n  const el = document.querySelector('dialog-component.popup-link');\n  let seen = 0;\n  try { seen = Number(localStorage.getItem(KEY) || 0); } catch (e) {}\n  if (el && Date.now() - seen > DAYS * 864e5) {\n    await customElements.whenDefined('dialog-component');\n    setTimeout(() => el.showDialog(), DELAY);\n    el.addEventListener('dialog:close', () => {\n      try { localStorage.setItem(KEY, Date.now()); } catch (e) {}\n    });\n  }\n</script>\n{% endunless %}{% endif %}"
+            "custom_liquid": "{% if template.name == 'index' %}{% unless request.design_mode %}\n<script type=\"module\">\n  // bfbella-popup\n  const KEY = 'bfbella-popup-2026-10';\n  const DAYS = 14;\n  const DELAY = 2000;\n  const el = document.querySelector('dialog-component.popup-link');\n  let seen = 0;\n  try { seen = Number(localStorage.getItem(KEY) || 0); } catch (e) {}\n  if (el && Date.now() - seen > DAYS * 864e5) {\n    await customElements.whenDefined('dialog-component');\n    setTimeout(() => el.showDialog(), DELAY);\n    el.addEventListener('dialog:close', () => {\n      try { localStorage.setItem(KEY, Date.now()); } catch (e) {}\n    });\n  }\n</script>\n{% endunless %}{% endif %}"
           },
           "blocks": {}
         }
@@ -596,7 +596,7 @@
       ],
       "custom_css": [
         ".popup-link__content {background: none; border: 0; box-shadow: none; padding: 0;}",
-        "@media screen and (max-width: 749px) {.popup-link__content {width: calc(100dvw - 2rem); height: auto; max-height: 90dvh;}}"
+        "@media screen and (max-width: 749px) {.popup-link__content {width: calc(100dvw - 2rem); height: auto; max-height: 90dvh; }}"
       ],
       "name": "BFBella — Popup Oct 2026",
       "settings": {
