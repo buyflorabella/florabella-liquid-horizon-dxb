@@ -2748,7 +2748,7 @@
                     "description": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>An ancient river bed and volcanic deposits, formed millions of years before modern pollution.</p>",
+                        "text": "<p>An ancient sea bed from the <strong>Oligocene Epoch</strong> (34 million years old) formed, along with volcanic deposits. &nbsp;Millions of years before modern pollution.</p>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
