@@ -1555,7 +1555,7 @@
           "type": "button",
           "settings": {
             "label": "Learn More About Flora Bella",
-            "link": "/pages/about",
+            "link": "/pages/about-us",
             "open_in_new_tab": false,
             "style_class": "button-custom",
             "custom_button_background": "{{ settings.color_palette.color3 }}",

@@ -2475,7 +2475,7 @@
             "subheading": {
               "type": "text",
               "settings": {
-                "text": "<p>Every step, from source to supplement, meets the highest standards</p>",
+                "text": "<p>Every step, from source to shipment, meets the highest standards</p>",
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
@@ -2748,7 +2748,7 @@
                     "description": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Ancient sea beds and volcanic deposits, formed millions of years before modern pollution.</p>",
+                        "text": "<p>An ancient river bed and volcanic deposits, formed millions of years before modern pollution.</p>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",

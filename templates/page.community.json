@@ -450,7 +450,7 @@
                 "stat_label": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Sea bed &amp; volcanic sources</strong></p>",
+                    "text": "<p><strong>River bed &amp; volcanic sources</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
