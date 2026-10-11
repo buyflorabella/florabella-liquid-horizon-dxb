@@ -415,6 +415,90 @@
         "padding-block-end": 30
       }
     },
+    "bfbella_popup_2026_10": {
+      "type": "section",
+      "blocks": {
+        "bfbella_popup_link": {
+          "type": "popup-link",
+          "settings": {
+            "behavior": "default",
+            "heading": "October newsletter"
+          },
+          "blocks": {
+            "bfbella_popup_card": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "gap": 16
+              },
+              "blocks": {
+                "bfbella_popup_heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h2>The October Garden Newsletter is here</h2>",
+                    "alignment": "center",
+                    "type_preset": "h2"
+                  },
+                  "blocks": {}
+                },
+                "bfbella_popup_text": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>What to plant now, a fall checklist, and our photo challenge.</p>",
+                    "alignment": "center"
+                  },
+                  "blocks": {}
+                },
+                "bfbella_popup_button": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Read the newsletter",
+                    "link": "/blogs/soil-education/october-garden-newsletter-what-to-plant-fall-checklist-photo-challenge"
+                  },
+                  "blocks": {}
+                },
+                "bfbella_popup_signup": {
+                  "type": "email-signup",
+                  "settings": {
+                    "heading": "Get the next one by email"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "bfbella_popup_heading",
+                "bfbella_popup_text",
+                "bfbella_popup_button",
+                "bfbella_popup_signup"
+              ]
+            }
+          },
+          "block_order": [
+            "bfbella_popup_card"
+          ]
+        },
+        "bfbella_popup_script": {
+          "type": "custom-liquid",
+          "settings": {
+            "custom_liquid": "{% if template.name == 'index' %}{% unless request.design_mode %}\n<script type=\"module\">\n  // bfbella-popup\n  const KEY = 'bfbella-popup-2026-10';\n  const DAYS = 14;\n  const DELAY = 4000;\n  const el = document.querySelector('dialog-component.popup-link');\n  let seen = 0;\n  try { seen = Number(localStorage.getItem(KEY) || 0); } catch (e) {}\n  if (el && Date.now() - seen > DAYS * 864e5) {\n    await customElements.whenDefined('dialog-component');\n    setTimeout(() => el.showDialog(), DELAY);\n    el.addEventListener('dialog:close', () => {\n      try { localStorage.setItem(KEY, Date.now()); } catch (e) {}\n    });\n  }\n</script>\n{% endunless %}{% endif %}"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "bfbella_popup_link",
+        "bfbella_popup_script"
+      ],
+      "name": "BFBella — Popup Oct 2026",
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "section_width": "page-width",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
+    },
     "footer_utilities_jLGE8U": {
       "type": "footer-utilities",
       "blocks": {
@@ -457,6 +541,7 @@
   },
   "order": [
     "footer_m9NzUG",
+    "bfbella_popup_2026_10",
     "footer_utilities_jLGE8U"
   ]
 }
