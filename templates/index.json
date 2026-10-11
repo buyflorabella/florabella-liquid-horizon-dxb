@@ -4360,8 +4360,10 @@
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
-                    "background_media": "none",
+                    "background_media": "image",
                     "background_color": "",
+                    "background_image": "shopify://shop_images/organic_composting_stack.jpg",
+                    "background_image_position": "cover",
                     "toggle_overlay": false,
                     "border": "none",
                     "border_width": 1,
@@ -4376,28 +4378,6 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "photo": {
-                      "type": "image",
-                      "settings": {
-                        "image": "shopify://shop_images/organic_composting_stack.jpg",
-                        "link": "",
-                        "image_ratio": "landscape",
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_color": "",
-                        "border_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    },
                     "badge": {
                       "type": "group",
                       "settings": {
@@ -4449,7 +4429,6 @@
                     }
                   },
                   "block_order": [
-                    "photo",
                     "badge"
                   ]
                 },
@@ -4554,8 +4533,10 @@
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
-                    "background_media": "none",
+                    "background_media": "image",
                     "background_color": "",
+                    "background_image": "shopify://shop_images/IMG_20260212_131523748.jpg",
+                    "background_image_position": "cover",
                     "toggle_overlay": false,
                     "border": "none",
                     "border_width": 1,
@@ -4570,28 +4551,6 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "photo": {
-                      "type": "image",
-                      "settings": {
-                        "image": "shopify://shop_images/IMG_20260212_131523748.jpg",
-                        "link": "",
-                        "image_ratio": "landscape",
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_color": "",
-                        "border_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    },
                     "badge": {
                       "type": "group",
                       "settings": {
@@ -4643,7 +4602,6 @@
                     }
                   },
                   "block_order": [
-                    "photo",
                     "badge"
                   ]
                 },
@@ -4748,8 +4706,10 @@
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
-                    "background_media": "none",
+                    "background_media": "image",
                     "background_color": "",
+                    "background_image": "shopify://shop_images/mine_outlooking_the_field.jpg",
+                    "background_image_position": "cover",
                     "toggle_overlay": false,
                     "border": "none",
                     "border_width": 1,
@@ -4764,28 +4724,6 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "photo": {
-                      "type": "image",
-                      "settings": {
-                        "image": "shopify://shop_images/mine_outlooking_the_field.jpg",
-                        "link": "",
-                        "image_ratio": "landscape",
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_color": "",
-                        "border_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    },
                     "badge": {
                       "type": "group",
                       "settings": {
@@ -4837,7 +4775,6 @@
                     }
                   },
                   "block_order": [
-                    "photo",
                     "badge"
                   ]
                 },
@@ -4942,8 +4879,10 @@
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
-                    "background_media": "none",
+                    "background_media": "image",
                     "background_color": "",
+                    "background_image": "shopify://shop_images/trace_mineral_rock_cropped_16by9.jpg",
+                    "background_image_position": "cover",
                     "toggle_overlay": false,
                     "border": "none",
                     "border_width": 1,
@@ -4958,28 +4897,6 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "photo": {
-                      "type": "image",
-                      "settings": {
-                        "image": "shopify://shop_images/trace_mineral_rock_cropped_16by9.jpg",
-                        "link": "",
-                        "image_ratio": "landscape",
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_color": "",
-                        "border_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    },
                     "badge": {
                       "type": "group",
                       "settings": {
@@ -5031,7 +4948,6 @@
                     }
                   },
                   "block_order": [
-                    "photo",
                     "badge"
                   ]
                 },
@@ -5136,8 +5052,10 @@
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
-                    "background_media": "none",
+                    "background_media": "image",
                     "background_color": "",
+                    "background_image": "shopify://shop_images/trace_minerals_on_top_of_rock.jpg",
+                    "background_image_position": "cover",
                     "toggle_overlay": false,
                     "border": "none",
                     "border_width": 1,
@@ -5152,28 +5070,6 @@
                     "padding-inline-end": 0
                   },
                   "blocks": {
-                    "photo": {
-                      "type": "image",
-                      "settings": {
-                        "image": "shopify://shop_images/trace_minerals_on_top_of_rock.jpg",
-                        "link": "",
-                        "image_ratio": "landscape",
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_color": "",
-                        "border_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    },
                     "badge": {
                       "type": "group",
                       "settings": {
@@ -5225,7 +5121,6 @@
                     }
                   },
                   "block_order": [
-                    "photo",
                     "badge"
                   ]
                 },
@@ -5330,8 +5225,10 @@
                     "custom_width_mobile": 100,
                     "height": "fit",
                     "custom_height": 100,
-                    "background_media": "none",
+                    "background_media": "image",
                     "background_color": "",
+                    "background_image": "shopify://shop_images/about_page_benefits_image2.png",
+                    "background_image_position": "cover",
                     "toggle_overlay": false,
                     "border": "none",
                     "border_width": 1,
@@ -5345,33 +5242,7 @@
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
-                  "blocks": {
-                    "photo": {
-                      "type": "image",
-                      "settings": {
-                        "image": "shopify://shop_images/about_page_benefits_image2.png",
-                        "link": "",
-                        "image_ratio": "landscape",
-                        "width": "fill",
-                        "custom_width": 100,
-                        "width_mobile": "fill",
-                        "custom_width_mobile": 100,
-                        "border": "none",
-                        "border_width": 1,
-                        "border_opacity": 100,
-                        "border_color": "",
-                        "border_radius": 0,
-                        "padding-block-start": 0,
-                        "padding-block-end": 0,
-                        "padding-inline-start": 0,
-                        "padding-inline-end": 0
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "photo"
-                  ]
+                  "blocks": {}
                 },
                 "title": {
                   "type": "text",
@@ -5442,13 +5313,12 @@
         "cards_row"
       ],
       "custom_css": [
-        ".layout-panel-flex--row{display:grid;grid-template-columns:1fr}",
+        ".layout-panel-flex--row{display:grid;grid-template-columns:1fr;align-items:stretch}",
         "@media(min-width:990px){.layout-panel-flex--row{grid-template-columns:repeat(3,1fr)}}",
-        ".layout-panel-flex--row>.group-block{overflow:hidden;background:rgb(var(--color-background-rgb)/.05)}",
-        ".group-block:has(>*>*>svg){position:absolute;bottom:1rem;left:1rem}",
+        ".layout-panel-flex--row>.group-block{overflow:hidden}",
+        ".group-block:has(>*>.background-image-container){height:12rem}",
         ".text-block:last-child{opacity:.6}",
-        ".section-content-wrapper{position:relative}",
-        ".section-content-wrapper>:first-child{position:absolute;inset:0;opacity:.05;z-index:-1}"
+        ".section-content-wrapper>:first-child{position:absolute;inset-block:0;left:50%;width:100vw;transform:translateX(-50%);opacity:.05;z-index:-1}"
       ],
       "name": "BFBella — Why Choose (Native)",
       "settings": {
