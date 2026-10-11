@@ -1619,6 +1619,17 @@
         "padding-block-start": 80,
         "padding-block-end": 80
       }
+    },
+    "custom_liquid_aRHWna": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "{% for l in linklists['garden-game-hidden-do-not-assign'].links %}{{ l.title }} → {{ l.url }}<br>{% endfor %}",
+        "background_color": "",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1628,6 +1639,7 @@
     "social",
     "social_native",
     "cta",
-    "cta_native"
+    "cta_native",
+    "custom_liquid_aRHWna"
   ]
 }
