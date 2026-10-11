@@ -2665,7 +2665,7 @@
         "bfbella_benefit_card_TpJKcD": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "image": "shopify://shop_images/Why_Growers_Choose_1_of_6_Compost_pile.jpg",
+            "image": "shopify://shop_images/IMG_20260212_131529952_HDR.jpg",
             "icon": "leaf",
             "title": "Compost-Friendly Trace Minerals",
             "description": "Designed to work alongside compost and living soil systems — helping unlock what your soil is already capable of."
@@ -2675,7 +2675,7 @@
         "bfbella_benefit_card_ykfErY": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "image": "shopify://shop_images/trace_minerals_on_top_of_rock.jpg",
+            "image": "shopify://shop_images/IMG_20260212_131523748.jpg",
             "icon": "file_stack",
             "title": "Ancient + Mineral-dense",
             "description": "Made from mineral deposits formed over millions of years — carrying complexity you can't replicate in a lab."
@@ -2695,7 +2695,7 @@
         "bfbella_benefit_card_4UbBEG": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "image": "shopify://shop_images/Why_Growers_Choose_4_of_6_Flora_Bella_Bio_Trace.jpg",
+            "image": "shopify://shop_images/trace_mineral_rock_cropped_16by9.jpg",
             "icon": "sparkles",
             "title": "Iron-ore Derived Blend",
             "description": "Encapsulated in an iron ore, preserving the natural biology in the Bucatunna clay."
@@ -2705,7 +2705,7 @@
         "bfbella_benefit_card_jJcAfX": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "image": "shopify://shop_images/Why_Growers_Choose_5_of_6_lighted_roots.jpg",
+            "image": "shopify://shop_images/trace_minerals_on_top_of_rock.jpg",
             "icon": "bug",
             "title": "Biology Included",
             "description": "Designed to support beneficial microbes and nutrient cycling — the living foundation behind healthy, resilient soil."
@@ -2715,8 +2715,8 @@
         "bfbella_benefit_card_iCHcFt": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "image": "shopify://shop_images/pexels-pixabay-256262.jpg",
-            "icon": "users",
+            "image": "shopify://shop_images/about_page_benefits_image2.png",
+            "icon": "none",
             "title": "Handled with Care + Lab Verified",
             "description": "Gently processed and packaged with care, with quality checks to support consistency and peace of mind."
           },
