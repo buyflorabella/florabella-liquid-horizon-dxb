@@ -455,18 +455,18 @@
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
+                "border": "solid",
+                "border_width": 6,
                 "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
+                "border_color": "{{ settings.color_palette.color14 }}",
+                "border_radius": 16,
                 "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "padding-block-start": 48,
+                "padding-block-end": 32,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
               },
               "blocks": {
                 "bfbella_popup_heading": {
@@ -525,10 +525,10 @@
                     "label": "Read the newsletter",
                     "link": "/blogs/soil-education/october-garden-newsletter-what-to-plant-fall-checklist-photo-challenge",
                     "open_in_new_tab": false,
-                    "style_class": "button",
-                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "style_class": "button-custom",
+                    "custom_button_background": "{{ settings.color_palette.color3 }}",
                     "custom_button_text": "{{ settings.color_palette.background }}",
-                    "custom_button_border": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.color3 }}",
                     "link_text_color": "",
                     "width": "fit-content",
                     "custom_width": 100,
@@ -553,10 +553,10 @@
                     "input_text_color": "",
                     "input_border_color": "",
                     "input_type_preset": "paragraph",
-                    "style_class": "button",
-                    "custom_button_background": "{{ settings.color_palette.foreground }}",
+                    "style_class": "button-custom",
+                    "custom_button_background": "{{ settings.color_palette.color3 }}",
                     "custom_button_text": "{{ settings.color_palette.background }}",
-                    "custom_button_border": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.color3 }}",
                     "link_text_color": "",
                     "display_type": "text",
                     "label": "Sign up",
@@ -593,6 +593,10 @@
       "block_order": [
         "bfbella_popup_link",
         "bfbella_popup_script"
+      ],
+      "custom_css": [
+        ".popup-link__content {background: none; border: 0; box-shadow: none; padding: 0;}",
+        "@media screen and (max-width: 749px) {.popup-link__content {width: calc(100dvw - 2rem); height: auto; max-height: 90dvh;}}"
       ],
       "name": "BFBella — Popup Oct 2026",
       "settings": {
