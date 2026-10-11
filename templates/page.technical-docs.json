@@ -91,7 +91,7 @@
             "p1": {
               "type": "text",
               "settings": {
-                "text": "<p>Flora Bella products are supported by comprehensive technical documentation to ensure proper use across a range of growing systems. This page provides high-level technical context and access to detailed resources, including application guidance, guaranteed analysis, and commercial use information.</p>",
+                "text": "<p>This page links to the documents we publish for Flora Bella products. For how to apply Bio Trace and Microdust, start with our step-by-step guides.</p>",
                 "width": "fill",
                 "max_width": "normal",
                 "alignment": "left",
@@ -115,7 +115,7 @@
             "p2": {
               "type": "text",
               "settings": {
-                "text": "<p>Detailed instructions, rates, and regulatory disclosures are contained within the individual resources listed below.</p>",
+                "text": "<p>Always follow the directions on the product label.</p>",
                 "width": "fill",
                 "max_width": "normal",
                 "alignment": "left",
@@ -328,7 +328,7 @@
                     "title": {
                       "type": "text",
                       "settings": {
-                        "text": "<h4>Application & Use Guide</h4>",
+                        "text": "<h4>Step-by-Step Guides</h4>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -363,7 +363,7 @@
             "description": {
               "type": "text",
               "settings": {
-                "text": "<p>Complete application rates, mixing instructions, and best practices for all growing systems.</p>",
+                "text": "<p>How to use Bio Trace: compost tea, soil blend or top dress, and mineral tea.</p>",
                 "width": "fill",
                 "max_width": "normal",
                 "alignment": "left",
@@ -445,13 +445,14 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
-                  }
+                  },
+                  "disabled": true
                 },
                 "button": {
                   "type": "button",
                   "settings": {
-                    "label": "Download PDF",
-                    "link": "https://cdn.shopify.com/s/files/1/0640/4833/2903/files/FB-Direct_Ag_Solutions_Areator_Plus_Flyer_PROD.pdf",
+                    "label": "View the guides",
+                    "link": "/blogs/guides",
                     "open_in_new_tab": false,
                     "style_class": "button-custom",
                     "custom_button_background": "{{ settings.color_palette.color3 }}",
@@ -607,7 +608,7 @@
                     "title": {
                       "type": "text",
                       "settings": {
-                        "text": "<h4>Guaranteed Analysis & Ingredients</h4>",
+                        "text": "<h4>YieldBoost Brochure</h4>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -642,7 +643,7 @@
             "description": {
               "type": "text",
               "settings": {
-                "text": "<p>Full ingredient disclosure, guaranteed analysis, and regulatory compliance information.</p>",
+                "text": "<p>Product brochure for YieldBoost liquid microbial concentrate.</p>",
                 "width": "fill",
                 "max_width": "normal",
                 "alignment": "left",
@@ -724,14 +725,15 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
-                  }
+                  },
+                  "disabled": true
                 },
                 "button": {
                   "type": "button",
                   "settings": {
                     "label": "Download PDF",
                     "link": "https://cdn.shopify.com/s/files/1/0640/4833/2903/files/FB-YIELDBOOST_Brochure_PROD.pdf",
-                    "open_in_new_tab": false,
+                    "open_in_new_tab": true,
                     "style_class": "button-custom",
                     "custom_button_background": "{{ settings.color_palette.color3 }}",
                     "custom_button_text": "{{ settings.color_palette.background }}",
@@ -886,7 +888,7 @@
                     "title": {
                       "type": "text",
                       "settings": {
-                        "text": "<h4>Commercial & Advisory Use</h4>",
+                        "text": "<h4>Commercial & Bulk Orders</h4>",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -991,7 +993,8 @@
                   "block_order": [
                     "lock_icon",
                     "badge_text"
-                  ]
+                  ],
+                  "disabled": true
                 }
               },
               "block_order": [
@@ -1002,7 +1005,7 @@
             "description": {
               "type": "text",
               "settings": {
-                "text": "<p>Bulk application protocols, commercial farming guidance, and distributor information.</p>",
+                "text": "<p>Bulk orders, commercial growing and distributor questions.</p>",
                 "width": "fill",
                 "max_width": "normal",
                 "alignment": "left",
@@ -1084,13 +1087,14 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
-                  }
+                  },
+                  "disabled": true
                 },
                 "button": {
                   "type": "button",
                   "settings": {
-                    "label": "Request Access",
-                    "link": "",
+                    "label": "Contact us",
+                    "link": "/pages/contact",
                     "open_in_new_tab": false,
                     "style_class": "button-secondary",
                     "custom_button_background": "{{ settings.color_palette.color3 }}",
@@ -1530,7 +1534,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Our technical documentation sits alongside lab data, retail packaging specifications, distributor training materials, sustainability reporting, and international market resources.</p>",
+            "text": "<p>Learn where Flora Bella comes from, and about the family business behind it.</p>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",

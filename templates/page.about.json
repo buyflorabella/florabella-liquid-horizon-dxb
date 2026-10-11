@@ -416,7 +416,7 @@
                 "mission_text": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>It started with one man's fascination with soil. After years of consulting for farms, he found deep, dark, <strong>mineral-rich earth in Louisiana</strong>, where nature had concentrated <strong>rare trace minerals</strong> over centuries. He saw that most soil sold to gardeners was missing what makes plants thrive.</p><p>Commercial farms have relied on this earth by the ton for decades. His mission was to bring it to every garden, in a form anyone could use. That is why we pack it in <strong>2 lb and 5 lb bags</strong> for home gardeners.</p><p>Flora Bella is a <strong>small family business in south Mississippi</strong>, and we are continuing that mission: helping gardeners <strong>feed the soil itself</strong>, not only the plants growing in it.</p>",
+                    "text": "<p>It started with one man's fascination with soil. After years of consulting for farms, he found deep, dark, <strong>mineral-rich earth in Louisiana</strong>, where nature had concentrated <strong>rare trace minerals</strong> over millions of years. He saw that most soil sold to gardeners was missing what makes plants thrive.</p><p>Commercial farms have relied on this earth by the ton for decades. His mission was to bring it to every garden, in a form anyone could use. That is why we pack it in <strong>2 lb and 5 lb bags</strong> for home gardeners.</p><p>Flora Bella is a <strong>small family business in south Mississippi</strong>, and we are continuing that mission: helping gardeners <strong>feed the soil itself</strong>, not only the plants growing in it.</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -3144,7 +3144,7 @@
                     "title": {
                       "type": "text",
                       "settings": {
-                        "text": "<h3>Bioavailable Forms</h3>",
+                        "text": "<h3>Composted 6–8 Months</h3>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -3169,7 +3169,7 @@
                     "description": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Premium mineral forms engineered for maximum absorption and effectiveness.</p>",
+                        "text": "<p>Quarried, then composted and cured for six to eight months to wake up the naturally occurring biology.</p>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -3384,7 +3384,7 @@
                     "title": {
                       "type": "text",
                       "settings": {
-                        "text": "<h3>Sustainable Practices</h3>",
+                        "text": "<h3>Family Made</h3>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -3409,7 +3409,7 @@
                     "description": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Eco-friendly sourcing and packaging that protects the environments we depend on.</p>",
+                        "text": "<p>Made and packed by our small family business in south Mississippi, in 2 lb and 5 lb bags.</p>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
