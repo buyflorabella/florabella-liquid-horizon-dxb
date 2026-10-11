@@ -4197,6 +4197,42 @@
     "why_choose_native": {
       "type": "section",
       "blocks": {
+        "texture": {
+          "type": "group",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fill",
+            "custom_height": 100,
+            "background_media": "image",
+            "background_color": "",
+            "background_image": "shopify://shop_images/background_for_whychoose.png",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "heading": {
           "type": "text",
           "settings": {
@@ -5400,15 +5436,19 @@
         }
       },
       "block_order": [
+        "texture",
         "heading",
         "subheading",
         "cards_row"
       ],
       "custom_css": [
-        ".layout-panel-flex--row{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}",
+        ".layout-panel-flex--row{display:grid;grid-template-columns:1fr}",
+        "@media(min-width:990px){.layout-panel-flex--row{grid-template-columns:repeat(3,1fr)}}",
         ".layout-panel-flex--row>.group-block{overflow:hidden;background:rgb(var(--color-background-rgb)/.05)}",
-        ".group-block:has(>*>*>svg){position:absolute;inset-block-end:1rem;inset-inline-start:1rem}",
-        ".text-block:last-child{opacity:.6}"
+        ".group-block:has(>*>*>svg){position:absolute;bottom:1rem;left:1rem}",
+        ".text-block:last-child{opacity:.6}",
+        ".section-content-wrapper{position:relative}",
+        ".section-content-wrapper>:first-child{position:absolute;inset:0;opacity:.05;z-index:-1}"
       ],
       "name": "BFBella — Why Choose (Native)",
       "settings": {
