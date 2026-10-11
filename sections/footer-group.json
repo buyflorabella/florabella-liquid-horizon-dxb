@@ -585,7 +585,7 @@
         "bfbella_popup_script": {
           "type": "custom-liquid",
           "settings": {
-            "custom_liquid": "{% if template.name == 'index' %}{% unless request.design_mode %}\n<script type=\"module\">\n  // bfbella-popup\n  const KEY = 'bfbella-popup-2026-10';\n  //const DAYS = 14;\n  // DxB - 1 day for testing\n  const DAYS = 1;\n  const DELAY = 2000;\n  const el = document.querySelector('dialog-component.popup-link');\n  let seen = 0;\n  try { seen = Number(localStorage.getItem(KEY) || 0); } catch (e) {}\n  if (el && Date.now() - seen > DAYS * 864e5) {\n    await customElements.whenDefined('dialog-component');\n    setTimeout(() => el.showDialog(), DELAY);\n    el.addEventListener('dialog:close', () => {\n      try { localStorage.setItem(KEY, Date.now()); } catch (e) {}\n    });\n  }\n</script>\n{% endunless %}{% endif %}"
+            "custom_liquid": "{% if template.name == 'index' %}{% unless request.design_mode %}\n<script type=\"module\">\n  // bfbella-popup\n  const KEY = 'bfbella-popup-2026-10';\n  //const DAYS = 14;\n  // DxB - 0 day for testing\n  const DAYS = 0;\n  const DELAY = 2000;\n  const el = document.querySelector('dialog-component.popup-link');\n  let seen = 0;\n  try { seen = Number(localStorage.getItem(KEY) || 0); } catch (e) {}\n  if (el && Date.now() - seen > DAYS * 864e5) {\n    await customElements.whenDefined('dialog-component');\n    setTimeout(() => el.showDialog(), DELAY);\n    el.addEventListener('dialog:close', () => {\n      try { localStorage.setItem(KEY, Date.now()); } catch (e) {}\n    });\n  }\n</script>\n{% endunless %}{% endif %}"
           },
           "blocks": {}
         }
