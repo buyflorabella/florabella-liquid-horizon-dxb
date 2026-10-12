@@ -6727,49 +6727,88 @@
     "testimonials_native": {
       "type": "section",
       "blocks": {
-        "heading": {
-          "type": "text",
+        "intro": {
+          "type": "group",
           "settings": {
-            "text": "<h2>Gardeners Are Seeing Real Change</h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.background }}",
-            "background": false,
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "toggle_overlay": false,
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {}
-        },
-        "subheading": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Our reviews speak for themselves</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.background }}",
-            "background": false,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Gardeners Are Seeing Real Change</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.foreground }}",
+                "background": false,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "subheading": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Our reviews speak for themselves</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "{{ settings.color_palette.background }}",
+                "background": false,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
           },
-          "blocks": {}
+          "block_order": [
+            "heading",
+            "subheading"
+          ]
         },
         "row": {
           "type": "group",
@@ -6824,7 +6863,7 @@
                 "background_media": "none",
                 "background_color": "{{ settings.color_palette.color9 }}",
                 "toggle_overlay": false,
-                "border": "solid",
+                "border": "none",
                 "border_width": 1,
                 "border_opacity": 10,
                 "border_color": "{{ settings.color_palette.background }}",
@@ -7151,7 +7190,7 @@
                 "background_media": "none",
                 "background_color": "{{ settings.color_palette.color9 }}",
                 "toggle_overlay": false,
-                "border": "solid",
+                "border": "none",
                 "border_width": 1,
                 "border_opacity": 10,
                 "border_color": "{{ settings.color_palette.background }}",
@@ -7478,7 +7517,7 @@
                 "background_media": "none",
                 "background_color": "{{ settings.color_palette.color9 }}",
                 "toggle_overlay": false,
-                "border": "solid",
+                "border": "none",
                 "border_width": 1,
                 "border_opacity": 10,
                 "border_color": "{{ settings.color_palette.background }}",
@@ -7794,8 +7833,7 @@
         }
       },
       "block_order": [
-        "heading",
-        "subheading",
+        "intro",
         "row"
       ],
       "custom_css": [
