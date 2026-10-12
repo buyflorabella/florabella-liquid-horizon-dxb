@@ -6769,7 +6769,7 @@
             "heading": {
               "type": "text",
               "settings": {
-                "text": "<h2>Gardeners Are Seeing Real Change</h2>",
+                "text": "<h2>Gardeners Are Seeing<br/>Real Change</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -8046,7 +8046,7 @@
         ".group-block:has(> .group-block-content > [class*=\"__initials\"]) {background: linear-gradient(135deg, #7cb342, #ff1493); width: 56px; height: 56px;}",
         ".layout-panel-flex--row > .group-block {transition: 0.3s;}",
         ".layout-panel-flex--row > .group-block:hover {transform: scale(1.05);}",
-        "h2 {font-size: clamp(2.25rem, 5vw, 3.5rem);font-weight: 700;line-height: 1.1;margin-block-end: 1.5rem;}"
+        "h2 {font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.1; margin-block-end: 1.5rem;}"
       ],
       "name": "BFBella — Testimonials (Native)",
       "settings": {
