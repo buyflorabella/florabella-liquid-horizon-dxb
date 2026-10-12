@@ -624,6 +624,51 @@
         "padding-block-end": 48
       }
     },
+    "community_slideshow": {
+      "type": "slideshow",
+      "name": "Community Slideshow",
+      "blocks": {
+        "slide_1": {
+          "type": "_slide",
+          "settings": {
+            "image_1": "shopify://shop_images/mine_outlooking_the_field.jpg"
+          },
+          "blocks": {}
+        },
+        "slide_2": {
+          "type": "_slide",
+          "settings": {
+            "image_1": "shopify://shop_images/trace_mineral_rock_cropped_16by9.jpg"
+          },
+          "blocks": {}
+        },
+        "slide_3": {
+          "type": "_slide",
+          "settings": {
+            "image_1": "shopify://shop_images/plants_in_greenhouse1_cropped4x3.png"
+          },
+          "blocks": {}
+        },
+        "slide_4": {
+          "type": "_slide",
+          "settings": {
+            "image_1": "shopify://shop_images/hand_holding_fine_grained_material.jpg"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4"
+      ],
+      "settings": {
+        "display_mode": "full_frame",
+        "autoplay": true,
+        "autoplay_speed": 3
+      }
+    },
     "social": {
       "type": "bfbella-community-social",
       "blocks": {
@@ -1681,6 +1726,7 @@
     "main",
     "intro",
     "intro_native",
+    "community_slideshow",
     "social",
     "social_native",
     "cta",
