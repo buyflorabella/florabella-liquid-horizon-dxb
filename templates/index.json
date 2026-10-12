@@ -6671,7 +6671,7 @@
         "heading_color": "",
         "subheading_color": "",
         "accent_color": "",
-        "background_color": "{{ settings.color_palette.color3 }}",
+        "background_color": "#6D2094",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -6721,7 +6721,7 @@
         "subheading": "Our reviews speak for themselves",
         "accent_color": "",
         "accent_color_2": "",
-        "background_color": "{{ settings.color_palette.color3 }}",
+        "background_color": "{{ settings.color_palette.color8 }}",
         "padding_top": 128,
         "padding_bottom": 128
       }
