@@ -6980,7 +6980,7 @@
                         "letter_spacing": "normal",
                         "case": "none",
                         "wrap": "pretty",
-                        "text_color": "#FD8F00",
+                        "text_color": "#fd8f00",
                         "background": false,
                         "background_color": "#00000026",
                         "corner_radius": 0,
@@ -7103,7 +7103,7 @@
                         "initials": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>MM</p>",
+                            "text": "<p><strong>MM</strong></p>",
                             "width": "fit-content",
                             "max_width": "normal",
                             "alignment": "center",
@@ -7356,7 +7356,7 @@
                         "letter_spacing": "normal",
                         "case": "none",
                         "wrap": "pretty",
-                        "text_color": "#FD8F00",
+                        "text_color": "#fd8f00",
                         "background": false,
                         "background_color": "#00000026",
                         "corner_radius": 0,
@@ -7479,7 +7479,7 @@
                         "initials": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>FP</p>",
+                            "text": "<p><strong>FP</strong></p>",
                             "width": "fit-content",
                             "max_width": "normal",
                             "alignment": "center",
@@ -7855,7 +7855,7 @@
                         "initials": {
                           "type": "text",
                           "settings": {
-                            "text": "<p>JC</p>",
+                            "text": "<p><strong>JC</strong></p>",
                             "width": "fit-content",
                             "max_width": "normal",
                             "alignment": "center",
@@ -8006,7 +8006,7 @@
         ".layout-panel-flex--row {align-items: stretch;}",
         "[class*=\"__quotemark\"] {position: absolute; top: 1.5rem; right: 1.5rem; font-size: 3rem; opacity: 0.3; line-height: 1;}",
         "[class*=\"__name\"] {font-weight: 700;}",
-        ".group-block:has(>.group-block-content>[class*=\"__initials\"]) {background: linear-gradient(135deg, #7CB342, #FF1493);}"
+        ".group-block:has(> .group-block-content > [class*=\"__initials\"]) {background: linear-gradient(135deg, #7cb342, #ff1493);}"
       ],
       "name": "BFBella — Testimonials (Native)",
       "settings": {
