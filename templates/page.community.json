@@ -425,8 +425,8 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
-                "link": "",
-                "open_in_new_tab": false,
+                "link": "https://instagram.com/buyflorabella/",
+                "open_in_new_tab": true,
                 "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -520,7 +520,7 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
-                "link": "",
+                "link": "/#video-rEuZEiuCOIk",
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
@@ -615,8 +615,8 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
-                "link": "",
-                "open_in_new_tab": false,
+                "link": "https://www.facebook.com/profile.php?id=61586134112080",
+                "open_in_new_tab": true,
                 "placeholder": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -694,7 +694,8 @@
       "custom_css": [
         ".group-block[class*=\"__stats\"] {max-width: 56rem; box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.08);}",
         "[class*=\"__stat_number\"] * {font-size: 2.25rem;}",
-        "[class*=\"__stat_label\"] * {font-size: 0.95rem; font-weight: 600; opacity: 0.7;}"
+        "[class*=\"__stat_label\"] * {font-size: 0.95rem; font-weight: 600; opacity: 0.7;}",
+        ".group-block[class*=\"__stat_\"]:has(>a):hover{opacity:.8}"
       ],
       "settings": {
         "content_direction": "column",

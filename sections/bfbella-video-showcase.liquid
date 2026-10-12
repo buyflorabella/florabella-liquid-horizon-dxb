@@ -132,6 +132,7 @@
     padding-block-end: var(--bfbella-pad-bottom, 6rem);
     background-color: var(--color-background);
     color: var(--color-foreground);
+    scroll-margin-top: var(--header-height, 0px);
   }
 
   .bfbella-video-showcase__inner {
@@ -344,12 +345,31 @@
         this.selectVideo(this.thumbs[0]);
       }
 
+      // Deep link (task 0037): a URL ending in #video-<YouTube id> or #video-<position, 1-based>
+      // selects that video and scrolls the player into view, e.g. /#video-rEuZEiuCOIk or /#video-4.
+      this.selectFromHash();
+      window.addEventListener('hashchange', () => this.selectFromHash());
+
       const playlistId = this.dataset.playlistId;
       const apiKey = this.dataset.apiKey;
       if (playlistId && apiKey) {
         const maxVideos = parseInt(this.dataset.maxVideos, 10) || 6;
         this.loadPlaylist(playlistId, apiKey, maxVideos);
       }
+    }
+
+    selectFromHash() {
+      const match = window.location.hash.match(/^#video-([\w-]+)$/);
+      if (!match) return;
+
+      const key = match[1];
+      const thumb = /^\d{1,2}$/.test(key)
+        ? this.thumbs[Number(key) - 1]
+        : this.thumbs.find((t) => t.dataset.youtubeId === key);
+      if (!thumb) return;
+
+      this.selectVideo(thumb);
+      requestAnimationFrame(() => this.scrollIntoView({ block: 'start' }));
     }
 
     selectVideo(thumb) {
