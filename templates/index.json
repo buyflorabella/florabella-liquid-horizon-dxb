@@ -6863,7 +6863,7 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>“</p>",
-                    "width": "100%",
+                    "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "paragraph",
@@ -7152,7 +7152,7 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>“</p>",
-                    "width": "100%",
+                    "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "paragraph",
@@ -7441,7 +7441,7 @@
                   "type": "text",
                   "settings": {
                     "text": "<p>“</p>",
-                    "width": "100%",
+                    "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
                     "type_preset": "paragraph",
