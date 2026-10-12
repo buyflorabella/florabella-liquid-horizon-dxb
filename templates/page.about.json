@@ -3663,7 +3663,7 @@
                 "button_2": {
                   "type": "button",
                   "settings": {
-                    "label": "Get in Touch",
+                    "label": "Contact us for Bulk Orders and Questions",
                     "link": "shopify://pages/contact",
                     "open_in_new_tab": false,
                     "style_class": "button-secondary",
