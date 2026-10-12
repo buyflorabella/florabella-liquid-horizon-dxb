@@ -5505,7 +5505,7 @@
         "bfbella_step_FKXhPH": {
           "type": "bfbella-step",
           "settings": {
-            "image": "shopify://shop_images/Trace_Minerals_stacked_by_the_ton.jpg",
+            "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
             "icon": "droplets",
             "title": "Micronutrient Fertilizer",
             "description": "Naturally occurring beneficial bacteria:",
@@ -5687,7 +5687,7 @@
                 "photo": {
                   "type": "image",
                   "settings": {
-                    "image": "shopify://shop_images/Trace_Minerals_stacked_by_the_ton.jpg",
+                    "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
                     "link": "",
                     "image_ratio": "square",
                     "width": "fill",
