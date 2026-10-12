@@ -2020,7 +2020,7 @@
                     "description": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Fifty years of farm proven results, and consistent quality.</p>",
+                        "text": "<p>Fifty years of farm proven results, and consistent quality. &nbsp;Quality controlled.</p>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
