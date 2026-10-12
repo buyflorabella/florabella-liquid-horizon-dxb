@@ -258,7 +258,7 @@
         "[class*=\"__intro_group\"] {max-width: 44rem;}",
         "[class*=\"__eyebrow_text\"] * {font-size: 0.8rem; letter-spacing: 0.08em;}",
         "[class*=\"__intro_text\"] * {font-size: 1.2rem; opacity: 0.75;}",
-        "@media(max-width:749px){.section-content-wrapper{padding-block-start:5px}.group-block[class*=\"__eyebrow_pill\"]{margin-block-end:-15px}[class*=\"__title\"]{padding-block-start:0}}"
+        "@media(max-width:749px){.section-content-wrapper{padding-block-start:5px}[class*=\"__title\"]{padding-block-start:0;margin-block-start:-15px}}"
       ],
       "name": "BFBella — Community Intro (Native test)",
       "settings": {
