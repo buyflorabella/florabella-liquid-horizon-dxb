@@ -624,8 +624,71 @@
         "padding-block-end": 48
       }
     },
+    "community_card_marquee": {
+      "type": "bfbella-card-marquee",
+      "blocks": {
+        "card_hero": {
+          "type": "_bfbella-marquee-card",
+          "settings": {
+            "image": "shopify://shop_images/home_page_featured_image_0909.jpg",
+            "image_ratio": "portrait"
+          },
+          "blocks": {}
+        },
+        "card_1": {
+          "type": "_bfbella-marquee-card",
+          "settings": {
+            "image": "shopify://shop_images/mine_outlooking_the_field.jpg",
+            "image_ratio": "portrait"
+          },
+          "blocks": {}
+        },
+        "card_2": {
+          "type": "_bfbella-marquee-card",
+          "settings": {
+            "image": "shopify://shop_images/trace_mineral_rock_cropped_16by9.jpg",
+            "image_ratio": "portrait"
+          },
+          "blocks": {}
+        },
+        "card_3": {
+          "type": "_bfbella-marquee-card",
+          "settings": {
+            "image": "shopify://shop_images/plants_in_greenhouse1_cropped4x3.png",
+            "image_ratio": "portrait"
+          },
+          "blocks": {}
+        },
+        "card_4": {
+          "type": "_bfbella-marquee-card",
+          "settings": {
+            "image": "shopify://shop_images/hand_holding_fine_grained_material.jpg",
+            "image_ratio": "portrait"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "card_hero",
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
+      "settings": {
+        "movement_direction": "normal",
+        "speed_factor": 40,
+        "card_height": 220,
+        "card_radius": 12,
+        "dialog_label": "Enlarged photo",
+        "padding-block-start": 24,
+        "padding-block-end": 24,
+        "gap_between_elements": 16
+      }
+    },
     "community_slideshow": {
       "type": "slideshow",
+      "disabled": true,
       "name": "Community Slideshow",
       "blocks": {
         "slide_1": {
@@ -1726,6 +1789,7 @@
     "main",
     "intro",
     "intro_native",
+    "community_card_marquee",
     "community_slideshow",
     "social",
     "social_native",
