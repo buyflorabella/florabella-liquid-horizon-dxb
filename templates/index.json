@@ -8040,6 +8040,7 @@
         "intro",
         "row"
       ],
+      "disabled": true,
       "custom_css": [
         ".layout-panel-flex--row {align-items: stretch;}",
         "[class*=\"__name\"] {font-weight: 700;}",
