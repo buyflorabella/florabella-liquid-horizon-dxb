@@ -8084,6 +8084,15 @@
     "bfbella_video_showcase_bkh98U": {
       "type": "bfbella-video-showcase",
       "blocks": {
+        "bfbella_video_NmLrcE": {
+          "type": "bfbella-video",
+          "settings": {
+            "youtube_id": "rEuZEiuCOIk",
+            "title": "Organic Trace Mineral Mine Tour",
+            "platform": "YouTube Shorts"
+          },
+          "blocks": {}
+        },
         "bfbella_video_KHLX6F": {
           "type": "bfbella-video",
           "settings": {
@@ -8111,22 +8120,13 @@
             "platform": "YouTube"
           },
           "blocks": {}
-        },
-        "bfbella_video_NmLrcE": {
-          "type": "bfbella-video",
-          "settings": {
-            "youtube_id": "rEuZEiuCOIk",
-            "title": "Organic Trace Mineral Mine Tour",
-            "platform": "YouTube Shorts"
-          },
-          "blocks": {}
         }
       },
       "block_order": [
+        "bfbella_video_NmLrcE",
         "bfbella_video_KHLX6F",
         "bfbella_video_mTcQpD",
-        "bfbella_video_NGqzLT",
-        "bfbella_video_NmLrcE"
+        "bfbella_video_NGqzLT"
       ],
       "name": "BFBella — Video Showcase",
       "settings": {
