@@ -695,7 +695,7 @@
         ".group-block[class*=\"__stats\"] {max-width: 56rem; box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.08);}",
         "[class*=\"__stat_number\"] * {font-size: 2.25rem;}",
         "[class*=\"__stat_label\"] * {font-size: 0.95rem; font-weight: 600; opacity: 0.7;}",
-        ".group-block[class*=\"__stat_\"]:has(>a):hover{opacity:.8}"
+        "[class*=\"__stats\"] .group-block:has(>a):hover{opacity:.8}"
       ],
       "settings": {
         "content_direction": "column",
