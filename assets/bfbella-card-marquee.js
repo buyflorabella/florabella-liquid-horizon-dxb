@@ -46,7 +46,7 @@ class BfbellaCardMarquee extends HTMLElement {
   #handleClick = (event) => {
     const target = /** @type {HTMLElement} */ (event.target);
 
-    if (target === this.dialog || target.closest('[data-bfbella-close]')) {
+    if (target === this.dialog || target === this.figure || target.closest('[data-bfbella-close]')) {
       this.dialog.close();
       return;
     }
