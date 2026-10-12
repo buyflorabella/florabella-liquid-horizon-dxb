@@ -7020,6 +7020,19 @@
                   },
                   "blocks": {}
                 },
+                "divider_UbjJMq": {
+                  "type": "_divider",
+                  "name": "t:names.divider",
+                  "settings": {
+                    "thickness": 1,
+                    "corner_radius": "square",
+                    "divider_color": "",
+                    "width_percent": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0
+                  },
+                  "blocks": {}
+                },
                 "footer": {
                   "type": "group",
                   "settings": {
@@ -7233,6 +7246,7 @@
               "block_order": [
                 "top_row",
                 "quote",
+                "divider_UbjJMq",
                 "footer"
               ]
             },
@@ -7373,7 +7387,7 @@
                 "quote": {
                   "type": "text",
                   "settings": {
-                    "text": "<p>“I've been working with plants and fertilizer for 30 years.  By far this is my favorite tool in the toolbelt.  Nothing I've seen has provided organic micronutrition or give the plants the bang for the buck.  This is my go to.  I love this product, and I highly recommend it.”</p>",
+                    "text": "<p>“I've been working with plants and fertilizer for 30 years. &nbsp;By far this is my favorite tool in the toolbelt. &nbsp;Nothing I've seen has provided organic micronutrition or give the plants the bang for the buck. &nbsp;This is my go to. &nbsp;I love this product, and I highly recommend it.”</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -7392,6 +7406,19 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "divider_hULD9C": {
+                  "type": "_divider",
+                  "name": "t:names.divider",
+                  "settings": {
+                    "thickness": 1,
+                    "corner_radius": "square",
+                    "divider_color": "",
+                    "width_percent": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0
                   },
                   "blocks": {}
                 },
@@ -7608,6 +7635,7 @@
               "block_order": [
                 "top_row",
                 "quote",
+                "divider_hULD9C",
                 "footer"
               ]
             },
@@ -7767,6 +7795,19 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "divider_AtQAtN": {
+                  "type": "_divider",
+                  "name": "t:names.divider",
+                  "settings": {
+                    "thickness": 1,
+                    "corner_radius": "square",
+                    "divider_color": "",
+                    "width_percent": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0
                   },
                   "blocks": {}
                 },
@@ -7983,6 +8024,7 @@
               "block_order": [
                 "top_row",
                 "quote",
+                "divider_AtQAtN",
                 "footer"
               ]
             }
