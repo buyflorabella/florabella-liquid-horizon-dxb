@@ -7079,7 +7079,7 @@
                         "height": "fit",
                         "custom_height": 100,
                         "background_media": "none",
-                        "background_color": "{{ settings.color_palette.color3 }}",
+                        "background_color": "",
                         "video_position": "cover",
                         "background_image_position": "cover",
                         "toggle_overlay": false,
@@ -7455,7 +7455,7 @@
                         "height": "fit",
                         "custom_height": 100,
                         "background_media": "none",
-                        "background_color": "{{ settings.color_palette.color3 }}",
+                        "background_color": "",
                         "video_position": "cover",
                         "background_image_position": "cover",
                         "toggle_overlay": false,
@@ -7831,7 +7831,7 @@
                         "height": "fit",
                         "custom_height": 100,
                         "background_media": "none",
-                        "background_color": "{{ settings.color_palette.color3 }}",
+                        "background_color": "",
                         "video_position": "cover",
                         "background_image_position": "cover",
                         "toggle_overlay": false,
@@ -8005,7 +8005,8 @@
       "custom_css": [
         ".layout-panel-flex--row {align-items: stretch;}",
         "[class*=\"__quotemark\"] {position: absolute; top: 1.5rem; right: 1.5rem; font-size: 3rem; opacity: 0.3; line-height: 1;}",
-        "[class*=\"__name\"] {font-weight: 700;}"
+        "[class*=\"__name\"] {font-weight: 700;}",
+        ".group-block:has(>.group-block-content>[class*=\"__initials\"]) {background: linear-gradient(135deg, #7CB342, #FF1493);}"
       ],
       "name": "BFBella — Testimonials (Native)",
       "settings": {
