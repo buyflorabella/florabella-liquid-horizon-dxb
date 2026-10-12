@@ -258,7 +258,7 @@
         "[class*=\"__intro_group\"] {max-width: 44rem;}",
         "[class*=\"__eyebrow_text\"] * {font-size: 0.8rem; letter-spacing: 0.08em;}",
         "[class*=\"__intro_text\"] * {font-size: 1.2rem; opacity: 0.75;}",
-        "@media(max-width:749px){.section-content-wrapper{padding-block-start:5px}[class*=\"__title\"]{padding-block-start:0;margin-block-start:-15px}}"
+        "@media (max-width: 749px) {.section-content-wrapper {padding-block-start: 5px; } [class*=\"__title\"] {padding-block-start: 0; margin-block-start: -15px; }}"
       ],
       "name": "BFBella — Community Intro (Native test)",
       "settings": {
@@ -347,6 +347,7 @@
         "card_height": 220,
         "card_radius": 12,
         "dialog_label": "Enlarged photo",
+        "background_color": "",
         "padding-block-start": 24,
         "padding-block-end": 24,
         "gap_between_elements": 16
@@ -354,7 +355,6 @@
     },
     "stats_native": {
       "type": "section",
-      "name": "BFBella — Community Stats",
       "blocks": {
         "stats": {
           "type": "group",
@@ -557,7 +557,7 @@
                 "stat_label": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>River bed &amp; volcanic sources</strong></p>",
+                    "text": "<p><strong>Plant and animal sea deposit</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -695,8 +695,9 @@
         ".group-block[class*=\"__stats\"] {max-width: 56rem; box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.08);}",
         "[class*=\"__stat_number\"] * {font-size: 2.25rem;}",
         "[class*=\"__stat_label\"] * {font-size: 0.95rem; font-weight: 600; opacity: 0.7;}",
-        "[class*=\"__stats\"] .group-block:has(>a):hover{opacity:.8}"
+        "[class*=\"__stats\"] .group-block:has(> a):hover {opacity: 0.8;}"
       ],
+      "name": "BFBella — Community Stats",
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -728,34 +729,104 @@
     },
     "community_slideshow": {
       "type": "slideshow",
-      "disabled": true,
-      "name": "Community Slideshow",
       "blocks": {
         "slide_1": {
           "type": "_slide",
           "settings": {
-            "image_1": "shopify://shop_images/mine_outlooking_the_field.jpg"
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/mine_outlooking_the_field.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         },
         "slide_2": {
           "type": "_slide",
           "settings": {
-            "image_1": "shopify://shop_images/trace_mineral_rock_cropped_16by9.jpg"
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/trace_mineral_rock_cropped_16by9.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         },
         "slide_3": {
           "type": "_slide",
           "settings": {
-            "image_1": "shopify://shop_images/plants_in_greenhouse1_cropped4x3.png"
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/plants_in_greenhouse1_cropped4x3.png",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         },
         "slide_4": {
           "type": "_slide",
           "settings": {
-            "image_1": "shopify://shop_images/hand_holding_fine_grained_material.jpg"
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/hand_holding_fine_grained_material.jpg",
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 12,
+            "background_color": "",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         }
@@ -766,10 +837,24 @@
         "slide_3",
         "slide_4"
       ],
+      "disabled": true,
+      "name": "Community Slideshow",
       "settings": {
         "display_mode": "full_frame",
+        "section_width": "full-width",
+        "full_frame_on_mobile": false,
+        "slideshow_gap": 12,
+        "corner_radius": 0,
+        "slide_height": "medium",
+        "content_position": "on-media",
+        "background_color": "",
+        "icons_style": "arrows_large",
+        "icons_shape": "none",
+        "slideshow_controls_style": "dots",
         "autoplay": true,
-        "autoplay_speed": 3
+        "autoplay_speed": 3,
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "social": {
