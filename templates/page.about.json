@@ -3409,7 +3409,7 @@
                     "description": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Made and packed by our small family business in south Mississippi, in 2 lb and 5 lb bags.</p>",
+                        "text": "<p>Made and packed by our small family business in south Mississippi.</p>",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
