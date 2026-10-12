@@ -347,7 +347,7 @@
         "card_height": 220,
         "card_radius": 12,
         "dialog_label": "Enlarged photo",
-        "background_color": "",
+        "background_color": "{{ settings.color_palette.color5 }}",
         "padding-block-start": 24,
         "padding-block-end": 24,
         "gap_between_elements": 16
