@@ -152,17 +152,19 @@
   }
 
   .bfbella-card-marquee__dialog {
-    width: min(92vw, 1200px);
-    max-width: none;
+    width: fit-content;
+    max-width: 92vw;
     max-height: 92vh;
     padding: 0;
+    background: transparent;
     border: 0;
     border-radius: var(--bfbella-card-radius, 0);
     overflow: hidden;
   }
 
   .bfbella-card-marquee__dialog::backdrop {
-    background: rgb(var(--backdrop-color-rgb) / 0.75);
+    backdrop-filter: brightness(0.65) blur(2px);
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-60));
   }
 
   .bfbella-card-marquee__dialog[open] {
@@ -172,15 +174,14 @@
 
   .bfbella-card-marquee__figure {
     margin: 0;
-    width: 100%;
   }
 
   .bfbella-card-marquee__full {
     display: block;
-    width: 100%;
+    width: auto;
     height: auto;
+    max-width: 92vw;
     max-height: 92vh;
-    object-fit: contain;
   }
 
   .bfbella-card-marquee__dialog-button {
