@@ -437,7 +437,7 @@
                 "stat_number": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>1,000+</strong></p>",
+                    "text": "<p><strong>5,000+</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -462,7 +462,7 @@
                 "stat_label": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Followers</strong></p>",
+                    "text": "<p><strong>Social media followers this year</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -627,7 +627,7 @@
                 "stat_number": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Dozens</strong></p>",
+                    "text": "<p><strong>10,000+</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -652,7 +652,7 @@
                 "stat_label": {
                   "type": "text",
                   "settings": {
-                    "text": "<p><strong>Of home gardeners growing with us</strong></p>",
+                    "text": "<p><strong>Farmers and home gardeners growing with us</strong></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
