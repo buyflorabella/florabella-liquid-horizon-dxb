@@ -1701,7 +1701,7 @@
                   "type": "button",
                   "settings": {
                     "label": "Join the Community",
-                    "link": "https://www.facebook.com/profile.php?id=61586134112080",
+                    "link": "https://instagram.com/buyflorabella/",
                     "open_in_new_tab": true,
                     "style_class": "button-secondary",
                     "custom_button_background": "{{ settings.color_palette.foreground }}",
