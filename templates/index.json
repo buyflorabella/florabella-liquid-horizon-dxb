@@ -4896,7 +4896,6 @@
         "subheading",
         "row"
       ],
-      "disabled": true,
       "custom_css": [
         "[class*=\"__photo\"] {overflow: hidden;}",
         "[class*=\"__photo\"] img {transition: transform 0.5s;}",
