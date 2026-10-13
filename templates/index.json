@@ -2536,7 +2536,7 @@
         "section_height": "",
         "section_height_custom": 50,
         "background_media": "none",
-        "background_color": "#6D2094",
+        "background_color": "#2d1b4e",
         "video_position": "cover",
         "background_image_position": "cover",
         "toggle_overlay": false,
@@ -2654,7 +2654,7 @@
         "add_to_cart_button_text_color": "",
         "buy_now_button_text_color": "",
         "section_width": "page-width",
-        "background_color": "{{ settings.color_palette.color8 }}",
+        "background_color": "{{ settings.color_palette.color4 }}",
         "padding-block-start": 68,
         "padding-block-end": 48
       }
@@ -2715,7 +2715,7 @@
         "bfbella_benefit_card_iCHcFt": {
           "type": "bfbella-benefit-card",
           "settings": {
-            "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
+            "image": "shopify://shop_images/about_page_benefits_image2.png",
             "icon": "none",
             "title": "Handled with Care + OMRI listed",
             "description": "OMRI Listed.  Our gentle processing, careful packaging, and quality checks surpass all OMRI standards."
@@ -3030,7 +3030,7 @@
                     "wrap": "pretty",
                     "text_color": "{{ settings.color_palette.background }}",
                     "background": true,
-                    "background_color": "#1a1c1b",
+                    "background_color": "#1A1C1B",
                     "corner_radius": 0,
                     "padding-block-start": 20,
                     "padding-block-end": 0,
@@ -3055,7 +3055,7 @@
                     "wrap": "pretty",
                     "text_color": "{{ settings.color_palette.background }}",
                     "background": true,
-                    "background_color": "#1a1c1b",
+                    "background_color": "#1A1C1B",
                     "corner_radius": 16,
                     "padding-block-start": 0,
                     "padding-block-end": 20,
@@ -3226,7 +3226,7 @@
                     "wrap": "pretty",
                     "text_color": "{{ settings.color_palette.background }}",
                     "background": true,
-                    "background_color": "#1a1c1b",
+                    "background_color": "#1A1C1B",
                     "corner_radius": 0,
                     "padding-block-start": 20,
                     "padding-block-end": 0,
@@ -3251,7 +3251,7 @@
                     "wrap": "pretty",
                     "text_color": "{{ settings.color_palette.background }}",
                     "background": true,
-                    "background_color": "#1a1c1b",
+                    "background_color": "#1A1C1B",
                     "corner_radius": 0,
                     "padding-block-start": 0,
                     "padding-block-end": 20,
@@ -3422,7 +3422,7 @@
                     "wrap": "pretty",
                     "text_color": "{{ settings.color_palette.background }}",
                     "background": true,
-                    "background_color": "#1a1c1b",
+                    "background_color": "#1A1C1B",
                     "corner_radius": 0,
                     "padding-block-start": 20,
                     "padding-block-end": 0,
@@ -3447,7 +3447,7 @@
                     "wrap": "pretty",
                     "text_color": "{{ settings.color_palette.background }}",
                     "background": true,
-                    "background_color": "#1a1c1b",
+                    "background_color": "#1A1C1B",
                     "corner_radius": 0,
                     "padding-block-start": 0,
                     "padding-block-end": 20,
@@ -3481,7 +3481,7 @@
                 "height": "fit",
                 "custom_height": 100,
                 "background_media": "none",
-                "background_color": "#1a1c1b",
+                "background_color": "#1A1C1B",
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "toggle_overlay": false,
@@ -4009,7 +4009,6 @@
         "subheading",
         "cards_row"
       ],
-      "disabled": true,
       "custom_css": [
         ".layout-panel-flex--row {display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); align-items: stretch;}",
         ".layout-panel-flex--row > .group-block {background: rgb(var(--color-background-rgb) / 0.05);}",
@@ -5505,7 +5504,7 @@
         "bfbella_step_FKXhPH": {
           "type": "bfbella-step",
           "settings": {
-            "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
+            "image": "shopify://shop_images/Trace_Minerals_stacked_by_the_ton.jpg",
             "icon": "droplets",
             "title": "Micronutrient Fertilizer",
             "description": "Naturally occurring beneficial bacteria:",
@@ -5687,7 +5686,7 @@
                 "photo": {
                   "type": "image",
                   "settings": {
-                    "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
+                    "image": "shopify://shop_images/Trace_Minerals_stacked_by_the_ton.jpg",
                     "link": "",
                     "image_ratio": "square",
                     "width": "fill",
@@ -6671,7 +6670,7 @@
         "heading_color": "",
         "subheading_color": "",
         "accent_color": "",
-        "background_color": "#6D2094",
+        "background_color": "{{ settings.color_palette.color3 }}",
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -6721,7 +6720,7 @@
         "subheading": "Our reviews speak for themselves",
         "accent_color": "",
         "accent_color_2": "",
-        "background_color": "{{ settings.color_palette.color8 }}",
+        "background_color": "{{ settings.color_palette.color3 }}",
         "padding_top": 128,
         "padding_bottom": 128
       }
@@ -8084,15 +8083,6 @@
     "bfbella_video_showcase_bkh98U": {
       "type": "bfbella-video-showcase",
       "blocks": {
-        "bfbella_video_NmLrcE": {
-          "type": "bfbella-video",
-          "settings": {
-            "youtube_id": "rEuZEiuCOIk",
-            "title": "Organic Trace Mineral Mine Tour",
-            "platform": "YouTube Shorts"
-          },
-          "blocks": {}
-        },
         "bfbella_video_KHLX6F": {
           "type": "bfbella-video",
           "settings": {
@@ -8104,7 +8094,6 @@
         },
         "bfbella_video_mTcQpD": {
           "type": "bfbella-video",
-          "disabled": true,
           "settings": {
             "youtube_id": "-SFmEtrPzd0",
             "title": "Top Dressing Your Plants",
@@ -8120,13 +8109,22 @@
             "platform": "YouTube"
           },
           "blocks": {}
+        },
+        "bfbella_video_NmLrcE": {
+          "type": "bfbella-video",
+          "settings": {
+            "youtube_id": "rEuZEiuCOIk",
+            "title": "Organic Trace Mineral Mine Tour",
+            "platform": "YouTube Shorts"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "bfbella_video_NmLrcE",
         "bfbella_video_KHLX6F",
         "bfbella_video_mTcQpD",
-        "bfbella_video_NGqzLT"
+        "bfbella_video_NGqzLT",
+        "bfbella_video_NmLrcE"
       ],
       "name": "BFBella — Video Showcase",
       "settings": {
