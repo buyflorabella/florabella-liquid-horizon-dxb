@@ -1,0 +1,23 @@
+/*
+  BFBella — common card effects (task 0038, approved by DXB 2026-10-13).
+  Shared hover effects for native Horizon sections, kept here instead of each section's
+  500-character Custom CSS. Native group blocks cannot take a custom class, so each section
+  opts in by its section id ending (the section's key in the template JSON).
+  Scope is deliberately small: only effects in active use are added here.
+*/
+
+:root {
+  --bfbella-card-lift-scale: 1.05;
+  --bfbella-card-lift-duration: 0.3s;
+}
+
+/* Card lift: the card grows slightly on hover. */
+[id$='__why_choose_native'] [class*='x--row'] > div {
+  transition: transform var(--bfbella-card-lift-duration);
+}
+
+@media (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [id$='__why_choose_native'] [class*='x--row'] > div:hover {
+    transform: scale(var(--bfbella-card-lift-scale));
+  }
+}

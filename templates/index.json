@@ -3961,7 +3961,7 @@
                     "background_color": "",
                     "video_position": "cover",
                     "background_image": "shopify://shop_images/omri_listed_logo.png",
-                    "background_image_position": "cover",
+                    "background_image_position": "fit",
                     "toggle_overlay": false,
                     "overlay_color": "#00000026",
                     "overlay_style": "solid",
