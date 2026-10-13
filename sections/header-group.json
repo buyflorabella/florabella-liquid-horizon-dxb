@@ -34,7 +34,7 @@
             "discount_pulse_speed": 5,
             "pre_text_color": "",
             "discount_text_color": "{{ settings.color_palette.color8 }}",
-            "discount_pulse_color": "#370BD7",
+            "discount_pulse_color": "#370bd7",
             "post_text_color": ""
           },
           "blocks": {}
@@ -199,7 +199,7 @@
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
-        "background_color_top": "#382062",
+        "background_color_top": "#6D2094",
         "text_color_top": "",
         "background_color_bottom": "",
         "text_color_bottom": "",

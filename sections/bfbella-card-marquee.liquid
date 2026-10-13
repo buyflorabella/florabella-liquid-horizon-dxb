@@ -1,0 +1,385 @@
+
+
+{%- comment -%}
+  BFBella — Card Marquee (task 0037). Copy of Horizon's native marquee section with photo
+  cards added: a continuous left or right scroll of small image cards, each one opens a larger
+  view on click. Motion, cloning and pause-on-hover all come from the native marquee script
+  unchanged; the enlarged view comes from bfbella-card-marquee.js.
+{%- endcomment -%}
+<script
+  src="{{ 'marquee.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'bfbella-card-marquee.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+{% liquid
+  assign gap_between_elements = section.settings.gap_between_elements
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<bfbella-card-marquee>
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+<marquee-component
+  class="section spacing-style gap-style{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  style="
+    {%- render 'spacing-style', settings: section.settings %};
+    {% render 'gap-style', value: gap_between_elements, name: 'marquee-gap' %}
+    --marquee-direction: {{ section.settings.movement_direction }};
+    --bfbella-card-height: {{ section.settings.card_height }}px;
+    --bfbella-card-radius: {{ section.settings.card_radius }}px;
+  "
+  data-speed-factor="{{ section.settings.speed_factor }}"
+  data-movement-direction="{{ section.settings.movement_direction }}"
+>
+  <div
+    class="marquee__wrapper"
+    ref="wrapper"
+  >
+    <div
+      class="marquee__content"
+      ref="content"
+    >
+      <div
+        class="marquee__repeated-items"
+        ref="marqueeItems[]"
+      >
+        {% content_for 'blocks' %}
+      </div>
+    </div>
+  </div>
+</marquee-component>
+
+<dialog
+  class="bfbella-card-marquee__dialog"
+  aria-label="{{ section.settings.dialog_label | escape }}"
+>
+  <button
+    type="button"
+    class="bfbella-card-marquee__dialog-button bfbella-card-marquee__dialog-close button-unstyled"
+    data-bfbella-close
+    aria-label="{{ 'actions.close' | t }}"
+  >
+    <span class="svg-wrapper">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+  </button>
+  <button
+    type="button"
+    class="bfbella-card-marquee__dialog-button bfbella-card-marquee__dialog-prev button-unstyled"
+    data-bfbella-step="-1"
+    aria-label="{{ 'content.pagination.previous' | t }}"
+  >
+    <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+  </button>
+  <figure class="bfbella-card-marquee__figure" data-bfbella-figure></figure>
+  <button
+    type="button"
+    class="bfbella-card-marquee__dialog-button bfbella-card-marquee__dialog-next button-unstyled"
+    data-bfbella-step="1"
+    aria-label="{{ 'content.pagination.next' | t }}"
+  >
+    <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+  </button>
+</dialog>
+</bfbella-card-marquee>
+
+{% stylesheet %}
+  marquee-component {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .marquee__wrapper {
+    display: flex;
+    gap: var(--marquee-gap);
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  .marquee__content {
+    min-width: max-content;
+    display: flex;
+    gap: var(--marquee-gap);
+  }
+
+  .marquee__content :is(p, h1, h2, h3, h4, h5, h6) {
+    white-space: nowrap;
+  }
+
+  .marquee__content .marquee__repeated-items * {
+    max-width: none;
+  }
+
+  .marquee__repeated-items {
+    min-width: max-content;
+    display: flex;
+    gap: var(--marquee-gap);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .marquee__repeated-items > * {
+    align-content: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    marquee-component:not([data-disabled]) .marquee__wrapper {
+      animation: marquee-motion var(--marquee-speed) linear infinite var(--marquee-direction);
+    }
+  }
+
+  @keyframes marquee-motion {
+    to {
+      transform: translate3d(calc(-50% - (var(--marquee-gap) / 2)), 0, 0);
+    }
+  }
+
+  bfbella-card-marquee {
+    display: block;
+    position: relative;
+  }
+
+  .marquee__repeated-items > .bfbella-marquee-card {
+    align-content: normal;
+  }
+
+  .bfbella-card-marquee__dialog {
+    width: min(92vw, 1200px);
+    height: 88vh;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    overflow: hidden;
+  }
+
+  .bfbella-card-marquee__dialog::backdrop {
+    backdrop-filter: brightness(0.65) blur(2px);
+    background: rgb(var(--color-foreground-rgb) / var(--opacity-60));
+  }
+
+  .bfbella-card-marquee__dialog[open] {
+    display: grid;
+    place-items: center;
+  }
+
+  .bfbella-card-marquee__figure {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+  }
+
+  .bfbella-card-marquee__full {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .bfbella-card-marquee__dialog-button {
+    position: absolute;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    cursor: pointer;
+  }
+
+  .bfbella-card-marquee__dialog .bfbella-card-marquee__dialog-button:hover {
+    background-color: var(--color-background);
+  }
+
+  .bfbella-card-marquee__dialog-button .svg-wrapper {
+    width: 16px;
+    height: 16px;
+  }
+
+  .bfbella-card-marquee__dialog-close {
+    top: 12px;
+    right: 12px;
+  }
+
+  .bfbella-card-marquee__dialog-prev,
+  .bfbella-card-marquee__dialog-next {
+    top: 50%;
+    translate: 0 -50%;
+  }
+
+  .bfbella-card-marquee__dialog-prev {
+    left: 12px;
+  }
+
+  .bfbella-card-marquee__dialog-prev .svg-wrapper {
+    rotate: 90deg;
+  }
+
+  .bfbella-card-marquee__dialog-next {
+    right: 12px;
+  }
+
+  .bfbella-card-marquee__dialog-next .svg-wrapper {
+    rotate: -90deg;
+  }
+
+  .bfbella-card-marquee__dialog:not([data-multiple]) :is(.bfbella-card-marquee__dialog-prev, .bfbella-card-marquee__dialog-next) {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Card Marquee",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [
+    {
+      "type": "_bfbella-marquee-card"
+    },
+    {
+      "type": "text"
+    },
+    {
+      "type": "icon"
+    },
+    {
+      "type": "logo"
+    },
+    {
+      "type": "_divider"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "movement_direction",
+      "label": "t:settings.motion_direction",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Slide left"
+        },
+        {
+          "value": "reverse",
+          "label": "Slide right"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "speed_factor",
+      "label": "Scroll time (higher = slower)",
+      "min": 10,
+      "max": 120,
+      "step": 5,
+      "unit": "s",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "card_height",
+      "label": "Card height",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 220
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "t:settings.corner_radius",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "dialog_label",
+      "label": "Enlarged view label (screen readers)",
+      "default": "Enlarged photo"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "gap_between_elements",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Card Marquee",
+      "category": "t:categories.text",
+      "blocks": {
+        "card_1": {
+          "type": "_bfbella-marquee-card"
+        },
+        "card_2": {
+          "type": "_bfbella-marquee-card"
+        },
+        "card_3": {
+          "type": "_bfbella-marquee-card"
+        },
+        "card_4": {
+          "type": "_bfbella-marquee-card"
+        }
+      },
+      "block_order": ["card_1", "card_2", "card_3", "card_4"]
+    }
+  ]
+}
+{% endschema %}

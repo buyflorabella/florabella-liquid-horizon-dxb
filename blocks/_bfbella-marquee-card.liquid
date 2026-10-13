@@ -1,0 +1,119 @@
+{%- comment -%}
+  BFBella — Marquee Card (task 0037). One photo card inside the BFBella card marquee section.
+  Private block: only addable inside that section. The card is a button carrying the large
+  image URL; the section's script opens it in the enlarged view on click.
+{%- endcomment -%}
+
+{%- liquid
+  assign image = block.settings.image
+  assign card_sizes = 'calc(var(--bfbella-card-height, 220px) * 1.5)'
+-%}
+
+<button
+  type="button"
+  class="bfbella-marquee-card button-unstyled bfbella-marquee-card--{{ block.settings.image_ratio }}"
+  {% if image != blank %}
+    data-bfbella-full-src="{{ image | image_url: width: 1920 }}"
+    data-bfbella-full-alt="{{ image.alt | escape }}"
+    aria-label="{{ 'actions.open' | t }}{% if image.alt != blank %}: {{ image.alt | escape }}{% endif %}"
+  {% else %}
+    disabled
+  {% endif %}
+  {{ block.shopify_attributes }}
+>
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: 900
+      | image_tag:
+        widths: '300, 450, 600, 900',
+        sizes: card_sizes,
+        loading: 'lazy',
+        class: 'bfbella-marquee-card__image',
+        alt: image.alt
+    }}
+  {%- else -%}
+    {{ 'image' | placeholder_svg_tag: 'bfbella-marquee-card__image' }}
+  {%- endif -%}
+</button>
+
+{% stylesheet %}
+  .bfbella-marquee-card {
+    display: block;
+    flex: none;
+    height: var(--bfbella-card-height, 220px);
+    aspect-ratio: 4 / 5;
+    padding: 0;
+    border-radius: var(--bfbella-card-radius, 0);
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: transform var(--hover-transition-duration, 0.2s) ease;
+  }
+
+  .bfbella-marquee-card--square {
+    aspect-ratio: 1;
+  }
+
+  .bfbella-marquee-card--landscape {
+    aspect-ratio: 4 / 3;
+  }
+
+  .bfbella-marquee-card[disabled] {
+    cursor: default;
+  }
+
+  .bfbella-marquee-card:not([disabled]):hover {
+    transform: scale(1.03);
+  }
+
+  .bfbella-marquee-card:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
+  }
+
+  .bfbella-marquee-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "BFBella — Marquee Card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:settings.image"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:settings.image_ratio",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ],
+      "default": "portrait"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BFBella — Marquee Card"
+    }
+  ]
+}
+{% endschema %}

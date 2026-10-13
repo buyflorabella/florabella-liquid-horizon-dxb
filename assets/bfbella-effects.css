@@ -1,0 +1,79 @@
+/*
+  BFBella — common card effects (task 0038, approved by DXB 2026-10-13).
+  Shared hover effects for native Horizon sections, kept here instead of each section's
+  500-character Custom CSS. Native group blocks cannot take a custom class, so each section
+  opts in by its section id ending (the section's key in the template JSON).
+  Scope is deliberately small: only effects in active use are added here.
+
+  Card anatomy these selectors assume (native group blocks):
+  card > content > photo group (first child) > content > icon badge group
+*/
+
+:root {
+  --bfbella-card-lift-scale: 1.05;
+  --bfbella-card-lift-duration: 0.3s;
+  --bfbella-photo-zoom-scale: 1.1;
+  --bfbella-photo-zoom-duration: 0.5s;
+  --bfbella-icon-tilt-scale: 1.1;
+  --bfbella-icon-tilt-angle: 12deg;
+  --bfbella-card-raise-distance: -4px;
+}
+
+/* Card lift: the card grows slightly on hover. */
+[id$='__why_choose_native'] [class*='x--row'] > div {
+  transition: transform var(--bfbella-card-lift-duration);
+}
+
+/* Photo zoom: the photo grows inside its frame, so the frame clips it. */
+[id$='__why_choose_native'] [class*='x--row'] > div > * > :first-child {
+  overflow: hidden;
+}
+
+[id$='__why_choose_native'] [class*='x--row'] > div .background-image-container img {
+  transition: transform var(--bfbella-photo-zoom-duration);
+}
+
+/* Photo zoom on an Image block (How It Works): the image block frame clips the image. */
+[id$='__how_it_works_native'] [class*='__photo'] {
+  overflow: hidden;
+}
+
+[id$='__how_it_works_native'] [class*='__photo'] img {
+  transition: transform var(--bfbella-photo-zoom-duration);
+}
+
+/* Card raise (Community social): border is dimmed at rest; on hover the card rises, gets a shadow
+   and shows its own border colour (the card's Border color setting). */
+[id$='__social_native'] .group-block:has(> a) {
+  border-color: rgb(var(--color-foreground-rgb) / 0.1);
+  transition: var(--bfbella-card-lift-duration);
+}
+
+/* Icon tilt: the icon badge grows and turns. */
+[id$='__why_choose_native'] [class*='x--row'] > div .group-block .group-block {
+  transition: transform var(--bfbella-card-lift-duration);
+}
+
+@media (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [id$='__why_choose_native'] [class*='x--row'] > div:hover {
+    transform: scale(var(--bfbella-card-lift-scale));
+  }
+
+  [id$='__why_choose_native'] [class*='x--row'] > div:hover .background-image-container img {
+    transform: scale(var(--bfbella-photo-zoom-scale));
+  }
+
+  [id$='__how_it_works_native'] [class*='__photo']:hover img {
+    transform: scale(var(--bfbella-photo-zoom-scale));
+  }
+
+  [id$='__social_native'] .group-block:has(> a):hover {
+    transform: translateY(var(--bfbella-card-raise-distance));
+    border-color: var(--border-color);
+    box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  [id$='__why_choose_native'] [class*='x--row'] > div:hover .group-block .group-block {
+    transform: scale(var(--bfbella-icon-tilt-scale)) rotate(var(--bfbella-icon-tilt-angle));
+  }
+}
