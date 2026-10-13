@@ -4941,7 +4941,8 @@
         "row"
       ],
       "custom_css": [
-        "[class*=\"x--row\"] > .border-style:last-child {border-block-width: 0; border-inline-end-width: 0;}"
+        "[class*=\"x--row\"] > .border-style:last-child {border-block-width: 0; border-inline-end-width: 0;}",
+        "[class*=\"__star\"] {flex: none;}"
       ],
       "name": "BFBella — How It Works (Native)",
       "settings": {
