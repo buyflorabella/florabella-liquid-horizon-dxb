@@ -4280,7 +4280,7 @@
                 "photo": {
                   "type": "image",
                   "settings": {
-                    "image": "shopify://shop_images/Trace_Minerals_stacked_by_the_ton.jpg",
+                    "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
                     "link": "",
                     "image_ratio": "square",
                     "width": "fill",
@@ -5263,7 +5263,7 @@
         "heading_color": "",
         "subheading_color": "",
         "accent_color": "",
-        "background_color": "#6D2094",
+        "background_color": "#6d2094",
         "padding_top": 80,
         "padding_bottom": 80
       }
