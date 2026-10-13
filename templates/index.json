@@ -4012,8 +4012,8 @@
       "custom_css": [
         ".section{--page-margin:1.5rem;--page-width:80rem}",
         ".section-content-wrapper{padding-block:8rem}",
-        ".layout-panel-flex--row{display:grid;grid-template-columns:repeat(auto-fit,minmax(22rem,1fr))}",
-        ".layout-panel-flex--row>.group-block{background:rgb(var(--color-background-rgb)/.05)}",
+        ".layout-panel-flex--row{display:grid;grid-template-columns:repeat(auto-fit,minmax(22rem,1fr));align-items:stretch}",
+        ".layout-panel-flex--row>div{background:rgb(var(--color-background-rgb)/.05)}",
         ".group-block:has(>*>.background-image-container){height:12rem}",
         ".text-block:last-child{opacity:.6}",
         ".section-content-wrapper>:first-child{position:absolute;inset:0 calc(50% - 50vw);opacity:.05;z-index:-1;height:auto}"
