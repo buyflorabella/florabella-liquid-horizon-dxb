@@ -4149,55 +4149,100 @@
     "how_it_works_native": {
       "type": "section",
       "blocks": {
-        "heading": {
-          "type": "text",
+        "intro": {
+          "type": "group",
           "settings": {
-            "text": "<h2>How Flora Bella Bio Trace Minerals Work With Your Soil</h2>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-start",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 18,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
-          "blocks": {}
-        },
-        "subheading": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Derived from a naturally occurring mineral deposit, Bio Trace is composted, refined and prepared for soil application. It supplies the micronutrients guaranteed on the product label.</p>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "paragraph",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>How Flora Bella Bio Trace Minerals Work With Your Soil</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "subheading": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Derived from a naturally occurring mineral deposit, Bio Trace is composted, refined and prepared for soil application. It supplies the micronutrients guaranteed on the product label.</p>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "1.125rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            }
           },
-          "blocks": {}
+          "block_order": [
+            "heading",
+            "subheading"
+          ]
         },
         "row": {
           "type": "group",
@@ -4282,7 +4327,7 @@
                   "settings": {
                     "image": "shopify://shop_images/OMRI-Listed-Official-Web-Seal.png",
                     "link": "",
-                    "image_ratio": "square",
+                    "image_ratio": "adapt",
                     "width": "fill",
                     "custom_width": 100,
                     "width_mobile": "fill",
@@ -4331,7 +4376,7 @@
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
                 "border": "solid",
-                "border_width": 2,
+                "border_width": 4,
                 "border_opacity": 100,
                 "border_color": "{{ settings.color_palette.color3 }}",
                 "border_radius": 16,
@@ -4484,7 +4529,7 @@
                     "placeholder": "",
                     "padding-block-start": 0,
                     "padding-block-end": 0,
-                    "padding-inline-start": 0,
+                    "padding-inline-start": 24,
                     "padding-inline-end": 0
                   },
                   "blocks": {
@@ -4492,7 +4537,7 @@
                       "type": "group",
                       "settings": {
                         "content_direction": "row",
-                        "vertical_on_mobile": true,
+                        "vertical_on_mobile": false,
                         "horizontal_alignment": "flex-start",
                         "vertical_alignment": "flex-start",
                         "align_baseline": false,
@@ -4587,7 +4632,7 @@
                       "type": "group",
                       "settings": {
                         "content_direction": "row",
-                        "vertical_on_mobile": true,
+                        "vertical_on_mobile": false,
                         "horizontal_alignment": "flex-start",
                         "vertical_alignment": "flex-start",
                         "align_baseline": false,
@@ -4682,7 +4727,7 @@
                       "type": "group",
                       "settings": {
                         "content_direction": "row",
-                        "vertical_on_mobile": true,
+                        "vertical_on_mobile": false,
                         "horizontal_alignment": "flex-start",
                         "vertical_alignment": "flex-start",
                         "align_baseline": false,
@@ -4777,7 +4822,7 @@
                       "type": "group",
                       "settings": {
                         "content_direction": "row",
-                        "vertical_on_mobile": true,
+                        "vertical_on_mobile": false,
                         "horizontal_alignment": "flex-start",
                         "vertical_alignment": "flex-start",
                         "align_baseline": false,
@@ -4892,14 +4937,11 @@
         }
       },
       "block_order": [
-        "heading",
-        "subheading",
+        "intro",
         "row"
       ],
       "custom_css": [
-        "[class*=\"__photo\"] {overflow: hidden;}",
-        "[class*=\"__photo\"] img {transition: transform 0.5s;}",
-        "[class*=\"__photo\"]:hover img {transform: scale(1.1);}"
+        "[class*=\"x--row\"] > .border-style:last-child {border-block-width: 0; border-inline-end-width: 0;}"
       ],
       "name": "BFBella — How It Works (Native)",
       "settings": {

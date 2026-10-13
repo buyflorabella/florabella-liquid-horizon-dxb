@@ -32,6 +32,15 @@
   transition: transform var(--bfbella-photo-zoom-duration);
 }
 
+/* Photo zoom on an Image block (How It Works): the image block frame clips the image. */
+[id$='__how_it_works_native'] [class*='__photo'] {
+  overflow: hidden;
+}
+
+[id$='__how_it_works_native'] [class*='__photo'] img {
+  transition: transform var(--bfbella-photo-zoom-duration);
+}
+
 /* Icon tilt: the icon badge grows and turns. */
 [id$='__why_choose_native'] [class*='x--row'] > div .group-block .group-block {
   transition: transform var(--bfbella-card-lift-duration);
@@ -43,6 +52,10 @@
   }
 
   [id$='__why_choose_native'] [class*='x--row'] > div:hover .background-image-container img {
+    transform: scale(var(--bfbella-photo-zoom-scale));
+  }
+
+  [id$='__how_it_works_native'] [class*='__photo']:hover img {
     transform: scale(var(--bfbella-photo-zoom-scale));
   }
 
