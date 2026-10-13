@@ -4055,13 +4055,11 @@
         "cards_row"
       ],
       "custom_css": [
-        ".section{--page-margin:1.5rem;--page-width:80rem}",
-        "[class*=x--row]{display:grid;grid-template-columns:repeat(auto-fit,minmax(22rem,1fr));align-items:stretch}",
-        "[class*=x--row]>div{background:rgb(var(--color-foreground-rgb)/.05);transition:.3s}",
-        "[class*=x--row]>div:hover{transform:scale(1.05)}",
-        "[class*=x--row]>div>*>:first-child{height:12rem}",
-        ".text-block:last-child{opacity:.6}",
-        ".section-content-wrapper>:first-child{position:absolute;inset:0 calc(50% - 50vw);width:auto;opacity:.05;z-index:-1;height:auto}"
+        ".section {--page-margin: 1.5rem; --page-width: 80rem;}",
+        "[class*=x--row] {display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); align-items: stretch;}",
+        "[class*=x--row] > div > * > :first-child {height: 12rem;}",
+        ".text-block:last-child {opacity: 0.6;}",
+        ".section-content-wrapper > :first-child {position: absolute; inset: 0 calc(50% - 50vw); width: auto; opacity: 0.05; z-index: -1;}"
       ],
       "name": "BFBella — Why Choose (Native)",
       "settings": {
