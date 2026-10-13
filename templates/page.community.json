@@ -1581,8 +1581,6 @@
       ],
       "custom_css": [
         ".mobile-column:has(> .group-block > a) {display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));}",
-        ".group-block:has(> a) {border-color: rgb(var(--color-foreground-rgb) / 0.1); transition: 0.3s;}",
-        ".group-block:has(> a):hover {transform: translateY(-4px); border-color: var(--border-color); box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.12);}",
         ".group-block:has(> * > * > svg) {background-color: rgb(var(--color-background-rgb) / 0.15);}",
         ".group-block:has(> a) .text-block:last-child {opacity: 0.6;}"
       ],

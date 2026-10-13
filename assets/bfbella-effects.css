@@ -16,6 +16,7 @@
   --bfbella-photo-zoom-duration: 0.5s;
   --bfbella-icon-tilt-scale: 1.1;
   --bfbella-icon-tilt-angle: 12deg;
+  --bfbella-card-raise-distance: -4px;
 }
 
 /* Card lift: the card grows slightly on hover. */
@@ -41,6 +42,13 @@
   transition: transform var(--bfbella-photo-zoom-duration);
 }
 
+/* Card raise (Community social): border is dimmed at rest; on hover the card rises, gets a shadow
+   and shows its own border colour (the card's Border color setting). */
+[id$='__social_native'] .group-block:has(> a) {
+  border-color: rgb(var(--color-foreground-rgb) / 0.1);
+  transition: var(--bfbella-card-lift-duration);
+}
+
 /* Icon tilt: the icon badge grows and turns. */
 [id$='__why_choose_native'] [class*='x--row'] > div .group-block .group-block {
   transition: transform var(--bfbella-card-lift-duration);
@@ -57,6 +65,12 @@
 
   [id$='__how_it_works_native'] [class*='__photo']:hover img {
     transform: scale(var(--bfbella-photo-zoom-scale));
+  }
+
+  [id$='__social_native'] .group-block:has(> a):hover {
+    transform: translateY(var(--bfbella-card-raise-distance));
+    border-color: var(--border-color);
+    box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.12);
   }
 
   [id$='__why_choose_native'] [class*='x--row'] > div:hover .group-block .group-block {
