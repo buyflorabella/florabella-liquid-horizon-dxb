@@ -4941,6 +4941,7 @@
         "row"
       ],
       "custom_css": [
+        ".section {--page-margin: 1.5rem; --page-width: 80rem;}",
         "[class*=\"x--row\"] > .border-style:last-child {border-block-width: 0; border-inline-end-width: 0; box-shadow: 0 10px 15px -3px rgb(var(--color-foreground-rgb) / 0.08);}",
         "[class*=\"__star\"] {flex: none;}"
       ],
