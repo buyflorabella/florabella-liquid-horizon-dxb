@@ -3960,7 +3960,7 @@
                     "background_media": "image",
                     "background_color": "",
                     "video_position": "cover",
-                    "background_image": "shopify://shop_images/about_page_benefits_image2.png",
+                    "background_image": "shopify://shop_images/omri_listed_logo.png",
                     "background_image_position": "cover",
                     "toggle_overlay": false,
                     "overlay_color": "#00000026",
@@ -4056,8 +4056,8 @@
       ],
       "custom_css": [
         ".section {--page-margin: 1.5rem; --page-width: 80rem;}",
-        "[class*=x--row] {display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); align-items: stretch;}",
-        "[class*=x--row] > div > * > :first-child {height: 12rem;}",
+        "[class*=\"x--row\"] {display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); align-items: stretch;}",
+        "[class*=\"x--row\"] > div > * > :first-child {height: 12rem;}",
         ".text-block:last-child {opacity: 0.6;}",
         ".section-content-wrapper > :first-child {position: absolute; inset: 0 calc(50% - 50vw); width: auto; opacity: 0.05; z-index: -1;}"
       ],
