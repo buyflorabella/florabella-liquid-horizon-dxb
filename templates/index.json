@@ -7080,7 +7080,7 @@
                 "gap": 24,
                 "width": "fill",
                 "height": "fit",
-                "background_color": "{{ settings.color_palette.background }}",
+                "background_color": "{{ settings.color_palette.color11 }}",
                 "border": "solid",
                 "border_width": 1,
                 "border_opacity": 10,
@@ -7096,7 +7096,8 @@
                   "name": "Email icon",
                   "settings": {
                     "width": "fit-content",
-                    "height": "fit"
+                    "height": "fit",
+                    "background_color": "{{ settings.color_palette.color4 }}"
                   },
                   "blocks": {
                     "icon": {
@@ -7118,7 +7119,7 @@
                   "settings": {
                     "text": "<h3>Join the email list</h3>",
                     "width": "100%",
-                    "type_preset": "h3"
+                    "type_preset": "h4"
                   },
                   "blocks": {}
                 },
@@ -7135,10 +7136,13 @@
                   "type": "email-signup",
                   "settings": {
                     "heading": "",
-                    "style_class": "button",
+                    "style_class": "button-custom",
                     "display_type": "text",
                     "label": "Get soil tips",
-                    "integrated_button": false
+                    "integrated_button": false,
+                    "custom_button_background": "{{ settings.color_palette.color3 }}",
+                    "custom_button_text": "{{ settings.color_palette.background }}",
+                    "custom_button_border": "{{ settings.color_palette.color3 }}"
                   },
                   "blocks": {}
                 }
@@ -7159,7 +7163,7 @@
                 "gap": 24,
                 "width": "fill",
                 "height": "fit",
-                "background_color": "{{ settings.color_palette.background }}",
+                "background_color": "{{ settings.color_palette.color11 }}",
                 "border": "solid",
                 "border_width": 1,
                 "border_opacity": 10,
@@ -7175,7 +7179,8 @@
                   "name": "Group icon",
                   "settings": {
                     "width": "fit-content",
-                    "height": "fit"
+                    "height": "fit",
+                    "background_color": "{{ settings.color_palette.color4 }}"
                   },
                   "blocks": {
                     "icon": {
@@ -7197,7 +7202,7 @@
                   "settings": {
                     "text": "<h3>Growers group</h3>",
                     "width": "100%",
-                    "type_preset": "h3"
+                    "type_preset": "h4"
                   },
                   "blocks": {}
                 },
@@ -7216,8 +7221,11 @@
                     "label": "Request invite",
                     "link": "shopify://pages/community",
                     "open_in_new_tab": false,
-                    "style_class": "button-secondary",
-                    "width": "fill"
+                    "style_class": "button-custom",
+                    "width": "fill",
+                    "custom_button_background": "{{ settings.color_palette.color2 }}",
+                    "custom_button_text": "{{ settings.color_palette.foreground }}",
+                    "custom_button_border": "{{ settings.color_palette.color2 }}"
                   },
                   "blocks": {}
                 }
@@ -7243,9 +7251,11 @@
       "custom_css": [
         ".section {--page-margin: 1.5rem; --page-width: 64rem;}",
         ".layout-panel-flex--row {align-items: stretch;}",
-        "[class*=\"x--row\"] > div > * > :first-child {background: color-mix(in srgb, var(--color-primary-button-background) 20%, transparent); border-radius: 0.75rem; width: 3.5rem; height: 3.5rem;}",
-        ".text-block:last-child {opacity: 0.7;}",
-        "[class*=\"x--row\"] > div {box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);}"
+        "[class*=\"__subheading\"], [class*=\"__description\"] {opacity: 0.7;}",
+        "[class*=\"x--row\"] > div {box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);}",
+        "[class*=\"x--row\"] [class*=\"__heading\"] {font-weight: 700;}",
+        "[class*=\"x--row\"] .button-custom {border-radius: 0.75rem; font-weight: 700;}",
+        ".email-signup__input-group {flex-direction: column;}"
       ]
     }
   },
