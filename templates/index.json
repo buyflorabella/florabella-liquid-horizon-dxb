@@ -6863,31 +6863,6 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "heading": {
-              "type": "text",
-              "settings": {
-                "text": "<h2>A Community For Growers Who Care About Soil Health</h2>",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "center",
-                "type_preset": "h2",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
             "sub": {
               "type": "text",
               "settings": {
@@ -6912,10 +6887,35 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "hd": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>A Community For Growers Who Care About Soil Health</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "center",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             }
           },
           "block_order": [
-            "heading",
+            "hd",
             "sub"
           ]
         },
@@ -7056,31 +7056,6 @@
                     "icon"
                   ]
                 },
-                "heading": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<h4>Join the email list</h4>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h4",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
                 "desc": {
                   "type": "text",
                   "settings": {
@@ -7128,9 +7103,34 @@
                     "custom_button_border": "{{ settings.color_palette.color3 }}",
                     "link_text_color": "",
                     "display_type": "text",
-                    "label": "Get soil tips",
+                    "label": "Get soil tips →",
                     "integrated_button": false,
                     "button_type_preset": "paragraph",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "hd": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Join the email list</h4>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h4",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
@@ -7141,7 +7141,7 @@
               },
               "block_order": [
                 "icon_badge",
-                "heading",
+                "hd",
                 "desc",
                 "email_signup"
               ]
@@ -7220,10 +7220,10 @@
                     "link": "",
                     "open_in_new_tab": false,
                     "placeholder": "",
-                    "padding-block-start": 16,
-                    "padding-block-end": 16,
-                    "padding-inline-start": 16,
-                    "padding-inline-end": 16
+                    "padding-block-start": 13,
+                    "padding-block-end": 13,
+                    "padding-inline-start": 13,
+                    "padding-inline-end": 13
                   },
                   "blocks": {
                     "icon": {
@@ -7231,7 +7231,7 @@
                       "settings": {
                         "icon": "chat_bubble",
                         "image_upload": "shopify://shop_images/bfbella-icon-growers-group.png",
-                        "width": 24,
+                        "width": 30,
                         "link": "",
                         "open_in_new_tab": false,
                         "icon_color": "{{ settings.color_palette.color3 }}"
@@ -7242,31 +7242,6 @@
                   "block_order": [
                     "icon"
                   ]
-                },
-                "heading": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<h4>Growers group</h4>",
-                    "width": "100%",
-                    "max_width": "normal",
-                    "alignment": "left",
-                    "type_preset": "h4",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
                 },
                 "desc": {
                   "type": "text",
@@ -7296,13 +7271,13 @@
                 "button": {
                   "type": "button",
                   "settings": {
-                    "label": "Request invite",
+                    "label": "Request invite →",
                     "link": "shopify://pages/community",
                     "open_in_new_tab": false,
                     "style_class": "button-custom",
                     "custom_button_background": "{{ settings.color_palette.color2 }}",
                     "custom_button_text": "{{ settings.color_palette.foreground }}",
-                    "custom_button_border": "{{ settings.color_palette.color2 }}",
+                    "custom_button_border": "{{ settings.color_palette.color1 }}",
                     "link_text_color": "",
                     "width": "fill",
                     "custom_width": 100,
@@ -7310,11 +7285,36 @@
                     "custom_width_mobile": 100
                   },
                   "blocks": {}
+                },
+                "hd": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h4>Growers group</h4>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "h4",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "text_color": "",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "icon_badge",
-                "heading",
+                "hd",
                 "desc",
                 "button"
               ]
@@ -7331,14 +7331,14 @@
         "cards_row"
       ],
       "custom_css": [
-        ".section {--page-margin: 1.5rem; --page-width: 64rem;}",
-        ".layout-panel-flex--row {align-items: stretch;}",
-        "[class*=\"__sub\"],[class*=\"__desc\"] {opacity: 0.7;}",
-        "[class*=\"x--row\"] > div {box-shadow: 0 10px 15px -3px rgb(0 0 0/0.08);}",
-        "[class*=\"x--row\"] [class*=\"__heading\"] h4 {font-weight: 700;}",
-        "[class*=\"x--row\"] .button-custom {border-radius: 0.75rem; font-weight: 700;}",
-        ".email-signup__input-group {flex-direction: column;}",
-        ".email-signup__button {width: 100%;}"
+        ".section {--page-margin:1.5rem; --page-width:64rem;}",
+        ".layout-panel-flex--row {align-items:stretch;}",
+        "[class*=\"__su\"],[class*=\"__de\"] {opacity:.7;}",
+        "[class*=\"x--row\"] > div {box-shadow: 0 10px 15px -3px rgb(0 0 0/.08);}",
+        "[class*=\"x--row\"] [class*=\"__hd\"] h4 {font-weight:700;}",
+        "[class*=\"x--row\"] .button-custom {border-radius:12px; font-weight:700;}",
+        ".email-signup__input-group {flex-direction:column;}",
+        ".email-signup__button,.email-signup__input {width:100%}"
       ],
       "name": "BFBella — Community (Native)",
       "settings": {
