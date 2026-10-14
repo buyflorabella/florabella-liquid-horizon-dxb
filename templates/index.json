@@ -7042,7 +7042,7 @@
               },
               "blocks": {}
             },
-            "subheading": {
+            "sub": {
               "type": "text",
               "settings": {
                 "text": "<p>Flora Bella exists to make expert level soil care simple for everyday gardeners. Join our growing community for seasonal tips, real case studies, and honest conversations about what works.</p>",
@@ -7057,7 +7057,7 @@
           },
           "block_order": [
             "heading",
-            "subheading"
+            "sub"
           ]
         },
         "cards_row": {
@@ -7097,7 +7097,12 @@
                   "settings": {
                     "width": "fit-content",
                     "height": "fit",
-                    "background_color": "{{ settings.color_palette.color4 }}"
+                    "background_color": "{{ settings.color_palette.color4 }}",
+                    "padding-block-start": 16,
+                    "padding-block-end": 16,
+                    "padding-inline-start": 16,
+                    "padding-inline-end": 16,
+                    "border_radius": 12
                   },
                   "blocks": {
                     "icon": {
@@ -7117,18 +7122,9 @@
                 "heading": {
                   "type": "text",
                   "settings": {
-                    "text": "<h3>Join the email list</h3>",
+                    "text": "<h4>Join the email list</h4>",
                     "width": "100%",
                     "type_preset": "h4"
-                  },
-                  "blocks": {}
-                },
-                "description": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Enter your email to receive practical soil tips and early access to new batches.</p>",
-                    "width": "100%",
-                    "type_preset": "paragraph"
                   },
                   "blocks": {}
                 },
@@ -7145,12 +7141,21 @@
                     "custom_button_border": "{{ settings.color_palette.color3 }}"
                   },
                   "blocks": {}
+                },
+                "desc": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Enter your email to receive practical soil tips and early access to new batches.</p>",
+                    "width": "100%",
+                    "type_preset": "paragraph"
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "icon_badge",
                 "heading",
-                "description",
+                "desc",
                 "email_signup"
               ]
             },
@@ -7180,7 +7185,12 @@
                   "settings": {
                     "width": "fit-content",
                     "height": "fit",
-                    "background_color": "{{ settings.color_palette.color4 }}"
+                    "background_color": "{{ settings.color_palette.color4 }}",
+                    "padding-block-start": 16,
+                    "padding-block-end": 16,
+                    "padding-inline-start": 16,
+                    "padding-inline-end": 16,
+                    "border_radius": 12
                   },
                   "blocks": {
                     "icon": {
@@ -7200,18 +7210,9 @@
                 "heading": {
                   "type": "text",
                   "settings": {
-                    "text": "<h3>Growers group</h3>",
+                    "text": "<h4>Growers group</h4>",
                     "width": "100%",
                     "type_preset": "h4"
-                  },
-                  "blocks": {}
-                },
-                "description": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Connect with experienced growers, share your results, and get personalized advice for your unique growing conditions.</p>",
-                    "width": "100%",
-                    "type_preset": "paragraph"
                   },
                   "blocks": {}
                 },
@@ -7228,12 +7229,21 @@
                     "custom_button_border": "{{ settings.color_palette.color2 }}"
                   },
                   "blocks": {}
+                },
+                "desc": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Connect with experienced growers, share your results, and get personalized advice for your unique growing conditions.</p>",
+                    "width": "100%",
+                    "type_preset": "paragraph"
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
                 "icon_badge",
                 "heading",
-                "description",
+                "desc",
                 "button"
               ]
             }
@@ -7251,11 +7261,12 @@
       "custom_css": [
         ".section {--page-margin: 1.5rem; --page-width: 64rem;}",
         ".layout-panel-flex--row {align-items: stretch;}",
-        "[class*=\"__subheading\"], [class*=\"__description\"] {opacity: 0.7;}",
-        "[class*=\"x--row\"] > div {box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);}",
-        "[class*=\"x--row\"] [class*=\"__heading\"] {font-weight: 700;}",
-        "[class*=\"x--row\"] .button-custom {border-radius: 0.75rem; font-weight: 700;}",
-        ".email-signup__input-group {flex-direction: column;}"
+        "[class*=\"__sub\"], [class*=\"__desc\"] {opacity: .7;}",
+        "[class*=\"x--row\"] > div {box-shadow: 0 10px 15px -3px rgb(0 0 0/.08);}",
+        "[class*=\"x--row\"] [class*=\"__heading\"] h4 {font-weight: 700;}",
+        "[class*=\"x--row\"] .button-custom {border-radius: .75rem; font-weight: 700;}",
+        ".email-signup__input-group {flex-direction: column;}",
+        ".email-signup__button {width: 100%;}"
       ]
     }
   },
