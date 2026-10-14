@@ -49,6 +49,12 @@
   transition: var(--bfbella-card-lift-duration);
 }
 
+/* Card lift (Community, homepage): matches the custom section's own hover scale (1.03, not the
+   shared 1.05 var — a different value from the Why Choose cards, so a literal is used here). */
+[id$='__community_native'] [class*='x--row'] > div {
+  transition: transform var(--bfbella-card-lift-duration);
+}
+
 /* Icon tilt: the icon badge grows and turns. */
 [id$='__why_choose_native'] [class*='x--row'] > div .group-block .group-block {
   transition: transform var(--bfbella-card-lift-duration);
@@ -75,5 +81,9 @@
 
   [id$='__why_choose_native'] [class*='x--row'] > div:hover .group-block .group-block {
     transform: scale(var(--bfbella-icon-tilt-scale)) rotate(var(--bfbella-icon-tilt-angle));
+  }
+
+  [id$='__community_native'] [class*='x--row'] > div:hover {
+    transform: scale(1.03);
   }
 }

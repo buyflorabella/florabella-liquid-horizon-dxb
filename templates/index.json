@@ -7005,6 +7005,248 @@
       "settings": {
         "button_label": "Return to Top"
       }
+    },
+    "community_native": {
+      "type": "section",
+      "name": "BFBella — Community (Native)",
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 48,
+        "section_width": "page-width",
+        "background_color": "{{ settings.color_palette.color11 }}",
+        "padding-block-start": 80,
+        "padding-block-end": 80
+      },
+      "blocks": {
+        "intro": {
+          "type": "group",
+          "name": "Intro",
+          "settings": {
+            "content_direction": "column",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 24,
+            "width": "fill",
+            "height": "fit"
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>A Community For Growers Who Care About Soil Health</h2>",
+                "width": "100%",
+                "alignment": "center",
+                "type_preset": "h2"
+              },
+              "blocks": {}
+            },
+            "subheading": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Flora Bella exists to make expert level soil care simple for everyday gardeners. Join our growing community for seasonal tips, real case studies, and honest conversations about what works.</p>",
+                "width": "100%",
+                "max_width": "narrow",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font_size": "1.15rem"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "heading",
+            "subheading"
+          ]
+        },
+        "cards_row": {
+          "type": "group",
+          "name": "Cards",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "gap": 24,
+            "width": "fill",
+            "height": "fit"
+          },
+          "blocks": {
+            "card_email": {
+              "type": "group",
+              "name": "Email card",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 24,
+                "width": "fill",
+                "height": "fit",
+                "background_color": "{{ settings.color_palette.background }}",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 10,
+                "border_radius": 24,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "padding-inline-start": 32,
+                "padding-inline-end": 32
+              },
+              "blocks": {
+                "icon_badge": {
+                  "type": "group",
+                  "name": "Email icon",
+                  "settings": {
+                    "width": "fit-content",
+                    "height": "fit"
+                  },
+                  "blocks": {
+                    "icon": {
+                      "type": "icon",
+                      "settings": {
+                        "icon": "clipboard",
+                        "width": 24,
+                        "icon_color": "{{ settings.color_palette.color3 }}"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "icon"
+                  ]
+                },
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Join the email list</h3>",
+                    "width": "100%",
+                    "type_preset": "h3"
+                  },
+                  "blocks": {}
+                },
+                "description": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Enter your email to receive practical soil tips and early access to new batches.</p>",
+                    "width": "100%",
+                    "type_preset": "paragraph"
+                  },
+                  "blocks": {}
+                },
+                "email_signup": {
+                  "type": "email-signup",
+                  "settings": {
+                    "heading": "",
+                    "style_class": "button",
+                    "display_type": "text",
+                    "label": "Get soil tips",
+                    "integrated_button": false
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "icon_badge",
+                "heading",
+                "description",
+                "email_signup"
+              ]
+            },
+            "card_group": {
+              "type": "group",
+              "name": "Group card",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 24,
+                "width": "fill",
+                "height": "fit",
+                "background_color": "{{ settings.color_palette.background }}",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 10,
+                "border_radius": 24,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "padding-inline-start": 32,
+                "padding-inline-end": 32
+              },
+              "blocks": {
+                "icon_badge": {
+                  "type": "group",
+                  "name": "Group icon",
+                  "settings": {
+                    "width": "fit-content",
+                    "height": "fit"
+                  },
+                  "blocks": {
+                    "icon": {
+                      "type": "icon",
+                      "settings": {
+                        "icon": "chat_bubble",
+                        "width": 24,
+                        "icon_color": "{{ settings.color_palette.color3 }}"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "icon"
+                  ]
+                },
+                "heading": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Growers group</h3>",
+                    "width": "100%",
+                    "type_preset": "h3"
+                  },
+                  "blocks": {}
+                },
+                "description": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Connect with experienced growers, share your results, and get personalized advice for your unique growing conditions.</p>",
+                    "width": "100%",
+                    "type_preset": "paragraph"
+                  },
+                  "blocks": {}
+                },
+                "button": {
+                  "type": "button",
+                  "settings": {
+                    "label": "Request invite",
+                    "link": "shopify://pages/community",
+                    "open_in_new_tab": false,
+                    "style_class": "button-secondary",
+                    "width": "fill"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "icon_badge",
+                "heading",
+                "description",
+                "button"
+              ]
+            }
+          },
+          "block_order": [
+            "card_email",
+            "card_group"
+          ]
+        }
+      },
+      "block_order": [
+        "intro",
+        "cards_row"
+      ],
+      "custom_css": [
+        ".section {--page-margin: 1.5rem; --page-width: 64rem;}",
+        ".layout-panel-flex--row {align-items: stretch;}",
+        "[class*=\"x--row\"] > div > * > :first-child {background: color-mix(in srgb, var(--color-primary-button-background) 20%, transparent); border-radius: 0.75rem; width: 3.5rem; height: 3.5rem;}",
+        ".text-block:last-child {opacity: 0.7;}",
+        "[class*=\"x--row\"] > div {box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08);}"
+      ]
     }
   },
   "order": [
@@ -7027,6 +7269,7 @@
     "testimonials_native",
     "bfbella_video_showcase_bkh98U",
     "bfbella_community_UGMTbF",
+    "community_native",
     "section_4Uhr3k",
     "bfbella_back_to_top_FmK7Nj",
     "bfbella_return_to_top_qW3xNp"
