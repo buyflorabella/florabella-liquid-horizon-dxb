@@ -7220,10 +7220,10 @@
                     "link": "",
                     "open_in_new_tab": false,
                     "placeholder": "",
-                    "padding-block-start": 13,
-                    "padding-block-end": 13,
-                    "padding-inline-start": 13,
-                    "padding-inline-end": 13
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8
                   },
                   "blocks": {
                     "icon": {
@@ -7231,7 +7231,7 @@
                       "settings": {
                         "icon": "chat_bubble",
                         "image_upload": "shopify://shop_images/bfbella-icon-growers-group.png",
-                        "width": 30,
+                        "width": 40,
                         "link": "",
                         "open_in_new_tab": false,
                         "icon_color": "{{ settings.color_palette.color3 }}"
