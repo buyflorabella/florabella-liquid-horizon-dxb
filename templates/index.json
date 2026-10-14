@@ -6893,7 +6893,7 @@
               "settings": {
                 "text": "<p>Flora Bella exists to make expert level soil care simple for everyday gardeners. Join our growing community for seasonal tips, real case studies, and honest conversations about what works.</p>",
                 "width": "100%",
-                "max_width": "narrow",
+                "max_width": "normal",
                 "alignment": "center",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
