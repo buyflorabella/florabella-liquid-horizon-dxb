@@ -7018,7 +7018,7 @@
                     "height": "fit",
                     "custom_height": 100,
                     "background_media": "none",
-                    "background_color": "{{ settings.color_palette.background }}",
+                    "background_color": "{{ settings.color_palette.color4 }}",
                     "video_position": "cover",
                     "background_image_position": "cover",
                     "toggle_overlay": false,
@@ -7033,10 +7033,10 @@
                     "link": "",
                     "open_in_new_tab": false,
                     "placeholder": "",
-                    "padding-block-start": 16,
-                    "padding-block-end": 16,
-                    "padding-inline-start": 16,
-                    "padding-inline-end": 16
+                    "padding-block-start": 10,
+                    "padding-block-end": 10,
+                    "padding-inline-start": 10,
+                    "padding-inline-end": 10
                   },
                   "blocks": {
                     "icon": {
@@ -7044,7 +7044,7 @@
                       "settings": {
                         "icon": "clipboard",
                         "image_upload": "shopify://shop_images/bfbella-icon-email-envelope.png",
-                        "width": 24,
+                        "width": 36,
                         "link": "",
                         "open_in_new_tab": false,
                         "icon_color": "{{ settings.color_palette.color3 }}"
@@ -7205,7 +7205,7 @@
                     "height": "fit",
                     "custom_height": 100,
                     "background_media": "none",
-                    "background_color": "{{ settings.color_palette.background }}",
+                    "background_color": "{{ settings.color_palette.color4 }}",
                     "video_position": "cover",
                     "background_image_position": "cover",
                     "toggle_overlay": false,
@@ -7220,10 +7220,10 @@
                     "link": "",
                     "open_in_new_tab": false,
                     "placeholder": "",
-                    "padding-block-start": 8,
-                    "padding-block-end": 8,
-                    "padding-inline-start": 8,
-                    "padding-inline-end": 8
+                    "padding-block-start": 10,
+                    "padding-block-end": 10,
+                    "padding-inline-start": 10,
+                    "padding-inline-end": 10
                   },
                   "blocks": {
                     "icon": {
@@ -7231,7 +7231,7 @@
                       "settings": {
                         "icon": "chat_bubble",
                         "image_upload": "shopify://shop_images/bfbella-icon-growers-group.png",
-                        "width": 40,
+                        "width": 36,
                         "link": "",
                         "open_in_new_tab": false,
                         "icon_color": "{{ settings.color_palette.color3 }}"
