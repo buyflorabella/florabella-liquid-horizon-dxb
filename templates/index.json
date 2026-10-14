@@ -6866,9 +6866,9 @@
             "hd": {
               "type": "text",
               "settings": {
-                "text": "<h2>A Community For Growers Who Care About Soil Health</h2>",
+                "text": "<h2><strong>A Community For Growers Who Care About Soil Health</strong></h2>",
                 "width": "100%",
-                "max_width": "normal",
+                "max_width": "none",
                 "alignment": "center",
                 "type_preset": "h2",
                 "font": "var(--font-body--family)",
