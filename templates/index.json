@@ -6810,7 +6810,6 @@
         "bfbella_community_card_YpNMrh",
         "bfbella_community_card_xeHztT"
       ],
-      "disabled": true,
       "name": "BFBella — Community",
       "settings": {
         "heading": "A Community For Growers Who Care About Soil Health",
@@ -7520,6 +7519,7 @@
         "intro",
         "cards_row"
       ],
+      "disabled": true,
       "custom_css": [
         ".section {--page-margin: 1.5rem; --page-width: 64rem;}",
         ".layout-panel-flex--row {align-items: stretch;}",
