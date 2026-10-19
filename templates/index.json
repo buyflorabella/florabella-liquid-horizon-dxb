@@ -5253,12 +5253,12 @@
         "bfbella_article_card_amzBUB": {
           "type": "bfbella-article-card",
           "settings": {
-            "image": "shopify://shop_images/pexels-akilmazumder-1072824.jpg",
+            "image": "shopify://shop_images/plants_in_greenhouse1_cropped4x3.png",
             "icon": "sprout",
-            "read_time": "7 min read",
-            "title": "More Than NPK: Why Soil Systems Matter for the Future of Food",
-            "description": "Traditional fertilizers focus on NPK. Flora Bella focuses on the soil system that makes NPK work better—trace minerals, humic + fulvic acids, and biology from the ground up.",
-            "link": "shopify://blogs/soil-education",
+            "read_time": "5 min read",
+            "title": "October Garden Newsletter: What to Plant, Fall Checklist & Photo Challenge",
+            "description": "Our October newsletter: what to plant in your region, a fall garden checklist, soil prep tips, and our Fall Garden Photo Challenge on Instagram @buyflorabella.",
+            "link": "shopify://blogs/newsletters/october-garden-newsletter-what-to-plant-fall-checklist-photo-challenge",
             "background_color": "",
             "title_color": "",
             "description_color": ""
