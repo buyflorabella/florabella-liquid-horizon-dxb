@@ -75,7 +75,8 @@
       assign cards_html = ''
       assign category_count = 0
 
-      for i in (1..4)
+      for i in (1..5)
+        assign cat_enabled = true
         case i
           when 1
             assign cat_blog = section.settings.category_1_blog
@@ -89,9 +90,19 @@
           when 4
             assign cat_blog = section.settings.category_4_blog
             assign cat_label = section.settings.category_4_label
+          when 5
+            # Devstore-only preview category — stays off by default, and even if this setting is
+            # ever promoted to the live theme, theme.role == 'main' there keeps it a no-op so
+            # flipping the checkbox on production can never surface unpublished-style content.
+            assign cat_blog = section.settings.category_5_blog
+            assign cat_label = section.settings.category_5_label
+            assign cat_enabled = false
+            if section.settings.show_devstore_preview and theme.role != 'main'
+              assign cat_enabled = true
+            endif
         endcase
 
-        if cat_blog != blank and cat_label != blank
+        if cat_blog != blank and cat_label != blank and cat_enabled
           assign category_count = category_count | plus: 1
           assign cat_key = cat_label | handleize
           assign filter_buttons = filter_buttons | append: '<button type="button" class="bfbella-learn-articles__filter" data-filter="' | append: cat_key | append: '">' | append: cat_label | append: '</button>'
@@ -513,6 +524,29 @@
       "type": "text",
       "id": "category_4_label",
       "label": "Category label"
+    },
+    {
+      "type": "header",
+      "content": "Category 5 — Devstore Preview"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_devstore_preview",
+      "label": "Show devstore-preview articles in this filter",
+      "default": false,
+      "info": "DEVSTORE/dev theme only. This is ignored on the live/published theme, so turning it on here can never surface preview content to real site visitors."
+    },
+    {
+      "type": "blog",
+      "id": "category_5_blog",
+      "label": "Blog",
+      "info": "Pick the Unpublished blog to preview its articles here."
+    },
+    {
+      "type": "text",
+      "id": "category_5_label",
+      "label": "Category label",
+      "default": "Preview"
     },
     {
       "type": "header",
