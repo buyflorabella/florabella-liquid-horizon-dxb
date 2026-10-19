@@ -18,9 +18,10 @@
   parent's context comes back blank). Merging multiple blogs' articles into one combined,
   filterable list requires this section to read each category's blog picker directly at render
   time — impossible with real theme blocks. Fixed section-level settings
-  (category_1_blog/category_1_label ... category_4_blog/category_4_label) are the only
-  architecturally valid way to do this. 4 slots covers the 3 known categories with one spare;
-  any slot left with no blog picked is skipped entirely, no error.
+  (category_1_blog/category_1_label ... category_6_blog/category_6_label) are the only
+  architecturally valid way to do this. Slots 1-4 and 6 are normal categories; slot 5 is the
+  DEVSTORE-only preview slot (never shown on the live theme). Slot 6 was added in task 0044 for
+  Grow Guides. Any slot left with no blog picked is skipped entirely, no error.
 
   FEATURED ARTICLE: Shopify Articles have no native "featured" boolean. Uses a tag instead
   (default tag name "featured", configurable) — DXB adds that tag to one article in Admin to
@@ -75,7 +76,7 @@
       assign cards_html = ''
       assign category_count = 0
 
-      for i in (1..5)
+      for i in (1..6)
         assign cat_enabled = true
         case i
           when 1
@@ -100,6 +101,9 @@
             if section.settings.show_devstore_preview and theme.role != 'main'
               assign cat_enabled = true
             endif
+          when 6
+            assign cat_blog = section.settings.category_6_blog
+            assign cat_label = section.settings.category_6_label
         endcase
 
         if cat_blog != blank and cat_label != blank and cat_enabled
@@ -547,6 +551,20 @@
       "id": "category_5_label",
       "label": "Category label",
       "default": "Preview"
+    },
+    {
+      "type": "header",
+      "content": "Category 6 (optional)"
+    },
+    {
+      "type": "blog",
+      "id": "category_6_blog",
+      "label": "Blog"
+    },
+    {
+      "type": "text",
+      "id": "category_6_label",
+      "label": "Category label"
     },
     {
       "type": "header",

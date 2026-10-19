@@ -80,6 +80,8 @@
         "show_devstore_preview": true,
         "category_5_blog": "unpublished",
         "category_5_label": "Preview",
+        "category_6_blog": "grow-guides",
+        "category_6_label": "Grow Guides",
         "accent_color": "",
         "background_color": "",
         "padding_top": 48,
