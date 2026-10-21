@@ -6721,21 +6721,21 @@
     "bfbella_video_showcase_bkh98U": {
       "type": "bfbella-video-showcase",
       "blocks": {
-        "bfbella_video_KHLX6F": {
-          "type": "bfbella-video",
-          "settings": {
-            "youtube_id": "CMgfUwSaAdE",
-            "title": "YieldBoost in Action: A Flower-Growing Demonstration",
-            "platform": "YouTube"
-          },
-          "blocks": {}
-        },
         "bfbella_video_mTcQpD": {
           "type": "bfbella-video",
           "settings": {
             "youtube_id": "NyLz2gB433s",
             "title": "Grow Big Tomatoes",
             "platform": "YouTube Shorts"
+          },
+          "blocks": {}
+        },
+        "bfbella_video_KHLX6F": {
+          "type": "bfbella-video",
+          "settings": {
+            "youtube_id": "CMgfUwSaAdE",
+            "title": "YieldBoost in Action: A Flower-Growing Demonstration",
+            "platform": "YouTube"
           },
           "blocks": {}
         },
@@ -6759,8 +6759,8 @@
         }
       },
       "block_order": [
-        "bfbella_video_KHLX6F",
         "bfbella_video_mTcQpD",
+        "bfbella_video_KHLX6F",
         "bfbella_video_NGqzLT",
         "bfbella_video_NmLrcE"
       ],
